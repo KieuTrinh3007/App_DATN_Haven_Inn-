@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.thucDon.ThucDonFragment">
+
+    <!-- ScrollView bao quanh toàn bộ nội dung -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <!-- LinearLayout chứa tất cả các phần tử (ViewPager, DotsIndicator, TextViews, RecyclerView) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Phần chứa ViewPager2 và ProgressBar -->
+            <FrameLayout
+                android:id="@+id/frameLayout"
+                android:layout_width="match_parent"
+                android:layout_height="190dp">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewFood"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <!-- ProgressBar nằm ở giữa ViewPager2 -->
+                <ProgressBar
+                    android:id="@+id/progressBarFood"
+                    style="?android:attr/progressBarStyleLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="visible" /> <!-- Đặt visibility là gone, hiển thị khi tải dữ liệu -->
+            </FrameLayout>
+
+            <!-- DotsIndicator nằm dưới ViewPager2 -->
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/dotIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:dotsColor="@color/black"
+                app:selectedDotColor="@color/black"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="8dp"
+                app:dotsSpacing="8dp"
+                app:dotsWidthFactor="2.5"
+                android:visibility="visible" />
+
+            <!-- Phần chứa các TextView (Tiêu đề và mô tả) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Tiêu đề lớn Ẩm thực của khách sạn -->
+                <TextView
+                    android:id="@+id/titleLarge"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ẩm thực của khách sạn"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="16dp" />
+
+                <!-- Tiêu đề nhỏ Từ đặc sản địa phương đến phong vị quốc tế -->
+                <TextView
+                    android:id="@+id/titleSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Từ đặc sản địa phương đến phong vị quốc tế"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp" />
+
+                <!-- Nội dung gạch đầu dòng -->
+                <TextView
+                    android:id="@+id/foodDescription1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Hệ thống 3 nhà với những món ăn đặc trưng riêng"
+                    android:textSize="16sp"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/foodDescription2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Panorama Palace ở tầng cao đầy phong cách với món Hoa trữ danh, món Việt truyền thống hay thực đơn phong cách phương Tây."
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp" />
+
+                <TextView
+                    android:id="@+id/foodDescription3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Các loại bánh ngọt và thức uống tinh tế luôn sẵn sàng cho thực khách tại Haven Confections ngay tầng 1."
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp" />
+
+                <TextView
+                    android:id="@+id/foodDescription4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Thư giãn với những tách cafe trà tại The Coffee Nook."
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp" />
+
+                <TextView
+                    android:id="@+id/foodDescription5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="• Với Menu 10+ món ăn luôn sẵn sàng phục vụ cho thực khách ngay tại phòng 24/24."
+                    android:textSize="16sp"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+            <!-- Phần chứa RecyclerView và ProgressBar -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="70dp">
+
+                <ProgressBar
+                    android:id="@+id/progressBarThucdon"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/viewThucDon"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -57,4 +57,7 @@ dependencies {
 
     // progess bar
     implementation 'com.github.zhouzhuo810:ZzHorizontalProgressBar:1.1.1'
+
+    //
+    implementation("com.tbuonomo:dotsindicator:5.0")
 }
