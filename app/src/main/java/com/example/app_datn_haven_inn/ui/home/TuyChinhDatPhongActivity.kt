@@ -33,7 +33,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, B
         binding.tvNgay1.text = currentDate
 
         binding.tvDat.setOnClickListener{
-            showDialogLoaiPhong()
+//            showDialogLoaiPhong()
         }
 
         binding.ivCalendar.setOnClickListener{
@@ -111,56 +111,56 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, B
         }
     }
 
-    private fun showDialogLoaiPhong() {
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_loc_loai_phong)
-        val window = dialog.window
-        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.show()
-
-        val ivClose = dialog.findViewById<ImageView>(R.id.iv_close)
-        val ivMinus = dialog.findViewById<ImageView>(R.id.iv_minus)
-        val ivPlus = dialog.findViewById<ImageView>(R.id.iv_plus)
-        val tvSoLuongNguoiLon = dialog.findViewById<TextView>(R.id.tvSoLuongNguoiLon)
-        val ivMinus1 = dialog.findViewById<ImageView>(R.id.iv_minus1)
-        val ivPlus1 = dialog.findViewById<ImageView>(R.id.iv_plus1)
-        val tvSoLuongTreEm = dialog.findViewById<TextView>(R.id.tvSoLuongTreEm)
-        val edGiaToiThieu = dialog.findViewById<TextView>(R.id.etGiaToiThieu)
-        val edGiaToiDa = dialog.findViewById<TextView>(R.id.etGiaToiDa)
-        ivClose.setOnClickListener {
-            dialog.dismiss()
-        }
-        var soLuongNguoiLon = tvSoLuongNguoiLon.text.toString().toInt()
-        var soLuongTreEm = tvSoLuongTreEm.text.toString().toInt()
-
-        ivPlus.setOnClickListener {
-            soLuongNguoiLon++
-            tvSoLuongNguoiLon.text = soLuongNguoiLon.toString()
-        }
-        ivMinus.setOnClickListener {
-            if (soLuongNguoiLon > 0) {
-                soLuongNguoiLon--
-                tvSoLuongNguoiLon.text = soLuongNguoiLon.toString()
-            }
-        }
-
-        ivPlus1.setOnClickListener {
-            soLuongTreEm++
-            tvSoLuongTreEm.text = soLuongTreEm.toString()
-        }
-
-        ivMinus1.setOnClickListener {
-            if (soLuongTreEm > 0) {
-                soLuongTreEm--
-                tvSoLuongTreEm.text = soLuongTreEm.toString()
-            }
-        }
-
-
-
-    }
+//    private fun showDialogLoaiPhong() {
+//        val dialog = Dialog(this)
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        dialog.setContentView(R.layout.dialog_loc_loai_phong)
+//        val window = dialog.window
+//        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+//        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        dialog.setCanceledOnTouchOutside(false)
+//        dialog.show()
+//
+//        val ivClose = dialog.findViewById<ImageView>(R.id.iv_close)
+//        val ivMinus = dialog.findViewById<ImageView>(R.id.iv_minus)
+//        val ivPlus = dialog.findViewById<ImageView>(R.id.iv_plus)
+//        val tvSoLuongNguoiLon = dialog.findViewById<TextView>(R.id.tvSoLuongNguoiLon)
+//        val ivMinus1 = dialog.findViewById<ImageView>(R.id.iv_minus1)
+//        val ivPlus1 = dialog.findViewById<ImageView>(R.id.iv_plus1)
+//        val tvSoLuongTreEm = dialog.findViewById<TextView>(R.id.tvSoLuongTreEm)
+//        val edGiaToiThieu = dialog.findViewById<TextView>(R.id.etGiaToiThieu)
+//        val edGiaToiDa = dialog.findViewById<TextView>(R.id.etGiaToiDa)
+//        ivClose.setOnClickListener {
+//            dialog.dismiss()
+//        }
+//        var soLuongNguoiLon = tvSoLuongNguoiLon.text.toString().toInt()
+//        var soLuongTreEm = tvSoLuongTreEm.text.toString().toInt()
+//
+//        ivPlus.setOnClickListener {
+//            soLuongNguoiLon++
+//            tvSoLuongNguoiLon.text = soLuongNguoiLon.toString()
+//        }
+//        ivMinus.setOnClickListener {
+//            if (soLuongNguoiLon > 0) {
+//                soLuongNguoiLon--
+//                tvSoLuongNguoiLon.text = soLuongNguoiLon.toString()
+//            }
+//        }
+//
+//        ivPlus1.setOnClickListener {
+//            soLuongTreEm++
+//            tvSoLuongTreEm.text = soLuongTreEm.toString()
+//        }
+//
+//        ivMinus1.setOnClickListener {
+//            if (soLuongTreEm > 0) {
+//                soLuongTreEm--
+//                tvSoLuongTreEm.text = soLuongTreEm.toString()
+//            }
+//        }
+//
+//
+//
+//    }
 }
 

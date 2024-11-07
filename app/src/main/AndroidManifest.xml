@@ -13,13 +13,13 @@
         android:theme="@style/Theme.App_DATN_Haven_Inn"
         tools:targetApi="31">
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name=".ui.home.TuyChinhDatPhongActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.TuyChinhDatPhongActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
