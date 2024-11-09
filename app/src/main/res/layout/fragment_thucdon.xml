@@ -39,20 +39,19 @@
                     android:visibility="visible" /> <!-- Đặt visibility là gone, hiển thị khi tải dữ liệu -->
             </FrameLayout>
 
-            <!-- DotsIndicator nằm dưới ViewPager2 -->
             <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
                 android:id="@+id/dotIndicator"
-                android:layout_width="wrap_content"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
+                android:visibility="visible"
                 app:dotsColor="@color/black"
-                app:selectedDotColor="@color/black"
                 app:dotsCornerRadius="8dp"
+                android:layout_gravity="center"
                 app:dotsSize="8dp"
                 app:dotsSpacing="8dp"
                 app:dotsWidthFactor="2.5"
-                android:visibility="visible" />
+                app:selectedDotColor="@color/black" />
 
-            <!-- Phần chứa các TextView (Tiêu đề và mô tả) -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
