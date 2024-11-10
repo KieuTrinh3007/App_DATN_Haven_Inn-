@@ -1,0 +1,19 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Định nghĩa màu nền cho CardView -->
+    <solid android:color="@android:color/white" />
+
+    <!-- Định nghĩa viền cho CardView -->
+    <stroke
+        android:width="0.5dp"
+        android:color="#64A89C" />
+
+    <!-- Định nghĩa góc bo tròn -->
+    <corners android:radius="5dp" /> <!-- Bo góc của CardView -->
+
+    <!-- Định nghĩa bóng đổ -->
+    <padding
+        android:bottom="1dp"
+        android:left="1dp"
+        android:right="1dp"
+        android:top="1dp" />
+</shape>
