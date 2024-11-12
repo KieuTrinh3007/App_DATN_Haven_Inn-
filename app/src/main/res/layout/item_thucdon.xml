@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tvTitle_thucDon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Haven Confections"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:paddingEnd="8dp">
+
+            <!-- Mô tả -->
+            <TextView
+                android:id="@+id/tvDescription_thucDon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả..."
+                android:textColor="@android:color/black" />
+
+            <!-- Vị trí -->
+            <TextView
+                android:id="@+id/tvLocation_thucDon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vị trí: Tầng 1"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="8dp" />
+
+            <!-- Giờ hoạt động -->
+            <TextView
+                android:id="@+id/tvHours_thucDon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giờ hoạt động: 6:00 - 23:30"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp" />
+
+            <!-- Số điện thoại -->
+            <TextView
+                android:id="@+id/tvPhone_thucDon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hotline: +84 93 461 8372"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- Cột bên phải: ảnh -->
+        <ImageView
+            android:id="@+id/img_thucDon"
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_home_v"
+
+            android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <!-- Nút khám phá thực đơn -->
+    <Button
+        android:id="@+id/btn_thucDon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#00BD6B"
+        android:text="Khám phá thực đơn"
+        android:textColor="@android:color/white" />
+</LinearLayout>
