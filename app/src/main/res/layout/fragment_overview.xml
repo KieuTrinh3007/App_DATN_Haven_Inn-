@@ -18,13 +18,36 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/hotelRating"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp"
-            android:text="⭐️⭐️⭐️⭐️⭐️ 4.5"
-            android:textSize="16sp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="false"
+                android:numStars="5"
+                android:rating="3"
+                android:scaleX="1.0"
+                android:scaleY="1.1"
+                android:stepSize="0.5"
+                android:progressTint="@android:color/holo_orange_light"
+                android:progressBackgroundTint="@android:color/darker_gray"
+                android:secondaryProgressTint="@android:color/holo_orange_light"/>
+
+            <TextView
+                android:id="@+id/rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.5"
+                android:textStyle="bold"
+                android:layout_marginLeft="15dp"
+                android:textSize="14dp"/>
+        </LinearLayout>
 
         <!-- Hotel Description -->
         <TextView
