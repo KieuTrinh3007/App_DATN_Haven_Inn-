@@ -21,6 +21,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
     val categories = listOf (
         "Tổng quan","Tiện nghi, dịch vụ","Phòng","Ẩm thực"
+
     )
 
     override fun inflateViewBinding(): FragmentHomeBinding {
