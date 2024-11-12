@@ -20,6 +20,12 @@
             android:name=".ui.thucDon.KhamPhaThucDon"
             android:exported="false" />
         <activity
+            android:name=".ui.profile.EditProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ui.profile.RePassword"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="false" />
 
