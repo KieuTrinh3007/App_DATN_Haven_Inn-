@@ -4,6 +4,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.app_datn_haven_inn.ui.favorite.FavoriteFragment
+import com.example.app_datn_haven_inn.ui.home.Faragment.ServiceFragment
+import com.example.app_datn_haven_inn.ui.home.Fragment.OverviewFragment
 import com.example.app_datn_haven_inn.ui.home.HomeFragment
 import com.example.app_datn_haven_inn.ui.notification.NotificationFragment
 import com.example.app_datn_haven_inn.ui.profile.ProfileFragment
