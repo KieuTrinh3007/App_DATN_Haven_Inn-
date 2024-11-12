@@ -51,8 +51,6 @@ dependencies {
 
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
-    implementation("com.tbuonomo:dotsindicator:4.3")
-
 
     //rate
     implementation("com.google.android.play:review:2.0.1")
@@ -60,10 +58,6 @@ dependencies {
     // progess bar
     implementation 'com.github.zhouzhuo810:ZzHorizontalProgressBar:1.1.1'
 
-    // slide show
-    implementation 'me.relex:circleindicator:2.1.6'
-
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
-
+    //
+    implementation("com.tbuonomo:dotsindicator:5.0")
 }
