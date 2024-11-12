@@ -13,9 +13,11 @@
         android:theme="@style/Theme.App_DATN_Haven_Inn"
         tools:targetApi="31">
         <activity
+            android:name=".ui.thucDon.KhamPhaThucDon"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">
