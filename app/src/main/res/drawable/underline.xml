@@ -1,0 +1,15 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+    <item
+        android:top="20dp"> <!-- Đặt khoảng cách để đường kẻ nằm dưới văn bản -->
+        <shape android:shape="rectangle">
+            <solid android:color="@color/black"/> <!-- Màu của đường kẻ dưới -->
+            <size android:height="1dp"/> <!-- Độ dày của đường kẻ -->
+            <size android:width="300dp"/>
+        </shape>
+    </item>
+</layer-list>
