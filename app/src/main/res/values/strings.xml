@@ -5,5 +5,5 @@
     <string name="profile_image">Hình ảnh hồ sơ</string>
     <string name="loc_loai_phong">Lọc loại phòng</string>
     <string name="a">a</string>
-    <string  name="khach">Khách</string>
+    <string name="khach">Khách</string>
 </resources>

@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="4dp">
+
+        <ImageView
+            android:id="@+id/imgTienNghi"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/myroom"
+            android:layout_marginEnd="14dp" />
+
+        <TextView
+            android:id="@+id/tvTenTienNghi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên tiện nghi"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvMoTa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mô tả tiện nghi"
+        android:textSize="13sp"
+        android:textColor="@color/black"
+        android:layout_marginLeft="34dp"/>
+</LinearLayout>

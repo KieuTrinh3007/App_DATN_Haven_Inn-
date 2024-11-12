@@ -9,6 +9,7 @@ import com.example.app_datn_haven_inn.ui.home.Fragment.OverviewFragment
 import com.example.app_datn_haven_inn.ui.home.HomeFragment
 import com.example.app_datn_haven_inn.ui.notification.NotificationFragment
 import com.example.app_datn_haven_inn.ui.profile.ProfileFragment
+import com.example.app_datn_haven_inn.ui.room.RoomFragment
 
 class MainAdapter (fragmentManager: FragmentActivity) : FragmentStateAdapter(fragmentManager) {
     override fun getItemCount(): Int {
@@ -19,7 +20,7 @@ class MainAdapter (fragmentManager: FragmentActivity) : FragmentStateAdapter(fra
         return when (position) {
             0 -> HomeFragment()
             1 -> FavoriteFragment()
-            2 -> NotificationFragment()
+            2 -> RoomFragment()
             3 -> ProfileFragment()
             else -> HomeFragment()
 
