@@ -61,4 +61,11 @@ dependencies {
 
     // progess bar
     implementation 'com.github.zhouzhuo810:ZzHorizontalProgressBar:1.1.1'
+
+    // slide show
+    implementation ("me.relex:circleindicator:2.1.6")
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+
+    // wrap rcv
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }
