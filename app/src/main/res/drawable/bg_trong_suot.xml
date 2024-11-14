@@ -1,0 +1,6 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Alpha `80` cho độ mờ khoảng 50% -->
+    <solid android:color="#80D9D9D9"/>
+    <size android:width="30dp" android:height="60dp"/>
+    <corners android:radius="15dp"/>
+</shape>

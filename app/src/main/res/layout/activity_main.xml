@@ -15,7 +15,6 @@
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Fragment name text view -->
         <TextView
             android:id="@+id/fragmentNameTextView"
             android:layout_width="match_parent"
