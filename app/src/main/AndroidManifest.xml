@@ -13,9 +13,20 @@
         android:theme="@style/Theme.App_DATN_Haven_Inn"
         tools:targetApi="31">
         <activity
+            android:name=".ui.auth.Forgot_password"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.Indentity_authentication"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.SignIn"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true">

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#8EDEE8">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quên mật khẩu"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:layout_marginTop="70dp"
+        android:layout_marginLeft="25dp"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/khung"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XÁC THỰC SỐ ĐIỆN THOẠI"
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Mã OTP đã được gửi vào số điện thoại của"
+                android:textSize="16dp"
+                android:textColor="#9CA0A8"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bạn, vui lòng nhập nó vào đây!"
+                android:textSize="16dp"
+                android:textColor="#9CA0A8"/>
+        </LinearLayout>
+
+        <!-- Ô nhập mã OTP -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="30dp">
+
+            <EditText
+                android:id="@+id/otpDigit1"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="15dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textSize="20sp"
+                android:background="@drawable/otp_background"/>
+
+            <EditText
+                android:id="@+id/otpDigit2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="15dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textSize="20sp"
+                android:background="@drawable/otp_background"/>
+
+            <EditText
+                android:id="@+id/otpDigit3"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginHorizontal="15dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textSize="20sp"
+                android:background="@drawable/otp_background"/>
+
+            <EditText
+                android:id="@+id/otpDigit4"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textSize="20sp"
+                android:background="@drawable/otp_background"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:layout_marginTop="26dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bạn không nhận được mã OTP?"
+            android:textSize="16dp"
+            android:textColor="#9CA0A8"
+            android:gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="20dp">
+        <Button
+            android:id="@+id/edt_gui_lai"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/khung_button1"
+            android:text="Gửi lại 30s"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/edt_doi_so"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/khung_button1"
+            android:text="Đổi số điện thoại"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:layout_marginLeft="20dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
