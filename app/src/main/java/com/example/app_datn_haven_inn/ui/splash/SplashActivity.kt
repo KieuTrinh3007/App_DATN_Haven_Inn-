@@ -7,6 +7,9 @@ import androidx.activity.OnBackPressedCallback
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.databinding.ActivitySplashBinding
+import com.example.app_datn_haven_inn.ui.auth.Forgot_password
+import com.example.app_datn_haven_inn.ui.auth.SignIn
+import com.example.app_datn_haven_inn.ui.auth.SignUp
 import com.example.app_datn_haven_inn.ui.main.MainActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding, BaseViewModel>() {
@@ -32,7 +35,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, BaseViewModel>() {
                 }
                 if (progress == 100) {
 
-                        startActivity(Intent(this, MainActivity::class.java))
+                        startActivity(Intent(this, SignIn::class.java))
                         finish()
 
                 }
