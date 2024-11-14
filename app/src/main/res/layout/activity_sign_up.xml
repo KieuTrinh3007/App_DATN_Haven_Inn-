@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#8EDEE8">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đăng nhập"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:layout_marginTop="170dp"
+        android:layout_marginLeft="25dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/khung"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/phone"
+                android:drawablePadding="15dp"
+                android:text="+84"
+                android:focusable="false"
+                android:enabled="false"
+                android:textSize="18dp"
+                android:textColor="#9CA0A8"
+                android:layout_marginRight="-9dp"
+                />
+
+            <EditText
+                android:id="@+id/edt_dangnhap_phone"
+                android:layout_width="225dp"
+                android:layout_height="match_parent"
+                android:drawableLeft="@drawable/line"
+                android:hint="Số điện thoại"
+                android:textSize="18dp"
+                android:paddingStart="20dp"
+                android:drawablePadding="20dp"
+                android:textColor="#9CA0A8" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="50dp">
+
+            <EditText
+                android:id="@+id/edt_dangnhap_pass"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/key"
+                android:drawablePadding="20dp"
+                android:text="Mật khẩu"
+                android:textSize="18dp"
+                android:textColor="#9CA0A8" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_dangnhap_forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quên mật khẩu?"
+            android:layout_gravity="center"
+            android:textColor="#F44336"
+            android:layout_marginTop="25dp"/>
+
+        <Button
+            android:id="@+id/btn_dangnhap_sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/khung_button"
+            android:text="Đăng nhập"
+            android:textColor="@color/white"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hoặc đăng nhập bằng"
+            android:textSize="14dp"
+            android:layout_gravity="center"
+            android:textColor="#8E929B"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            >
+
+            <ImageView
+                android:id="@+id/button_dangnhap_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/facebook"
+                android:layout_marginRight="25dp"
+                />
+
+            <ImageView
+                android:id="@+id/btn_dangnhap_google"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/google"
+                android:layout_marginLeft="25dp"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Bằng cách tạo tài khoản, bạn đồng ý với "
+            android:textSize="14dp"
+            android:textColor="#8E929B"
+            android:layout_marginTop="20dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/txt_dangnhap_condition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điều khoản"
+                android:textSize="14dp"
+                android:textColor="#00BD6B"
+                android:background="@drawable/text_underline"
+                android:layout_marginTop="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" của chúng tôi."
+                android:textSize="14dp"
+                android:textColor="#8E929B"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bạn đã có tài khoản? "
+                android:textSize="14dp"
+                android:textColor="#8E929B"
+                android:layout_marginTop="20dp"/>
+
+            <TextView
+                android:id="@+id/txt_dangnhap_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đăng ký"
+                android:textColor="#00BD6B"
+                android:textStyle="bold"
+                android:textSize="16dp"
+                android:layout_marginTop="20dp"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

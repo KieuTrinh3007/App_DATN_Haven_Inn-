@@ -26,6 +26,18 @@
             android:name=".ui.profile.RePassword"
             android:exported="false" />
         <activity
+            android:name=".ui.auth.Forgot_password"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.Indentity_authentication"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.SignIn"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.MainActivity"
             android:exported="false" />
 
