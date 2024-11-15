@@ -16,34 +16,43 @@
         android:textStyle="bold"
         android:layout_marginTop="170dp"
         android:layout_marginLeft="25dp"/>
-
+    <!-- CardView bao bọc nội dung chính -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardBackgroundColor="@android:color/white">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@drawable/khung"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="10dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
             android:orientation="vertical"
-            android:layout_marginLeft="30dp">
+            android:layout_marginHorizontal="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="XÁC THỰC SỐ ĐIỆN THOẠI"
                 android:textSize="16dp"
+                android:textStyle="bold"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="14dp"
                 android:text="Mã OTP đã được gửi vào số điện thoại của"
                 android:textSize="16dp"
                 android:textColor="#9CA0A8"/>
@@ -63,13 +72,14 @@
             android:layout_gravity="center"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="40dp"
+            android:layout_marginHorizontal="10dp">
 
             <EditText
                 android:id="@+id/otpDigit1"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="20dp"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
@@ -80,7 +90,7 @@
                 android:id="@+id/otpDigit2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginHorizontal="15dp"
+                android:layout_marginHorizontal="20dp"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
@@ -91,7 +101,7 @@
                 android:id="@+id/otpDigit3"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginHorizontal="15dp"
+                android:layout_marginHorizontal="20dp"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
@@ -102,7 +112,7 @@
                 android:id="@+id/otpDigit4"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="20dp"
                 android:gravity="center"
                 android:inputType="number"
                 android:maxLength="1"
@@ -112,7 +122,7 @@
 
 
         <TextView
-            android:layout_marginTop="26dp"
+            android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Bạn không nhận được mã OTP?"
@@ -125,7 +135,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="30dp">
         <Button
             android:id="@+id/edt_gui_lai"
             android:layout_width="wrap_content"
@@ -134,7 +144,7 @@
             android:text="Gửi lại 30s"
             android:textColor="@color/white"
             android:textSize="15dp"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="10dp"/>
 
         <Button
             android:id="@+id/edt_doi_so"
@@ -144,9 +154,9 @@
             android:text="Đổi số điện thoại"
             android:textColor="@color/white"
             android:textSize="15dp"
-            android:layout_marginLeft="20dp"/>
+            android:layout_marginLeft="10dp"/>
         </LinearLayout>
 
     </LinearLayout>
-
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

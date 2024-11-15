@@ -1,5 +1,7 @@
-package com.example.app_datn_haven_inn.ui.room
+package com.example.app_datn_haven_inn.ui.room.fragment
 
+import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,7 +11,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.R
-import com.example.app_datn_haven_inn.databinding.FragmentRoomBinding
+import com.example.app_datn_haven_inn.databinding.FragmentRoomDetailBinding
+import com.example.app_datn_haven_inn.ui.booking.fragment.BookingFragment
+import com.example.app_datn_haven_inn.ui.main.MainActivity
 import com.example.app_datn_haven_inn.ui.review.adapter.ReviewAdapter
 import com.example.app_datn_haven_inn.ui.review.model.Review
 import com.example.app_datn_haven_inn.ui.room.adapter.PhotoAdapter
@@ -26,9 +30,9 @@ import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.JustifyContent
 
-class RoomFragment : Fragment() {
+class RoomDetailFragment : Fragment() {
 
-    private var _binding: FragmentRoomBinding? = null
+    private var _binding: FragmentRoomDetailBinding? = null
     private val binding get() = _binding!!
     private lateinit var photoAdapter: PhotoAdapter
     private var timer: Timer? = null
@@ -39,7 +43,7 @@ class RoomFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout using View Binding
-        _binding = FragmentRoomBinding.inflate(inflater, container, false)
+        _binding = FragmentRoomDetailBinding.inflate(inflater, container, false)
 
         // Load slideshow
         loadSlide()
@@ -56,6 +60,19 @@ class RoomFragment : Fragment() {
         loadTienNghiNoiBat()
         loadTienNghiPhong()
         loadReview()
+
+        binding.btnTuyChinh.setOnClickListener {
+            // Thực hiện thay đổi fragment khi nút được nhấn
+            val fragmentTransaction = parentFragmentManager.beginTransaction()
+
+            // Thay thế fragment hiện tại bằng BookingFragment
+            fragmentTransaction.replace(R.id.fragment_booking, BookingFragment())
+            fragmentTransaction.addToBackStack(null)
+            fragmentTransaction.commit() // Thực hiện giao dịch thay đổi fragment
+        }
+
+        // Gạch ngang cho TextView
+        binding.txtGiaCu.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
         return binding.root
     }

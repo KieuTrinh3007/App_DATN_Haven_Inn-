@@ -27,15 +27,19 @@
             android:exported="false" />
         <activity
             android:name=".ui.auth.Forgot_password"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:exported="false" />
         <activity
             android:name=".ui.auth.Indentity_authentication"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:exported="false" />
         <activity
             android:name=".ui.auth.SignUp"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:exported="false" />
         <activity
             android:name=".ui.auth.SignIn"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
