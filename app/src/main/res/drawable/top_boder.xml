@@ -4,12 +4,12 @@
     <!-- Background color for the shape -->
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#A3A1A1"/> <!-- Màu nền của shape -->
+            <solid android:color="#B8B7B7"/> <!-- Màu nền của shape -->
         </shape>
     </item>
 
     <!-- Top border -->
-    <item android:top="2dp"> <!-- Độ dày của borderTop -->
+    <item android:top="1dp"> <!-- Độ dày của borderTop -->
         <shape android:shape="rectangle">
             <solid android:color="#fff"/> <!-- Màu của borderTop -->
         </shape>

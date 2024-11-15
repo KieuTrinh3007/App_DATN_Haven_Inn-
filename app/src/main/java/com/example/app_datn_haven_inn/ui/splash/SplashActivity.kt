@@ -8,8 +8,10 @@ import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.databinding.ActivitySplashBinding
 import com.example.app_datn_haven_inn.ui.auth.Forgot_password
+import com.example.app_datn_haven_inn.ui.auth.Indentity_authentication
 import com.example.app_datn_haven_inn.ui.auth.SignIn
 import com.example.app_datn_haven_inn.ui.auth.SignUp
+import com.example.app_datn_haven_inn.ui.booking.fragment.BookingFragment
 import com.example.app_datn_haven_inn.ui.main.MainActivity
 
 class SplashActivity : BaseActivity<ActivitySplashBinding, BaseViewModel>() {
@@ -35,7 +37,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, BaseViewModel>() {
                 }
                 if (progress == 100) {
 
-                        startActivity(Intent(this, SignIn::class.java))
+                        startActivity(Intent(this, MainActivity::class.java))
                         finish()
 
                 }
