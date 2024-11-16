@@ -61,4 +61,7 @@ dependencies {
 
     // progess bar
     implementation 'com.github.zhouzhuo810:ZzHorizontalProgressBar:1.1.1'
+
+    implementation 'com.google.android.material:material:1.9.0'
+
 }
