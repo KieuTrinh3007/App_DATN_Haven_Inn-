@@ -1,29 +1,26 @@
-package com.example.app_datn_haven_inn.ui.home
+package com.example.app_datn_haven_inn.ui.room
 
 import android.app.DatePickerDialog
-import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.view.Window
-import android.view.WindowManager
-import android.widget.ImageView
-import android.widget.TextView
 import com.example.app_datn_haven_inn.BaseActivity
-import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
-import com.example.app_datn_haven_inn.databinding.DialogLocLoaiPhongBinding
+import com.example.app_datn_haven_inn.viewModel.PhongViewModel
 import java.util.Calendar
 
-class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, BaseViewModel>() {
+class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, PhongViewModel>() {
 
     var isBreakfast = false
     override fun createBinding() = ActivityTuyChinhDatPhongBinding.inflate(layoutInflater)
-    override fun setViewModel() = BaseViewModel()
+    override fun setViewModel() = PhongViewModel()
 
 
     override fun initView() {
         super.initView()
+
+        viewModel.getListphong()
+        viewModel.phongList.observe(this){list ->
+
+        }
 
         val calendar = Calendar.getInstance()
         val formattedDay = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))

@@ -15,6 +15,7 @@ import com.example.app_datn_haven_inn.ui.auth.SignIn
 import com.example.app_datn_haven_inn.ui.auth.SignUp
 import com.example.app_datn_haven_inn.ui.booking.fragment.BookingFragment
 import com.example.app_datn_haven_inn.ui.main.MainActivity
+import com.example.app_datn_haven_inn.ui.room.TuyChinhDatPhongActivity
 import com.example.app_datn_haven_inn.viewModel.AmThucViewModel
 import com.example.app_datn_haven_inn.viewModel.ChiTietHoaDonViewModel
 import com.example.app_datn_haven_inn.viewModel.CouponViewModel
@@ -197,8 +198,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, BaseViewModel>() {
                 }
                 if (progress == 100) {
 
-//                    startActivity(Intent(this, MainActivity::class.java))
-//                    finish()
+                    startActivity(Intent(this, TuyChinhDatPhongActivity::class.java))
+                    finish()
 
                 }
             }
