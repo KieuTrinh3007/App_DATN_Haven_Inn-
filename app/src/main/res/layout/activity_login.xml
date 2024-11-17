@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:text="Đăng nhập"
         android:textColor="@color/white"
-        android:textSize="40dp"
+        android:textSize="32dp"
         android:textStyle="bold"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="110dp"
         android:layout_marginLeft="25dp"
         android:padding="1dp" />
 
@@ -44,7 +44,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
-                android:layout_marginTop="70dp">
+                android:layout_marginTop="60dp">
 
                 <EditText
                     android:layout_width="75dp"
@@ -93,8 +93,7 @@
                 android:textSize="18dp"
                 android:background="@drawable/bottom_border"
                 android:textColorHint="#9CA0A8"
-                android:textColor="@color/black"
-                android:layout_marginTop="10dp" />
+                android:textColor="@color/black" />
 
             <!-- Quên mật khẩu -->
             <TextView
@@ -102,19 +101,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quên mật khẩu?"
+                android:fontFamily="@font/roboto_regular"
                 android:layout_gravity="center"
                 android:textColor="#F44336"
-                android:layout_marginTop="35dp" />
+                android:layout_marginTop="25dp" />
 
             <!-- Nút đăng nhập -->
-            <Button
+            <TextView
                 android:id="@+id/btnSignIn"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="35dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="25dp"
                 android:background="@drawable/khung_button"
                 android:text="Đăng nhập"
+                android:textAlignment="center"
+                android:paddingVertical="10dp"
                 android:textColor="@color/white"
                 android:textSize="15dp" />
 
@@ -137,15 +139,15 @@
 
                 <ImageView
                     android:id="@+id/button_dangnhap_facebook"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/facebook"
                     android:layout_marginRight="25dp" />
 
                 <ImageView
                     android:id="@+id/btn_dangnhap_google"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/google"
                     android:layout_marginLeft="25dp" />
             </LinearLayout>
@@ -190,7 +192,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="15dp"
                 android:layout_gravity="center">
 
                 <TextView

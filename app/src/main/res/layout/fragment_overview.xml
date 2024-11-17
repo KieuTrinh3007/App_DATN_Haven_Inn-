@@ -7,15 +7,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp">
 
-        <!-- Hotel Title and Rating -->
         <TextView
             android:id="@+id/hotelName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Khách sạn Haven Inn Hà Nội"
-            android:textSize="24sp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -54,25 +56,29 @@
             android:id="@+id/hotelDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:layout_marginTop="5.64dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textSize="12sp"
+            android:textColor="#64748B"
             android:text="Khách sạn sang trọng, nổi bật với không gian tinh tế và dịch vụ đẳng cấp, mang đến trải nghiệm nghỉ dưỡng hoàn hảo giữa lòng thành phố." />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/reviewScore"
-                android:layout_width="50dp"
-                android:layout_height="35dp"
+                android:layout_width="27dp"
+                android:layout_height="21dp"
                 android:background="@drawable/highlight_background"
                 android:backgroundTint="#64A89C"
                 android:gravity="center"
                 android:text="8.9"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/black"
-                android:textSize="16dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <Space
@@ -84,8 +90,9 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
                 android:text="Rất tốt"
+                android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/black"
-                android:textSize="17dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -97,7 +104,7 @@
             android:paddingBottom="8dp"
             android:text="Xem tất cả 418 nhận xét >"
             android:textColor="#64A89C"
-            android:textSize="13dp" />
+            android:textSize="13sp" />
 
         <!-- Highlight Features -->
         <TextView
@@ -106,7 +113,9 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:text="Đặc điểm nổi bật"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_medium"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -127,14 +136,16 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/diamond" />
+                    android:src="@drawable/ic_diamon" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Nằm giữa Thủ đô sầm uất, thuận tiện việc di lại."
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -147,8 +158,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:scaleType="centerCrop"
@@ -158,8 +169,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="12dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
                     android:text="Nằm giữa Thủ đô sầm uất, thuận tiện việc di lại."
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -171,8 +184,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
+            android:fontFamily="@font/roboto_medium"
             android:text="Tiện nghi, dịch vụ nổi bật"
-            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <GridLayout
@@ -193,8 +208,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="15dp"
+                    android:layout_height="19dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:scaleType="centerCrop"
@@ -204,8 +219,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
                     android:text="Bao gồm bữa sáng"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Amenity 2 -->
@@ -217,8 +234,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/p_1" />
@@ -227,8 +244,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
                     android:text="Có bãi đậu xe"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Amenity 3 -->
@@ -240,20 +259,22 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/facialtreatment" />
+                    android:src="@drawable/facialtreatment1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:scaleType="centerCrop"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
                     android:text="Spa"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Amenity 4 -->
@@ -265,8 +286,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="12.24dp"
+                    android:layout_height="12dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/wifi1" />
@@ -276,7 +297,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Wifi miễn phí"
-                    android:textSize="14sp" />
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Amenity 5 -->
@@ -288,8 +311,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/cleaning" />
@@ -298,8 +321,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
                     android:text="Dịch vụ dọn phòng"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <!-- Amenity 6 -->
@@ -311,8 +336,8 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
                     android:src="@drawable/restaurant1" />
@@ -322,7 +347,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Nhà hàng"
-                    android:textSize="14sp" />
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
             </LinearLayout>
 
         </GridLayout>
@@ -341,8 +368,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"
             android:text="Khám phá khu vực"
-            android:textSize="16dp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
 
@@ -368,8 +397,10 @@
                     android:paddingStart="10dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
-                    android:text="113 Hàng Buồm, Phố Cổ, Hà Nội, 10000"
-                    android:textStyle="bold" />
+                    android:textSize="12sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:text="113 Hàng Buồm, Phố Cổ, Hà Nội, 10000" />
 
                 <!-- Link to View More -->
                 <TextView
@@ -377,9 +408,10 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
                     android:paddingBottom="5dp"
-                    android:text="Xem tất cả tiện nghi, dịch vụ nơi lưu trú >"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Xem trong bản đồ >"
                     android:textColor="#64A89C"
-                    android:textSize="13sp" />
+                    android:textSize="12sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -398,18 +430,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/pin_1" />
+                    android:src="@drawable/pin1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Phố hàng gai"
-                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <!-- This Space view will push the next TextView to the end of the row -->
@@ -423,8 +457,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:padding="6dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
                     android:text="5 phút đi bộ"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -435,18 +471,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/pin_1" />
+                    android:src="@drawable/pin1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Nhà thờ Lớn Hà Nội"
-                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <!-- This Space view will push the next TextView to the end of the row -->
@@ -460,8 +498,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:padding="6dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
                     android:text="6 phút đi bộ"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -472,18 +512,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/pin_1" />
+                    android:src="@drawable/pin1" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="Di tích nhà tù Hỏa Lò"
-                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <!-- This Space view will push the next TextView to the end of the row -->
@@ -498,7 +540,9 @@
                     android:layout_gravity="bottom"
                     android:padding="6dp"
                     android:text="7 phút đi bộ"
-                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -509,18 +553,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/airplane___1" />
+                    android:src="@drawable/airplane1" />
 
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
                     android:text="Sân bay Hà Nội (HAN-Sân bay Quốc tế Nội Bài)"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <!-- This Space view will push the next TextView to the end of the row -->
@@ -535,7 +581,9 @@
                     android:layout_gravity="bottom"
                     android:padding="6dp"
                     android:text="24 phút đi xe"
-                    android:textSize="14sp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -546,8 +594,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:paddingTop="10dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"
             android:text="Hệ thống phòng nghỉ đa dạng, hấp dẫn kèm nhiều ưu đãi"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <androidx.cardview.widget.CardView
@@ -576,8 +626,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_bold"
                     android:text="Phòng đơn, ban công hướng ra biển, thoáng mát"
-                    android:textSize="15sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <!-- Đánh giá -->
@@ -590,19 +642,20 @@
 
                     <!-- Đánh giá điểm số -->
                     <TextView
-                        android:layout_width="40dp"
-                        android:layout_height="25dp"
+                        android:layout_width="27dp"
+                        android:layout_height="21dp"
                         android:background="@drawable/highlight_background"
                         android:backgroundTint="#64A89C"
                         android:gravity="center"
                         android:text="8.9"
+                        android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/black"
-                        android:textSize="16sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
 
                     <!-- Khoảng trống giữa các phần tử -->
                     <Space
-                        android:layout_width="20dp"
+                        android:layout_width="7dp"
                         android:layout_height="wrap_content" />
 
                     <!-- Mô tả đánh giá -->
@@ -615,16 +668,18 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Rất tốt"
+                            android:fontFamily="@font/roboto_bold"
                             android:textColor="@color/black"
-                            android:textSize="14sp"
+                            android:textSize="10sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="15 nhận xét"
+                            android:fontFamily="@font/roboto_bold"
                             android:textColor="@color/black"
-                            android:textSize="13sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -635,9 +690,10 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Xem tất cả 418 nhận xét >"
                     android:textColor="#64A89C"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textStyle="italic" />
 
             </LinearLayout>
@@ -649,13 +705,26 @@
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
             android:gravity="center"
+            android:fontFamily="@font/roboto_regular"
             android:text="Xem thêm các phòng khác >"
             android:textColor="#64A89C"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Hơn 20 món ăn từ đặc sản địa phương tới phong vị quốc tế "
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFood"
             android:layout_width="match_parent"
+            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -663,32 +732,37 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:gravity="center"
+            android:fontFamily="@font/roboto_regular"
             android:text="Xem thêm các món ăn khác >"
             android:textColor="#64A89C"
-            android:textSize="15sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:paddingTop="5dp"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/black"
             android:text="Thông tin về nơi lưu trú này"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:text="Khách sạn Haven Inn Hà Nội"
-            android:textSize="14dp"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/black"
+            android:textSize="12dp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
             android:text="Hồ Tây cách không xa Khách sạn Haven Inn Hà Nội, nơi lưu trú cung cấp các tiện nghi, dịch vụ như sòng bạc, sân hiên và tiệm cà phê/quán cà phê. Đừng bỏ lỡ các tiện nghi chơi golf như khu tập golf, các lớp hướng dẫn chơi golf và cửa hàng dụng cụ golf tại khách sạn này. Chớ quên dành thời gian thư giãn ở spa trong khuôn viên ..."
-            android:textSize="14dp" />
+            android:textSize="12dp" />
 
     </LinearLayout>
 </ScrollView>

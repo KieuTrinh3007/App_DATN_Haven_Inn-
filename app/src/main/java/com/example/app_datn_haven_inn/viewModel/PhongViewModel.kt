@@ -37,6 +37,8 @@ class PhongViewModel : BaseViewModel() {
 
                 val apiService : PhongService = CreateService.createService()
                 val PhongRepository = PhongRepository(apiService)
+
+
                 _phongList.value = PhongRepository.getListPhong()
             } catch (e: Exception) {
                 Log.e("phongViewModel", "Error fetching phong list", e)

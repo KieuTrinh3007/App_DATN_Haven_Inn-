@@ -371,8 +371,9 @@
                         android:layout_height="wrap_content"
                         android:text="10 nhận xét"
                         android:textColor="@color/black"
+                        android:layout_marginStart="9dp"
                         android:textSize="10sp"
-                        android:gravity="end"/>
+                       />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -401,7 +402,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp">
 
-                <Button
+                <TextView
                     android:id="@+id/btnVoucher"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
@@ -410,6 +411,7 @@
                     android:drawableStart="@drawable/promo_code"
                     android:drawablePadding="10dp"
                     android:paddingHorizontal="10dp"
+                    android:gravity="center"
                     android:text="Giảm 20% với Giá thành viên"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
@@ -457,25 +459,31 @@
                     android:layout_marginTop="20dp"
                     android:weightSum="2">
 
-                    <Button
+                    <TextView
                         android:id="@+id/btnAddFavorite"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_gravity="center"
                         android:background="@drawable/bg_radius_15_tt_phong"
+                        android:paddingVertical="10dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:textAlignment="center"
                         android:text="Thêm vào yêu thích"
                         android:textAllCaps="false"
                         android:layout_marginRight="20dp"
                         android:textColor="@color/white"
                         android:textSize="13sp" />
 
-                    <Button
+                    <TextView
                         android:id="@+id/btnTuyChinh"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_gravity="center"
+                        android:paddingVertical="10dp"
+                        android:textAlignment="center"
+                        android:fontFamily="@font/roboto_bold"
                         android:background="@drawable/bg_radius_15_tt_phong"
                         android:text="Tuỳ chỉnh và đặt"
                         android:textAllCaps="false"

@@ -198,7 +198,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, BaseViewModel>() {
                 }
                 if (progress == 100) {
 
-                    startActivity(Intent(this, TuyChinhDatPhongActivity::class.java))
+                    startActivity(Intent(this, MainActivity::class.java))
                     finish()
 
                 }

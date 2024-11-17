@@ -7,11 +7,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ItemRvCategoryBinding
+import com.example.app_datn_haven_inn.ui.home.OnClickItem
 
-class CategoryAdapter(private val categories: List<String>) :
+class CategoryAdapter(private val categories: List<String>,
+                      private val onItemClick: OnClickItem
+) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     private var selectedPosition = 0
+
+
 
     inner class CategoryViewHolder(val binding: ItemRvCategoryBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -40,6 +45,7 @@ class CategoryAdapter(private val categories: List<String>) :
 
         holder.itemView.setOnClickListener {
             selectedPosition = position
+            onItemClick.onClickItem(position)
             notifyDataSetChanged()
         }
     }
