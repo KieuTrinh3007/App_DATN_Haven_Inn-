@@ -16,7 +16,7 @@ class MainAdapter (fragmentManager: FragmentActivity) : FragmentStateAdapter(fra
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> BookingFragment()
+            0 -> HomeFragment()
             1 -> FavoriteFragment()
             2 -> RoomDetailFragment()
             3 -> ProfileFragment()
