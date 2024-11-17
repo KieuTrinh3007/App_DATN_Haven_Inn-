@@ -36,7 +36,7 @@ class DichVuViewModel : BaseViewModel() {
 
                 val apiService : DichVuService = CreateService.createService()
                 val DichVuRepository = DichVuRepository(apiService)
-                _dichVuList.value = DichVuRepository.getListDichVu()?.data
+                _dichVuList.value = DichVuRepository.getListDichVu()
             } catch (e: Exception) {
                 Log.e("dichVuViewModel", "Error fetching dichVu list", e)
                 _errorMessage.value = "Error fetching dichVu list: ${e.message}"

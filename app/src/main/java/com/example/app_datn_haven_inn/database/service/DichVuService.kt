@@ -1,7 +1,6 @@
 package com.example.app_datn_haven_inn.database.service
 
 import com.example.app_datn_haven_inn.database.model.DichVuModel
-import com.example.app_datn_haven_inn.database.model.DichVuResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -12,7 +11,7 @@ import retrofit2.http.Path
 
 interface DichVuService {
     @GET("dichvus/")
-    suspend fun getListDichVu(): Response<DichVuResponse>
+    suspend fun getListDichVu(): Response<List<DichVuModel>>
 
     @POST("dichvus/post")
     suspend fun addDichVu(@Body DichVu: DichVuModel): Response<DichVuModel>

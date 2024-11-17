@@ -1,14 +1,14 @@
 package com.example.app_datn_haven_inn.database.repository
 
 import android.util.Log
+import com.example.app_datn_haven_inn.database.model.DanhGiaModel
 import com.example.app_datn_haven_inn.database.model.DichVuModel
-import com.example.app_datn_haven_inn.database.model.DichVuResponse
 import com.example.app_datn_haven_inn.database.service.DichVuService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DichVuRepository (private val api: DichVuService) {
-    suspend fun getListDichVu(): DichVuResponse? = withContext(Dispatchers.IO) {
+    suspend fun getListDichVu(): List<DichVuModel>? = withContext(Dispatchers.IO) {
         val response = api.getListDichVu()
         if (response.isSuccessful) {
             Log.d("DichVuRepository", "getListDichVu Success: ${response.body()}")
