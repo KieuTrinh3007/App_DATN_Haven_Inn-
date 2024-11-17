@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
-import com.example.app_datn_haven_inn.ui.home.Adapter.FoodAdapter
+import com.example.app_datn_haven_inn.ui.home.adapter.FoodAdapter
 import com.example.app_datn_haven_inn.ui.home.model.Food
 
 class OverviewFragment : Fragment() {
