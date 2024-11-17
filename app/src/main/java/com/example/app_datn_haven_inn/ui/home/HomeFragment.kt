@@ -7,7 +7,7 @@ import com.example.app_datn_haven_inn.BaseFragment
 import com.example.app_datn_haven_inn.PhongNghi
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.FragmentHomeBinding
-import com.example.app_datn_haven_inn.ui.home.Faragment.ServiceFragment
+import com.example.app_datn_haven_inn.ui.home.fragment.ServiceFragment
 import com.example.app_datn_haven_inn.ui.home.Fragment.OverviewFragment
 import com.example.app_datn_haven_inn.ui.home.adapter.CategoryAdapter
 import com.example.app_datn_haven_inn.ui.home.adapter.SlideshowAdapter
