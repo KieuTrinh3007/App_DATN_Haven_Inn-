@@ -17,46 +17,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <!-- Phần chứa ViewPager2 và ProgressBar -->
-            <FrameLayout
-                android:id="@+id/frameLayout"
-                android:layout_width="match_parent"
-                android:layout_height="190dp">
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewFood"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <!-- ProgressBar nằm ở giữa ViewPager2 -->
-                <ProgressBar
-                    android:id="@+id/progressBarFood"
-                    style="?android:attr/progressBarStyleLarge"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:visibility="visible" /> <!-- Đặt visibility là gone, hiển thị khi tải dữ liệu -->
-            </FrameLayout>
-
-            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-                android:id="@+id/dotIndicator"
-                android:layout_width="90dp"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                app:dotsColor="@color/black"
-                app:dotsCornerRadius="8dp"
-                android:layout_gravity="center"
-                app:dotsSize="8dp"
-                app:dotsSpacing="8dp"
-                app:dotsWidthFactor="2.5"
-                app:selectedDotColor="@color/black" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:paddingHorizontal="16dp">
 
                 <!-- Tiêu đề lớn Ẩm thực của khách sạn -->
                 <TextView
@@ -64,63 +29,76 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ẩm thực của khách sạn"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="16dp" />
+                    android:textSize="25sp"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_marginTop="4dp" />
 
                 <!-- Tiêu đề nhỏ Từ đặc sản địa phương đến phong vị quốc tế -->
                 <TextView
                     android:id="@+id/titleSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/black"
                     android:text="Từ đặc sản địa phương đến phong vị quốc tế"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/roboto_regular"
                     android:layout_marginTop="8dp" />
 
                 <!-- Nội dung gạch đầu dòng -->
                 <TextView
                     android:id="@+id/foodDescription1"
                     android:layout_width="match_parent"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:text="• Hệ thống 3 nhà với những món ăn đặc trưng riêng"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:layout_marginTop="8dp" />
 
                 <TextView
                     android:id="@+id/foodDescription2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/black"
                     android:text="• Panorama Palace ở tầng cao đầy phong cách với món Hoa trữ danh, món Việt truyền thống hay thực đơn phong cách phương Tây."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:layout_marginTop="4dp" />
 
                 <TextView
                     android:id="@+id/foodDescription3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/black"
                     android:text="• Các loại bánh ngọt và thức uống tinh tế luôn sẵn sàng cho thực khách tại Haven Confections ngay tầng 1."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:layout_marginTop="4dp" />
 
                 <TextView
                     android:id="@+id/foodDescription4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/black"
                     android:text="• Thư giãn với những tách cafe trà tại The Coffee Nook."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:layout_marginTop="4dp" />
 
                 <TextView
                     android:id="@+id/foodDescription5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/black"
+                    android:layout_marginBottom="26dp"
                     android:text="• Với Menu 10+ món ăn luôn sẵn sàng phục vụ cho thực khách ngay tại phòng 24/24."
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:layout_marginTop="4dp" />
             </LinearLayout>
 
-            <!-- Phần chứa RecyclerView và ProgressBar -->
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -140,6 +118,7 @@
                     android:id="@+id/viewThucDon"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    tools:listitem="@layout/item_thucdon"
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"

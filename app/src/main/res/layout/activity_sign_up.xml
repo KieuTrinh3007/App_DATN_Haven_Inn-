@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:text="Đăng ký"
         android:textColor="@color/white"
-        android:textSize="40dp"
+        android:textSize="32dp"
         android:textStyle="bold"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="122dp"
         android:layout_marginLeft="25dp"/>
 
     <androidx.cardview.widget.CardView
@@ -100,16 +100,16 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/bottom_border" />
 
-        <Button
+        <TextView
             android:id="@+id/btn_dangky"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Tạo tài khoản"
+            android:textAlignment="center"
+            android:paddingVertical="10dp"
             android:background="@drawable/khung_button"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="center"
             android:textColor="@color/white"
-            android:textSize="15dp" />
+            android:textSize="18dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -124,7 +124,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginVertical="20dp">
+            android:layout_marginVertical="15dp">
 
             <ImageView
                 android:id="@+id/img_fb"
@@ -149,7 +149,7 @@
             android:text="Bằng cách tạo tài khoản, bạn đồng ý với "
             android:textSize="14dp"
             android:textColor="#8E929B"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="15dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

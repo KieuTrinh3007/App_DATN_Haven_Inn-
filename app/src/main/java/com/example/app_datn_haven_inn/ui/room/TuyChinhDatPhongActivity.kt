@@ -1,25 +1,38 @@
 package com.example.app_datn_haven_inn.ui.room
 
 import android.app.DatePickerDialog
+import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
+import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
 import java.util.Calendar
 
 class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, PhongViewModel>() {
 
     var isBreakfast = false
+    private var adapter: TuyChinhDatPhongAdapter? = null
     override fun createBinding() = ActivityTuyChinhDatPhongBinding.inflate(layoutInflater)
     override fun setViewModel() = PhongViewModel()
 
 
     override fun initView() {
         super.initView()
+        adapter = TuyChinhDatPhongAdapter(emptyList())
+        binding.rvChonSoPhong.adapter = adapter
+
 
         viewModel.getListphong()
-        viewModel.phongList.observe(this){list ->
+        viewModel.phongList.observe(this) { list ->
+            if (list != null) {
 
+                adapter?.let {
+                    it.listSoPhong = list
+                    it.notifyDataSetChanged()
+                }
+            }
         }
 
         val calendar = Calendar.getInstance()
