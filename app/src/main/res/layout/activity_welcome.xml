@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:gravity="center">
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/slideViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:overScrollMode="never" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tiêu đề Slide"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Mô tả chi tiết nội dung của slide."
+            android:textSize="20sp"
+            android:gravity="center"
+            android:textColor="#666666" />
+    </LinearLayout>
+
+    <!-- Nút Điều Hướng -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="30dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnSkip"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
+            android:background="@null"
+            android:text="SKIP"
+            android:layout_marginRight="85dp"
+            android:backgroundTint="#C3C2C2"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="110dp"
+            android:layout_height="60dp"
+            android:backgroundTint="#00C853"
+            android:text="NEXT"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
+    </LinearLayout>
+
+</LinearLayout>
