@@ -11,10 +11,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.App_DATN_Haven_Inn"
         tools:targetApi="31">
         <activity
-            android:name=".ui.home.TuyChinhDatPhongActivity"
+            android:name=".ui.room.TuyChinhDatPhongActivity"
             android:exported="false" />
         <activity
             android:name=".ui.thucDon.KhamPhaThucDon"
@@ -26,7 +27,24 @@
             android:name=".ui.profile.RePassword"
             android:exported="false" />
         <activity
+            android:name=".ui.auth.Forgot_password"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.Indentity_authentication"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.SignUp"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.SignIn"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
 
         <activity

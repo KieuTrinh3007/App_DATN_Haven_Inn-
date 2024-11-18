@@ -1,15 +1,17 @@
 package com.example.app_datn_haven_inn.ui.home.adapter
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ItemRvCategoryBinding
+import com.example.app_datn_haven_inn.ui.home.OnClickItem
 
 class CategoryAdapter(
     private val categories: List<String>,
-    private val onCategoryClick: (Int) -> Unit
+    private val onItemClick: OnClickItem
 ) : RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     private var selectedPosition = 0
@@ -30,12 +32,9 @@ class CategoryAdapter(
 
             // Sự kiện khi click vào item
             itemView.setOnClickListener {
-                val adapterPosition = adapterPosition
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    selectedPosition = adapterPosition
-                    notifyDataSetChanged() // Cập nhật RecyclerView để làm mới trạng thái
-                    onCategoryClick(adapterPosition) // Gọi callback để xử lý ở HomeFragment
-                }
+                selectedPosition = position
+                onItemClick.onClickItem(position)
+                notifyDataSetChanged() // Cập nhật RecyclerView để làm mới trạng thái
             }
         }
     }
@@ -46,6 +45,7 @@ class CategoryAdapter(
         return CategoryViewHolder(binding)
     }
 
+    @SuppressLint("RecyclerView")
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.bind(position)
     }

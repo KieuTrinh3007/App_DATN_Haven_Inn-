@@ -5,14 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
-
+  >
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:background="#C4C4C4"
+        android:layout_marginBottom="17dp"
+        android:layout_marginHorizontal="45dp"
+        android:layout_height="1dp"/>
     <TextView
         android:id="@+id/tvTitle_thucDon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
         android:text="Haven Confections"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textColor="@android:color/black"
         android:textStyle="bold" />
 
@@ -34,7 +41,9 @@
                 android:id="@+id/tvDescription_thucDon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả...ô tả..."
+                android:fontFamily="@font/roboto_light"
+                android:textSize="12sp"
+                android:text="Haven Confections, tọa lạc ngay tầng 1 của khách sạn, là một thiên đường cho những tín đồ ẩm thực. Với thực đơn đa dạng các loại bánh ngọt cao cấp và thức uống tinh tế, quán mang đến trải nghiệm ẩm thực đẳng cấp. Không gian sang trọng và ấm cúng khiến nơi đây trở thành điểm dừng chân lý tưởng để thư giãn và thưởng thức những hương vị tuyệt vời."
                 android:textColor="@android:color/black" />
 
             <!-- Vị trí -->
@@ -42,6 +51,8 @@
                 android:id="@+id/tvLocation_thucDon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="13sp"
                 android:text="Vị trí: Tầng 1"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
@@ -52,6 +63,8 @@
                 android:id="@+id/tvHours_thucDon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="13sp"
                 android:text="Giờ hoạt động: 6:00 - 23:30"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
@@ -62,6 +75,8 @@
                 android:id="@+id/tvPhone_thucDon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:textSize="13sp"
                 android:text="Hotline: +84 93 461 8372"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
@@ -71,21 +86,27 @@
         <!-- Cột bên phải: ảnh -->
         <ImageView
             android:id="@+id/img_thucDon"
-            android:layout_width="170dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_home_v"
-
+            android:src="@drawable/img_hotel"
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
     <!-- Nút khám phá thực đơn -->
-    <Button
+    <TextView
         android:id="@+id/btn_thucDon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:paddingVertical="8dp"
+        android:fontFamily="@font/roboto_bold"
+        android:textSize="16sp"
+        android:layout_marginHorizontal="47dp"
+        android:background="@drawable/bg_radius_15"
         android:backgroundTint="#00BD6B"
+        android:layout_marginBottom="22dp"
         android:text="Khám phá thực đơn"
         android:textColor="@android:color/white" />
 </LinearLayout>

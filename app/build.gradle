@@ -45,16 +45,27 @@ dependencies {
     implementation libs.material
     implementation libs.androidx.activity
     implementation libs.androidx.constraintlayout
+    implementation libs.androidx.annotation
+    implementation libs.androidx.lifecycle.livedata.ktx
+    implementation libs.androidx.lifecycle.viewmodel.ktx
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.espresso.core
 
-
+    //Model
+    implementation libs.gson.v2101
+    implementation libs.logging.interceptor
+    implementation libs.adapter.rxjava3
+    implementation libs.rxandroid
+    implementation libs.google.gson
+    implementation libs.retrofit
+    implementation libs.converter.gson
+    implementation libs.okhttp
+    implementation libs.androidx.lifecycle.viewmodel.ktx
 
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.tbuonomo:dotsindicator:4.3")
-
 
     //rate
     implementation("com.google.android.play:review:2.0.1")
@@ -64,4 +75,10 @@ dependencies {
 
     implementation 'com.google.android.material:material:1.9.0'
 
+    // slide show
+    implementation("me.relex:circleindicator:2.1.6")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+
+    // wrap rcv
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
 }

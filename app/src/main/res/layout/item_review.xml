@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_radius_10">
+
+    <!-- Hàng trên cùng với Avatar, Tên người dùng và Rating -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Avatar -->
+        <ImageView
+            android:id="@+id/img_avatar"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:src="@drawable/ic_person"
+            android:scaleType="centerInside"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/circle_shape"/>
+
+        <!-- Tên người dùng và Rating -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/txt_tennguoidung"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tên người dùng"
+                android:textSize="12sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginEnd="4dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                android:layout_marginEnd="4dp"/>
+
+            <TextView
+                android:id="@+id/txt_rating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="8/10"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- Bình luận -->
+
+    <TextView
+        android:id="@+id/txt_binhluan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bình luận của người dùng"
+        android:textSize="10sp"
+        android:textColor="#333333"
+        android:layout_marginTop="4dp"
+        android:paddingEnd="8dp"
+        android:layout_marginLeft="10dp"/>
+
+    <!-- Ngày tháng -->
+    <TextView
+        android:id="@+id/txt_ngaythang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ngày tháng"
+        android:textSize="10sp"
+        android:textColor="#888888"
+        android:gravity="end"
+        android:layout_marginTop="4dp"
+        android:layout_gravity="end"/>
+</LinearLayout>

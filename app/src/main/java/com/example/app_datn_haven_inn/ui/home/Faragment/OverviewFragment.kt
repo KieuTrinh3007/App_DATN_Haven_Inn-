@@ -8,10 +8,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
-import com.example.app_datn_haven_inn.ui.home.Adapter.FoodAdapter
-import com.example.app_datn_haven_inn.ui.home.model.Food
+import com.example.app_datn_haven_inn.database.CreateService
+import com.example.app_datn_haven_inn.database.model.AmThucModel
+import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
+import com.example.app_datn_haven_inn.database.repository.LoaiPhongRepository
+import com.example.app_datn_haven_inn.database.service.AmThucService
+import com.example.app_datn_haven_inn.database.service.LoaiPhongService
+import com.example.app_datn_haven_inn.ui.home.Adapter.AmThucAdapter
+import com.example.app_datn_haven_inn.ui.home.Adapter.RoomTopAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 class OverviewFragment : Fragment() {
+
+    private lateinit var recyclerViewFood: RecyclerView
+    private lateinit var recyclerViewRoomTop: RecyclerView
+    private lateinit var amThucAdapter: AmThucAdapter
+    private lateinit var roomTopAdapter: RoomTopAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -19,18 +35,50 @@ class OverviewFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_overview, container, false)
 
-        // Khởi tạo RecyclerView và Adapter
-        val recyclerViewFood = view.findViewById<RecyclerView>(R.id.recyclerViewFood)
-        val foodList = listOf(
-            Food("https://th.bing.com/th/id/OIP.vM3rkFirqy92148BzAIBZwHaEK?rs=1&pid=ImgDetMain"),
-            Food("https://th.bing.com/th/id/R.aac7cab309ddb377d0110f3cd71312f9?rik=%2b867S%2bQ5QNRyGA&riu=http%3a%2f%2fecolonomics.org%2fwp-content%2fuploads%2f2014%2f09%2fsushi-354628_1280.jpg&ehk=dPsMbeMRWoP6%2f1PLEzAeNJOUNNwUPY8q83%2fJDLUN63c%3d&risl=&pid=ImgRaw&r=0"),
-            Food("https://th.bing.com/th/id/R.da0f9d4f79ede796113d198e964631b1?rik=ba4nm8LaaalLow&pid=ImgRaw&r=0")
-        )
+        // Khởi tạo RecyclerView cho món ăn
+        recyclerViewFood = view.findViewById(R.id.recyclerViewFood)
+        recyclerViewFood.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        val adapter = FoodAdapter(requireContext(), foodList)
-        recyclerViewFood.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerViewFood.adapter = adapter
+        // Khởi tạo RecyclerView cho danh sách phòng
+        recyclerViewRoomTop = view.findViewById(R.id.recyclerViewRoomTop)
+        recyclerViewRoomTop.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        // Load dữ liệu
+        loadAmThucData()
+        loadRoomTopData()
 
         return view
+    }
+
+    private fun loadAmThucData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response: Response<List<AmThucModel>> = CreateService.createService<AmThucService>().getListAmThuc()
+
+            withContext(Dispatchers.Main) {
+                if (response.isSuccessful) {
+                    val amThucList = response.body() ?: emptyList()
+                    amThucAdapter = AmThucAdapter(requireContext(), amThucList)
+                    recyclerViewFood.adapter = amThucAdapter
+                } else {
+                    // Xử lý lỗi nếu cần
+                }
+            }
+        }
+    }
+
+    private fun loadRoomTopData() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val repository = LoaiPhongRepository(CreateService.createService<LoaiPhongService>())
+            val roomList = repository.getListLoaiPhong()
+
+            withContext(Dispatchers.Main) {
+                if (!roomList.isNullOrEmpty()) {
+                    roomTopAdapter = RoomTopAdapter(requireContext(), roomList)
+                    recyclerViewRoomTop.adapter = roomTopAdapter
+                } else {
+                    // Xử lý lỗi nếu không có dữ liệu
+                }
+            }
+        }
     }
 }
