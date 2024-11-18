@@ -10,7 +10,7 @@
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:clipToPadding="false"
         android:clipChildren="false"
         android:paddingStart="16dp"
@@ -29,10 +29,11 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tiêu đề Slide"
+            android:text="Chào Mừng Đến Với Haven Inn!"
             android:textSize="30sp"
             android:textStyle="bold"
             android:gravity="center"
+            android:fontFamily="@font/roboto_regular"
             android:textColor="#000000" />
 
         <TextView
@@ -40,9 +41,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Mô tả chi tiết nội dung của slide."
+            android:text="Thư giãn trong không gian thanh lịch của Haven Inn, nơi mọi chi tiết đều mang lại cảm giác ấm cúng và riêng tư."
             android:textSize="20sp"
             android:gravity="center"
+            android:fontFamily="@font/roboto_regular"
             android:textColor="#666666" />
     </LinearLayout>
 
