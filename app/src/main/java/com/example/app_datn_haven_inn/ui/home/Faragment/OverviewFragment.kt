@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.AmThucModel
-import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.database.repository.LoaiPhongRepository
 import com.example.app_datn_haven_inn.database.service.AmThucService
 import com.example.app_datn_haven_inn.database.service.LoaiPhongService
-import com.example.app_datn_haven_inn.ui.home.Adapter.AmThucAdapter
-import com.example.app_datn_haven_inn.ui.home.Adapter.RoomTopAdapter
+import com.example.app_datn_haven_inn.ui.home.adapter.AmThucAdapter
+import com.example.app_datn_haven_inn.ui.home.adpter.RoomTopAdapter
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
