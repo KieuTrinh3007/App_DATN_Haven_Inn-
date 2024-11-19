@@ -4,10 +4,10 @@ import android.os.Handler
 import android.os.Looper
 import androidx.viewpager2.widget.ViewPager2
 import com.example.app_datn_haven_inn.BaseFragment
-import com.example.app_datn_haven_inn.PhongNghi
+import com.example.app_datn_haven_inn.ui.room.fragment.PhongNghiFragment
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.FragmentHomeBinding
-import com.example.app_datn_haven_inn.ui.home.fragment.ServiceFragment
+import com.example.app_datn_haven_inn.ui.home.Fragment.ServiceFragment
 import com.example.app_datn_haven_inn.ui.home.Fragment.OverviewFragment
 import com.example.app_datn_haven_inn.ui.home.adapter.CategoryAdapter
 import com.example.app_datn_haven_inn.ui.home.adapter.SlideshowAdapter
@@ -38,6 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val slideshowAdapter = SlideshowAdapter(images)
         viewBinding.viewPager.adapter = slideshowAdapter
 
+
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fl_category, OverviewFragment())
             .commit()
@@ -57,7 +58,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     }
                     2 -> {
                         requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fl_category, PhongNghi())
+                            .replace(R.id.fl_category, PhongNghiFragment())
                             .commit()
                     }
                     else -> {

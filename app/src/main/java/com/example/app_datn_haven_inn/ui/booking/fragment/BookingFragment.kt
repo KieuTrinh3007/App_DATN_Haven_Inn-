@@ -14,10 +14,12 @@ import androidx.core.content.ContextCompat
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.FragmentBookingBinding
 
-class BookingFragment : Fragment(R.layout.fragment_booking) {
+class BookingFragment : Fragment() {
 
     private var _binding: FragmentBookingBinding? = null
     private val binding get() = _binding!!
+
+    var isThanhToan = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,11 +41,13 @@ class BookingFragment : Fragment(R.layout.fragment_booking) {
         binding.ttTrucTiep.setOnClickListener {
             binding.rdoTructiep.isChecked = true
             binding.rdoMomo.isChecked = false
+            isThanhToan = true
         }
 
         binding.ttQuaMoMo.setOnClickListener {
             binding.rdoMomo.isChecked = true
             binding.rdoTructiep.isChecked = false
+            isThanhToan = false
 
         }
         // Lắng nghe sự kiện click vào ic_drop (drawableEnd)

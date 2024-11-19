@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="13dp"
-    tools:context=".PhongNghi">
+    android:paddingHorizontal="16dp"
+    tools:context=".ui.room.fragment.PhongNghiFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="13dp"
         android:text="Hệ thống phòng nghỉ"
         android:textColor="@color/black"
+        android:layout_marginBottom="12dp"
         android:textSize="25sp"
         android:textStyle="bold" />
 
@@ -25,8 +25,9 @@
         android:padding="16dp">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
             android:src="@drawable/ic_lich"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,25 +35,29 @@
             android:orientation="horizontal"
             android:gravity="center">
             <TextView
-                android:id="@+id/txtTuNgay"
+                android:id="@+id/tv_TuNgay"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="16sp"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Từ ngày"
                 android:textColor="@color/black"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
-                android:textSize="16sp"
+                android:fontFamily="@font/roboto_regular"
                 android:text="-"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16sp" />
             <TextView
-                android:id="@+id/txtDenNgay"
+                android:id="@+id/tv_DenNgay"
                 android:layout_width="wrap_content"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="16sp"
                 android:text="Đến ngày"
@@ -60,6 +65,7 @@
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/ll_soNguoi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -68,8 +74,9 @@
         android:padding="16dp">
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center"
             android:src="@drawable/ic_person"/>
         <Spinner
             android:id="@+id/spinnerSoNguoi"
@@ -88,17 +95,19 @@
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_gravity="center"
             android:src="@drawable/ic_coin"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center">
-            <EditText
-                android:id="@+id/edtTuKhoang"
+            <TextView
+                android:id="@+id/tv_TuKhoang"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
                 android:background="#00FFFFFF"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="16sp"
@@ -109,12 +118,14 @@
                 android:layout_height="24dp"
                 android:textSize="16sp"
                 android:text="-"
+                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/black"/>
-            <EditText
-                android:id="@+id/edtDenKhoang"
+            <TextView
+                android:id="@+id/tv_DenKhoang"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
                 android:background="#00FFFFFF"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="16sp"
