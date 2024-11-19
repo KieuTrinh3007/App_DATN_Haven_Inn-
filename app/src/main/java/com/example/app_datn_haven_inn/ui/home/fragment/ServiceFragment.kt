@@ -1,4 +1,5 @@
-package com.example.app_datn_haven_inn.ui.home.fragment
+package com.example.app_datn_haven_inn.ui.home.Fragment
+
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
