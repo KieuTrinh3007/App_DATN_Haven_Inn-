@@ -14,42 +14,26 @@
             android:id="@+id/hotelName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Khách sạn Haven Inn Hà Nội"
             android:fontFamily="@font/roboto_regular"
+            android:text="Khách sạn Haven Inn Hà Nội"
             android:textColor="@color/black"
             android:textSize="25sp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RatingBar
+            android:id="@+id/ratingBar"
+            style="@style/Widget.AppCompat.RatingBar.Small"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="5dp">
-
-            <RatingBar
-                android:id="@+id/ratingBar"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isIndicator="false"
-                android:numStars="5"
-                android:rating="3"
-                android:scaleX="1.0"
-                android:scaleY="1.1"
-                android:stepSize="0.5"
-                android:progressTint="@android:color/holo_orange_light"
-                android:progressBackgroundTint="@android:color/darker_gray"
-                android:secondaryProgressTint="@android:color/holo_orange_light"/>
-
-            <TextView
-                android:id="@+id/rating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4.5"
-                android:textStyle="bold"
-                android:layout_marginLeft="15dp"
-                android:textSize="14dp"/>
-        </LinearLayout>
+            android:isIndicator="false"
+            android:numStars="5"
+            android:progressBackgroundTint="@android:color/darker_gray"
+            android:progressTint="@android:color/holo_orange_light"
+            android:rating="4.5"
+            android:scaleX="1.0"
+            android:scaleY="1.1"
+            android:secondaryProgressTint="@android:color/holo_orange_light"
+            android:stepSize="0.5" />
 
         <!-- Hotel Description -->
         <TextView
@@ -58,9 +42,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5.64dp"
             android:fontFamily="@font/roboto_regular"
-            android:textSize="12sp"
+            android:text="Khách sạn sang trọng, nổi bật với không gian tinh tế và dịch vụ đẳng cấp, mang đến trải nghiệm nghỉ dưỡng hoàn hảo giữa lòng thành phố."
             android:textColor="#64748B"
-            android:text="Khách sạn sang trọng, nổi bật với không gian tinh tế và dịch vụ đẳng cấp, mang đến trải nghiệm nghỉ dưỡng hoàn hảo giữa lòng thành phố." />
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,9 +58,9 @@
                 android:layout_height="21dp"
                 android:background="@drawable/highlight_background"
                 android:backgroundTint="#64A89C"
+                android:fontFamily="@font/roboto_regular"
                 android:gravity="center"
                 android:text="8.9"
-                android:fontFamily="@font/roboto_regular"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -88,9 +72,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
                 android:paddingBottom="8dp"
                 android:text="Rất tốt"
-                android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -100,21 +84,21 @@
             android:id="@+id/tvLink"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:text="Xem tất cả 418 nhận xét >"
             android:textColor="#64A89C"
-            android:textSize="13sp" />
+            android:textSize="10sp" />
 
         <!-- Highlight Features -->
         <TextView
             android:id="@+id/highlightTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
             android:paddingTop="5dp"
             android:text="Đặc điểm nổi bật"
             android:textColor="@color/black"
-            android:fontFamily="@font/roboto_medium"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -141,10 +125,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
-                    android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"
+                    android:padding="12dp"
                     android:text="Nằm giữa Thủ đô sầm uất, thuận tiện việc di lại."
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -168,10 +152,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="12dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
+                    android:padding="12dp"
                     android:text="Nằm giữa Thủ đô sầm uất, thuận tiện việc di lại."
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -183,8 +167,8 @@
             android:id="@+id/amenitiesTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="10dp"
             android:fontFamily="@font/roboto_medium"
+            android:paddingTop="10dp"
             android:text="Tiện nghi, dịch vụ nổi bật"
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -220,8 +204,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
                     android:text="Bao gồm bữa sáng"
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -245,8 +229,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
                     android:text="Có bãi đậu xe"
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -270,10 +254,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:scaleType="centerCrop"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
+                    android:scaleType="centerCrop"
                     android:text="Spa"
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -296,8 +280,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Wifi miễn phí"
                     android:fontFamily="@font/roboto_regular"
+                    android:text="Wifi miễn phí"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -322,8 +306,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
                     android:text="Dịch vụ dọn phòng"
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -346,8 +330,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Nhà hàng"
                     android:fontFamily="@font/roboto_regular"
+                    android:text="Nhà hàng"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -369,8 +353,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/black"
             android:text="Khám phá khu vực"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -394,21 +378,21 @@
                     android:id="@+id/locationAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
                     android:paddingStart="10dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
-                    android:textSize="12sp"
-                    android:fontFamily="@font/roboto_regular"
+                    android:text="113 Hàng Buồm, Phố Cổ, Hà Nội, 10000"
                     android:textColor="@color/black"
-                    android:text="113 Hàng Buồm, Phố Cổ, Hà Nội, 10000" />
+                    android:textSize="12sp" />
 
                 <!-- Link to View More -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
                     android:paddingStart="10dp"
                     android:paddingBottom="5dp"
-                    android:fontFamily="@font/roboto_regular"
                     android:text="Xem trong bản đồ >"
                     android:textColor="#64A89C"
                     android:textSize="12sp" />
@@ -440,8 +424,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Phố hàng gai"
-                    android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -456,10 +440,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:padding="6dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
+                    android:padding="6dp"
                     android:text="5 phút đi bộ"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -481,8 +465,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Nhà thờ Lớn Hà Nội"
-                    android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -497,10 +481,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:padding="6dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
+                    android:padding="6dp"
                     android:text="6 phút đi bộ"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -522,8 +506,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:text="Di tích nhà tù Hỏa Lò"
                     android:fontFamily="@font/roboto_regular"
+                    android:text="Di tích nhà tù Hỏa Lò"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -538,9 +522,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:fontFamily="@font/roboto_regular"
                     android:padding="6dp"
                     android:text="7 phút đi bộ"
-                    android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -564,8 +548,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/roboto_regular"
-                    android:textColor="@color/black"
                     android:text="Sân bay Hà Nội (HAN-Sân bay Quốc tế Nội Bài)"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -579,9 +563,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:fontFamily="@font/roboto_regular"
                     android:padding="6dp"
                     android:text="24 phút đi xe"
-                    android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="bold" />
@@ -593,119 +577,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:paddingTop="10dp"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/black"
+            android:paddingTop="10dp"
             android:text="Hệ thống phòng nghỉ đa dạng, hấp dẫn kèm nhiều ưu đãi"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/itemView"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewRoomTop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/card_border"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="4dp"> <!-- Áp dụng drawable với viền -->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <!-- ImageView cho hình ảnh -->
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_4" />
-
-                <!-- TextView mô tả phòng -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:textColor="@color/black"
-                    android:fontFamily="@font/roboto_bold"
-                    android:text="Phòng đơn, ban công hướng ra biển, thoáng mát"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <!-- Đánh giá -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <!-- Đánh giá điểm số -->
-                    <TextView
-                        android:layout_width="27dp"
-                        android:layout_height="21dp"
-                        android:background="@drawable/highlight_background"
-                        android:backgroundTint="#64A89C"
-                        android:gravity="center"
-                        android:text="8.9"
-                        android:fontFamily="@font/roboto_bold"
-                        android:textColor="@color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <!-- Khoảng trống giữa các phần tử -->
-                    <Space
-                        android:layout_width="7dp"
-                        android:layout_height="wrap_content" />
-
-                    <!-- Mô tả đánh giá -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Rất tốt"
-                            android:fontFamily="@font/roboto_bold"
-                            android:textColor="@color/black"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="15 nhận xét"
-                            android:fontFamily="@font/roboto_bold"
-                            android:textColor="@color/black"
-                            android:textSize="10sp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <!-- Link "Xem tất cả nhận xét" -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Xem tất cả 418 nhận xét >"
-                    android:textColor="#64A89C"
-                    android:textSize="12sp"
-                    android:textStyle="italic" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="5dp"
-            android:gravity="center"
             android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
             android:text="Xem thêm các phòng khác >"
             android:textColor="#64A89C"
             android:textSize="14sp" />
@@ -715,8 +605,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginBottom="15dp"
-            android:gravity="center"
             android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
             android:text="Hơn 20 món ăn từ đặc sản địa phương tới phong vị quốc tế "
             android:textColor="@color/black"
             android:textSize="14sp" />
@@ -724,15 +614,14 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFood"
             android:layout_width="match_parent"
-            android:layout_marginLeft="10dp"
             android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:gravity="center"
             android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
             android:text="Xem thêm các món ăn khác >"
             android:textColor="#64A89C"
             android:textSize="14sp" />
@@ -741,18 +630,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:paddingTop="5dp"
             android:fontFamily="@font/roboto_medium"
-            android:textColor="@color/black"
+            android:paddingTop="5dp"
             android:text="Thông tin về nơi lưu trú này"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
-            android:text="Khách sạn Haven Inn Hà Nội"
             android:fontFamily="@font/roboto_regular"
+            android:text="Khách sạn Haven Inn Hà Nội"
             android:textColor="@color/black"
             android:textSize="12dp"
             android:textStyle="bold" />

@@ -1,0 +1,51 @@
+<!-- res/layout/dialog_cvv_info.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="280dp"
+    android:layout_height="300dp"
+    android:background="@drawable/dialog_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Icon hình thẻ và kính lúp -->
+    <ImageView
+        android:layout_width="199dp"
+        android:layout_height="99dp"
+        android:src="@drawable/ic_cvv" />
+
+    <!-- Tiêu đề -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Tìm số CVV"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <!-- Nội dung mô tả -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="CVV là số gồm 3 hoặc 4 chữ số được in ở mặt sau hoặc mặt trước của thẻ"
+        android:textColor="@android:color/black"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Nút OK -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:text="OK"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black" />
+</LinearLayout>

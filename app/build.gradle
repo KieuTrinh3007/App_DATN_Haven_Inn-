@@ -63,17 +63,17 @@ dependencies {
     implementation libs.okhttp
     implementation libs.androidx.lifecycle.viewmodel.ktx
 
-
     //Glide
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.tbuonomo:dotsindicator:4.3")
-
 
     //rate
     implementation("com.google.android.play:review:2.0.1")
 
     // progess bar
     implementation 'com.github.zhouzhuo810:ZzHorizontalProgressBar:1.1.1'
+
+    implementation 'com.google.android.material:material:1.9.0'
 
     // slide show
     implementation("me.relex:circleindicator:2.1.6")
