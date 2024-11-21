@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.Faragment.ServiceFragment"
     android:fillViewport="true">
 
     <LinearLayout
@@ -133,9 +132,9 @@
             android:id="@+id/recyclerViewServices"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
             android:padding="5dp"
-            tools:listitem="@layout/item_services"
-            android:nestedScrollingEnabled="false" />
+            tools:listitem="@layout/item_services" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
