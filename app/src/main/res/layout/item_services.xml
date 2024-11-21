@@ -10,13 +10,17 @@
         android:id="@+id/tvTenDichVu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
-        android:layout_marginBottom="4dp" />
+        android:layout_marginBottom="4dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/roboto_medium"/>
 
     <TextView
         android:id="@+id/tvMoTa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp" />
+        android:textSize="12sp"
+        android:fontFamily="@font/roboto_regular"
+        android:textColor="@color/black"/>
 </LinearLayout>

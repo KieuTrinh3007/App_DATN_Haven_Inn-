@@ -13,7 +13,7 @@ import com.example.app_datn_haven_inn.database.model.AmThucModel
 import com.example.app_datn_haven_inn.database.repository.LoaiPhongRepository
 import com.example.app_datn_haven_inn.database.service.AmThucService
 import com.example.app_datn_haven_inn.database.service.LoaiPhongService
-import com.example.app_datn_haven_inn.ui.home.adapter.AmThucAdapter
+import com.example.app_datn_haven_inn.ui.home.Adapter.AmThucAdapter
 import com.example.app_datn_haven_inn.ui.home.adpter.RoomTopAdapter
 
 import kotlinx.coroutines.CoroutineScope

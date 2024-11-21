@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_marginBottom="16dp"
     android:background="@drawable/bg_radius_10">
 
     <LinearLayout
@@ -17,7 +17,7 @@
             android:background="@drawable/bg_radius_10_tt_phong">
 
             <ImageView
-                android:id="@+id/imgTopBanner"
+                android:id="@+id/iv_phong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/bg_radius_10_tt_phong"
@@ -32,16 +32,17 @@
                 android:layout_gravity="top|end"
                 android:layout_margin="20dp"
                 android:background="#00000000"
-                android:src="@drawable/favorite_red" />
+                android:src="@drawable/ic_favorite_unselect" />
         </FrameLayout>
 
         <TextView
-            android:id="@+id/txtTieuDe"
+            android:id="@+id/tv_TieuDe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:text="Phòng đơn, ban công hướng ra biển, thoáng mát"
             android:textColor="@color/black"
+            android:fontFamily="@font/roboto_bold"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -59,7 +60,7 @@
                 android:padding="6dp">
 
                 <TextView
-                    android:id="@+id/txtTBDanhGia"
+                    android:id="@+id/tv_TBDanhGia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="9.0"
@@ -77,19 +78,21 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/txtTraiNghiem"
+                    android:id="@+id/tv_TraiNghiem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tuyệt vời"
                     android:textColor="@color/black"
+                    android:fontFamily="@font/roboto_regular"
                     android:textSize="10sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/txtSLNhanXet"
+                    android:id="@+id/tv_SLNhanXet"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10 Nhận xét"
+                    android:fontFamily="@font/roboto_regular"
                     android:textColor="@color/black"
                     android:textSize="10sp" />
             </LinearLayout>
@@ -114,11 +117,12 @@
                     android:src="@drawable/building" />
 
                 <TextView
-                    android:id="@+id/txtQuangCanh"
+                    android:id="@+id/tv_QuangCanh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="14dp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Quang cảnh thành phố"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -126,6 +130,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -135,10 +140,11 @@
                     android:src="@drawable/person13x13" />
 
                 <TextView
-                    android:id="@+id/txtSLKhach"
+                    android:id="@+id/tv_SLKhach"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/roboto_regular"
                     android:layout_marginLeft="14dp"
                     android:text="2 Khách"
                     android:textSize="12sp" />
@@ -147,6 +153,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -156,11 +163,12 @@
                     android:src="@drawable/sleeping1" />
 
                 <TextView
-                    android:id="@+id/txtLoaiGiuong"
+                    android:id="@+id/tv_LoaiGiuong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="14dp"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="Một giường cỡ king"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -168,6 +176,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -177,12 +186,13 @@
                     android:src="@drawable/transform1" />
 
                 <TextView
-                    android:id="@+id/txtDienTich"
+                    android:id="@+id/tv_DienTich"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="14dp"
                     android:text="30 mét vuông"
+                    android:fontFamily="@font/roboto_regular"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -190,10 +200,11 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtXemThemChiTiet"
+            android:id="@+id/tv_XemThemChiTiet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:fontFamily="@font/roboto_regular"
             android:layout_marginTop="5dp"
             android:text="Xem thêm chi tiết >"
             android:textColor="#64A89C"
@@ -208,6 +219,7 @@
             android:drawableStart="@drawable/promo_code"
             android:drawablePadding="10dp"
             android:gravity="center"
+            android:fontFamily="@font/roboto_bold"
             android:paddingHorizontal="10dp"
             android:text="Giảm 20% với Giá thành viên"
             android:textAllCaps="false"
@@ -221,7 +233,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtGiaChinhThuc"
+                android:id="@+id/tv_GiaChinhThuc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="600.000đ"
@@ -230,7 +242,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/txtGiaCu"
+                android:id="@+id/tv_GiaCu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -247,44 +259,48 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/txtTongThanhToan"
+                android:id="@+id/tv_TongThanhToan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
-                android:text="Tổng 3,600.000đ cho 2 đêm bao gồm thuế và phí"
+                android:text="Tổng 1.200.000 đ cho 2 đêm"
                 android:textColor="@color/black"
-
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/txtSLPhongTrong"
+                android:id="@+id/tv_SLPhongTrong"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Còn 3 phòng trống"
+                android:layout_marginLeft="30dp"
                 android:textColor="#FF3A00"
                 android:textSize="13sp" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/txtChiTietGia"
+            android:id="@+id/tv_ChiTietGia"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:fontFamily="@font/roboto_regular"
             android:text="Chi tiết giá >"
             android:textColor="#64A89C"
             android:textSize="10sp" />
 
         <TextView
-            android:id="@+id/btnTuyChinh"
-            android:layout_width="300dp"
+            android:id="@+id/tv_TuyChinh"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="31dp"
             android:layout_gravity="center"
             android:background="@drawable/bg_radius_15_tt_phong"
             android:text="Tuỳ chỉnh và đặt"
+            android:fontFamily="@font/roboto_bold"
             android:textAllCaps="false"
             android:paddingVertical="6dp"
             android:textAlignment="center"
