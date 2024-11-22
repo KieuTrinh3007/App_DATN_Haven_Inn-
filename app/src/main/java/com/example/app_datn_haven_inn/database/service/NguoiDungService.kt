@@ -1,19 +1,10 @@
 package com.example.app_datn_haven_inn.database.service
 
 import com.example.app_datn_haven_inn.database.model.NguoiDungModel
-import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Part
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface NguoiDungService {
     @GET("nguoidungs/")
@@ -41,14 +32,7 @@ interface NguoiDungService {
         @Part("email") email: RequestBody,
         @Part("chucVu") chucVu: RequestBody,
         @Part("trangThai") trangThai: RequestBody,
-        @Part("hinhAnh") image: MultipartBody.Part
-    ): Response<NguoiDungModel>
-
-
-    @PUT("nguoidungs/:actions/{id}")
-    suspend fun updateAction(
-        @Path("id") id: String,
-        @Body NguoiDung: NguoiDungModel,
+        @Part("hinhAnh") image: MultipartBody.Part? // Chỉnh sửa để chấp nhận null khi không có ảnh
     ): Response<NguoiDungModel>
 
     @DELETE("nguoidungs/delete/{id}")
