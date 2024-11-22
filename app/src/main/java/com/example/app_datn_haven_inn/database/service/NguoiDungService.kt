@@ -13,6 +13,7 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface NguoiDungService {
     @GET("nguoidungs/")
@@ -52,5 +53,9 @@ interface NguoiDungService {
     @DELETE("nguoidungs/delete/{id}")
     suspend fun deleteNguoiDung(@Path("id") id: String): Response<Unit>
 
-
+    @POST("auth/login")
+    suspend fun loginNguoiDung(
+        @Query("soDienThoai") soDienThoai: String,
+        @Query("matKhau") matKhau: String
+    ): Response<Map<String, Any>>
 }

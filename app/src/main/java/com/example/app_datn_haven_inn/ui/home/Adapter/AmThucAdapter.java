@@ -1,4 +1,4 @@
-package com.example.app_datn_haven_inn.ui.home.adapter;
+package com.example.app_datn_haven_inn.ui.home.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
