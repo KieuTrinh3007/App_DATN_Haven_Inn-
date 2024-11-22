@@ -88,7 +88,11 @@ class EditProfile : AppCompatActivity() {
         idNguoiDung?.let { id ->
             lifecycleScope.launch {
                 try {
-                    val filePart = prepareImageFilePart() // Tạo file Multipart nếu có
+                    // Lấy đường dẫn ảnh (nếu có) từ người dùng, nếu không sẽ giữ ảnh cũ
+                    val selectedImageFilePath: String? = null // Bạn có thể thay thế bằng đường dẫn từ người dùng chọn ảnh, ví dụ: từ Gallery
+
+                    val imagePart = prepareImageFilePart(selectedImageFilePath)
+
                     val response = nguoiDungService.updateNguoiDung(
                         id = id,
                         tenNguoiDung = name.toRequestBody(),
@@ -97,7 +101,7 @@ class EditProfile : AppCompatActivity() {
                         email = "".toRequestBody(), // giữ nguyên email
                         chucVu = "".toRequestBody(), // giữ nguyên chức vụ
                         trangThai = "true".toRequestBody(),
-                        image = filePart
+                        image = imagePart ?: MultipartBody.Part.createFormData("hinhAnh", "") // Nếu không có ảnh mới, truyền giá trị rỗng
                     )
 
                     if (response.isSuccessful) {
@@ -113,13 +117,15 @@ class EditProfile : AppCompatActivity() {
         }
     }
 
-    private fun prepareImageFilePart(): MultipartBody.Part {
-        // Đường dẫn file ảnh tạm (hoặc chọn từ Gallery/Camera)
-        val filePath = "" // Đường dẫn tới file ảnh người dùng chọn
+    private fun prepareImageFilePart(filePath: String?): MultipartBody.Part? {
+        if (filePath.isNullOrEmpty()) {
+            return null // Nếu không có ảnh được chọn, trả về null để giữ nguyên ảnh cũ
+        }
         val file = File(filePath)
         val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("hinhAnh", file.name, requestFile)
     }
+
 
     private fun String.toRequestBody(): RequestBody =
         this.toRequestBody("text/plain".toMediaTypeOrNull())

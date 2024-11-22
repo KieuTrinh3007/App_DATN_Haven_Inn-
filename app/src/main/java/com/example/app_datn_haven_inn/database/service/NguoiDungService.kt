@@ -22,24 +22,25 @@ interface NguoiDungService {
     @Multipart
     @POST("nguoidungs/post")
     suspend fun addNguoiDung(
-                                 @Part("tenNguoiDung")  tenNguoiDung: RequestBody,
-                                 @Part("soDienThoai")  soDienThoai: RequestBody,
-                                 @Part("matKhau")  matKhau: RequestBody,
-                                 @Part("email")  email: RequestBody,
-                                 @Part("chucVu")  chucVu: RequestBody,
-                                 @Part("trangThai")  trangThai: RequestBody,
-                                 @Part("hinhAnh") image: MultipartBody.Part,): Response<NguoiDungModel>
-            
+        @Part("tenNguoiDung") tenNguoiDung: RequestBody,
+        @Part("soDienThoai") soDienThoai: RequestBody,
+        @Part("matKhau") matKhau: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("chucVu") chucVu: RequestBody,
+        @Part("trangThai") trangThai: RequestBody,
+        @Part("hinhAnh") image: MultipartBody.Part,
+    ): Response<NguoiDungModel>
+
     @Multipart
     @PUT("nguoidungs/put/{id}")
     suspend fun updateNguoiDung(
         @Path("id") id: String,
-        @Part("tenNguoiDung")  tenNguoiDung: RequestBody,
-        @Part("soDienThoai")  soDienThoai: RequestBody,
-        @Part("matKhau")  matKhau: RequestBody,
-        @Part("email")  email: RequestBody,
-        @Part("chucVu")  chucVu: RequestBody,
-        @Part("trangThai")  trangThai: RequestBody,
+        @Part("tenNguoiDung") tenNguoiDung: RequestBody,
+        @Part("soDienThoai") soDienThoai: RequestBody,
+        @Part("matKhau") matKhau: RequestBody,
+        @Part("email") email: RequestBody,
+        @Part("chucVu") chucVu: RequestBody,
+        @Part("trangThai") trangThai: RequestBody,
         @Part("hinhAnh") image: MultipartBody.Part
     ): Response<NguoiDungModel>
 
