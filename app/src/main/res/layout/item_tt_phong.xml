@@ -26,7 +26,7 @@
                 android:src="@drawable/top_banner" />
 
             <ImageView
-                android:id="@+id/imgAddFavorite"
+                android:id="@+id/iv_favorite"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="top|end"

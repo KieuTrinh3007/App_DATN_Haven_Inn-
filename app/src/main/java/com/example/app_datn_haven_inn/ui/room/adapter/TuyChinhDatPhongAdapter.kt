@@ -23,18 +23,25 @@ class TuyChinhDatPhongAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.tvSoPhong.text = listSoPhong.get(position).soPhong
 
-        when (listSoPhong.get(position).trangThai) {
-            0 -> { // Hết phòng
-                holder.binding.root.isEnabled = false
-                holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_selected)
-            }
-            1 -> { // Chưa chọn
-                holder.binding.root.isEnabled = true
-                holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_unselect)
-            }
-            2 -> { // Đã chọn
-                holder.binding.root.isEnabled = true
-                holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_select)
+        if (listSoPhong.get(position).vip){
+
+        }else {
+
+            when (listSoPhong.get(position).trangThai) {
+                0 -> { // Hết phòng
+                    holder.binding.root.isEnabled = false
+                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_selected)
+                }
+
+                1 -> { // Chưa chọn
+                    holder.binding.root.isEnabled = true
+                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_unselect)
+                }
+
+                2 -> { // Đã chọn
+                    holder.binding.root.isEnabled = true
+                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_select)
+                }
             }
         }
 
@@ -49,7 +56,6 @@ class TuyChinhDatPhongAdapter(
             }
         }
     }
-
     class ViewHolder(val binding: ItemSoPhongBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

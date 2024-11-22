@@ -109,30 +109,22 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
         }
 
-        updateBreakfastIcon()
-        binding.rdThemBuaSang.setOnClickListener{
-            isBreakfast = true
-            updateBreakfastIcon()
-        }
+//        updateBreakfastIcon()
 
-        binding.rdKhongBuaSang.setOnClickListener{
-            isBreakfast = false
-            updateBreakfastIcon()
-        }
 
     }
-
-    private fun updateBreakfastIcon(){
-        if (isBreakfast){
-            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
-            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
-
-        }else{
-            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
-            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
-
-        }
-    }
+//
+//    private fun updateBreakfastIcon(){
+//        if (isBreakfast){
+//            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
+//            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
+//
+//        }else{
+//            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
+//            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
+//
+//        }
+//    }
 
 
 }

@@ -78,12 +78,15 @@
             android:layout_height="16dp"
             android:layout_gravity="center"
             android:src="@drawable/ic_person"/>
-        <Spinner
-            android:id="@+id/spinnerSoNguoi"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingStart="8dp"
-            android:spinnerMode="dropdown"/>
+       <TextView
+           android:id="@+id/tv_SoKhach"
+           android:layout_width="wrap_content"
+           android:text="2 người"
+           android:fontFamily="@font/roboto_regular"
+           android:textSize="16sp"
+           android:textColor="@color/black"
+           android:layout_marginLeft="18dp"
+           android:layout_height="wrap_content"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -111,7 +114,7 @@
                 android:background="#00FFFFFF"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="16sp"
-                android:text="Từ khoảng"
+                android:text="200000"
                 android:textColor="@color/black"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -129,7 +132,7 @@
                 android:background="#00FFFFFF"
                 android:layout_marginHorizontal="16dp"
                 android:textSize="16sp"
-                android:text="Đến khoảng"
+                android:text="400000"
                 android:textColor="@color/black"/>
         </LinearLayout>
 

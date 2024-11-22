@@ -1,6 +1,7 @@
 package com.example.app_datn_haven_inn.database.repository
 
 import android.util.Log
+import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.database.model.YeuThichModel
 import com.example.app_datn_haven_inn.database.service.YeuThichService
 import kotlinx.coroutines.Dispatchers
@@ -9,6 +10,17 @@ import kotlinx.coroutines.withContext
 class YeuThichRepository (private val api: YeuThichService) {
     suspend fun getListYeuThich(): List<YeuThichModel>? = withContext(Dispatchers.IO) {
         val response = api.getListYeuThich()
+        if (response.isSuccessful) {
+            Log.d("YeuThichRepository", "getListYeuThich Success: ${response.body()}")
+            response.body()
+        } else {
+            Log.e("YeuThichRepository", "getListYeuThich Error: ${response.errorBody()}")
+            null
+        }
+    }
+
+    suspend fun getFavoritesByUserId(idUser : String): List<LoaiPhongModel>? = withContext(Dispatchers.IO) {
+        val response = api.getFavoritesByUserId(idUser)
         if (response.isSuccessful) {
             Log.d("YeuThichRepository", "getListYeuThich Success: ${response.body()}")
             response.body()
@@ -42,8 +54,8 @@ class YeuThichRepository (private val api: YeuThichService) {
         }
     }
 
-    suspend fun deleteYeuThich(id: String): Boolean = withContext(Dispatchers.IO) {
-        val response = api.deleteYeuThich(id)
+    suspend fun deleteYeuThich(idLoaiPhong: String, idNguoiDung: String): Boolean = withContext(Dispatchers.IO) {
+        val response = api.deleteYeuThich(idLoaiPhong, idNguoiDung)
         if (response.isSuccessful) {
             Log.d("YeuThichRepository", "deleteYeuThich Success")
             true
@@ -52,4 +64,6 @@ class YeuThichRepository (private val api: YeuThichService) {
             false
         }
     }
+
+
 }

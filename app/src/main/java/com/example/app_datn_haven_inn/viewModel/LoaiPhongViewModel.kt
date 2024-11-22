@@ -44,6 +44,19 @@ class LoaiPhongViewModel : BaseViewModel() {
         }
     }
 
+//    fun getLoaiPhongById(id: String) {
+//        viewModelScope.launch {
+//            try {
+//                val apiService : LoaiPhongService = CreateService.createService()
+//                val LoaiPhongRepository = LoaiPhongRepository(apiService)
+//                _loaiPhongList.value = LoaiPhongRepository.getLoaiPhongById(id)
+//            } catch (e: Exception) {
+//                Log.e("CarrierViewModel", "Error fetching carrier by ID", e)
+//                _errorMessage.value = "Error fetching carrier by ID: ${e.message}"
+//            }
+//        }
+//    }
+
     fun addloaiPhong(loaiPhong: LoaiPhongModel) {
         viewModelScope.launch {
             try {

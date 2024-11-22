@@ -4,37 +4,56 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.BaseFragment
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.model.YeuThichModel
+import com.example.app_datn_haven_inn.database.repository.YeuThichRepository
 import com.example.app_datn_haven_inn.databinding.FragmentPhongNghiBinding
 import com.example.app_datn_haven_inn.ui.room.PhongNghiAdapter
 import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
+import com.example.app_datn_haven_inn.viewModel.YeuThichViewModel
+import kotlinx.coroutines.launch
+import java.text.NumberFormat
 import java.util.Calendar
+import java.util.Locale
 
 
 class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
     private var adapter: PhongNghiAdapter? = null
     private lateinit var loaiPhongViewModel: LoaiPhongViewModel
+    private lateinit var yeuThichViewModel: YeuThichViewModel
+
     override fun inflateViewBinding(): FragmentPhongNghiBinding {
         return FragmentPhongNghiBinding.inflate(layoutInflater)
     }
 
 
+
     override fun initView() {
         super.initView()
+
         viewBinding.rcvDanhSachPhong.layoutManager = LinearLayoutManager(requireContext())
         adapter = PhongNghiAdapter(emptyList())
         viewBinding.rcvDanhSachPhong.adapter = adapter
+
         loaiPhongViewModel = ViewModelProvider(requireActivity())[LoaiPhongViewModel::class.java]
+        yeuThichViewModel = ViewModelProvider(requireActivity())[YeuThichViewModel::class.java]
+
         loaiPhongViewModel.getListloaiPhong()
+
         loaiPhongViewModel.loaiPhongList.observe(this) { list ->
             Log.d("PhongNghiFragment", "List size: ${list?.size}")
             if (list != null) {
@@ -46,7 +65,42 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             }
         }
 
+        adapter?.setonFavotiteSelected { phong ->
+            if (phong.isFavorite) {
 
+                val yeuThich = YeuThichModel(
+                    id = "",
+                    id_LoaiPhong = phong.id,
+                    id_NguoiDung = "6724a13a2378017ace035c51"
+
+                )
+                yeuThichViewModel.addyeuThich(yeuThich)
+
+                yeuThichViewModel.isyeuThichAdded.observe(viewLifecycleOwner) { success ->
+                    if (success) {
+                        Toast.makeText(context, "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Thêm yêu thích thất bại", Toast.LENGTH_SHORT).show()
+                        phong.isFavorite = false
+                        adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
+                    }
+                }
+            } else {
+
+                yeuThichViewModel.deleteyeuThich(phong.id,"6724a13a2378017ace035c51")
+
+
+                yeuThichViewModel.isyeuThichDeleted.observe(viewLifecycleOwner) { success ->
+                    if (success) {
+                        Toast.makeText(context, "Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Xóa yêu thích thất bại", Toast.LENGTH_SHORT).show()
+                        phong.isFavorite = true // Reset trạng thái nếu thất bại
+                        adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
+                    }
+                }
+            }
+        }
 
         val calendar = Calendar.getInstance()
         val formattedDay = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
@@ -106,20 +160,20 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
         }
 
-        viewBinding.tvTuKhoang.setOnClickListener{
-            showDialogLoaiPhong()
+        viewBinding.tvTuKhoang.setOnClickListener {
+            showDialogLoaiPhong("TuKhoang")
         }
 
-        viewBinding.tvDenKhoang.setOnClickListener{
-            showDialogLoaiPhong()
+        viewBinding.tvDenKhoang.setOnClickListener {
+            showDialogLoaiPhong("DenKhoang")
         }
 
-        viewBinding.llSoNguoi.setOnClickListener{
-            showDialogLoaiPhong()
+        viewBinding.llSoNguoi.setOnClickListener {
+            showDialogLoaiPhong("SoNguoi")
         }
     }
 
-        private fun showDialogLoaiPhong() {
+    private fun showDialogLoaiPhong(dataType: String) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loc_loai_phong)
@@ -136,43 +190,94 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         val ivMinus1 = dialog.findViewById<ImageView>(R.id.iv_minus1)
         val ivPlus1 = dialog.findViewById<ImageView>(R.id.iv_plus1)
         val tvSoLuongTreEm = dialog.findViewById<TextView>(R.id.tvSoLuongTreEm)
-        val edGiaToiThieu = dialog.findViewById<TextView>(R.id.etGiaToiThieu)
-        val edGiaToiDa = dialog.findViewById<TextView>(R.id.etGiaToiDa)
-            val tvXong = dialog.findViewById<TextView>(R.id.tvXong)
+        val edGiaToiThieu = dialog.findViewById<EditText>(R.id.etGiaToiThieu)
+        val edGiaToiDa = dialog.findViewById<EditText>(R.id.etGiaToiDa)
+        val tvXong = dialog.findViewById<TextView>(R.id.tvXong)
+
         ivClose.setOnClickListener {
             dialog.dismiss()
         }
 
-            tvXong.setOnClickListener {
-                dialog.dismiss()
+        // Lấy giá trị hiện tại từ layout chính
+        val soLuongNguoiLon = viewBinding.tvSoKhach.text.toString().split(" ")[0].toIntOrNull() ?: 0
+        val soLuongTreEm = 0 // Bạn có thể lấy số lượng trẻ em từ TextView tương ứng nếu có.
+        val giaToiThieu = viewBinding.tvTuKhoang.text.toString().replace(" VNĐ", "0")
+        val giaToiDa = viewBinding.tvDenKhoang.text.toString().replace(" VNĐ", "0")
+
+        // Đặt các giá trị lấy được vào trong dialog
+        tvSoLuongNguoiLon.text = soLuongNguoiLon.toString()
+        tvSoLuongTreEm.text = soLuongTreEm.toString()
+        edGiaToiThieu.setText(giaToiThieu)
+        edGiaToiDa.setText(giaToiDa)
+
+        var currentSoLuongNguoiLon = soLuongNguoiLon
+        var currentSoLuongTreEm = soLuongTreEm
+
+        // Hàm cập nhật trạng thái của nút giảm (ivMinus)
+        fun updateMinusButtonState(button: ImageView, value: Int, minValue: Int) {
+            if (value <= minValue) {
+                button.isEnabled = false
+                button.alpha = 0.3f
+            } else {
+                button.isEnabled = true
+                button.alpha = 1.0f
             }
-        var soLuongNguoiLon = tvSoLuongNguoiLon.text.toString().toInt()
-        var soLuongTreEm = tvSoLuongTreEm.text.toString().toInt()
+        }
+
+        // Cập nhật trạng thái nút ivMinus ban đầu
+        updateMinusButtonState(ivMinus, currentSoLuongNguoiLon, 1)
 
         ivPlus.setOnClickListener {
-            soLuongNguoiLon++
-            tvSoLuongNguoiLon.text = soLuongNguoiLon.toString()
+            currentSoLuongNguoiLon++
+            tvSoLuongNguoiLon.text = currentSoLuongNguoiLon.toString()
+            updateMinusButtonState(ivMinus, currentSoLuongNguoiLon, 1)
         }
+
         ivMinus.setOnClickListener {
-            if (soLuongNguoiLon > 0) {
-                soLuongNguoiLon--
-                tvSoLuongNguoiLon.text = soLuongNguoiLon.toString()
+            if (currentSoLuongNguoiLon > 1) {
+                currentSoLuongNguoiLon--
+                tvSoLuongNguoiLon.text = currentSoLuongNguoiLon.toString()
+                updateMinusButtonState(ivMinus, currentSoLuongNguoiLon, 1)
             }
         }
 
+        // Cập nhật trạng thái nút ivMinus1 ban đầu
+        updateMinusButtonState(ivMinus1, currentSoLuongTreEm, 0)
+
         ivPlus1.setOnClickListener {
-            soLuongTreEm++
-            tvSoLuongTreEm.text = soLuongTreEm.toString()
+            currentSoLuongTreEm++
+            tvSoLuongTreEm.text = currentSoLuongTreEm.toString()
+            updateMinusButtonState(ivMinus1, currentSoLuongTreEm, 0)
         }
 
         ivMinus1.setOnClickListener {
-            if (soLuongTreEm > 0) {
-                soLuongTreEm--
-                tvSoLuongTreEm.text = soLuongTreEm.toString()
+            if (currentSoLuongTreEm > 0) {
+                currentSoLuongTreEm--
+                tvSoLuongTreEm.text = currentSoLuongTreEm.toString()
+                updateMinusButtonState(ivMinus1, currentSoLuongTreEm, 0)
             }
         }
 
 
+        tvXong.setOnClickListener {
+            val giaToiThieu = edGiaToiThieu.text.toString().trim()
+            val giaToiDa = edGiaToiDa.text.toString().trim()
 
+            // Tính tổng số khách
+            val soNguoiLon = tvSoLuongNguoiLon.text.toString().toInt()
+            val soTreEm = tvSoLuongTreEm.text.toString().toInt()
+            val tongSoNguoi = soNguoiLon + soTreEm
+
+            // Cập nhật vào các TextView tương ứng
+            viewBinding.tvSoKhach.text = "$tongSoNguoi khách"
+            viewBinding.tvTuKhoang.text = "$giaToiThieu"
+            viewBinding.tvDenKhoang.text = "$giaToiDa"
+
+
+            dialog.dismiss()
+        }
     }
+
+
+
 }

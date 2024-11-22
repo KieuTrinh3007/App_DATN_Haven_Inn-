@@ -192,7 +192,7 @@
        android:layout_height="1dp"/>
 
    <TextView
-       android:id="@+id/tvBoSung"
+       android:id="@+id/tvPhongVip"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        app:layout_constraintStart_toStartOf="parent"
@@ -202,83 +202,66 @@
        android:textColor="#000000"
        android:fontFamily="@font/roboto_medium"
        android:layout_marginTop="14.05dp"
-       android:text="Bổ sung"/>
+       android:text="Phòng VIP"/>
 
-   <ImageView
-       android:id="@+id/rdKhongBuaSang"
-       android:layout_width="18dp"
-       android:src="@drawable/iv_no_breakfast"
-       app:layout_constraintStart_toStartOf="parent"
-       android:layout_marginTop="19dp"
-       android:layout_marginStart="24dp"
-       app:layout_constraintTop_toBottomOf="@id/tvBoSung"
-       android:layout_height="18dp"/>
 
    <TextView
-       android:id="@+id/tvKhongBuaSang"
+       android:id="@+id/tvChiPhi"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       app:layout_constraintStart_toEndOf="@+id/rdKhongBuaSang"
-       app:layout_constraintTop_toBottomOf="@id/tvBoSung"
-       android:layout_marginStart="12dp"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/tvPhongVip"
+       android:layout_marginStart="24dp"
        android:textSize="16sp"
        android:textColor="#000000"
        android:fontFamily="@font/roboto_light"
        android:layout_marginTop="18dp"
-       android:text="Không bữa sáng"/>
+       android:text="Chi phí:"/>
 
    <TextView
        android:id="@+id/tvGia"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tvBoSung"
+       app:layout_constraintTop_toBottomOf="@id/tvPhongVip"
        android:textSize="16sp"
        android:textColor="#000000"
        android:layout_marginEnd="24dp"
        android:fontFamily="@font/roboto_regular"
        android:layout_marginTop="18dp"
-       android:text="+ 0đ"/>
+       android:text="+ 300.000đ"/>
 
-   <ImageView
-       android:id="@+id/rdThemBuaSang"
-       android:layout_width="18dp"
-       android:src="@drawable/iv_no_breakfast"
-       app:layout_constraintStart_toStartOf="parent"
-       android:layout_marginTop="19dp"
-       android:layout_marginStart="24dp"
-       app:layout_constraintTop_toBottomOf="@id/tvKhongBuaSang"
-       android:layout_height="18dp"/>
 
    <TextView
-       android:id="@+id/tvBuaSang"
+       android:id="@+id/tvQuyenLoi"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       app:layout_constraintStart_toEndOf="@+id/rdThemBuaSang"
-       app:layout_constraintTop_toBottomOf="@id/tvKhongBuaSang"
-       android:layout_marginStart="12dp"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintTop_toBottomOf="@id/tvChiPhi"
+       android:layout_marginStart="24dp"
        android:textSize="16sp"
        android:textColor="#000000"
        android:fontFamily="@font/roboto_light"
        android:layout_marginTop="18dp"
-       android:text="Thêm bữa sáng"/>
+       android:text="Quyền lợi:"/>
 
    <TextView
-       android:id="@+id/tvGiaThem"
+       android:id="@+id/tvMoTa"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tvKhongBuaSang"
-       android:textSize="16sp"
+       app:layout_constraintTop_toBottomOf="@id/tvChiPhi"
+       app:layout_constraintStart_toEndOf="@id/tvQuyenLoi"
+       android:textSize="14sp"
        android:textColor="#000000"
+       android:layout_marginStart="7dp"
        android:layout_marginEnd="24dp"
        android:fontFamily="@font/roboto_regular"
        android:layout_marginTop="18dp"
-       android:text="+ 150.000đ"/>
+       android:text="Phòng được trang bị đầy đủ trang thiết bị \nvà tiện nghi, Được cấp thẻ VIP khi \nnhận phòng để trải nghiệp các dịch vụ \nhấp dẫn chỉ có tại Haven Inn"/>
 
    <View
        android:id="@+id/line4"
-       app:layout_constraintTop_toBottomOf="@+id/tvGiaThem"
+       app:layout_constraintTop_toBottomOf="@+id/tvMoTa"
        android:layout_width="match_parent"
        android:background="#C4C4C4"
        android:layout_marginTop="22dp"
@@ -298,143 +281,15 @@
        android:layout_marginTop="14.05dp"
        android:text="Chi tiết giá phòng"/>
 
-   <androidx.constraintlayout.widget.ConstraintLayout
-       android:id="@+id/ctGiamGia"
-       android:layout_width="wrap_content"
-       app:layout_constraintTop_toBottomOf="@id/tvChiTietGiaPhong"
-       android:background="@drawable/bg_radius_5"
-       android:backgroundTint="#FFFF00"
-       android:layout_marginTop="14.05dp"
+   <androidx.recyclerview.widget.RecyclerView
+       android:layout_width="match_parent"
+       android:layout_marginTop="13dp"
        android:layout_marginHorizontal="24dp"
-       android:paddingVertical="5dp"
-       android:paddingHorizontal="9dp"
-       app:layout_constraintStart_toStartOf="parent"
-       android:layout_height="wrap_content">
+       tools:listitem="@layout/item_chi_tiet_gia_phong"
+       app:layout_constraintTop_toBottomOf="@id/tvChiTietGiaPhong"
+       android:layout_height="wrap_content"/>
 
 
-
-    <ImageView
-        android:id="@+id/iv_sale"
-        android:layout_width="14dp"
-        android:src="@drawable/iv_sale"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_height="14dp"/>
-
-    <TextView
-        android:id="@+id/tvGiamGia"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/iv_sale"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="10sp"
-        android:textColor="#000000"
-        android:layout_marginStart="8dp"
-        android:fontFamily="@font/roboto_bold"
-        android:text="Giảm 20% giá phòng với Giá thành viên"/>
-   </androidx.constraintlayout.widget.ConstraintLayout>
-   <TextView
-       android:id="@+id/tvGiaPhong"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/ctGiamGia"
-       android:layout_marginStart="24dp"
-       android:textSize="16sp"
-       android:textColor="#000000"
-       android:fontFamily="@font/roboto_regular"
-       android:layout_marginTop="12dp"
-       android:text="Giá phòng"/>
-
-   <TextView
-       android:id="@+id/tvTienGiaPhong"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/ctGiamGia"
-       android:textSize="16sp"
-       android:textColor="#000000"
-       android:layout_marginEnd="24dp"
-       android:fontFamily="@font/roboto_regular"
-       android:layout_marginTop="18dp"
-       android:text="600.000 đ"/>
-
-   <TextView
-       android:id="@+id/tvTienGiamGia"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/ctGiamGia"
-       app:layout_constraintEnd_toStartOf="@+id/tvTienGiaPhong"
-       android:textSize="12sp"
-       android:textColor="#000000"
-       android:layout_marginEnd="8dp"
-       android:fontFamily="@font/roboto_light"
-       android:layout_marginTop="20dp"
-       android:text="740.000 đ"/>
-
-   <View
-       android:id="@+id/line5"
-       android:layout_width="0dp"
-       app:layout_constraintTop_toTopOf="@+id/tvTienGiamGia"
-       app:layout_constraintBottom_toBottomOf="@+id/tvTienGiamGia"
-       app:layout_constraintStart_toStartOf="@+id/tvTienGiamGia"
-       app:layout_constraintEnd_toEndOf="@+id/tvTienGiamGia"
-       android:background="#C4C4C4"
-       android:layout_height="1dp"/>
-
-
-   <TextView
-       android:id="@+id/tvAnSang"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tvGiaPhong"
-       android:layout_marginStart="24dp"
-       android:textSize="16sp"
-       android:textColor="#000000"
-       android:fontFamily="@font/roboto_regular"
-       android:layout_marginTop="12dp"
-       android:text="Ăn sáng :"/>
-
-   <TextView
-       android:id="@+id/tvTienAnSang"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tvGiaPhong"
-       android:textSize="16sp"
-       android:textColor="#000000"
-       android:layout_marginEnd="24dp"
-       android:fontFamily="@font/roboto_regular"
-       android:layout_marginTop="18dp"
-       android:text="150.000 đ"/>
-
-   <TextView
-       android:id="@+id/tvSoLuong"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tvAnSang"
-       android:layout_marginStart="24dp"
-       android:textSize="16sp"
-       android:textColor="#000000"
-       android:fontFamily="@font/roboto_regular"
-       android:layout_marginTop="18dp"
-       android:text="Số lượng phòng :"/>
-
-   <TextView
-       android:id="@+id/tvSoLuongPhong"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tvAnSang"
-       android:textSize="16sp"
-       android:textColor="#000000"
-       android:layout_marginEnd="24dp"
-       android:fontFamily="@font/roboto_regular"
-       android:layout_marginTop="18dp"
-       android:text="2"/>
   </androidx.constraintlayout.widget.ConstraintLayout>
  </androidx.core.widget.NestedScrollView>
 
