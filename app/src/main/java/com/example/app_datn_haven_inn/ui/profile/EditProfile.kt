@@ -1,6 +1,9 @@
 package com.example.app_datn_haven_inn.ui.profile
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,7 +20,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 
 class EditProfile : AppCompatActivity() {
@@ -29,6 +31,9 @@ class EditProfile : AppCompatActivity() {
     private lateinit var textViewEmail: TextView
     private lateinit var textViewPhone: TextView
     private lateinit var btSaveChanges: TextView
+
+    private val IMAGE_PICK_CODE = 1000
+    private var selectedImageFilePath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,8 +54,14 @@ class EditProfile : AppCompatActivity() {
             loadUserInfo(it)
         }
 
+        // Set listener for save button
         btSaveChanges.setOnClickListener {
             updateUserInfo()
+        }
+
+        // Set listener to change profile image
+        imageViewAvatar.setOnClickListener {
+            openGalleryForImage()
         }
     }
 
@@ -88,20 +99,18 @@ class EditProfile : AppCompatActivity() {
         idNguoiDung?.let { id ->
             lifecycleScope.launch {
                 try {
-                    // Lấy đường dẫn ảnh (nếu có) từ người dùng, nếu không sẽ giữ ảnh cũ
-                    val selectedImageFilePath: String? = null // Bạn có thể thay thế bằng đường dẫn từ người dùng chọn ảnh, ví dụ: từ Gallery
-
+                    // Prepare image file part
                     val imagePart = prepareImageFilePart(selectedImageFilePath)
 
                     val response = nguoiDungService.updateNguoiDung(
                         id = id,
                         tenNguoiDung = name.toRequestBody(),
-                        soDienThoai = "".toRequestBody(), // giữ nguyên số điện thoại
-                        matKhau = "".toRequestBody(), // giữ nguyên mật khẩu
-                        email = "".toRequestBody(), // giữ nguyên email
-                        chucVu = "".toRequestBody(), // giữ nguyên chức vụ
+                        soDienThoai = "".toRequestBody(), // Keep phone number unchanged
+                        matKhau = "".toRequestBody(), // Keep password unchanged
+                        email = "".toRequestBody(), // Keep email unchanged
+                        chucVu = "".toRequestBody(), // Keep position unchanged
                         trangThai = "true".toRequestBody(),
-                        image = imagePart ?: MultipartBody.Part.createFormData("hinhAnh", "") // Nếu không có ảnh mới, truyền giá trị rỗng
+                        image = imagePart // Pass the image or null
                     )
 
                     if (response.isSuccessful) {
@@ -119,14 +128,38 @@ class EditProfile : AppCompatActivity() {
 
     private fun prepareImageFilePart(filePath: String?): MultipartBody.Part? {
         if (filePath.isNullOrEmpty()) {
-            return null // Nếu không có ảnh được chọn, trả về null để giữ nguyên ảnh cũ
+            return null // If no image is selected, return null to keep the current image
         }
         val file = File(filePath)
         val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
         return MultipartBody.Part.createFormData("hinhAnh", file.name, requestFile)
     }
 
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
 
-    private fun String.toRequestBody(): RequestBody =
-        this.toRequestBody("text/plain".toMediaTypeOrNull())
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+            val imageUri = data?.data
+            imageUri?.let {
+                selectedImageFilePath = getFilePathFromUri(it)
+                Glide.with(this).load(it).into(imageViewAvatar)
+            }
+        }
+    }
+
+    private fun getFilePathFromUri(uri: Uri): String? {
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = contentResolver.query(uri, projection, null, null, null)
+        cursor?.moveToFirst()
+        val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+        val filePath = columnIndex?.let { cursor.getString(it) }
+        cursor?.close()
+        return filePath
+    }
+
+    private fun String.toRequestBody(): RequestBody = this.toRequestBody()
 }
