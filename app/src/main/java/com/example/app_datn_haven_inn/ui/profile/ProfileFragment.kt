@@ -1,60 +1,76 @@
 package com.example.app_datn_haven_inn.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.CreateService
+import com.example.app_datn_haven_inn.database.model.NguoiDungModel
+import com.example.app_datn_haven_inn.database.service.NguoiDungService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProfileFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProfileFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    private lateinit var ivAvatar: ImageView
+    private lateinit var tvName: TextView
+    private lateinit var tvsdt: TextView
+    private lateinit var bt_edit_profile: ImageView
+    private val nguoiDungService: NguoiDungService by lazy {
+        CreateService.createService()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
+        ivAvatar = view.findViewById(R.id.profileImage)
+        tvsdt = view.findViewById(R.id.phoneNumber)
+        tvName = view.findViewById(R.id.name)
+        bt_edit_profile = view.findViewById(R.id.btn_edit_profile)
+
+        val idNguoiDung = arguments?.getString("idNguoiDung")
+        idNguoiDung?.let { fetchUserProfile(it) }
+
+        bt_edit_profile.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfile::class.java)
+            intent.putExtra("idNguoiDung", idNguoiDung)
+            startActivity(intent)
+        }
+
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProfileFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ProfileFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    private fun fetchUserProfile(id: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = nguoiDungService.getListNguoiDung()
+                if (response.isSuccessful) {
+                    val user = response.body()?.find { it.id == id }
+                    user?.let { updateUI(it) }
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+        }
+    }
+
+    private suspend fun updateUI(user: NguoiDungModel) {
+        withContext(Dispatchers.Main) {
+            tvName.text = user.tenNguoiDung
+            tvsdt.text = user.soDienThoai
+            Glide.with(this@ProfileFragment)
+                .load(user.hinhAnh)
+                .into(ivAvatar)
+        }
     }
 }

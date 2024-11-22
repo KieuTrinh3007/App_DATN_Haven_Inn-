@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,12 +11,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App_DATN_Haven_Inn"
         android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.App_DATN_Haven_Inn"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.splash.SplashActivity"
-            android:exported="false" />
         <activity
             android:name=".ui.room.TuyChinhDatPhongActivity"
             android:exported="false" />
@@ -32,26 +28,27 @@
             android:exported="false" />
         <activity
             android:name=".ui.auth.Forgot_password"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
         <activity
             android:name=".ui.auth.Indentity_authentication"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
         <activity
             android:name=".ui.auth.SignUp"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
         <activity
             android:name=".ui.auth.SignIn"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+
         <activity
-            android:name=".ui.onbording.WelcomeActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

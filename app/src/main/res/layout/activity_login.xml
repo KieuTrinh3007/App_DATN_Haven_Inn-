@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#8EDEE8">
+    android:background="#F6BCBA">
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,8 +17,6 @@
         android:layout_marginTop="110dp"
         android:layout_marginLeft="25dp"
         android:padding="1dp" />
-
-
 
     <!-- CardView bao bọc nội dung chính -->
     <androidx.cardview.widget.CardView

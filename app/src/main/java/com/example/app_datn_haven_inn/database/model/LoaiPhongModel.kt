@@ -2,7 +2,7 @@ package com.example.app_datn_haven_inn.database.model
 
 import com.google.gson.annotations.SerializedName
 
-data class LoaiPhongModel (
+data class LoaiPhongModel(
     @field:SerializedName("_id") var id: String,
     @field:SerializedName("tenLoaiPhong") var tenLoaiPhong: String,
     @field:SerializedName("giuong") var giuong: String,
@@ -13,6 +13,4 @@ data class LoaiPhongModel (
     @field:SerializedName("giaTien") var giaTien: Double,
     @field:SerializedName("moTa") var moTa: String,
     @field:SerializedName("trangThai") var trangThai: Boolean,
-
-
-    )
+)
