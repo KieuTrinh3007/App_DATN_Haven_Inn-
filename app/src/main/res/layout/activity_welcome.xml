@@ -1,69 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FFFFFF"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/slideViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:clipToPadding="false"
         android:clipChildren="false"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:overScrollMode="never" />
+        android:paddingEnd="16dp" />
+
+    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+        android:id="@+id/dotIndicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="3dp"
+        android:visibility="visible"
+        app:dotsCornerRadius="8dp"
+        app:dotsSize="6dp"
+        app:dotsSpacing="2dp"
+        app:dotsWidthFactor="2.5"
+        app:selectedDotColor="@color/green" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:gravity="center_horizontal">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Chào Mừng Đến Với Haven Inn!"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:gravity="center"
             android:fontFamily="@font/roboto_regular"
-            android:textColor="#000000" />
+            android:gravity="center"
+            android:text="Chào Mừng Đến Với Haven Inn!"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Thư giãn trong không gian thanh lịch của Haven Inn, nơi mọi chi tiết đều mang lại cảm giác ấm cúng và riêng tư."
-            android:textSize="20sp"
-            android:gravity="center"
             android:fontFamily="@font/roboto_regular"
-            android:textColor="#666666" />
+            android:gravity="center"
+            android:text="Thư giãn trong không gian thanh lịch của Haven Inn, nơi mọi chi tiết đều mang lại cảm giác ấm cúng và riêng tư."
+            android:textColor="#666666"
+            android:textSize="20sp" />
     </LinearLayout>
 
-    <!-- Nút Điều Hướng -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="horizontal"
-        android:padding="30dp"
-        android:gravity="center">
+        android:padding="30dp">
 
         <Button
             android:id="@+id/btnSkip"
             android:layout_width="110dp"
             android:layout_height="60dp"
-            android:background="@null"
-            android:text="SKIP"
             android:layout_marginRight="85dp"
+            android:background="@null"
             android:backgroundTint="#C3C2C2"
+            android:text="SKIP"
             android:textColor="@color/black"
             android:textSize="18sp" />
 
@@ -72,11 +85,11 @@
             android:layout_width="110dp"
             android:layout_height="60dp"
             android:backgroundTint="#00C853"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="NEXT"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:textSize="18sp" />
     </LinearLayout>
 
 </LinearLayout>
