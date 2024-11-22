@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ class ProfileFragment : Fragment() {
     private lateinit var ivAvatar: ImageView
     private lateinit var tvName: TextView
     private lateinit var tvsdt: TextView
+    private lateinit var bt_edit_profile: ImageView
     private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService()
     }
@@ -34,9 +36,16 @@ class ProfileFragment : Fragment() {
         ivAvatar = view.findViewById(R.id.profileImage)
         tvsdt = view.findViewById(R.id.phoneNumber)
         tvName = view.findViewById(R.id.name)
+        bt_edit_profile = view.findViewById(R.id.btn_edit_profile)
 
         val idNguoiDung = arguments?.getString("idNguoiDung")
         idNguoiDung?.let { fetchUserProfile(it) }
+
+        bt_edit_profile.setOnClickListener {
+            val intent = Intent(requireContext(), EditProfile::class.java)
+            intent.putExtra("idNguoiDung", idNguoiDung)
+            startActivity(intent)
+        }
 
         return view
     }
