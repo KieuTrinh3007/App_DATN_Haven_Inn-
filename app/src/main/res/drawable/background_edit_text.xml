@@ -1,0 +1,10 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Nền trắng cho ô nhập liệu -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/white"/>
+            <corners android:radius="8dp"/>
+            <stroke android:width="1dp" android:color="#E0E0E0"/> <!-- Viền xám nhạt -->
+        </shape>
+    </item>
+</layer-list>

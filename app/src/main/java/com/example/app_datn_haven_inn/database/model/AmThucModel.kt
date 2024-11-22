@@ -14,5 +14,4 @@ data class AmThucModel (
     @field:SerializedName("gioDongCua") var gioDongCua: String,
     @field:SerializedName("hotline") var hotline: String,
     @field:SerializedName("viTri") var viTri: String,
-
 )

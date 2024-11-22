@@ -61,7 +61,6 @@ class NguoiDungRepository(private val api: NguoiDungService) {
 
         }
 
-
     suspend fun updateNguoiDung(id: String, carrier: NguoiDungModel,image: File): NguoiDungModel? = withContext(
         Dispatchers.IO
     ) {

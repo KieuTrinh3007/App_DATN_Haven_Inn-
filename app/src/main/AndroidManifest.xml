@@ -12,8 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.App_DATN_Haven_Inn"
         android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.App_DATN_Haven_Inn"
         tools:targetApi="31">
         <activity
             android:name=".ui.room.RoomDetailActivity"
@@ -32,18 +32,18 @@
             android:exported="false" />
         <activity
             android:name=".ui.auth.Forgot_password"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
         <activity
             android:name=".ui.auth.Indentity_authentication"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
         <activity
             android:name=".ui.auth.SignUp"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:exported="false" />
         <activity
-            android:name=".ui.auth.SignIn"
+            android:name=".ui.auth.Register"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
@@ -52,7 +52,11 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:exported="true">
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.auth.SignIn"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
