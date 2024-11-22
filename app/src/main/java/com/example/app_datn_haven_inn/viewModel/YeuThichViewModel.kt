@@ -90,12 +90,12 @@ class YeuThichViewModel : BaseViewModel() {
         }
     }
 
-    fun deleteyeuThich(idLoaiPhong: String, idNguoiDung: String) {
+    fun deleteyeuThich(idLoaiPhong: String) {
         viewModelScope.launch {
             try {
                 val apiService : YeuThichService = CreateService.createService()
                 val YeuThichRepository = YeuThichRepository(apiService)
-                val success = YeuThichRepository.deleteYeuThich(idLoaiPhong,idNguoiDung)
+                val success = YeuThichRepository.deleteYeuThich(idLoaiPhong)
                 if (success) {
                     _isyeuThichDeleted.value = true
                 }

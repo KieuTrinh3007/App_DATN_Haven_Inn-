@@ -2,6 +2,7 @@ package com.example.app_datn_haven_inn.ui.room.fragment
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.text.Editable
@@ -41,7 +42,6 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
     }
 
 
-
     override fun initView() {
         super.initView()
 
@@ -66,28 +66,42 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         }
 
         adapter?.setonFavotiteSelected { phong ->
-            if (phong.isFavorite) {
+            // Lấy idNguoiDung từ SharedPreferences
+            val sharedPreferences =
+                requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+            val idNguoiDung = sharedPreferences?.getString("idNguoiDung", null)
+            Log.d("PhongNghiFragment", "idNguoiDung: $idNguoiDung")
+            if (idNguoiDung == null) {
+                Toast.makeText(
+                    requireActivity(),
+                    "Không tìm thấy thông tin người dùng",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setonFavotiteSelected
+            }
 
+            if (phong.isFavorite) {
                 val yeuThich = YeuThichModel(
                     id = "",
                     id_LoaiPhong = phong.id,
-                    id_NguoiDung = "6724a13a2378017ace035c51"
+                    id_NguoiDung = "6724a13a2378017ace035c51",
 
-                )
+                    )
                 yeuThichViewModel.addyeuThich(yeuThich)
 
                 yeuThichViewModel.isyeuThichAdded.observe(viewLifecycleOwner) { success ->
                     if (success) {
                         Toast.makeText(context, "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Thêm yêu thích thất bại", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Thêm yêu thích thất bại", Toast.LENGTH_SHORT)
+                            .show()
                         phong.isFavorite = false
                         adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
                     }
                 }
             } else {
 
-                yeuThichViewModel.deleteyeuThich(phong.id,"6724a13a2378017ace035c51")
+                yeuThichViewModel.deleteyeuThich(phong.id)
 
 
                 yeuThichViewModel.isyeuThichDeleted.observe(viewLifecycleOwner) { success ->
@@ -95,12 +109,13 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                         Toast.makeText(context, "Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show()
                     } else {
                         Toast.makeText(context, "Xóa yêu thích thất bại", Toast.LENGTH_SHORT).show()
-                        phong.isFavorite = true // Reset trạng thái nếu thất bại
+                        phong.isFavorite = true
                         adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
                     }
                 }
             }
         }
+
 
         val calendar = Calendar.getInstance()
         val formattedDay = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
@@ -110,7 +125,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         viewBinding.tvTuNgay.text = currentDate
         viewBinding.tvDenNgay.text = currentDate
 
-        viewBinding.tvTuNgay.setOnClickListener{
+        viewBinding.tvTuNgay.setOnClickListener {
 
             // Lấy ngày hiện tại
             val calendar = Calendar.getInstance()
@@ -135,7 +150,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
         }
 
-        viewBinding.tvDenNgay.setOnClickListener{
+        viewBinding.tvDenNgay.setOnClickListener {
 
 
             val calendar = Calendar.getInstance()
@@ -178,7 +193,10 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.dialog_loc_loai_phong)
         val window = dialog.window
-        window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        window?.setLayout(
+            WindowManager.LayoutParams.MATCH_PARENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.setCanceledOnTouchOutside(false)
         dialog.show()
@@ -277,7 +295,6 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             dialog.dismiss()
         }
     }
-
 
 
 }

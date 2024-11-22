@@ -54,8 +54,8 @@ class YeuThichRepository (private val api: YeuThichService) {
         }
     }
 
-    suspend fun deleteYeuThich(idLoaiPhong: String, idNguoiDung: String): Boolean = withContext(Dispatchers.IO) {
-        val response = api.deleteYeuThich(idLoaiPhong, idNguoiDung)
+    suspend fun deleteYeuThich(idLoaiPhong: String): Boolean = withContext(Dispatchers.IO) {
+        val response = api.deleteYeuThich(idLoaiPhong)
         if (response.isSuccessful) {
             Log.d("YeuThichRepository", "deleteYeuThich Success")
             true
