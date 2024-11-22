@@ -29,20 +29,44 @@ class AmThucViewModel : BaseViewModel() {
 
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
+//
+fun getListamThuc() {
+    viewModelScope.launch {
+        try {
+            // Tạo dịch vụ API
+            val apiService: AmThucService = CreateService.createService()
+            val amThucRepository = AmThucRepository(apiService)
 
-    fun getListamThuc() {
-        viewModelScope.launch {
-            try {
-
-                val apiService : AmThucService = CreateService.createService()
-                val amThucRepository = AmThucRepository(apiService)
-                _amThucList.value = amThucRepository.getListAmThuc()
-            } catch (e: Exception) {
-                Log.e("amThucViewModel", "Error fetching amThuc list", e)
-                _errorMessage.value = "Error fetching amThuc list: ${e.message}"
+            // Lấy danh sách món ăn
+            _amThucList.value = amThucRepository.getListAmThuc()
+        } catch (e: Exception) {
+            // Kiểm tra loại lỗi và log chi tiết
+            when (e) {
+                is retrofit2.HttpException -> {
+                    // Lỗi HTTP (ví dụ: 401, 404, 500)
+                    Log.e("amThucViewModel", "HTTP Error: ${e.code()} - ${e.message()}")
+                    _errorMessage.value = "HTTP Error: ${e.code()} - ${e.message()}"
+                }
+                is java.net.UnknownHostException -> {
+                    // Lỗi kết nối mạng (ví dụ: không tìm thấy server)
+                    Log.e("amThucViewModel", "Network Error: ${e.message}")
+                    _errorMessage.value = "Network Error: Check your internet connection."
+                }
+                is java.net.SocketTimeoutException -> {
+                    // Lỗi timeout
+                    Log.e("amThucViewModel", "Timeout Error: ${e.message}")
+                    _errorMessage.value = "Timeout Error: The request took too long."
+                }
+                else -> {
+                    // Lỗi chung
+                    Log.e("amThucViewModel", "Unknown Error: ${e.message}")
+                    _errorMessage.value = "An unknown error occurred: ${e.message}"
+                }
             }
         }
     }
+}
+
 
     fun addamThuc(amThuc: AmThucModel) {
         viewModelScope.launch {

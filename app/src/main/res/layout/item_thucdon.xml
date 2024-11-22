@@ -93,7 +93,7 @@
             android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
-    <!-- Nút khám phá thực đơn -->
+
     <TextView
         android:id="@+id/btn_thucDon"
         android:layout_width="match_parent"
