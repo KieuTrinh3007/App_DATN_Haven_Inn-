@@ -60,18 +60,18 @@ class NguoiDungViewModel : BaseViewModel() {
     }
 
 
-    fun updatenguoiDung(id: String, nguoiDung: NguoiDungModel, image: File) {
-        viewModelScope.launch {
-            try {
-                val apiService : NguoiDungService = CreateService.createService()
-                val NguoiDungRepository = NguoiDungRepository(apiService)
-                _isnguoiDungUpdated.value = NguoiDungRepository.updateNguoiDung(id, nguoiDung,image) != null
-            } catch (e: Exception) {
-                Log.e("nguoiDungViewModel", "Error updating nguoiDung", e)
-                _errorMessage.value = "Error updating nguoiDung: ${e.message}"
-            }
-        }
-    }
+//    fun updatenguoiDung(id: String, nguoiDung: NguoiDungModel, image: File) {
+//        viewModelScope.launch {
+//            try {
+//                val apiService : NguoiDungService = CreateService.createService()
+//                val NguoiDungRepository = NguoiDungRepository(apiService)
+//                _isnguoiDungUpdated.value = NguoiDungRepository.updateNguoiDung(id, nguoiDung,image) != null
+//            } catch (e: Exception) {
+//                Log.e("nguoiDungViewModel", "Error updating nguoiDung", e)
+//                _errorMessage.value = "Error updating nguoiDung: ${e.message}"
+//            }
+//        }
+//    }
 
     fun deletenguoiDung(id: String) {
         viewModelScope.launch {
