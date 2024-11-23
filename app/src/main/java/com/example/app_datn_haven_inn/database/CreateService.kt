@@ -7,3 +7,4 @@ object CreateService {
         return NetworkModule<T>(Constans.DOMAIN).create(T::class.java)
     }
 }
+

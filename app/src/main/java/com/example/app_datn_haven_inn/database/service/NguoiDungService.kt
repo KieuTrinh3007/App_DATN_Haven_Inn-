@@ -7,8 +7,12 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface NguoiDungService {
+
     @GET("nguoidungs/")
     suspend fun getListNguoiDung(): Response<List<NguoiDungModel>>
+
+    @GET("nguoiDung/{id}")
+    suspend fun getNguoiDungById(@Path("id") id: String): NguoiDungModel
 
     @Multipart
     @POST("nguoidungs/post")
@@ -32,11 +36,8 @@ interface NguoiDungService {
         @Part("email") email: RequestBody,
         @Part("chucVu") chucVu: RequestBody,
         @Part("trangThai") trangThai: RequestBody,
-        @Part("hinhAnh") image: MultipartBody.Part? // Chỉnh sửa để chấp nhận null khi không có ảnh
+        @Part image: MultipartBody.Part?
     ): Response<NguoiDungModel>
-
-    @DELETE("nguoidungs/delete/{id}")
-    suspend fun deleteNguoiDung(@Path("id") id: String): Response<Unit>
 
     @POST("auth/login")
     suspend fun loginNguoiDung(

@@ -50,26 +50,29 @@ class SignIn : AppCompatActivity() {
 		}
 	}
 
-	// Adjusting login functionality
 	private fun login(phone: String, password: String) {
 		CoroutineScope(Dispatchers.IO).launch {
 			try {
-				// Attempt login via API call
-				val response = nguoiDungService.loginNguoiDung(phone, password)
+				// Thực hiện gọi API
+				val response: Response<List<NguoiDungModel>> = nguoiDungService.getListNguoiDung()
 
 				withContext(Dispatchers.Main) {
 					if (response.isSuccessful) {
-						val responseBody = response.body()
-						val status = responseBody?.get("status") as? Double
-						if (status == 200.0) {
-							val userId = responseBody["userId"] as String
+						val users = response.body()
+						val user = users?.find { it.soDienThoai == phone && it.matKhau == password }
+
+						if (user != null) {
 							Toast.makeText(this@SignIn, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
-							navigateToHomeScreen(userId)
+							navigateToHomeScreen(user)
 						} else {
 							Toast.makeText(this@SignIn, "Số điện thoại hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show()
 						}
 					} else {
-						Toast.makeText(this@SignIn, "Lỗi kết nối: ${response.message()}", Toast.LENGTH_SHORT).show()
+						Toast.makeText(
+							this@SignIn,
+							"Lỗi kết nối: ${response.message()}",
+							Toast.LENGTH_SHORT
+						).show()
 					}
 				}
 			} catch (e: Exception) {
@@ -79,18 +82,6 @@ class SignIn : AppCompatActivity() {
 			}
 		}
 	}
-
-	private fun navigateToHomeScreen(userId: String) {
-		val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-		val editor = sharedPreferences.edit()
-		editor.putString("userId", userId)
-		editor.apply()
-
-		val intent = Intent(this, MainActivity::class.java)
-		startActivity(intent)
-		finish()
-	}
-
 
 	private fun navigateToHomeScreen(user: NguoiDungModel) {
 		// Lưu idNguoiDung vào SharedPreferences

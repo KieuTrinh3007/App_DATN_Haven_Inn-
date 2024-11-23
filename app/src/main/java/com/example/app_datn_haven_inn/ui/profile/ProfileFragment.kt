@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.profile
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,7 +20,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ProfileFragment : Fragment() {
-
     private lateinit var ivAvatar: ImageView
     private lateinit var tvName: TextView
     private lateinit var tvsdt: TextView
@@ -44,12 +44,13 @@ class ProfileFragment : Fragment() {
         bt_edit_profile.setOnClickListener {
             val intent = Intent(requireContext(), EditProfile::class.java)
             intent.putExtra("idNguoiDung", idNguoiDung)
-            startActivity(intent)
+            startActivityForResult(intent, 100)  // Sử dụng startActivityForResult để nhận kết quả
         }
 
         return view
     }
 
+    // Phương thức tải lại thông tin người dùng
     private fun fetchUserProfile(id: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -64,6 +65,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
+    // Cập nhật giao diện với thông tin người dùng mới
     private suspend fun updateUI(user: NguoiDungModel) {
         withContext(Dispatchers.Main) {
             tvName.text = user.tenNguoiDung
@@ -71,6 +73,19 @@ class ProfileFragment : Fragment() {
             Glide.with(this@ProfileFragment)
                 .load(user.hinhAnh)
                 .into(ivAvatar)
+        }
+    }
+
+    // Xử lý kết quả từ EditProfile khi người dùng đã lưu thay đổi
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
+            // Kiểm tra nếu có cập nhật mới
+            val updated = data?.getBooleanExtra("updated", false) ?: false
+            if (updated) {
+                val idNguoiDung = arguments?.getString("idNguoiDung")
+                idNguoiDung?.let { fetchUserProfile(it) }
+            }
         }
     }
 }

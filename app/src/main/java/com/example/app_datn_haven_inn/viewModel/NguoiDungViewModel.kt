@@ -14,6 +14,9 @@ import java.io.File
 
 class NguoiDungViewModel : BaseViewModel() {
 
+    private val nguoiDungService: NguoiDungService = CreateService.createService()
+    private val nguoiDungRepository: NguoiDungRepository = NguoiDungRepository(nguoiDungService)
+
     private val _nguoiDungList = MutableLiveData<List<NguoiDungModel>?>()
     val nguoiDungList: LiveData<List<NguoiDungModel>?> get() = _nguoiDungList
 
@@ -32,56 +35,24 @@ class NguoiDungViewModel : BaseViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
-    fun getListnguoiDung() {
+    fun getListNguoiDung() {
         viewModelScope.launch {
             try {
-
-                val apiService : NguoiDungService = CreateService.createService()
-                val NguoiDungRepository = NguoiDungRepository(apiService)
-                _nguoiDungList.value = NguoiDungRepository.getListNguoiDung()
+                _nguoiDungList.value = nguoiDungRepository.getListNguoiDung()
             } catch (e: Exception) {
-                Log.e("nguoiDungViewModel", "Error fetching nguoiDung list", e)
+                Log.e("NguoiDungViewModel", "Error fetching nguoiDung list", e)
                 _errorMessage.value = "Error fetching nguoiDung list: ${e.message}"
             }
         }
     }
 
-    fun addnguoiDung(nguoiDung: NguoiDungModel, image: File) {
+    fun addNguoiDung(nguoiDung: NguoiDungModel, image: File) {
         viewModelScope.launch {
             try {
-                val apiService : NguoiDungService = CreateService.createService()
-                val NguoiDungRepository = NguoiDungRepository(apiService)
-                _isnguoiDungAdded.value = NguoiDungRepository.addNguoiDung(nguoiDung, image) != null
+                _isnguoiDungAdded.value = nguoiDungRepository.addNguoiDung(nguoiDung, image) != null
             } catch (e: Exception) {
-                Log.e("nguoiDungViewModel", "Error adding nguoiDung", e)
+                Log.e("NguoiDungViewModel", "Error adding nguoiDung", e)
                 _errorMessage.value = "Error adding nguoiDung: ${e.message}"
-            }
-        }
-    }
-
-
-//    fun updatenguoiDung(id: String, nguoiDung: NguoiDungModel, image: File) {
-//        viewModelScope.launch {
-//            try {
-//                val apiService : NguoiDungService = CreateService.createService()
-//                val NguoiDungRepository = NguoiDungRepository(apiService)
-//                _isnguoiDungUpdated.value = NguoiDungRepository.updateNguoiDung(id, nguoiDung,image) != null
-//            } catch (e: Exception) {
-//                Log.e("nguoiDungViewModel", "Error updating nguoiDung", e)
-//                _errorMessage.value = "Error updating nguoiDung: ${e.message}"
-//            }
-//        }
-//    }
-
-    fun deletenguoiDung(id: String) {
-        viewModelScope.launch {
-            try {
-                val apiService : NguoiDungService = CreateService.createService()
-                val NguoiDungRepository = NguoiDungRepository(apiService)
-                _isnguoiDungDeleted.value = NguoiDungRepository.deleteNguoiDung(id)
-            } catch (e: Exception) {
-                Log.e("nguoiDungViewModel", "Error deleting nguoiDung", e)
-                _errorMessage.value = "Error deleting nguoiDung: ${e.message}"
             }
         }
     }
