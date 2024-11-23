@@ -36,7 +36,7 @@ class NguoiDungRepository(private val api: NguoiDungService) {
                 val trangThai = carrier.trangThai.toString().toRequestBody()
                 val imageRequestBody = image.asRequestBody("image/*".toMediaTypeOrNull())
                 val imagePart =
-                    MultipartBody.Part.createFormData("hinhAnh", image.name, imageRequestBody)
+                    MultipartBody.Part.createFormData("image", image.name, imageRequestBody)
 
                 val response = api.addNguoiDung(
                     tenNguoiDung,
@@ -96,14 +96,28 @@ class NguoiDungRepository(private val api: NguoiDungService) {
         }
     }
 
-    suspend fun deleteNguoiDung(id: String): Boolean = withContext(Dispatchers.IO) {
-        val response = api.deleteNguoiDung(id)
-        if (response.isSuccessful) {
-            Log.d("NguoiDungRepository", "deleteNguoiDung Success")
-            true
-        } else {
-            Log.e("NguoiDungRepository", "deleteNguoiDung Error: ${response.errorBody()}")
-            false
+
+    suspend fun loginNguoiDung(phone: String, password: String): String? = withContext(Dispatchers.IO) {
+        try {
+            val response = api.loginNguoiDung(phone, password)
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                val status = responseBody?.get("status") as? Double
+                if (status == 200.0) {
+                    Log.d("NguoiDungRepository", "Login success: ${responseBody["userId"]}")
+                    responseBody["userId"] as String
+                } else {
+                    Log.e("NguoiDungRepository", "Login error: ${responseBody?.get("msg")}")
+                    null
+                }
+            } else {
+                Log.e("NguoiDungRepository", "API error: ${response.errorBody()}")
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("NguoiDungRepository", "Exception: ${e.message}")
+            null
         }
     }
+
 }

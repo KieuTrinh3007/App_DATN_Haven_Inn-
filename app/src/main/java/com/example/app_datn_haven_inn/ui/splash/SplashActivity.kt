@@ -77,7 +77,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, BaseViewModel>() {
         productViewModel4.getListdichVu()
         productViewModel5.getListhoaDon()
         productViewModel6.getListloaiPhong()
-        productViewModel7.getListnguoiDung()
+        productViewModel7.getListNguoiDung()
         productViewModel8.getListphong()
         productViewModel9.getListthongBao()
         productViewModel10.getListtienNghi()
