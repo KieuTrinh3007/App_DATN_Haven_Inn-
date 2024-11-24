@@ -6,63 +6,62 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.app_datn_haven_inn.R
-
+import com.example.app_datn_haven_inn.database.CreateService
+import com.example.app_datn_haven_inn.database.service.NguoiDungService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 class Register : AppCompatActivity() {
-
-//    private lateinit var firebaseAuth: FirebaseAuth
-    private var verificationId: String? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-//        firebaseAuth = FirebaseAuth.getInstance()
-
-        val btnDangKy = findViewById<TextView>(R.id.btn_dangky)
-        val edtPhone = findViewById<EditText>(R.id.edt_dkk_sdt)
+        val btnDangKy = findViewById<TextView>(R.id.btn_tieptheo)
+        val edtEmail = findViewById<EditText>(R.id.edt_dkk_email) // Email người dùng
 
         btnDangKy.setOnClickListener {
-//            val phone = edtPhone.text.toString().trim()
-//            if (phone.isNotEmpty() && phone.length == 10) {
-//                val fullPhone = "+84$phone"
-//                sendOtp(fullPhone)
-//            } else {
-//                Toast.makeText(this, "Vui lòng nhập số điện thoại hợp lệ!", Toast.LENGTH_SHORT).show()
-//            }
+            val email = edtEmail.text.toString()
+
+            if (email.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Gọi phương thức gửi OTP
+            sendOtp(email)
         }
     }
 
-//    private fun sendOtp(phone: String) {
-//        val options = PhoneAuthOptions.newBuilder(firebaseAuth)
-//            .setPhoneNumber(phone)       // Số điện thoại người dùng nhập
-//            .setTimeout(60L, TimeUnit.SECONDS)
-//            .setActivity(this)           // Activity hiện tại
-//            .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-//                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-//                    // Xác thực tự động thành công, đăng nhập trực tiếp
-//                }
-//
-//                override fun onVerificationFailed(e: FirebaseException) {
-//                    Toast.makeText(this@Register, "Gửi OTP thất bại: ${e.message}", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                override fun onCodeSent(
-//                    verificationId: String,
-//                    token: PhoneAuthProvider.ForceResendingToken
-//                ) {
-//                    super.onCodeSent(verificationId, token)
-//                    this@Register.verificationId = verificationId
-//
-//                    val intent = Intent(this@Register, Indentity_authentication::class.java)
-//                    intent.putExtra("verificationId", verificationId) // Truyền verificationId
-//                    intent.putExtra("phone", phone) // Truyền số điện thoại
-//                    startActivity(intent)
-//                }
-//            })
-//            .build()
-//
-//        PhoneAuthProvider.verifyPhoneNumber(options)
-//    }
+    // Phương thức gửi OTP
+    private fun sendOtp(email: String) {
+        val service = CreateService.createService<NguoiDungService>()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val response: Response<Map<String, String>> = service.sendOtp(email)
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@Register, "OTP đã được gửi tới $email", Toast.LENGTH_SHORT).show()
+
+                        // Chuyển sang màn hình xác thực OTP và truyền email
+                        val intent = Intent(this@Register, Indentity_authentication::class.java).apply {
+                            putExtra("email", email)
+                        }
+                        startActivity(intent)
+                    } else {
+                        Toast.makeText(this@Register, "Gửi OTP không thành công: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@Register, "Lỗi khi gửi OTP: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
 }
