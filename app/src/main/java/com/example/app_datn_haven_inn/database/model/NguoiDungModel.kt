@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class NguoiDungModel(
-    @field:SerializedName("_id") var id: String,
+    @field:SerializedName("_id") var id: String? = null,
     @field:SerializedName("tenNguoiDung") var tenNguoiDung: String,
     @field:SerializedName("soDienThoai") var soDienThoai: String,
     @field:SerializedName("matKhau") var matKhau: String,

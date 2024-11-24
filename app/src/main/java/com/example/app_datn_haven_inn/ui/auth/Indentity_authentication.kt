@@ -111,10 +111,13 @@
 
 
 		private fun navigateToSignUp() {
-			val intent = Intent(this, SignUp::class.java)
+			val intent = Intent(this, SignUp::class.java).apply {
+				putExtra("email", email) // Truyền email qua Intent
+			}
 			startActivity(intent)
-			finish() // Đóng màn hình hiện tại
+			finish()
 		}
+
 
 		private fun guiLaiOTP(email: String) {
 			val service = CreateService.createService<NguoiDungService>()
