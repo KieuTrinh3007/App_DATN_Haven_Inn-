@@ -15,18 +15,6 @@ interface NguoiDungService {
     suspend fun getNguoiDungById(@Path("id") id: String): NguoiDungModel
 
     @Multipart
-    @POST("nguoidungs/post")
-    suspend fun addNguoiDung(
-        @Part("tenNguoiDung") tenNguoiDung: RequestBody,
-        @Part("soDienThoai") soDienThoai: RequestBody,
-        @Part("matKhau") matKhau: RequestBody,
-        @Part("email") email: RequestBody,
-        @Part("chucVu") chucVu: RequestBody,
-        @Part("trangThai") trangThai: RequestBody,
-        @Part("hinhAnh") image: MultipartBody.Part,
-    ): Response<NguoiDungModel>
-
-    @Multipart
     @PUT("nguoidungs/put/{id}")
     suspend fun updateNguoiDung(
         @Path("id") id: String,
@@ -44,4 +32,16 @@ interface NguoiDungService {
         @Query("soDienThoai") soDienThoai: String,
         @Query("matKhau") matKhau: String
     ): Response<Map<String, Any>>
+
+    // API gửi OTP
+    @POST("auth/sendotp")
+    suspend fun sendOtp(
+        @Query("email") email: String
+    ): Response<Map<String, String>>
+
+    @POST("auth/verifyotp")
+    suspend fun verifyOtp(
+        @Body payload: Map<String, String>
+    ): Response<Map<String, Any>>
+
 }

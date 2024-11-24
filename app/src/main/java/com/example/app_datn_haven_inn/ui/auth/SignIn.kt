@@ -20,7 +20,7 @@ import retrofit2.Response
 
 class SignIn : AppCompatActivity() {
 
-	private lateinit var edtPhone: EditText
+	private lateinit var edtEmail: EditText
 	private lateinit var edtPassword: EditText
 	private lateinit var btnSignIn: TextView
 
@@ -33,13 +33,13 @@ class SignIn : AppCompatActivity() {
 		setContentView(R.layout.activity_login)
 
 		// Ánh xạ view
-		edtPhone = findViewById(R.id.edt_dangnhap_sdt)
+		edtEmail = findViewById(R.id.edt_dangnhap_email)
 		edtPassword = findViewById(R.id.edt_dangnhap_pass)
 		btnSignIn = findViewById(R.id.btnSignIn)
 
 		// Xử lý khi người dùng bấm nút "Đăng nhập"
 		btnSignIn.setOnClickListener {
-			val phone = edtPhone.text.toString().trim()
+			val phone = edtEmail.text.toString().trim()
 			val password = edtPassword.text.toString().trim()
 
 			if (phone.isNotEmpty() && password.isNotEmpty()) {

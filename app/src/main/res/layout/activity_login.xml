@@ -38,46 +38,18 @@
             android:paddingVertical="16dp">
 
             <!-- Nhập số điện thoại -->
-            <RelativeLayout
+            <EditText
+                android:id="@+id/edt_dangnhap_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
-                android:layout_marginTop="60dp">
-
-                <EditText
-                    android:layout_width="75dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:drawableLeft="@drawable/phone"
-                    android:drawablePadding="15dp"
-                    android:text="+84"
-                    android:focusable="false"
-                    android:enabled="false"
-                    android:textSize="18dp"
-                    android:paddingVertical="10dp"
-                    android:background="@drawable/bottom_border" />
-
-                <EditText
-                    android:id="@+id/edt_dangnhap_sdt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Số điện thoại"
-                    android:paddingVertical="10dp"
-                    android:layout_marginStart="75dp"
-                    android:paddingStart="20dp"
-                    android:textColorHint="#9CA0A8"
-                    android:textColor="@color/black"
-                    android:textSize="18dp"
-                    android:background="@drawable/bottom_border" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="75dp"
-                    android:text="|"
-                    android:textSize="29dp"
-                    android:textColor="#C4C4C4" />
-            </RelativeLayout>
+                android:drawableLeft="@drawable/union"
+                android:drawablePadding="20dp"
+                android:hint="Nhập email của bạn"
+                android:textColor="@color/black"
+                android:textColorHint="#9CA0A8"
+                android:layout_marginBottom="34dp"
+                android:paddingVertical="10dp"
+                android:background="@drawable/bottom_border" />
 
             <!-- Nhập mật khẩu -->
             <EditText

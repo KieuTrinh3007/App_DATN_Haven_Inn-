@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
-import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -31,8 +30,8 @@ class EditProfile : AppCompatActivity() {
 
     private lateinit var imageViewAvatar: ImageView
     private lateinit var editTextName: EditText
-    private lateinit var textViewEmail: EditText
-    private lateinit var textViewPhone: TextView
+    private lateinit var textViewEmail: TextView
+    private lateinit var textViewPhone: EditText
     private lateinit var btSaveChanges: TextView
 
     private var selectedImageUri: Uri? = null
@@ -81,7 +80,8 @@ class EditProfile : AppCompatActivity() {
                     user?.let {
                         editTextName.setText(it.tenNguoiDung)
                         textViewEmail.setText(it.email)
-                        textViewPhone.text = it.soDienThoai
+//                        textViewPhone.text = it.soDienThoai
+                        textViewPhone.setText(it.soDienThoai)
                         currentImageUrl = it.hinhAnh
                         oldMatKhau = it.matKhau ?: ""
                         oldChucVu = it.chucVu?.toString() ?: "0"
@@ -100,15 +100,15 @@ class EditProfile : AppCompatActivity() {
 
     private fun saveUserProfile(id: String) {
         val name = editTextName.text.toString().trim()
-        val email = textViewEmail.text.toString().trim()
+        val sdt = textViewPhone.text.toString().trim()
 
-        if (name.isEmpty() || email.isEmpty()) {
+        if (name.isEmpty() || sdt.isEmpty()) {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
             return
         }
 
         val nameBody = name.toRequestBody()
-        val emailBody = email.toRequestBody()
+        val sdtBody = sdt.toRequestBody()
 
         val imagePart = selectedImageUri?.let { uri ->
             val file = getFileFromUri(uri)
@@ -126,9 +126,9 @@ class EditProfile : AppCompatActivity() {
                 val response = nguoiDungService.updateNguoiDung(
                     id = id,
                     tenNguoiDung = nameBody,
-                    soDienThoai = textViewPhone.text.toString().toRequestBody(),
+                    soDienThoai = sdtBody,
                     matKhau = oldMatKhau.toRequestBody(),
-                    email = emailBody,
+                    email = textViewEmail.text.toString().toRequestBody(),
                     chucVu = oldChucVu.toRequestBody(),
                     trangThai = oldTrangThai.toRequestBody(),
                     image = imagePart

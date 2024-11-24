@@ -46,16 +46,6 @@ class NguoiDungViewModel : BaseViewModel() {
         }
     }
 
-    fun addNguoiDung(nguoiDung: NguoiDungModel, image: File) {
-        viewModelScope.launch {
-            try {
-                _isnguoiDungAdded.value = nguoiDungRepository.addNguoiDung(nguoiDung, image) != null
-            } catch (e: Exception) {
-                Log.e("NguoiDungViewModel", "Error adding nguoiDung", e)
-                _errorMessage.value = "Error adding nguoiDung: ${e.message}"
-            }
-        }
-    }
 
     fun clearErrorMessage() {
         _errorMessage.value = null

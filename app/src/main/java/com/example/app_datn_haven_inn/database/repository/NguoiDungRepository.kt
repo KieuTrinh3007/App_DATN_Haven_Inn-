@@ -24,43 +24,6 @@ class NguoiDungRepository(private val api: NguoiDungService) {
         }
     }
 
-    suspend fun addNguoiDung(carrier: NguoiDungModel, image: File): NguoiDungModel? =
-        withContext(Dispatchers.IO) {
-//     carrier.tenNguoiDung, carrier.soDienThoai, carrier.matKhau, carrier.email, File(carrier.hinhAnh), carrier.chucVu, carrier.trangThai
-            try {
-                val tenNguoiDung = carrier.tenNguoiDung.toRequestBody()
-                val soDienThoai = carrier.soDienThoai.toRequestBody()
-                val matKhau = carrier.matKhau.toRequestBody()
-                val email = carrier.email.toRequestBody()
-                val chucVu = carrier.chucVu.toString().toRequestBody()
-                val trangThai = carrier.trangThai.toString().toRequestBody()
-                val imageRequestBody = image.asRequestBody("image/*".toMediaTypeOrNull())
-                val imagePart =
-                    MultipartBody.Part.createFormData("image", image.name, imageRequestBody)
-
-                val response = api.addNguoiDung(
-                    tenNguoiDung,
-                    soDienThoai,
-                    matKhau,
-                    email,
-                    chucVu,
-                    trangThai,
-                    imagePart
-                )
-                if (response.isSuccessful) {
-                    Log.d("NguoiDungRepository", "addNguoiDung Success: ${response.body()}")
-                    response.body()
-                } else {
-                    Log.e("NguoiDungRepository", "addNguoiDung Error: ${response.errorBody()}")
-                    null
-                }
-            }catch (e: Exception){
-                Log.e("NguoiDungRepository", "addNguoiDung Error: ${e.message}")
-                null
-            }
-
-        }
-
     suspend fun updateNguoiDung(id: String, carrier: NguoiDungModel,image: File): NguoiDungModel? = withContext(
         Dispatchers.IO
     ) {
