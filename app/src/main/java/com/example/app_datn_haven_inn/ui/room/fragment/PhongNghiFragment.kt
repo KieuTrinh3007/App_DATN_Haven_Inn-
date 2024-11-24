@@ -87,7 +87,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                     id_NguoiDung = "6724a13a2378017ace035c51",
 
                     )
-                yeuThichViewModel.addyeuThich(yeuThich)
+                yeuThichViewModel.addyeuThich(yeuThich, "6724a13a2378017ace035c51")
 
                 yeuThichViewModel.isyeuThichAdded.observe(viewLifecycleOwner) { success ->
                     if (success) {
@@ -101,7 +101,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                 }
             } else {
 
-                yeuThichViewModel.deleteyeuThich(phong.id)
+                yeuThichViewModel.deleteyeuThich(phong.id, "6724a13a2378017ace035c51")
 
 
                 yeuThichViewModel.isyeuThichDeleted.observe(viewLifecycleOwner) { success ->

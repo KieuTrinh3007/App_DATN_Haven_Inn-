@@ -27,6 +27,6 @@ interface YeuThichService {
         @Body YeuThich: YeuThichModel
     ): Response<YeuThichModel>
 
-    @DELETE("yeuthichs/delete/{id_LoaiPhong}")
-    suspend fun deleteYeuThich(@Path("id_LoaiPhong") idLoaiPhong: String): Response<Unit>
+    @DELETE("yeuthichs/delete/{id}")
+    suspend fun deleteYeuThich(@Path("id") idLoaiPhong: String): Response<Unit>
 }

@@ -25,16 +25,6 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         return FragmentFavoriteBinding.inflate(layoutInflater)
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.yeuThichList1.observe(viewLifecycleOwner) { yeuThichList ->
-            yeuThichList?.let {
-                adapter.updateData(it.toMutableList())
-                viewBinding.rvFavorite.adapter = adapter
-            }
-
-        }
-    }
 
     override fun initView() {
         super.initView()

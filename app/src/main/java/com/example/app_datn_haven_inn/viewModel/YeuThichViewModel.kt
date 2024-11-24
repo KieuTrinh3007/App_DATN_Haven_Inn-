@@ -60,7 +60,7 @@ class YeuThichViewModel : BaseViewModel() {
         }
     }
 
-    fun addyeuThich(yeuThich: YeuThichModel) {
+    fun addyeuThich(yeuThich: YeuThichModel, idUser: String) {
         viewModelScope.launch {
             try {
                 val apiService : YeuThichService = CreateService.createService()
@@ -69,6 +69,7 @@ class YeuThichViewModel : BaseViewModel() {
                 if (result != null) {
                     _isyeuThichAdded.value = true
                 }
+                getFavoritesByUserId(idUser)
             } catch (e: Exception) {
                 Log.e("yeuThichViewModel", "Error adding yeuThich", e)
                 _errorMessage.value = "Error adding yeuThich: ${e.message}"
@@ -90,7 +91,7 @@ class YeuThichViewModel : BaseViewModel() {
         }
     }
 
-    fun deleteyeuThich(idLoaiPhong: String) {
+    fun deleteyeuThich(idLoaiPhong: String, idUser: String) {
         viewModelScope.launch {
             try {
                 val apiService : YeuThichService = CreateService.createService()
@@ -99,6 +100,7 @@ class YeuThichViewModel : BaseViewModel() {
                 if (success) {
                     _isyeuThichDeleted.value = true
                 }
+                getFavoritesByUserId(idUser)
             } catch (e: Exception) {
                 Log.e("yeuThichViewModel", "Error deleting yeuThich", e)
                 _errorMessage.value = "Error deleting yeuThich: ${e.message}"
