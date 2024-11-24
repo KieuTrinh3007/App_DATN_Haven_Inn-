@@ -11,9 +11,6 @@ interface NguoiDungService {
     @GET("nguoidungs/")
     suspend fun getListNguoiDung(): Response<List<NguoiDungModel>>
 
-    @GET("nguoiDung/{id}")
-    suspend fun getNguoiDungById(@Path("id") id: String): NguoiDungModel
-
     @Multipart
     @PUT("nguoidungs/put/{id}")
     suspend fun updateNguoiDung(
@@ -43,5 +40,10 @@ interface NguoiDungService {
     suspend fun verifyOtp(
         @Body payload: Map<String, String>
     ): Response<Map<String, Any>>
+
+    @POST("auth/register")
+    suspend fun registerNguoiDung(
+        @Body nguoiDung: NguoiDungModel
+    ): Response<Map<String, String>>
 
 }

@@ -80,7 +80,6 @@ class EditProfile : AppCompatActivity() {
                     user?.let {
                         editTextName.setText(it.tenNguoiDung)
                         textViewEmail.setText(it.email)
-//                        textViewPhone.text = it.soDienThoai
                         textViewPhone.setText(it.soDienThoai)
                         currentImageUrl = it.hinhAnh
                         oldMatKhau = it.matKhau ?: ""

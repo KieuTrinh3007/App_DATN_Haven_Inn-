@@ -48,17 +48,13 @@
             android:background="@drawable/bottom_border" />
 
         <EditText
-            android:id="@+id/edt_dk_email"
+            android:id="@+id/edt_xacnhan_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/union"
-            android:drawablePadding="20dp"
-            android:hint="Nhập email của bạn"
-            android:textColor="@color/black"
-            android:textColorHint="#9CA0A8"
-            android:layout_marginBottom="34dp"
-            android:paddingVertical="10dp"
-            android:background="@drawable/bottom_border" />
+            android:hint="Email"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:background="@android:color/transparent" />
 
         <EditText
             android:id="@+id/edt_dk_pass"
