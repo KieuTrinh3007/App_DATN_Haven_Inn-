@@ -63,6 +63,7 @@
                 android:paddingStart="20dp"
                 android:textColor="@color/black"
                 android:textColorHint="#9CA0A8"
+                android:imeOptions="actionDone"
                 android:textSize="18dp"
                 android:layout_marginBottom="20dp"/>
 
