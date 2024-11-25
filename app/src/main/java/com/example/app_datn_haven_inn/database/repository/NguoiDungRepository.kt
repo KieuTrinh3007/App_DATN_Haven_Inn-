@@ -60,27 +60,27 @@ class NguoiDungRepository(private val api: NguoiDungService) {
     }
 
 
-    suspend fun loginNguoiDung(phone: String, password: String): String? = withContext(Dispatchers.IO) {
-        try {
-            val response = api.loginNguoiDung(phone, password)
-            if (response.isSuccessful) {
-                val responseBody = response.body()
-                val status = responseBody?.get("status") as? Double
-                if (status == 200.0) {
-                    Log.d("NguoiDungRepository", "Login success: ${responseBody["userId"]}")
-                    responseBody["userId"] as String
-                } else {
-                    Log.e("NguoiDungRepository", "Login error: ${responseBody?.get("msg")}")
-                    null
-                }
-            } else {
-                Log.e("NguoiDungRepository", "API error: ${response.errorBody()}")
-                null
-            }
-        } catch (e: Exception) {
-            Log.e("NguoiDungRepository", "Exception: ${e.message}")
-            null
-        }
-    }
+//    suspend fun loginNguoiDung(phone: String, password: String): String? = withContext(Dispatchers.IO) {
+//        try {
+//            val response = api.loginNguoiDung(phone, password)
+//            if (response.isSuccessful) {
+//                val responseBody = response.body()
+//                val status = responseBody?.get("status") as? Double
+//                if (status == 200.0) {
+//                    Log.d("NguoiDungRepository", "Login success: ${responseBody["userId"]}")
+//                    responseBody["userId"] as String
+//                } else {
+//                    Log.e("NguoiDungRepository", "Login error: ${responseBody?.get("msg")}")
+//                    null
+//                }
+//            } else {
+//                Log.e("NguoiDungRepository", "API error: ${response.errorBody()}")
+//                null
+//            }
+//        } catch (e: Exception) {
+//            Log.e("NguoiDungRepository", "Exception: ${e.message}")
+//            null
+//        }
+//    }
 
 }

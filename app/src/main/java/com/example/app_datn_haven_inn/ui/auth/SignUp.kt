@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.TextView
@@ -69,7 +70,8 @@ class SignUp : AppCompatActivity() {
 					hinhAnh = null,
 					hinhAnhID = "",
 					chucVu = 0,
-					trangThai = true
+					trangThai = true,
+					cccd = ""
 				)
 
 				// Gọi API từ service
@@ -79,7 +81,10 @@ class SignUp : AppCompatActivity() {
 				withContext(Dispatchers.Main) {
 					if (response.isSuccessful) {
 						Toast.makeText(this@SignUp, "Đăng ký thành công!", Toast.LENGTH_SHORT).show()
-						finish() // Đóng màn hình đăng ký
+
+						val intent = Intent(this@SignUp, SignIn::class.java)
+						startActivity(intent)
+						finish()
 					} else {
 						val errorMessage = response.errorBody()?.string() ?: "Lỗi không xác định"
 						Toast.makeText(this@SignUp, "Đăng ký thất bại: $errorMessage", Toast.LENGTH_SHORT).show()

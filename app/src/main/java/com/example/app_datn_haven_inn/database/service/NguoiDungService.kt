@@ -25,8 +25,8 @@ interface NguoiDungService {
     ): Response<NguoiDungModel>
 
     @POST("auth/login")
-    suspend fun loginNguoiDung(
-        @Query("soDienThoai") soDienThoai: String,
+    suspend fun login(
+        @Query("email") email: String,
         @Query("matKhau") matKhau: String
     ): Response<Map<String, Any>>
 
@@ -46,4 +46,8 @@ interface NguoiDungService {
         @Body nguoiDung: NguoiDungModel
     ): Response<Map<String, String>>
 
+    @PUT("auth/doimatkhau/{id}")
+    suspend fun setupPassword(
+        @Body payload: Map<String, String>
+    ): Response<Map<String, String>>
 }

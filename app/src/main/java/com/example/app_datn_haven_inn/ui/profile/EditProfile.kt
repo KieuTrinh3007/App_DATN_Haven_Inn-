@@ -39,7 +39,8 @@ class EditProfile : AppCompatActivity() {
 
     private var oldMatKhau: String = ""
     private var oldChucVu: String = ""
-    private var oldTrangThai: String = "true" // Mặc định là true nếu không tải được
+    private var oldTrangThai: String = "true"
+    private var oldCccd: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +86,7 @@ class EditProfile : AppCompatActivity() {
                         oldMatKhau = it.matKhau ?: ""
                         oldChucVu = it.chucVu?.toString() ?: "0"
                         oldTrangThai = it.trangThai?.toString() ?: "true"
+                        oldCccd = it.cccd ?: ""
 
                         Glide.with(this@EditProfile).load(it.hinhAnh).into(imageViewAvatar)
                     }
