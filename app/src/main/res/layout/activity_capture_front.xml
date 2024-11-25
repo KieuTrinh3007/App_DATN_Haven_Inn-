@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Hiển thị Camera bằng PreviewView -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <!-- Hiển thị ảnh đã chụp -->
+    <ImageView
+        android:id="@+id/capturedImage"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/captureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/previewView"
+            android:layout_centerHorizontal="true"
+            android:text="Chụp ảnh" />
+
+        <Button
+            android:id="@+id/continue_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/captureButton"
+            android:layout_centerHorizontal="true"
+            android:text="Tiếp tục"
+            android:visibility="gone"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/retryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/captureButton"
+            android:layout_centerHorizontal="true"
+            android:text="Chụp lại"
+            android:visibility="gone"/>
+    </LinearLayout>
+</LinearLayout>

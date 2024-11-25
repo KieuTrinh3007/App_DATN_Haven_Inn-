@@ -22,7 +22,7 @@
 
     <!-- Phone Number -->
     <TextView
-        android:id="@+id/phoneNumber"
+        android:id="@+id/tvemailprofile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -42,7 +42,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/phoneNumber" />
+        app:layout_constraintTop_toBottomOf="@id/tvemailprofile" />
 
     <LinearLayout
         android:layout_width="310dp"
@@ -63,6 +63,15 @@
             app:layout_constraintTop_toBottomOf="@id/name"
 
             />
+
+        <TextView
+            android:id="@+id/xmcccd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/small_room"
+            android:drawablePadding="8dp"
+            android:padding="12dp"
+            android:text="Xác minh CCCD" />
 
         <TextView
             android:id="@+id/myRoom"
@@ -161,7 +170,7 @@
         tools:layout_editor_absoluteY="21dp" />
 
     <ImageView
-        android:id="@+id/SignOut"
+        android:id="@+id/signOut"
         android:layout_width="23dp"
         android:layout_height="23dp"
         android:layout_marginTop="16dp"

@@ -14,5 +14,6 @@ data class NguoiDungModel(
     @field:SerializedName("hinhAnh") var hinhAnh: String?,
     @field:SerializedName("hinhAnhID") var hinhAnhID: String,
     @field:SerializedName("chucVu") var chucVu: Int,
-    @field:SerializedName("trangThai") var trangThai: Boolean
+    @field:SerializedName("trangThai") var trangThai: Boolean,
+    @field:SerializedName("cccd") var cccd: String
 ) : Parcelable
