@@ -43,49 +43,21 @@
             android:textColor="@color/black"
             android:textColorHint="#9CA0A8"
             android:layout_marginTop="50dp"
+
+            android:imeOptions="actionDone"
             android:layout_marginBottom="34dp"
             android:paddingVertical="10dp"
             android:background="@drawable/bottom_border" />
 
-        <RelativeLayout
+        <EditText
+            android:id="@+id/edt_xacnhan_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="34dp">
-
-            <EditText
-                android:layout_width="75dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:drawableLeft="@drawable/phone"
-                android:drawablePadding="15dp"
-                android:text="+84"
-                android:focusable="false"
-                android:enabled="false"
-                android:textSize="18dp"
-                android:paddingVertical="10dp"
-                android:background="@drawable/bottom_border" />
-
-            <EditText
-                android:id="@+id/edt_dk_sdt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textColorHint="#9CA0A8"
-                android:hint="Số điện thoại"
-                android:paddingVertical="10dp"
-                android:layout_marginStart="75dp"
-                android:paddingStart="20dp"
-                android:textSize="18dp"
-                android:background="@drawable/bottom_border" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="75dp"
-                android:text="|"
-                android:textSize="29dp"
-                android:textColor="#C4C4C4" />
-        </RelativeLayout>
+            android:hint="Email"
+            android:imeOptions="actionDone"
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:background="@android:color/transparent" />
 
         <EditText
             android:id="@+id/edt_dk_pass"
@@ -94,6 +66,7 @@
             android:drawableLeft="@drawable/key"
             android:drawablePadding="20dp"
             android:hint="Mật khẩu"
+            android:imeOptions="actionDone"
             android:textColor="@color/black"
             android:textColorHint="#9CA0A8"
             android:paddingVertical="10dp"
@@ -175,7 +148,6 @@
                 android:textColor="#8E929B"
                 android:layout_marginTop="5dp" />
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -1,6 +1,10 @@
 package com.example.app_datn_haven_inn.ui.profile
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
-import com.example.app_datn_haven_inn.database.model.NguoiDungModel
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -19,6 +22,7 @@ import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
+import java.io.FileOutputStream
 
 class EditProfile : AppCompatActivity() {
     private lateinit var nguoiDungService: NguoiDungService
@@ -27,19 +31,27 @@ class EditProfile : AppCompatActivity() {
     private lateinit var imageViewAvatar: ImageView
     private lateinit var editTextName: EditText
     private lateinit var textViewEmail: TextView
-    private lateinit var textViewPhone: TextView
+    private lateinit var textViewPhone: EditText
     private lateinit var btSaveChanges: TextView
+
+    private var selectedImageUri: Uri? = null
+    private var currentImageUrl: String? = null
+
+    private var oldMatKhau: String = ""
+    private var oldChucVu: String = ""
+    private var oldTrangThai: String = "true"
+    private var oldCccd: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
         // Initialize views
-        imageViewAvatar = findViewById(R.id.imageViewAvatar)
-        editTextName = findViewById(R.id.Name)
-        textViewEmail = findViewById(R.id.textViewEmail)
-        textViewPhone = findViewById(R.id.textViewPhone)
-        btSaveChanges = findViewById(R.id.bt_save_changes)
+        imageViewAvatar = findViewById(R.id.avatarImageView)
+        editTextName = findViewById(R.id.nameEditText)
+        textViewEmail = findViewById(R.id.emailEditText)
+        textViewPhone = findViewById(R.id.phoneTextView)
+        btSaveChanges = findViewById(R.id.saveButton)
 
         nguoiDungService = CreateService.createService()
 
@@ -49,8 +61,14 @@ class EditProfile : AppCompatActivity() {
             loadUserInfo(it)
         }
 
+        imageViewAvatar.setOnClickListener {
+            openGallery()
+        }
+
         btSaveChanges.setOnClickListener {
-            updateUserInfo()
+            idNguoiDung?.let { id ->
+                saveUserProfile(id)
+            }
         }
     }
 
@@ -60,7 +78,18 @@ class EditProfile : AppCompatActivity() {
                 val response = nguoiDungService.getListNguoiDung()
                 if (response.isSuccessful) {
                     val user = response.body()?.find { it.id == id }
-                    user?.let { populateFields(it) }
+                    user?.let {
+                        editTextName.setText(it.tenNguoiDung)
+                        textViewEmail.setText(it.email)
+                        textViewPhone.setText(it.soDienThoai)
+                        currentImageUrl = it.hinhAnh
+                        oldMatKhau = it.matKhau ?: ""
+                        oldChucVu = it.chucVu?.toString() ?: "0"
+                        oldTrangThai = it.trangThai?.toString() ?: "true"
+                        oldCccd = it.cccd ?: ""
+
+                        Glide.with(this@EditProfile).load(it.hinhAnh).into(imageViewAvatar)
+                    }
                 } else {
                     Toast.makeText(this@EditProfile, "Không thể tải dữ liệu", Toast.LENGTH_SHORT).show()
                 }
@@ -70,63 +99,108 @@ class EditProfile : AppCompatActivity() {
         }
     }
 
-    private fun populateFields(user: NguoiDungModel) {
-        editTextName.setText(user.tenNguoiDung)
-        textViewEmail.text = user.email
-        textViewPhone.text = user.soDienThoai
-        Glide.with(this).load(user.hinhAnh).into(imageViewAvatar)
-    }
-
-    private fun updateUserInfo() {
+    private fun saveUserProfile(id: String) {
         val name = editTextName.text.toString().trim()
+        val sdt = textViewPhone.text.toString().trim()
 
-        if (name.isEmpty()) {
-            Toast.makeText(this, "Tên không được để trống", Toast.LENGTH_SHORT).show()
+        if (name.isEmpty() || sdt.isEmpty()) {
+            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
             return
         }
 
-        idNguoiDung?.let { id ->
-            lifecycleScope.launch {
-                try {
-                    // Lấy đường dẫn ảnh (nếu có) từ người dùng, nếu không sẽ giữ ảnh cũ
-                    val selectedImageFilePath: String? = null // Bạn có thể thay thế bằng đường dẫn từ người dùng chọn ảnh, ví dụ: từ Gallery
+        val nameBody = name.toRequestBody()
+        val sdtBody = sdt.toRequestBody()
 
-                    val imagePart = prepareImageFilePart(selectedImageFilePath)
+        val imagePart = selectedImageUri?.let { uri ->
+            val file = getFileFromUri(uri)
+            if (file != null) {
+                val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
+                MultipartBody.Part.createFormData("image", file.name, requestBody)
+            } else {
+                Toast.makeText(this, "Không thể xử lý tệp ảnh", Toast.LENGTH_SHORT).show()
+                null
+            }
+        }
 
-                    val response = nguoiDungService.updateNguoiDung(
-                        id = id,
-                        tenNguoiDung = name.toRequestBody(),
-                        soDienThoai = "".toRequestBody(), // giữ nguyên số điện thoại
-                        matKhau = "".toRequestBody(), // giữ nguyên mật khẩu
-                        email = "".toRequestBody(), // giữ nguyên email
-                        chucVu = "".toRequestBody(), // giữ nguyên chức vụ
-                        trangThai = "true".toRequestBody(),
-                        image = imagePart ?: MultipartBody.Part.createFormData("hinhAnh", "") // Nếu không có ảnh mới, truyền giá trị rỗng
-                    )
+        lifecycleScope.launch {
+            try {
+                val response = nguoiDungService.updateNguoiDung(
+                    id = id,
+                    tenNguoiDung = nameBody,
+                    soDienThoai = sdtBody,
+                    matKhau = oldMatKhau.toRequestBody(),
+                    email = textViewEmail.text.toString().toRequestBody(),
+                    chucVu = oldChucVu.toRequestBody(),
+                    trangThai = oldTrangThai.toRequestBody(),
+                    image = imagePart
+                )
+                if (response.isSuccessful) {
+                    Toast.makeText(this@EditProfile, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
 
-                    if (response.isSuccessful) {
-                        Toast.makeText(this@EditProfile, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
-                        finish()
-                    } else {
-                        Toast.makeText(this@EditProfile, "Cập nhật thất bại", Toast.LENGTH_SHORT).show()
-                    }
-                } catch (e: Exception) {
-                    Toast.makeText(this@EditProfile, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+                    // Trả kết quả về ProfileFragment
+                    val resultIntent = Intent()
+                    resultIntent.putExtra("updated", true)
+                    setResult(Activity.RESULT_OK, resultIntent)
+                    finish() // Kết thúc Activity và quay lại ProfileFragment
+                } else {
+                    Toast.makeText(this@EditProfile, "Cập nhật thất bại", Toast.LENGTH_SHORT).show()
                 }
+            } catch (e: Exception) {
+                Toast.makeText(this@EditProfile, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun prepareImageFilePart(filePath: String?): MultipartBody.Part? {
-        if (filePath.isNullOrEmpty()) {
-            return null // Nếu không có ảnh được chọn, trả về null để giữ nguyên ảnh cũ
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
         }
-        val file = File(filePath)
-        val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData("hinhAnh", file.name, requestFile)
+        startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            selectedImageUri = data?.data
+            imageViewAvatar.setImageURI(selectedImageUri)
+        }
+    }
+
+    // Get file from URI for image upload
+    private fun getFileFromUri(uri: Uri): File? {
+        return try {
+            val fileName = getFileName(uri)
+            val file = File(cacheDir, fileName)
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                FileOutputStream(file).use { outputStream ->
+                    inputStream.copyTo(outputStream)
+                }
+            }
+            file
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    // Get file name from URI
+    private fun getFileName(uri: Uri): String {
+        var name = "temp_image"
+        val cursor = contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                name = it.getString(it.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME))
+            }
+        }
+        return name
+    }
 
     private fun String.toRequestBody(): RequestBody =
         this.toRequestBody("text/plain".toMediaTypeOrNull())
+
+    companion object {
+        private const val REQUEST_CODE_PICK_IMAGE = 100
+    }
 }
+

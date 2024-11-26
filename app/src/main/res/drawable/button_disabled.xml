@@ -1,0 +1,7 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Màu xám khi nút bị vô hiệu -->
+    <item android:drawable="@drawable/khung_button22" android:state_enabled="false"/>
+
+    <!-- Màu bình thường khi nút có thể nhấn -->
+    <item android:drawable="@drawable/khung_button1"/>
+</selector>

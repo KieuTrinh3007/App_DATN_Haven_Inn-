@@ -2,15 +2,14 @@ package com.example.app_datn_haven_inn.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
-import com.example.app_datn_haven_inn.database.model.NguoiDungModel
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
-import com.example.app_datn_haven_inn.ui.home.HomeFragment
 import com.example.app_datn_haven_inn.ui.main.MainActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,80 +19,95 @@ import retrofit2.Response
 
 class SignIn : AppCompatActivity() {
 
-	private lateinit var edtPhone: EditText
-	private lateinit var edtPassword: EditText
-	private lateinit var btnSignIn: TextView
+    private lateinit var edtEmail: EditText
+    private lateinit var edtPassword: EditText
+    private lateinit var btnSignIn: TextView
 
-	private val nguoiDungService: NguoiDungService by lazy {
-		CreateService.createService()
-	}
+    // Sử dụng CreateService để tạo NguoiDungService
+    private val nguoiDungService: NguoiDungService by lazy {
+        CreateService.createService<NguoiDungService>()
+    }
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		setContentView(R.layout.activity_login)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
 
-		// Ánh xạ view
-		edtPhone = findViewById(R.id.edt_dangnhap_sdt)
-		edtPassword = findViewById(R.id.edt_dangnhap_pass)
-		btnSignIn = findViewById(R.id.btnSignIn)
+        // Ánh xạ view
+        edtEmail = findViewById(R.id.edt_dangnhap_email)
+        edtPassword = findViewById(R.id.edt_dangnhap_pass)
+        btnSignIn = findViewById(R.id.btnSignIn)
 
-		// Xử lý khi người dùng bấm nút "Đăng nhập"
-		btnSignIn.setOnClickListener {
-			val phone = edtPhone.text.toString().trim()
-			val password = edtPassword.text.toString().trim()
+        // Xử lý sự kiện nút đăng nhập
+        btnSignIn.setOnClickListener {
+            val email = edtEmail.text.toString().trim()
+            val password = edtPassword.text.toString().trim()
 
-			if (phone.isNotEmpty() && password.isNotEmpty()) {
-				login(phone, password)
-			} else {
-				Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin!", Toast.LENGTH_SHORT).show()
-			}
-		}
-	}
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập email và mật khẩu", Toast.LENGTH_SHORT).show()
+            } else {
+                handleLogin(email, password)
+            }
+        }
+    }
 
-	private fun login(phone: String, password: String) {
-		CoroutineScope(Dispatchers.IO).launch {
-			try {
-				// Thực hiện gọi API
-				val response: Response<List<NguoiDungModel>> = nguoiDungService.getListNguoiDung()
+    private fun handleLogin(email: String, password: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response: Response<Map<String, Any>> = nguoiDungService.login(email, password)
 
-				withContext(Dispatchers.Main) {
-					if (response.isSuccessful) {
-						val users = response.body()
-						val user = users?.find { it.soDienThoai == phone && it.matKhau == password }
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val responseBody = response.body()!!
 
-						if (user != null) {
-							Toast.makeText(this@SignIn, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
-							navigateToHomeScreen(user)
-						} else {
-							Toast.makeText(this@SignIn, "Số điện thoại hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show()
-						}
-					} else {
-						Toast.makeText(
-							this@SignIn,
-							"Lỗi kết nối: ${response.message()}",
-							Toast.LENGTH_SHORT
-						).show()
-					}
-				}
-			} catch (e: Exception) {
-				withContext(Dispatchers.Main) {
-					Toast.makeText(this@SignIn, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
-				}
-			}
-		}
-	}
+                        if ((responseBody["status"] as? Double)?.toInt() == 200 && responseBody["userId"] != null) {
+                            val userId = responseBody["userId"] as String
+                            saveUserToSharedPreferences(userId)
+                            Toast.makeText(this@SignIn, "Đăng nhập thành công!", Toast.LENGTH_SHORT)
+                                .show()
+                            navigateToHomeScreen()
+                        }
+                        else {
+                            val errorMessage = responseBody["message"] as? String
+                            Toast.makeText(
+                                this@SignIn,
+                                errorMessage ?: "Đăng nhập thất bại",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
 
-	private fun navigateToHomeScreen(user: NguoiDungModel) {
-		// Lưu idNguoiDung vào SharedPreferences
-		val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-		val editor = sharedPreferences.edit()
-		editor.putString("idNguoiDung", user.id)
-		editor.apply()
+                    } else {
+                        Toast.makeText(
+                            this@SignIn,
+                            "Đăng nhập thất bại. Vui lòng kiểm tra lại!",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@SignIn,
+                        "Lỗi kết nối server: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
 
-		// Chuyển đến MainActivity
-		val intent = Intent(this, MainActivity::class.java)
-		startActivity(intent)
-		finish()
-	}
 
+    // Lưu thông tin userId vào SharedPreferences
+    private fun saveUserToSharedPreferences(userId: String) {
+        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("idNguoiDung", userId)
+        editor.apply()
+    }
+
+    // Điều hướng sang màn hình chính
+    private fun navigateToHomeScreen() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }

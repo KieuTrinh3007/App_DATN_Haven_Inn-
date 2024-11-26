@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.profile.EditProfile">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,7 +20,7 @@
             android:text="Sửa thông tin cá nhân"
             android:textColor="@color/black"
             android:textSize="25sp"
-            app:layout_constraintBottom_toTopOf="@+id/imageViewAvatar"
+            app:layout_constraintBottom_toTopOf="@+id/avatarImageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +36,7 @@
             app:layout_constraintTop_toTopOf="@+id/textView2" />
 
         <ImageView
-            android:id="@+id/imageViewAvatar"
+            android:id="@+id/avatarImageView"
             android:layout_width="170dp"
             android:layout_height="170dp"
             android:layout_marginTop="100dp"
@@ -48,8 +47,6 @@
             android:src="@drawable/vanh"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
-
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +59,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageViewAvatar"
+            app:layout_constraintTop_toBottomOf="@+id/avatarImageView"
             app:layout_constraintVertical_bias="0.198">
 
             <TextView
@@ -78,7 +75,7 @@
                 />
 
             <EditText
-                android:id="@+id/Name"
+                android:id="@+id/nameEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/small_user"
@@ -92,8 +89,8 @@
                 android:layout_marginTop="16dp"
                 android:hint="Email" />
 
-            <EditText
-                android:id="@+id/textViewEmail"
+            <TextView
+                android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/small_mail"
@@ -126,8 +123,8 @@
                     android:textColor="@color/black"
                     android:textSize="18dp" />
 
-                <TextView
-                    android:id="@+id/textViewPhone"
+                <EditText
+                    android:id="@+id/phoneTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="90dp"
@@ -152,14 +149,14 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/bt_save_changes"
+            android:id="@+id/saveButton"
             android:layout_width="310dp"
             android:layout_height="53dp"
             android:background="@drawable/background_edit_text"
-            android:padding="12dp"
-            android:gravity="center"
-            android:text="Lưu"
             android:backgroundTint="@color/green"
+            android:gravity="center"
+            android:padding="12dp"
+            android:text="Lưu"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
