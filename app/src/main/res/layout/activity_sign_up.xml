@@ -43,9 +43,8 @@
             android:textColor="@color/black"
             android:textColorHint="#9CA0A8"
             android:layout_marginTop="50dp"
-
             android:imeOptions="actionDone"
-            android:layout_marginBottom="34dp"
+            android:layout_marginBottom="30dp"
             android:paddingVertical="10dp"
             android:background="@drawable/bottom_border" />
 
@@ -53,25 +52,30 @@
             android:id="@+id/edt_xacnhan_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/small_mail"
+            android:drawablePadding="18dp"
             android:hint="Email"
+            android:textColor="@color/black"
+            android:textColorHint="#9CA0A8"
             android:imeOptions="actionDone"
-            android:focusable="false"
-            android:cursorVisible="false"
-            android:background="@android:color/transparent" />
+            android:layout_marginBottom="30dp"
+            android:paddingVertical="10dp"
+            android:background="@drawable/bottom_border"/>
 
         <EditText
             android:id="@+id/edt_dk_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/key"
-            android:drawablePadding="20dp"
+            android:drawablePadding="21dp"
             android:hint="Mật khẩu"
-            android:imeOptions="actionDone"
+            android:paddingStart="6dp"
             android:textColor="@color/black"
             android:textColorHint="#9CA0A8"
+            android:imeOptions="actionDone"
+            android:layout_marginBottom="30dp"
             android:paddingVertical="10dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/bottom_border" />
+            android:background="@drawable/bottom_border"/>/>
 
         <TextView
             android:id="@+id/btn_dangky"
@@ -84,35 +88,6 @@
             android:textColor="@color/white"
             android:textSize="18dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hoặc đăng nhập bằng"
-            android:layout_gravity="center"
-            android:textColor="#8E929B"
-            android:layout_marginTop="20dp" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:layout_marginVertical="15dp">
-
-            <ImageView
-                android:id="@+id/img_fb"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/facebook"
-                android:layout_marginRight="25dp" />
-
-            <ImageView
-                android:id="@+id/img_gg"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/google"
-                android:layout_marginLeft="25dp" />
-        </LinearLayout>
 
         <!-- Điều khoản -->
         <TextView
@@ -153,7 +128,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="15dp"
             android:layout_gravity="center">
 
             <TextView
@@ -164,7 +138,7 @@
                 android:layout_marginTop="20dp" />
 
             <TextView
-                android:id="@+id/txt_dangnhap"
+                android:id="@+id/txt_dangnhap_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đăng nhập"

@@ -50,4 +50,14 @@ interface NguoiDungService {
     suspend fun setupPassword(
         @Body payload: Map<String, String>
     ): Response<Map<String, String>>
+
+    @POST("auth/forgotpass")
+    suspend fun forgotPass(
+        @Body payload: Map<String, String>
+    ): Response<Map<String, String>>
+
+    @POST("auth/setuppass")
+    suspend fun setUpPass(
+        @Body payload: Map<String, String>
+    ): Response<Map<String, String>>
 }

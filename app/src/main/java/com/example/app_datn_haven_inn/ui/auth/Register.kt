@@ -2,6 +2,7 @@ package com.example.app_datn_haven_inn.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -21,7 +22,8 @@ class Register : AppCompatActivity() {
         setContentView(R.layout.activity_register)
 
         val btnDangKy = findViewById<TextView>(R.id.btn_tieptheo)
-        val edtEmail = findViewById<EditText>(R.id.edt_dkk_email) // Email người dùng
+        val edtEmail = findViewById<EditText>(R.id.edt_dkk_email)
+        val btn_dangnhap_dangky = findViewById<TextView>(R.id.txt_dangnhap_dangky)
 
         btnDangKy.setOnClickListener {
             val email = edtEmail.text.toString()
@@ -33,6 +35,11 @@ class Register : AppCompatActivity() {
 
             // Gọi phương thức gửi OTP
             sendOtp(email)
+        }
+
+        btn_dangnhap_dangky.setOnClickListener{
+            val intent = Intent(this, SignIn::class.java)
+            startActivity(intent)
         }
     }
 

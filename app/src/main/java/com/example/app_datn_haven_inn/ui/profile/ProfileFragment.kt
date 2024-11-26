@@ -30,6 +30,7 @@ class ProfileFragment : Fragment() {
     private lateinit var xmcccd: TextView
     private lateinit var doiMK: TextView
     private lateinit var bt_signout: ImageView
+    private val LOCATION_PERMISSION_REQUEST_CODE = 100
     private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService()
     }

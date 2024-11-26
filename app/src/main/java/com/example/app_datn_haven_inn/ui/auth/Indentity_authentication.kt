@@ -24,7 +24,7 @@
 		private lateinit var btnGuiLai: TextView
 
 		private var countDownTimer: CountDownTimer? = null
-		private val countDownTime = 30 * 1000L // 30 seconds in milliseconds
+		private val countDownTime = 30 * 1000L
 
 		override fun onCreate(savedInstanceState: Bundle?) {
 			super.onCreate(savedInstanceState)
@@ -112,7 +112,7 @@
 
 		private fun navigateToSignUp() {
 			val intent = Intent(this, SignUp::class.java).apply {
-				putExtra("email", email) // Truyền email qua Intent
+				putExtra("email", email)
 			}
 			startActivity(intent)
 			finish()
