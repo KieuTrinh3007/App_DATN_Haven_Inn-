@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="mat sau"/>
+    <!-- PreviewView của CameraX -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewViewBack"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
+
+    <!-- ImageView để hiển thị ảnh đã chụp -->
+    <ImageView
+        android:id="@+id/capturedImageViewBack"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/previewView"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:scaleType="centerCrop"
+        android:visibility="gone"/>
+
+    <!-- Nút Chụp ảnh -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/captureButtonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/previewView"
+            android:layout_centerHorizontal="true"
+            android:text="Chụp ảnh" />
+
+        <Button
+            android:id="@+id/continue_buttonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/captureButton"
+            android:layout_centerHorizontal="true"
+            android:text="Tiếp tục"
+            android:visibility="gone"
+            android:layout_marginRight="20dp"/>
+
+        <Button
+            android:id="@+id/retryButtonBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/captureButton"
+            android:layout_centerHorizontal="true"
+            android:text="Chụp lại"
+            android:visibility="gone"/>
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,131 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F9F9F9">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/textViewTitleCCCD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thông Tin CCCD"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Ảnh mặt trước CCCD -->
+        <ImageView
+            android:id="@+id/imageViewFrontCCCD"
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Ảnh mặt trước CCCD"
+            android:background="#E0E0E0"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ảnh mặt trước"
+            android:textColor="#555"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Ảnh mặt sau CCCD -->
+        <ImageView
+            android:id="@+id/imageViewBackCCCD"
+            android:layout_width="200dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="8dp"
+            android:contentDescription="Ảnh mặt sau CCCD"
+            android:background="#E0E0E0"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ảnh mặt sau"
+            android:textColor="#555"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Thông tin chi tiết CCCD -->
+        <TextView
+            android:id="@+id/textNumberCCCD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Số CCCD: [số CCCD]"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textViewNameCCCD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Họ và tên: [Tên]"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textViewGenderCCCD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Giới tính: [Giới tính]"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textViewBirthDateCCCD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ngày sinh: [Ngày sinh]"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:id="@+id/textViewAddressCCCD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nơi cư trú: [Địa chỉ]"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/textDateCapCCCD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ngày cấp: [ngày cấp]"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/textViewNationalityCCCD"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quốc tịch: [Quốc tịch]"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Nút Trở về -->
+        <Button
+            android:id="@+id/buttonBackCCCD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Trở về"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</ScrollView>
