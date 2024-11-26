@@ -7,7 +7,7 @@ import com.example.app_datn_haven_inn.BaseFragment
 import com.example.app_datn_haven_inn.ui.room.fragment.PhongNghiFragment
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.FragmentHomeBinding
-import com.example.app_datn_haven_inn.ui.home.Fragment.OverviewFragment
+import com.example.app_datn_haven_inn.ui.home.fragment.OverviewFragment
 import com.example.app_datn_haven_inn.ui.home.adapter.CategoryAdapter
 import com.example.app_datn_haven_inn.ui.home.adapter.SlideshowAdapter
 import com.example.app_datn_haven_inn.ui.home.fragment.ServiceFragment
@@ -19,8 +19,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     val images =
         listOf(
             R.drawable.slideshow1,
-            R.drawable.slideshow1,
-            R.drawable.slideshow1
+            R.drawable.img_intro2,
+            R.drawable.img_intro3
         )
 
     val categories = listOf (

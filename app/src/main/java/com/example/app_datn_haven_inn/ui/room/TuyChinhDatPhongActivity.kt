@@ -24,14 +24,15 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
     override fun initView() {
         super.initView()
+        val idLoaiPhong = intent.getStringExtra("id_LoaiPhong")
+
         adapter = TuyChinhDatPhongAdapter(emptyList())
         binding.rvChonSoPhong.adapter = adapter
 
 
-        viewModel.getListphong()
-        viewModel.phongList.observe(this) { list ->
+        viewModel.getListPhongByIdLoaiPhong(idLoaiPhong.toString())
+        viewModel.phongListByIdLoaiPhong.observe(this) { list ->
             if (list != null) {
-
                 adapter?.let {
                     it.listSoPhong = list
                     it.notifyDataSetChanged()

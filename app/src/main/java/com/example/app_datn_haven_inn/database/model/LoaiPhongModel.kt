@@ -15,5 +15,4 @@ data class LoaiPhongModel (
     @field:SerializedName("trangThai") var trangThai: Boolean,
     var isFavorite : Boolean = false
 
-
     )

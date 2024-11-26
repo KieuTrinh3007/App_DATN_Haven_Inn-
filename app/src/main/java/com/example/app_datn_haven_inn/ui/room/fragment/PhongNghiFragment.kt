@@ -5,8 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
@@ -14,21 +12,18 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.BaseFragment
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.YeuThichModel
-import com.example.app_datn_haven_inn.database.repository.YeuThichRepository
 import com.example.app_datn_haven_inn.databinding.FragmentPhongNghiBinding
-import com.example.app_datn_haven_inn.ui.room.PhongNghiAdapter
+import com.example.app_datn_haven_inn.ui.room.adapter.PhongNghiAdapter
 import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
 import com.example.app_datn_haven_inn.viewModel.YeuThichViewModel
-import kotlinx.coroutines.launch
-import java.text.NumberFormat
 import java.util.Calendar
-import java.util.Locale
 
 
 class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
@@ -57,13 +52,53 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         loaiPhongViewModel.loaiPhongList.observe(this) { list ->
             Log.d("PhongNghiFragment", "List size: ${list?.size}")
             if (list != null) {
-
                 adapter?.let {
                     it.listPhong = list
                     it.notifyDataSetChanged()
                 }
             }
         }
+
+        loaiPhongViewModel.loaiPhongList.observe(viewLifecycleOwner, Observer { list ->
+            adapter?.notifyDataSetChanged()
+        })
+
+        viewBinding.txtTatCaPhong.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_64A89C))
+        viewBinding.txtTatCaPhong.setOnClickListener{
+            loaiPhongViewModel.getListloaiPhong()
+
+            viewBinding.txtTatCaPhong.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_64A89C))
+            viewBinding.txt1Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            viewBinding.txt2Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+
+
+        }
+
+        viewBinding.txt1Giuong.setOnClickListener {
+            val loaiPhongList = loaiPhongViewModel.loaiPhongList.value
+            val filteredList = loaiPhongList?.filter { loaiPhong ->
+                loaiPhong.giuong.contains("Một")
+            }
+            loaiPhongViewModel._loaiPhongList.postValue(filteredList)
+            viewBinding.txt1Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_64A89C))
+            viewBinding.txtTatCaPhong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            viewBinding.txt2Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+
+        }
+
+        viewBinding.txt2Giuong.setOnClickListener {
+            val loaiPhongList = loaiPhongViewModel.loaiPhongList.value
+            val filteredList = loaiPhongList?.filter { loaiPhong ->
+                loaiPhong.giuong.contains("Hai") 
+            }
+            loaiPhongViewModel._loaiPhongList.postValue(filteredList)
+            viewBinding.txt2Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_64A89C))
+            viewBinding.txtTatCaPhong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            viewBinding.txt1Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+
+        }
+
+
 
         adapter?.setonFavotiteSelected { phong ->
             // Lấy idNguoiDung từ SharedPreferences
@@ -117,63 +152,63 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         }
 
 
-        val calendar = Calendar.getInstance()
-        val formattedDay = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
-        val formattedMonth = String.format("%02d", calendar.get(Calendar.MONTH) + 1)
-        val currentDate = "$formattedDay/$formattedMonth/${calendar.get(Calendar.YEAR)}"
-
-        viewBinding.tvTuNgay.text = currentDate
-        viewBinding.tvDenNgay.text = currentDate
-
-        viewBinding.tvTuNgay.setOnClickListener {
-
-            // Lấy ngày hiện tại
-            val calendar = Calendar.getInstance()
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-            // Hiển thị DatePickerDialog
-            val datePickerDialog = DatePickerDialog(
-                requireContext(),
-                { _, selectedYear, selectedMonth, selectedDay ->
-
-                    val formattedDay = String.format("%02d", selectedDay)
-                    val formattedMonth = String.format("%02d", selectedMonth + 1)
-                    val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
-
-                    viewBinding.tvTuNgay.text = selectedDate
-                },
-                year, month, day
-            )
-            datePickerDialog.show()
-
-        }
-
-        viewBinding.tvDenNgay.setOnClickListener {
-
-
-            val calendar = Calendar.getInstance()
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-
-            val datePickerDialog = DatePickerDialog(
-                requireContext(),
-                { _, selectedYear, selectedMonth, selectedDay ->
-
-                    val formattedDay = String.format("%02d", selectedDay)
-                    val formattedMonth = String.format("%02d", selectedMonth + 1)
-                    val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
-
-                    viewBinding.tvDenNgay.text = selectedDate
-                },
-                year, month, day
-            )
-            datePickerDialog.show()
-
-        }
+//        val calendar = Calendar.getInstance()
+//        val formattedDay = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
+//        val formattedMonth = String.format("%02d", calendar.get(Calendar.MONTH) + 1)
+//        val currentDate = "$formattedDay/$formattedMonth/${calendar.get(Calendar.YEAR)}"
+//
+//        viewBinding.tvTuNgay.text = currentDate
+//        viewBinding.tvDenNgay.text = currentDate
+//
+//        viewBinding.tvTuNgay.setOnClickListener {
+//
+//            // Lấy ngày hiện tại
+//            val calendar = Calendar.getInstance()
+//            val year = calendar.get(Calendar.YEAR)
+//            val month = calendar.get(Calendar.MONTH)
+//            val day = calendar.get(Calendar.DAY_OF_MONTH)
+//
+//            // Hiển thị DatePickerDialog
+//            val datePickerDialog = DatePickerDialog(
+//                requireContext(),
+//                { _, selectedYear, selectedMonth, selectedDay ->
+//
+//                    val formattedDay = String.format("%02d", selectedDay)
+//                    val formattedMonth = String.format("%02d", selectedMonth + 1)
+//                    val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
+//
+//                    viewBinding.tvTuNgay.text = selectedDate
+//                },
+//                year, month, day
+//            )
+//            datePickerDialog.show()
+//
+//        }
+//
+//        viewBinding.tvDenNgay.setOnClickListener {
+//
+//
+//            val calendar = Calendar.getInstance()
+//            val year = calendar.get(Calendar.YEAR)
+//            val month = calendar.get(Calendar.MONTH)
+//            val day = calendar.get(Calendar.DAY_OF_MONTH)
+//
+//
+//            val datePickerDialog = DatePickerDialog(
+//                requireContext(),
+//                { _, selectedYear, selectedMonth, selectedDay ->
+//
+//                    val formattedDay = String.format("%02d", selectedDay)
+//                    val formattedMonth = String.format("%02d", selectedMonth + 1)
+//                    val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
+//
+//                    viewBinding.tvDenNgay.text = selectedDate
+//                },
+//                year, month, day
+//            )
+//            datePickerDialog.show()
+//
+//        }
 
         viewBinding.tvTuKhoang.setOnClickListener {
             showDialogLoaiPhong("TuKhoang")
@@ -281,6 +316,10 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             val giaToiThieu = edGiaToiThieu.text.toString().trim()
             val giaToiDa = edGiaToiDa.text.toString().trim()
 
+            if (giaToiThieu.isEmpty() || giaToiDa.isEmpty()) {
+                Toast.makeText(requireContext(), "Vui lòng nhập đủ thông tin giá", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             // Tính tổng số khách
             val soNguoiLon = tvSoLuongNguoiLon.text.toString().toInt()
             val soTreEm = tvSoLuongTreEm.text.toString().toInt()
@@ -291,10 +330,14 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             viewBinding.tvTuKhoang.text = "$giaToiThieu"
             viewBinding.tvDenKhoang.text = "$giaToiDa"
 
+            if (tongSoNguoi <= 0) {
+                Toast.makeText(requireContext(), "Số khách phải lớn hơn 0", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            loaiPhongViewModel.filterLoaiPhongBySoKhach(tongSoNguoi)
 
             dialog.dismiss()
         }
     }
-
-
 }

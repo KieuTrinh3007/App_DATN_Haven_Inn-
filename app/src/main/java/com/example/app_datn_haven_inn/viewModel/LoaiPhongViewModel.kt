@@ -12,7 +12,7 @@ import com.example.app_datn_haven_inn.database.service.LoaiPhongService
 import kotlinx.coroutines.launch
 
 class LoaiPhongViewModel : BaseViewModel() {
-    private val _loaiPhongList = MutableLiveData<List<LoaiPhongModel>?>()
+    val _loaiPhongList = MutableLiveData<List<LoaiPhongModel>?>()
     val loaiPhongList: LiveData<List<LoaiPhongModel>?> get() = _loaiPhongList
 
     private val _loaiPhong = MutableLiveData<LoaiPhongModel?>()
@@ -44,18 +44,18 @@ class LoaiPhongViewModel : BaseViewModel() {
         }
     }
 
-//    fun getLoaiPhongById(id: String) {
-//        viewModelScope.launch {
-//            try {
-//                val apiService : LoaiPhongService = CreateService.createService()
-//                val LoaiPhongRepository = LoaiPhongRepository(apiService)
-//                _loaiPhongList.value = LoaiPhongRepository.getLoaiPhongById(id)
-//            } catch (e: Exception) {
-//                Log.e("CarrierViewModel", "Error fetching carrier by ID", e)
-//                _errorMessage.value = "Error fetching carrier by ID: ${e.message}"
-//            }
-//        }
-//    }
+    fun getLoaiPhongById(id: String) {
+        viewModelScope.launch {
+            try {
+                val apiService : LoaiPhongService = CreateService.createService()
+                val LoaiPhongRepository = LoaiPhongRepository(apiService)
+                _loaiPhong.value = LoaiPhongRepository.getLoaiPhongById(id)
+            } catch (e: Exception) {
+                Log.e("CarrierViewModel", "Error fetching carrier by ID", e)
+                _errorMessage.value = "Error fetching carrier by ID: ${e.message}"
+            }
+        }
+    }
 
     fun addloaiPhong(loaiPhong: LoaiPhongModel) {
         viewModelScope.launch {
@@ -96,6 +96,24 @@ class LoaiPhongViewModel : BaseViewModel() {
             }
         }
     }
+
+
+    fun filterLoaiPhongBySoKhach(soKhach: Int) {
+        val filteredList = _loaiPhongList.value?.filter { loaiPhong ->
+            loaiPhong.soLuongKhach == soKhach
+
+        }
+        _loaiPhongList.postValue(filteredList)
+    }
+
+    fun filterLoaiPhongByGiuong(soGiuong: String) {
+        val filteredList = _loaiPhongList.value?.filter { loaiPhong ->
+            loaiPhong.giuong == soGiuong
+        }
+        _loaiPhongList.postValue(filteredList)
+    }
+
+
 
     fun clearErrorMessage() {
         _errorMessage.value = null

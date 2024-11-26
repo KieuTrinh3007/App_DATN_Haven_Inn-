@@ -2,9 +2,9 @@ package com.example.app_datn_haven_inn.ui.room
 
 import android.content.Intent
 import android.graphics.Paint
-import android.os.Handler
-import android.os.Looper
+import android.util.Log
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.BaseViewModel
@@ -13,34 +13,77 @@ import com.example.app_datn_haven_inn.databinding.ActivityRoomDetailBinding
 import com.example.app_datn_haven_inn.ui.review.adapter.ReviewAdapter
 import com.example.app_datn_haven_inn.ui.review.model.Review
 import com.example.app_datn_haven_inn.ui.room.adapter.PhotoAdapter
-import com.example.app_datn_haven_inn.ui.room.adapter.TienNghiNoiBatAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TienNghiPhongAdapter
-import com.example.app_datn_haven_inn.ui.room.model.Photo
-import com.example.app_datn_haven_inn.ui.room.model.TienNghiPhong
-import com.google.android.flexbox.FlexDirection
-import com.google.android.flexbox.FlexWrap
-import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
+import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
+import com.example.app_datn_haven_inn.viewModel.TienNghiPhongViewModel
 import java.util.Timer
-import java.util.TimerTask
 
 class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel>() {
     private lateinit var photoAdapter: PhotoAdapter
     private var timer: Timer? = null
-    private val mListphoto: MutableList<Photo> = mutableListOf()
+    private var mListphoto: List<String> = listOf()
+    private var adapter: TienNghiPhongAdapter? = null
+    private var tienNghiViewModel: TienNghiPhongViewModel? = null
+    private var loaiPhongViewModel: LoaiPhongViewModel? = null
     override fun createBinding(): ActivityRoomDetailBinding {
         return ActivityRoomDetailBinding.inflate(layoutInflater)
     }
 
     override fun setViewModel(): BaseViewModel {
-        return  BaseViewModel()
+        return BaseViewModel()
     }
 
     override fun initView() {
         super.initView()
+        val idLoaiPhong = intent.getStringExtra("id_LoaiPhong")
+        loaiPhongViewModel = ViewModelProvider(this)[LoaiPhongViewModel::class.java]
+        tienNghiViewModel = ViewModelProvider(this)[TienNghiPhongViewModel::class.java]
+        adapter = TienNghiPhongAdapter(listOf())
+        binding.rvTiennghiphong.adapter = adapter
 
-        // Load slideshow
-        loadSlide()
+        val tvTenPhong = intent.getStringExtra("tenLoaiPhong").toString()
+        val tvSLGiuong = intent.getStringExtra("giuong").toString()
+        val tvSLKhach = intent.getStringExtra("soLuongKhach").toString() + " Khách"
+        val tvDienTich = intent.getStringExtra("dienTich").toString() + " mét vuông"
+        val hinhAnh = intent.getStringArrayExtra("hinhAnh")
+
+        binding.txtTenPhong.text = tvTenPhong
+        binding.tvSLGiuong.text = tvSLGiuong
+        binding.txtNumberGuest.text = tvSLKhach
+        binding.tvDienTich.text = tvDienTich
+
+
+        Log.d("hinhAnh", hinhAnh.toString())
+        if (hinhAnh != null) {
+            photoAdapter = PhotoAdapter(this, hinhAnh.toList())
+            binding.viewpager.adapter = photoAdapter
+            binding.circleIndicator.setViewPager(binding.viewpager)
+            photoAdapter.registerDataSetObserver(binding.circleIndicator.dataSetObserver)
+        }
+
+
+        tienNghiViewModel?.getListTienNghiPhongByIdLoaiPhong(idLoaiPhong.toString())
+        tienNghiViewModel?.tienNghiPhongListByIdLoaiPhong?.observe(this) { list ->
+            if (list != null) {
+
+                adapter?.let {
+                    it.items = list
+                    it.notifyDataSetChanged()
+                }
+            }
+        }
+
+        tienNghiViewModel?.getListtienNghiPhong()
+        tienNghiViewModel?.tienNghiPhongList?.observe(this) { tienNghiList ->
+            if (tienNghiList != null) {
+                adapter?.let {
+                    it.items = tienNghiList
+                    it.notifyDataSetChanged()
+                }
+
+            }
+        }
+
 
         binding.icBack.setOnClickListener {
             finish()
@@ -55,9 +98,9 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             moveToNextSlide()
         }
 
-        loadTienNghiNoiBat()
-        loadTienNghiPhong()
         loadReview()
+
+
 
         binding.btnTuyChinh.setOnClickListener {
             startActivity(Intent(this, TuyChinhDatPhongActivity::class.java))
@@ -68,73 +111,16 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
 
     }
 
-    private fun loadTienNghiNoiBat(){
-        val rvTienNghi = binding.rvTiennghi
-        val layoutManager = FlexboxLayoutManager(this).apply {
-            flexDirection = FlexDirection.ROW
-            flexWrap = FlexWrap.WRAP
-            justifyContent = JustifyContent.FLEX_START
-        }
-        rvTienNghi.layoutManager = layoutManager
-        val adapter = TienNghiNoiBatAdapter(listOf("Wi-Fi", "TV", "Điều hòa", "Máy sấy", "Tủ lạnh", "Bàn làm việc", "Máy giặt"))
-        rvTienNghi.adapter = adapter
-    }
-
-    private fun loadSlide() {
-        // Prepare the list of photos
-        getListphoto(mListphoto)
-        // Set up the adapter and bind it to the ViewPager
-        photoAdapter = PhotoAdapter(this, mListphoto)
-        binding.viewpager.adapter = photoAdapter
-
-        // Set up CircleIndicator with ViewPager
-        binding.circleIndicator.setViewPager(binding.viewpager)
-        photoAdapter.registerDataSetObserver(binding.circleIndicator.dataSetObserver)
-
-        // Start the auto slideshow
-//        autoSlideshow(mListphoto)
-    }
-
-    private fun loadTienNghiPhong(){
-        val rvTienNghi = binding.rvTiennghiphong
-        rvTienNghi.layoutManager = LinearLayoutManager(this) // Sử dụng LinearLayoutManager dọc
-        val adapter = TienNghiPhongAdapter(listOf(
-            TienNghiPhong("Phòng tắm", "Áo choàng tắm\n" +
-                    "Máy sấy tóc\n" +
-                    "Phòng tắm riêng\n" +
-                    "Buồng tắm vòi sen\n" +
-                    "Dép đi trong nhà\n" +
-                    "Khăn tắm", R.drawable.ic_bath),
-            TienNghiPhong("Phòng ngủ", "Máy điều hòa nhiệt độ\n" +
-                    "Bộ trải giường\n" +
-                    "Màn/rèm cản sáng\n" +
-                    "Giường gấp/giường phụ\n" +
-                    "Sofa giường", R.drawable.ic_bed2),
-            TienNghiPhong("Ăn uống", "Nước đóng chai miễn phí\n" +
-                    "Minibar\n" +
-                    "Dịch vụ phòng (giới hạn thời gian)", R.drawable.ic_food2),
-            TienNghiPhong("Giải trí", "TV LCD 43 inch\n" +
-                    "Truyền hình cáp\n" +
-                    "Truyền hình cao cấp", R.drawable.ic_ytb),
-            TienNghiPhong("Internet", "Wifi miễn phí\n" +
-                    "Truy cập Internet có dây miễn phí", R.drawable.ic_wifi2),
-            TienNghiPhong("Không gian ngoài trời", "Ban công", R.drawable.ic_beach2),
-            TienNghiPhong("Khác", "Dịch vụ dọn phòng hàng ngày\n" +
-                    "Bàn\n" +
-                    "Lò sưởi\n" +
-                    "Thay bộ trải giường theo yêu cầu\n" +
-                    "Thay khăn theo yêu cầu\n" +
-                    "Bàn ủi/dụng cụ ủi quần áo (theo yêu cầu)\n" +
-                    "Điện thoại\n" +
-                    "Phòng cách âm\n" +
-                    "Tủ quần áo", R.drawable.ic_v2),
-        ))
-        rvTienNghi.adapter = adapter
-    }
 
     private fun loadReview() {
         val allReviews = listOf(
-            Review(R.drawable.avat2, "Lê Đăng Sang", 9, "Khách sạn có dịch vụ rất tốt, nhân viên nhiệt tình lịch sự, phòng ốc trang nhã sạch sẽ", "12/10/2024"),
+            Review(
+                R.drawable.avat2,
+                "Lê Đăng Sang",
+                9,
+                "Khách sạn có dịch vụ rất tốt, nhân viên nhiệt tình lịch sự, phòng ốc trang nhã sạch sẽ",
+                "12/10/2024"
+            ),
             Review(R.drawable.avatar1, "Vũ Thị Vân Anh", 10, "Good place to stay", "1/10/2024"),
             Review(R.drawable.ic_person, "Nguyễn Văn A", 8, "Dịch vụ tốt!", "01/11/2023"),
             Review(R.drawable.person13x13, "Trần Thị B", 9, "Rất hài lòng.", "15/11/2023")
@@ -161,33 +147,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         }
     }
 
-
-    private fun getListphoto(list: MutableList<Photo>) {
-        list.clear()
-        list.add(Photo(R.drawable.room_1))
-        list.add(Photo(R.drawable.room_2))
-        list.add(Photo(R.drawable.room_1))
-        list.add(Photo(R.drawable.room_3))
-        list.add(Photo(R.drawable.room_4))
-    }
-
-    private fun autoSlideshow(mListphoto: List<Photo>) {
-        if (mListphoto.isEmpty()) {
-            return
-        }
-
-        // Initialize timer
-        timer?.cancel()
-        timer = Timer()
-
-        timer?.schedule(object : TimerTask() {
-            override fun run() {
-                Handler(Looper.getMainLooper()).post {
-                    moveToNextSlide()
-                }
-            }
-        }, 3000, 3000)
-    }
 
     private fun moveToNextSlide() {
         val currentItem = binding.viewpager.currentItem

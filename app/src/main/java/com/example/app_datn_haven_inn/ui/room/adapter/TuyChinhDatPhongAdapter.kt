@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.room.adapter
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,9 +24,11 @@ class TuyChinhDatPhongAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.tvSoPhong.text = listSoPhong.get(position).soPhong
 
-        if (listSoPhong.get(position).vip){
+        if (listSoPhong.get(position).vip) {
 
-        }else {
+            holder.binding.tvSoPhong.text = "VIP\n" + listSoPhong.get(position).soPhong
+            holder.binding.tvSoPhong.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
+        }
 
             when (listSoPhong.get(position).trangThai) {
                 0 -> { // Hết phòng
@@ -43,7 +46,7 @@ class TuyChinhDatPhongAdapter(
                     holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_select)
                 }
             }
-        }
+
 
         // Xử lý sự kiện click để chọn phòng
         holder.binding.root.setOnClickListener {

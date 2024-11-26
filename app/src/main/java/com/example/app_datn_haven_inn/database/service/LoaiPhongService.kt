@@ -13,7 +13,7 @@ interface LoaiPhongService {
     @GET("loaiphongs/")
     suspend fun getListLoaiPhong(): Response<List<LoaiPhongModel>>
 
-    @GET("loaiphongs/getListorByID/{id}")
+    @GET("loaiphongs/{id}")
     suspend fun getLoaiPhongById(@Path("id") id: String): Response<LoaiPhongModel>
 
     @POST("loaiphongs/post")

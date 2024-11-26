@@ -18,6 +18,18 @@ class TienNghiPhongRepository (private val api: TienNghiPhongService) {
         }
     }
 
+    suspend fun getListTienNghiByIdLoaiPhong(idLoaiPhong: String): List<TienNghiPhongModel>? = withContext(Dispatchers.IO) {
+        val response = api.getListTienNghiByIdLoaiPhong(idLoaiPhong)
+        if (response.isSuccessful) {
+            Log.d("TienNghiPhongRepository", "getListTienNghiPhong Success: ${response.body()}")
+            response.body()
+        } else {
+            Log.e("TienNghiPhongRepository", "getListTienNghiPhong Error: ${response.errorBody()}")
+            null
+        }
+    }
+
+
     suspend fun addTienNghiPhong(carrier: TienNghiPhongModel): TienNghiPhongModel? = withContext(Dispatchers.IO) {
         val response = api.addTienNghiPhong(carrier)
         if (response.isSuccessful) {

@@ -1,4 +1,4 @@
-package com.example.app_datn_haven_inn.ui.room
+package com.example.app_datn_haven_inn.ui.room.adapter
 
 import android.content.Intent
 import android.graphics.Paint
@@ -10,6 +10,8 @@ import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.databinding.ItemTtPhongBinding
+import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
+import com.example.app_datn_haven_inn.ui.room.TuyChinhDatPhongActivity
 import com.example.app_datn_haven_inn.utils.SharePrefUtils.loadFavoriteState
 import com.example.app_datn_haven_inn.utils.SharePrefUtils.saveFavoriteState
 import java.text.NumberFormat
@@ -68,24 +70,24 @@ class PhongNghiAdapter(
             tvTuyChinh.setOnClickListener{
                 val context = holder.binding.root.context
                 val intent = Intent(context, TuyChinhDatPhongActivity::class.java)
+                intent.putExtra("id_LoaiPhong", phong.id)
                 context.startActivity(intent)
             }
 
-            tvXemThemChiTiet.setOnClickListener{
-                val context = holder.binding.root.context
-                val intent = Intent(context, RoomDetailActivity::class.java)
-                intent.putExtra("price", phong.giaTien)
-                intent.putExtra("name", phong.tenLoaiPhong)
-                intent.putExtra("khach", phong.soLuongKhach)
-                intent.putExtra("giuong", phong.giuong)
-                intent.putExtra("dientich", phong.dienTich)
-                intent.putExtra("image", phong.hinhAnh)
-                context.startActivity(intent)
-            }
 
             holder.itemView.setOnClickListener {
-                onItemClick?.invoke(phong, position)
+                Log.d("hinhAnh",phong.hinhAnh.toString())
+                val context = holder.binding.root.context
+                val intent = Intent(context, RoomDetailActivity::class.java)
+                intent.putExtra("id_LoaiPhong", phong.id)
+                intent.putExtra("tenLoaiPhong", phong.tenLoaiPhong)
+                intent.putExtra("giuong", phong.giuong)
+                intent.putExtra("soLuongKhach", phong.soLuongKhach.toString())
+                intent.putExtra("dienTich", phong.dienTich.toString())
+                intent.putExtra("hinhAnh", phong.hinhAnh.toTypedArray())
+                context.startActivity(intent)
             }
+
             updateFavoriteIcon(this, phong)
 
             // Xử lý sự kiện yêu thích

@@ -18,7 +18,7 @@ class LoaiPhongRepository (private val api: LoaiPhongService) {
         }
     }
 
-    suspend fun getLoaiPhongById(id: String): LoaiPhongModel? = withContext(Dispatchers.IO) {
+    suspend fun getLoaiPhongById(id: String):LoaiPhongModel? = withContext(Dispatchers.IO) {
         val response = api.getLoaiPhongById(id)
         if (response.isSuccessful) {
             Log.d("CarrierRepository", "getCarrierById Success: ${response.body()}")

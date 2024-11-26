@@ -256,6 +256,7 @@
                             android:layout_marginRight="12dp"/>
 
                         <TextView
+                            android:id="@+id/tv_SLGiuong"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Một giường cỡ king"
@@ -306,6 +307,7 @@
                             android:layout_marginRight="12dp"/>
 
                         <TextView
+                            android:id="@+id/tv_dienTich"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30 mét vuông"
@@ -328,6 +330,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_tiennghiphong"
+                tools:listitem="@layout/item_tiennghiphong"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"/>
