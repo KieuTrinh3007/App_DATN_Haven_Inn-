@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dialog_background"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:text="Nhập mã xác thực"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="17dp"
+            android:text="Vui lòng nhập mã xác thực đã được gửi đến email của bạn."/>
+
+        <!-- Chỉ sử dụng 1 EditText để nhập mã OTP -->
+        <EditText
+            android:id="@+id/et_otp_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/otp_box"
+            android:gravity="center"
+            android:hint="Nhập mã OTP"
+            android:inputType="number"
+            android:maxLength="6"
+            android:padding="10dp"
+            android:textSize="18sp" />
+
+        <!-- Nút xác nhận và gửi lại -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btn_resend_otp_forgot"
+                android:layout_width="125dp"
+                android:layout_height="45dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/button_disabled"
+                android:text="Gửi lại mã"
+                android:gravity="center"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/btn_submit_otp_forgot"
+                android:layout_width="125dp"
+                android:layout_height="45dp"
+                android:background="@drawable/button_disabled"
+                android:text="Xác nhận"
+                android:gravity="center"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
