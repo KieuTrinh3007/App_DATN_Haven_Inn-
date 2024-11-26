@@ -30,7 +30,6 @@ class ThucDonFragment : Fragment() {
 
         amThucViewModel.getListamThuc()
 
-        // Kiểm tra dữ liệu amThucList trước khi gán adapter
         amThucViewModel.amThucList.observe(viewLifecycleOwner, Observer { amThucList ->
             if (amThucList != null && amThucList.isNotEmpty()) {
                 adapter = AmThucAdapter(amThucList) { amThuc ->
