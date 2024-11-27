@@ -30,9 +30,10 @@ class EditProfile : AppCompatActivity() {
 
     private lateinit var imageViewAvatar: ImageView
     private lateinit var editTextName: EditText
-    private lateinit var textViewEmail: TextView
+    private lateinit var textViewEmail: EditText
     private lateinit var textViewPhone: EditText
     private lateinit var btSaveChanges: TextView
+    private lateinit var btn_back_edit: ImageView
 
     private var selectedImageUri: Uri? = null
     private var currentImageUrl: String? = null
@@ -52,6 +53,7 @@ class EditProfile : AppCompatActivity() {
         textViewEmail = findViewById(R.id.emailEditText)
         textViewPhone = findViewById(R.id.phoneTextView)
         btSaveChanges = findViewById(R.id.saveButton)
+        btn_back_edit = findViewById(R.id.btn_back_editprofile)
 
         nguoiDungService = CreateService.createService()
 
@@ -69,6 +71,10 @@ class EditProfile : AppCompatActivity() {
             idNguoiDung?.let { id ->
                 saveUserProfile(id)
             }
+        }
+
+        btn_back_edit.setOnClickListener{
+            finish()
         }
     }
 
