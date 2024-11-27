@@ -21,9 +21,9 @@
     <!-- CardView bao bọc nội dung chính -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="450dp"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         app:cardElevation="8dp"
         app:cardCornerRadius="16dp"
@@ -35,7 +35,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
-            android:paddingVertical="16dp">
+            android:paddingVertical="16dp"
+            android:layout_marginTop="50dp">
 
             <!-- Nhập số điện thoại -->
             <EditText
@@ -90,38 +91,6 @@
                 android:textColor="@color/white"
                 android:textSize="15dp" />
 
-            <!-- Đăng nhập bằng mạng xã hội -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hoặc đăng nhập bằng"
-                android:textSize="14dp"
-                android:layout_gravity="center"
-                android:textColor="#8E929B"
-                android:layout_marginTop="20dp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp">
-
-                <ImageView
-                    android:id="@+id/button_dangnhap_facebook"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/facebook"
-                    android:layout_marginRight="25dp" />
-
-                <ImageView
-                    android:id="@+id/btn_dangnhap_google"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:src="@drawable/google"
-                    android:layout_marginLeft="25dp" />
-            </LinearLayout>
-
             <!-- Điều khoản -->
             <TextView
                 android:layout_width="wrap_content"
@@ -173,7 +142,7 @@
                     android:layout_marginTop="20dp" />
 
                 <TextView
-                    android:id="@+id/txtSignUp"
+                    android:id="@+id/txtSignUpSignIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Đăng ký"
