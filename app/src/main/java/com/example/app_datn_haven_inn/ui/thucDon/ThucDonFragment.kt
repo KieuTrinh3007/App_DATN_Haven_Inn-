@@ -1,59 +1,61 @@
 package com.example.app_datn_haven_inn.ui.thucDon
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
-import com.example.app_datn_haven_inn.databinding.FragmentThucdonBinding
 import com.example.app_datn_haven_inn.ui.food.adapter.AmThucAdapter
 import com.example.app_datn_haven_inn.viewModel.AmThucViewModel
 
-class ThucDonFragment : Fragment() {
+class ThucDonFragment : AppCompatActivity() {
 
-    private lateinit var binding: FragmentThucdonBinding
     private lateinit var amThucViewModel: AmThucViewModel
     private lateinit var adapter: AmThucAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentThucdonBinding.inflate(inflater, container, false)
+    // Ánh xạ các thành phần UI
+    private lateinit var recyclerViewThucDon: RecyclerView
+    private lateinit var progressBarThucDon: ProgressBar
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_thucdon)
+
+        // Ánh xạ UI
+        recyclerViewThucDon = findViewById(R.id.viewThucDon)
+        progressBarThucDon = findViewById(R.id.progressBarThucdon)
+
+        // Thiết lập ViewModel
         amThucViewModel = ViewModelProvider(this).get(AmThucViewModel::class.java)
-
         amThucViewModel.getListamThuc()
 
-        amThucViewModel.amThucList.observe(viewLifecycleOwner, Observer { amThucList ->
+        // Lắng nghe danh sách món ăn
+        amThucViewModel.amThucList.observe(this, Observer { amThucList ->
             if (amThucList != null && amThucList.isNotEmpty()) {
                 adapter = AmThucAdapter(amThucList) { amThuc ->
-                    Toast.makeText(context, "Clicked: ${amThuc.tenNhaHang}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Clicked: ${amThuc.tenNhaHang}", Toast.LENGTH_SHORT).show()
                 }
 
-                binding.viewThucDon.layoutManager = LinearLayoutManager(context)
-                binding.viewThucDon.adapter = adapter
-                binding.progressBarThucdon.visibility = View.GONE // Ẩn ProgressBar khi tải xong dữ liệu
+                recyclerViewThucDon.layoutManager = LinearLayoutManager(this)
+                recyclerViewThucDon.adapter = adapter
+                progressBarThucDon.visibility = View.GONE // Ẩn ProgressBar khi tải xong dữ liệu
             } else {
-                Toast.makeText(context, "Không thể tải dữ liệu", Toast.LENGTH_SHORT).show()
-                binding.progressBarThucdon.visibility = View.GONE
+                Toast.makeText(this, "Không thể tải dữ liệu", Toast.LENGTH_SHORT).show()
+                progressBarThucDon.visibility = View.GONE
             }
         })
 
-
-        // Hiển thị ProgressBar khi đang tải dữ liệu
-        amThucViewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
+        // Hiển thị thông báo lỗi
+        amThucViewModel.errorMessage.observe(this, Observer { errorMessage ->
             if (errorMessage != null) {
-                binding.progressBarThucdon.visibility = View.GONE
-                Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                progressBarThucDon.visibility = View.GONE
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             }
         })
-
-        return binding.root
     }
 }

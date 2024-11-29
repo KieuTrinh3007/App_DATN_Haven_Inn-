@@ -40,6 +40,6 @@ class RoomTopAdapter(
 
     override fun getItemCount(): Int {
         // Giới hạn tối đa 2 phòng
-        return roomList.size.coerceAtMost(2)
+        return roomList.size.coerceAtMost(4)
     }
 }

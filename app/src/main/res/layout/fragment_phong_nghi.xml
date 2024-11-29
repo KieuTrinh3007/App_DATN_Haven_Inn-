@@ -22,7 +22,7 @@
         android:orientation="horizontal"
         android:layout_marginBottom="5dp"
         android:background="@drawable/bg_radius_10"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <ImageView
             android:layout_width="16dp"
@@ -71,7 +71,7 @@
         android:layout_marginBottom="5dp"
         android:orientation="horizontal"
         android:background="@drawable/bg_radius_10"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <ImageView
             android:layout_width="16dp"
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/bg_radius_10"
-        android:padding="16dp">
+        android:padding="12dp">
 
         <ImageView
             android:layout_width="24dp"

@@ -85,10 +85,64 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp"
             android:text="Xem tất cả 418 nhận xét >"
             android:textColor="#64A89C"
             android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingTop="10dp"
+            android:text="Hệ thống phòng nghỉ đa dạng, hấp dẫn kèm nhiều ưu đãi"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewRoomTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/xemloaiphong"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:text="Xem thêm các phòng khác >"
+            android:textColor="#64A89C"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center"
+            android:text="Hơn 20 món ăn từ đặc sản địa phương tới phong vị quốc tế "
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/xemmonan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:text="Xem thêm các món ăn khác >"
+            android:textColor="#64A89C"
+            android:textSize="14sp" />
 
         <!-- Highlight Features -->
         <TextView
@@ -339,6 +393,7 @@
         </GridLayout>
 
         <TextView
+            android:id="@+id/xemtiennghi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
@@ -372,8 +427,8 @@
                     android:id="@+id/mapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:src="@drawable/img_3"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/img_3" />
 
                 <!-- Địa chỉ -->
                 <TextView
@@ -392,14 +447,14 @@
                     android:id="@+id/xemtrongbando"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:fontFamily="@font/roboto_regular"
                     android:paddingStart="10dp"
                     android:paddingBottom="5dp"
                     android:text="Xem trong bản đồ >"
                     android:textColor="#64A89C"
-                    android:textSize="12sp"
-                    android:clickable="true"
-                    android:focusable="true" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -578,65 +633,13 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="@font/roboto_medium"
-            android:paddingTop="10dp"
-            android:text="Hệ thống phòng nghỉ đa dạng, hấp dẫn kèm nhiều ưu đãi"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewRoomTop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_regular"
-            android:gravity="center"
-            android:text="Xem thêm các phòng khác >"
-            android:textColor="#64A89C"
-            android:textSize="14sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="15dp"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center"
-            android:text="Hơn 20 món ăn từ đặc sản địa phương tới phong vị quốc tế "
-            android:textColor="@color/black"
-            android:textSize="14sp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewFood"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_regular"
-            android:gravity="center"
-            android:text="Xem thêm các món ăn khác >"
-            android:textColor="#64A89C"
-            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:fontFamily="@font/roboto_medium"
-            android:paddingTop="5dp"
+            android:paddingTop="15dp"
             android:text="Thông tin về nơi lưu trú này"
             android:textColor="@color/black"
             android:textSize="14sp" />

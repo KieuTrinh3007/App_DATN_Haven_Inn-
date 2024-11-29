@@ -27,13 +27,22 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.cccd.CccdGuide"
+            android:exported="false" />
+        <activity
             android:name=".ui.myRoom.MyRoomActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thucDon.ThucDonFragment"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.ServiceFragment"
             android:exported="false" />
         <activity
             android:name=".ui.auth.RePassword"
             android:exported="false" />
         <activity
-            android:name=".ui.auth.SignIn"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +57,7 @@
             android:name=".ui.cccd.CaptureFrontActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.auth.SignIn"
             android:exported="false" />
         <activity
             android:name=".ui.onbording.WelcomeActivity"
@@ -61,9 +70,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.profile.EditProfile"
-            android:exported="false" />
-        <activity
-            android:name=".ui.profile.RePassword"
             android:exported="false" />
         <activity
             android:name=".ui.auth.SetUpPassword"

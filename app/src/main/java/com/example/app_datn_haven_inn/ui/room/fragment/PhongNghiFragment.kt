@@ -46,8 +46,6 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             }
         }
 
-
-
         val calendar = Calendar.getInstance()
         val formattedDay = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
         val formattedMonth = String.format("%02d", calendar.get(Calendar.MONTH) + 1)
@@ -171,8 +169,5 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                 tvSoLuongTreEm.text = soLuongTreEm.toString()
             }
         }
-
-
-
     }
 }

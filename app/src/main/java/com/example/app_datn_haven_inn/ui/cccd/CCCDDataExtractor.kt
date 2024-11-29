@@ -19,6 +19,7 @@ class CCCDDataExtractor {
                 val dataMap = parseCCCDInfo(visionText)
                 callback(dataMap)
             }
+
             .addOnFailureListener { e ->
                 Log.e("CCCDDataExtractor", "Error recognizing text: ${e.message}")
                 callback(emptyMap()) // Trả về dữ liệu rỗng nếu có lỗi
