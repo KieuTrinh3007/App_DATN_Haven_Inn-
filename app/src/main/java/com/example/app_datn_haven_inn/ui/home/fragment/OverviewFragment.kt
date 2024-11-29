@@ -1,4 +1,4 @@
-package com.example.app_datn_haven_inn.ui.home.Fragment
+package com.example.app_datn_haven_inn.ui.home.fragment
 
 import android.content.Intent
 import android.net.Uri

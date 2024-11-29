@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_solid_5"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="12dp"
+    android:layout_marginBottom="11dp"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_soPhong"
+        android:layout_width="wrap_content"
+        android:text="Số phòng :"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_tenPhong"
+        android:layout_width="wrap_content"
+        android:text="P402"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_giaPhong"
+        android:layout_width="wrap_content"
+        android:text="Giá phòng :"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/tv_soPhong"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="600.000đ"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toStartOf="@+id/tv_gia"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/tv_soPhong"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tv_gia"
+        android:layout_width="wrap_content"
+        android:text="600.000đ"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/tv_soPhong"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/tv_anSang"
+        android:layout_width="wrap_content"
+        android:text="Ăn sáng :"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/tv_giaPhong"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text=" 150.000đ"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/roboto_regular"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_anSang"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/tv_giaPhong"
+        android:layout_height="wrap_content"/>
+
+       <ImageView
+           android:id="@+id/rdKhongBuaSang"
+           android:layout_width="14dp"
+           android:src="@drawable/iv_no_breakfast"
+           app:layout_constraintTop_toBottomOf="@id/tv_giaPhong"
+           android:layout_marginTop="10dp"
+           android:layout_marginStart="24dp"
+           app:layout_constraintEnd_toEndOf="parent"
+           android:layout_height="14dp"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

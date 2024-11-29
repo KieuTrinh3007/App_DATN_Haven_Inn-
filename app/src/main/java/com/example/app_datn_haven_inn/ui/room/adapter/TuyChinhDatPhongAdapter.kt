@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.room.adapter
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -23,20 +24,29 @@ class TuyChinhDatPhongAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.tvSoPhong.text = listSoPhong.get(position).soPhong
 
-        when (listSoPhong.get(position).trangThai) {
-            0 -> { // Hết phòng
-                holder.binding.root.isEnabled = false
-                holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_selected)
-            }
-            1 -> { // Chưa chọn
-                holder.binding.root.isEnabled = true
-                holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_unselect)
-            }
-            2 -> { // Đã chọn
-                holder.binding.root.isEnabled = true
-                holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_select)
-            }
+        if (listSoPhong.get(position).vip) {
+
+            holder.binding.tvSoPhong.text = "VIP\n" + listSoPhong.get(position).soPhong
+            holder.binding.tvSoPhong.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
         }
+
+            when (listSoPhong.get(position).trangThai) {
+                0 -> { // Hết phòng
+                    holder.binding.root.isEnabled = false
+                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_selected)
+                }
+
+                1 -> { // Chưa chọn
+                    holder.binding.root.isEnabled = true
+                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_unselect)
+                }
+
+                2 -> { // Đã chọn
+                    holder.binding.root.isEnabled = true
+                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_select)
+                }
+            }
+
 
         // Xử lý sự kiện click để chọn phòng
         holder.binding.root.setOnClickListener {
@@ -49,7 +59,6 @@ class TuyChinhDatPhongAdapter(
             }
         }
     }
-
     class ViewHolder(val binding: ItemSoPhongBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

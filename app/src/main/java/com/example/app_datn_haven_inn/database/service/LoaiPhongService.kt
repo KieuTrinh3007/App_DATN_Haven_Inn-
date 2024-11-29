@@ -13,6 +13,9 @@ interface LoaiPhongService {
     @GET("loaiphongs/")
     suspend fun getListLoaiPhong(): Response<List<LoaiPhongModel>>
 
+    @GET("loaiphongs/{id}")
+    suspend fun getLoaiPhongById(@Path("id") id: String): Response<LoaiPhongModel>
+
     @POST("loaiphongs/post")
     suspend fun addLoaiPhong(@Body LoaiPhong: LoaiPhongModel): Response<LoaiPhongModel>
 

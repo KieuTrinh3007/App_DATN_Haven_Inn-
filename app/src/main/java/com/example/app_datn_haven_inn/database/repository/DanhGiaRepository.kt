@@ -18,6 +18,17 @@ class DanhGiaRepository (private val api: DanhGiaService) {
         }
     }
 
+    suspend fun getListDanhGiaByIdLoaiPhong(idLoaiPhong: String): List<DanhGiaModel>? = withContext(Dispatchers.IO) {
+        val response = api.getListDanhGiaByIdLoaiPhong(idLoaiPhong)
+        if (response.isSuccessful) {
+            Log.d("DanhGiaRepository", "getListDanhGia Success: ${response.body()}")
+            response.body()
+        } else {
+            Log.e("DanhGiaRepository", "getListDanhGia Error: ${response.errorBody()}")
+            null
+        }
+    }
+
     suspend fun addDanhGia(carrier: DanhGiaModel): DanhGiaModel? = withContext(Dispatchers.IO) {
         val response = api.addDanhGia(carrier)
         if (response.isSuccessful) {

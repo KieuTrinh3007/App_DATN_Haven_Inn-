@@ -1,4 +1,5 @@
-package com.example.app_datn_haven_inn.ui.home.Fragment
+package com.example.app_datn_haven_inn.ui.home.fragment
+
 
 import android.app.Dialog
 import android.os.Bundle
@@ -27,7 +28,6 @@ import com.example.app_datn_haven_inn.ui.home.adapter.ServicesAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 class ServiceFragment : Fragment() {
 
@@ -50,12 +50,12 @@ class ServiceFragment : Fragment() {
 
         // Thiết lập adapter và layout cho RecyclerView đầu tiên
         adapter = ServiceAdapter()
-        binding.recyclerViewService.layoutManager = GridLayoutManager(context, 2)
+        binding.recyclerViewService.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerViewService.adapter = adapter
 
         // Thiết lập adapter và layout cho RecyclerView thứ hai
         adapterServices = ServicesAdapter()
-        binding.recyclerViewServices.layoutManager = LinearLayoutManager(context)
+        binding.recyclerViewServices.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewServices.adapter = adapterServices
 
         // Gọi API để lấy dữ liệu
@@ -164,11 +164,11 @@ class ServiceFragment : Fragment() {
 //    }
 
     private fun handleError(code: Int, message: String) {
-        Toast.makeText(context, "Lỗi [$code]: $message", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Lỗi [$code]: $message", Toast.LENGTH_SHORT).show()
     }
 
     private fun showError(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
