@@ -98,22 +98,6 @@ class LoaiPhongViewModel : BaseViewModel() {
     }
 
 
-    fun filterLoaiPhongBySoKhach(soKhach: Int) {
-        val filteredList = _loaiPhongList.value?.filter { loaiPhong ->
-            loaiPhong.soLuongKhach == soKhach
-
-        }
-        _loaiPhongList.postValue(filteredList)
-    }
-
-    fun filterLoaiPhongByGiuong(soGiuong: String) {
-        val filteredList = _loaiPhongList.value?.filter { loaiPhong ->
-            loaiPhong.giuong == soGiuong
-        }
-        _loaiPhongList.postValue(filteredList)
-    }
-
-
 
     fun clearErrorMessage() {
         _errorMessage.value = null

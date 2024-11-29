@@ -22,6 +22,7 @@ class SignIn : AppCompatActivity() {
     private lateinit var edtEmail: EditText
     private lateinit var edtPassword: EditText
     private lateinit var btnSignIn: TextView
+    private lateinit var btnSignUp: TextView
 
     // Sử dụng CreateService để tạo NguoiDungService
     private val nguoiDungService: NguoiDungService by lazy {
@@ -36,6 +37,7 @@ class SignIn : AppCompatActivity() {
         edtEmail = findViewById(R.id.edt_dangnhap_email)
         edtPassword = findViewById(R.id.edt_dangnhap_pass)
         btnSignIn = findViewById(R.id.btnSignIn)
+        btnSignUp = findViewById(R.id.txtSignUp)
 
         // Xử lý sự kiện nút đăng nhập
         btnSignIn.setOnClickListener {
@@ -48,6 +50,13 @@ class SignIn : AppCompatActivity() {
                 handleLogin(email, password)
             }
         }
+
+        btnSignUp.setOnClickListener {
+            val intent = Intent(this, SignUp::class.java)
+            startActivity(intent)
+        }
+
+        
     }
 
     private fun handleLogin(email: String, password: String) {

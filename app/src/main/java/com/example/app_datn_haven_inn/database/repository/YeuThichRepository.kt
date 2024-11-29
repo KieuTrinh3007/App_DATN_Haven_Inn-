@@ -19,8 +19,8 @@ class YeuThichRepository (private val api: YeuThichService) {
         }
     }
 
-    suspend fun getFavoritesByUserId(idUser : String): List<LoaiPhongModel>? = withContext(Dispatchers.IO) {
-        val response = api.getFavoritesByUserId(idUser)
+    suspend fun getFavoritesByUserId(idNguoiDung : String): List<LoaiPhongModel>? = withContext(Dispatchers.IO) {
+        val response = api.getFavoritesByUserId(idNguoiDung)
         if (response.isSuccessful) {
             Log.d("YeuThichRepository", "getListYeuThich Success: ${response.body()}")
             response.body()
@@ -30,8 +30,8 @@ class YeuThichRepository (private val api: YeuThichService) {
         }
     }
 
-    suspend fun addYeuThich(carrier: YeuThichModel): YeuThichModel? = withContext(Dispatchers.IO) {
-        val response = api.addYeuThich(carrier)
+    suspend fun addYeuThich(idLoaiPhong: String): YeuThichModel? = withContext(Dispatchers.IO) {
+        val response = api.addYeuThich(idLoaiPhong)
         if (response.isSuccessful) {
             Log.d("YeuThichRepository", "addYeuThich Success: ${response.body()}")
             response.body()

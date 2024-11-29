@@ -16,54 +16,6 @@
         android:textSize="25sp"
         android:textStyle="bold" />
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:layout_marginBottom="5dp"-->
-<!--        android:background="@drawable/bg_radius_10"-->
-<!--        android:padding="16dp">-->
-
-<!--        <ImageView-->
-<!--            android:layout_width="16dp"-->
-<!--            android:layout_height="16dp"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:src="@drawable/ic_lich"/>-->
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="horizontal"-->
-<!--            android:gravity="center">-->
-<!--            <TextView-->
-<!--                android:id="@+id/tv_TuNgay"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="24dp"-->
-<!--                android:layout_weight="1"-->
-<!--                android:layout_marginHorizontal="16dp"-->
-<!--                android:textSize="16sp"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:text="Từ ngày"-->
-<!--                android:textColor="@color/black"/>-->
-
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="24dp"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:text="-"-->
-<!--                android:textColor="@color/black"-->
-<!--                android:textSize="16sp" />-->
-<!--            <TextView-->
-<!--                android:id="@+id/tv_DenNgay"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_weight="1"-->
-<!--                android:fontFamily="@font/roboto_regular"-->
-<!--                android:layout_marginHorizontal="16dp"-->
-<!--                android:textSize="16sp"-->
-<!--                android:text="Đến ngày"-->
-<!--                android:textColor="@color/black"/>-->
-<!--        </LinearLayout>-->
-<!--    </LinearLayout>-->
     <LinearLayout
         android:id="@+id/ll_soNguoi"
         android:layout_width="match_parent"

@@ -16,10 +16,10 @@ interface YeuThichService {
     suspend fun getListYeuThich(): Response<List<YeuThichModel>>
 
     @GET("yeuthichs/")
-    suspend fun getFavoritesByUserId(@Query("id_NguoiDung") userId: String): Response<List<LoaiPhongModel>>
+    suspend fun getFavoritesByUserId(@Query("id_NguoiDung") idNguoiDung: String): Response<List<LoaiPhongModel>>
 
     @POST("yeuthichs/post")
-    suspend fun addYeuThich(@Body YeuThich: YeuThichModel): Response<YeuThichModel>
+    suspend fun addYeuThich(@Body id_LoaiPhong: String): Response<YeuThichModel>
 
     @PUT("yeuthichs/put/{id}")
     suspend fun updateYeuThich(

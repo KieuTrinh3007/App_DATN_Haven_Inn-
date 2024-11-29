@@ -46,7 +46,6 @@ class PhongNghiAdapter(
 
     override fun onBindViewHolder(holder: PhongNghiViewHolder, position: Int) {
 
-        holder.binding.tvGiaCu.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
         val phong = listPhong[position]
         val context = holder.binding.root.context
         phong.isFavorite = loadFavoriteState(context, phong)
@@ -61,11 +60,21 @@ class PhongNghiAdapter(
             } else {
                 ivPhong.setImageResource(R.drawable.img_room1)
             }
+
             tvTieuDe.text = phong.tenLoaiPhong
             tvDienTich.text = phong.dienTich.toString() + " mét vuông"
             tvSLKhach.text = phong.soLuongKhach.toString() + " khách"
             tvLoaiGiuong.text = phong.giuong
             tvGiaChinhThuc.text = "${formatCurrency(phong.giaTien.toInt())}đ"
+            tvGiaVip.text = "${formatCurrency(phong.giaTien.toInt() + 300000)}đ"
+            val giaChinhThuc = phong.giaTien.toInt()
+            val giaVip = giaChinhThuc + 300000
+
+
+
+
+
+
 
             tvTuyChinh.setOnClickListener{
                 val context = holder.binding.root.context
@@ -85,6 +94,7 @@ class PhongNghiAdapter(
                 intent.putExtra("soLuongKhach", phong.soLuongKhach.toString())
                 intent.putExtra("dienTich", phong.dienTich.toString())
                 intent.putExtra("hinhAnh", phong.hinhAnh.toTypedArray())
+                intent.putExtra("moTa", phong.moTa)
                 context.startActivity(intent)
             }
 
@@ -100,6 +110,11 @@ class PhongNghiAdapter(
 
         }
 
+    }
+
+    fun updateList(newList: List<LoaiPhongModel>) {
+        listPhong = newList
+        notifyDataSetChanged()
     }
 
     private fun updateFavoriteIcon(binding: ItemTtPhongBinding, phong: LoaiPhongModel) {

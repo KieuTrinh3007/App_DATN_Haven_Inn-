@@ -46,12 +46,12 @@ class YeuThichViewModel : BaseViewModel() {
             }
         }
     }
-    fun getFavoritesByUserId(idUser: String) {
+    fun getFavoritesByUserId(idNguoiDung: String) {
         viewModelScope.launch {
             try {
                 val apiService: YeuThichService = CreateService.createService()
                 val yeuThichRepository = YeuThichRepository(apiService)
-                val allFavorites = yeuThichRepository.getFavoritesByUserId(idUser)
+                val allFavorites = yeuThichRepository.getFavoritesByUserId(idNguoiDung)
                 _yeuThichList1.value = allFavorites
             } catch (e: Exception) {
                 Log.e("YeuThichViewModel", "Error fetching favorites for user", e)
@@ -60,16 +60,15 @@ class YeuThichViewModel : BaseViewModel() {
         }
     }
 
-    fun addyeuThich(yeuThich: YeuThichModel, idUser: String) {
+    fun addyeuThich(idLoaiPhong : String) {
         viewModelScope.launch {
             try {
                 val apiService : YeuThichService = CreateService.createService()
                 val YeuThichRepository = YeuThichRepository(apiService)
-                val result = YeuThichRepository.addYeuThich(yeuThich)
+                val result = YeuThichRepository.addYeuThich(idLoaiPhong)
                 if (result != null) {
                     _isyeuThichAdded.value = true
                 }
-                getFavoritesByUserId(idUser)
             } catch (e: Exception) {
                 Log.e("yeuThichViewModel", "Error adding yeuThich", e)
                 _errorMessage.value = "Error adding yeuThich: ${e.message}"

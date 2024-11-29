@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.database.CreateService
+import com.example.app_datn_haven_inn.database.model.TienNghiPhongChiTietModel
 import com.example.app_datn_haven_inn.database.model.TienNghiPhongModel
 import com.example.app_datn_haven_inn.database.repository.TienNghiPhongRepository
 import com.example.app_datn_haven_inn.database.service.TienNghiPhongService
@@ -16,8 +17,8 @@ class TienNghiPhongViewModel : BaseViewModel() {
     private val _tienNghiPhongList = MutableLiveData<List<TienNghiPhongModel>?>()
     val tienNghiPhongList: LiveData<List<TienNghiPhongModel>?> get() = _tienNghiPhongList
 
-    private val _tienNghiPhongListByIdLoaiPhong = MutableLiveData<List<TienNghiPhongModel>?>()
-    val tienNghiPhongListByIdLoaiPhong: LiveData<List<TienNghiPhongModel>?> get() = _tienNghiPhongList
+    private val _tienNghiPhongListByIdLoaiPhong = MutableLiveData<List<TienNghiPhongChiTietModel>?>()
+    val tienNghiPhongListByIdLoaiPhong: LiveData<List<TienNghiPhongChiTietModel>?> get() = _tienNghiPhongListByIdLoaiPhong
 
     private val _tienNghiPhong = MutableLiveData<TienNghiPhongModel?>()
     val tienNghiPhong: LiveData<TienNghiPhongModel?> get() = _tienNghiPhong

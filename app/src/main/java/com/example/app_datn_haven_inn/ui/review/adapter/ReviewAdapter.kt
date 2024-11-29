@@ -3,36 +3,33 @@ package com.example.app_datn_haven_inn.ui.review.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.app_datn_haven_inn.database.model.DanhGiaModel
 import com.example.app_datn_haven_inn.databinding.ItemReviewBinding
-import com.example.app_datn_haven_inn.ui.review.model.Review
 
-class ReviewAdapter(private val reviews: MutableList<Review>) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
+class ReviewAdapter(
+    var listReview: List<DanhGiaModel>
+): RecyclerView.Adapter<ReviewAdapter.ViewHolder>(){
 
-    inner class ReviewViewHolder(val binding: ItemReviewBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(review: Review) {
-            binding.imgAvatar.setImageResource(review.avatarResId)
-            binding.txtTennguoidung.text = review.userName
-            binding.txtRating.text = "${review.rating}/10"
-            binding.txtBinhluan.text = review.comment
-            binding.txtNgaythang.text = review.date
-        }
-    }
+    class ViewHolder(val binding: ItemReviewBinding): RecyclerView.ViewHolder(binding.root)
 
-    // Phương thức để cập nhật toàn bộ danh sách bình luận
-    fun updateReviews(newReviews: List<Review>) {
-        reviews.clear()
-        reviews.addAll(newReviews)
-        notifyDataSetChanged()
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewAdapter.ViewHolder {
         val binding = ItemReviewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ReviewViewHolder(binding)
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ReviewViewHolder, position: Int) {
-        holder.bind(reviews[position])
+
+
+    override fun getItemCount(): Int {
+       return listReview.size
     }
 
-    override fun getItemCount(): Int = reviews.size
+    override fun onBindViewHolder(holder: ReviewAdapter.ViewHolder, position: Int) {
+//        holder.binding.txtTennguoidung.text = listReview[position]
+        holder.binding.txtBinhluan.text = listReview[position].binhLuan
+        holder.binding.txtRating.text = listReview[position].soDiem.toString()
+
+        val dateOnly = listReview[position].ngayDanhGia.substring(0, 10)
+        holder.binding.txtNgaythang.text = dateOnly
+    }
+
 }

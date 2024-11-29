@@ -44,7 +44,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ui.onbording.WelcomeActivity"
             android:exported="false" />
@@ -85,15 +85,7 @@
             android:name=".ui.cccd.ShowInfoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name=".ui.auth.SignUp"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
 
-        <activity
-            android:name=".ui.main.MainActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true" />

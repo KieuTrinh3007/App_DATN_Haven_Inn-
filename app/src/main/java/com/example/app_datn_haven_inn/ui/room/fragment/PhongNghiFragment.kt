@@ -63,13 +63,33 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             adapter?.notifyDataSetChanged()
         })
 
-        viewBinding.txtTatCaPhong.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_64A89C))
-        viewBinding.txtTatCaPhong.setOnClickListener{
+        viewBinding.txtTatCaPhong.setTextColor(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.color_64A89C
+            )
+        )
+        viewBinding.txtTatCaPhong.setOnClickListener {
             loaiPhongViewModel.getListloaiPhong()
 
-            viewBinding.txtTatCaPhong.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_64A89C))
-            viewBinding.txt1Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            viewBinding.txt2Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            viewBinding.txtTatCaPhong.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.color_64A89C
+                )
+            )
+            viewBinding.txt1Giuong.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                )
+            )
+            viewBinding.txt2Giuong.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                )
+            )
 
 
         }
@@ -79,22 +99,60 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             val filteredList = loaiPhongList?.filter { loaiPhong ->
                 loaiPhong.giuong.contains("Một")
             }
-            loaiPhongViewModel._loaiPhongList.postValue(filteredList)
-            viewBinding.txt1Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_64A89C))
-            viewBinding.txtTatCaPhong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            viewBinding.txt2Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-
+            adapter?.let {
+               if (filteredList != null){
+                   it.updateList(filteredList)
+               }
+            }
+            viewBinding.txt1Giuong.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.color_64A89C
+                )
+            )
+            viewBinding.txtTatCaPhong.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                )
+            )
+            viewBinding.txt2Giuong.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                )
+            )
+            
         }
 
         viewBinding.txt2Giuong.setOnClickListener {
             val loaiPhongList = loaiPhongViewModel.loaiPhongList.value
             val filteredList = loaiPhongList?.filter { loaiPhong ->
-                loaiPhong.giuong.contains("Hai") 
+                loaiPhong.giuong.contains("Hai")
             }
-            loaiPhongViewModel._loaiPhongList.postValue(filteredList)
-            viewBinding.txt2Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_64A89C))
-            viewBinding.txtTatCaPhong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
-            viewBinding.txt1Giuong.setTextColor(ContextCompat.getColor(requireContext(), R.color.black))
+            adapter?.let {
+                if (filteredList != null){
+                    it.updateList(filteredList)
+                }
+            }
+            viewBinding.txt2Giuong.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.color_64A89C
+                )
+            )
+            viewBinding.txtTatCaPhong.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                )
+            )
+            viewBinding.txt1Giuong.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.black
+                )
+            )
 
         }
 
@@ -116,19 +174,23 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             }
 
             if (phong.isFavorite) {
-                val yeuThich = YeuThichModel(
-                    id = "",
-                    id_LoaiPhong = phong.id,
-                    id_NguoiDung = "6724a13a2378017ace035c51",
 
-                    )
-                yeuThichViewModel.addyeuThich(yeuThich, "6724a13a2378017ace035c51")
+                yeuThichViewModel.addyeuThich(phong.id)
 
                 yeuThichViewModel.isyeuThichAdded.observe(viewLifecycleOwner) { success ->
+                    Log.d("PhongNghiFragment", "Thêm yêu thích thành công: $success")
                     if (success) {
-                        Toast.makeText(context, "Đã thêm vào yêu thích", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Đã thêm vào yêu thích",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        Toast.makeText(context, "Thêm yêu thích thất bại", Toast.LENGTH_SHORT)
+                        Toast.makeText(
+                            requireContext(),
+                            "Thêm yêu thích thất bại",
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                         phong.isFavorite = false
                         adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
@@ -136,14 +198,22 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                 }
             } else {
 
-                yeuThichViewModel.deleteyeuThich(phong.id, "6724a13a2378017ace035c51")
+                yeuThichViewModel.deleteyeuThich(phong.id, idNguoiDung)
 
 
                 yeuThichViewModel.isyeuThichDeleted.observe(viewLifecycleOwner) { success ->
                     if (success) {
-                        Toast.makeText(context, "Đã xóa khỏi yêu thích", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Đã xóa khỏi yêu thích",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     } else {
-                        Toast.makeText(context, "Xóa yêu thích thất bại", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "Xóa yêu thích thất bại",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         phong.isFavorite = true
                         adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
                     }
@@ -152,63 +222,6 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         }
 
 
-//        val calendar = Calendar.getInstance()
-//        val formattedDay = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
-//        val formattedMonth = String.format("%02d", calendar.get(Calendar.MONTH) + 1)
-//        val currentDate = "$formattedDay/$formattedMonth/${calendar.get(Calendar.YEAR)}"
-//
-//        viewBinding.tvTuNgay.text = currentDate
-//        viewBinding.tvDenNgay.text = currentDate
-//
-//        viewBinding.tvTuNgay.setOnClickListener {
-//
-//            // Lấy ngày hiện tại
-//            val calendar = Calendar.getInstance()
-//            val year = calendar.get(Calendar.YEAR)
-//            val month = calendar.get(Calendar.MONTH)
-//            val day = calendar.get(Calendar.DAY_OF_MONTH)
-//
-//            // Hiển thị DatePickerDialog
-//            val datePickerDialog = DatePickerDialog(
-//                requireContext(),
-//                { _, selectedYear, selectedMonth, selectedDay ->
-//
-//                    val formattedDay = String.format("%02d", selectedDay)
-//                    val formattedMonth = String.format("%02d", selectedMonth + 1)
-//                    val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
-//
-//                    viewBinding.tvTuNgay.text = selectedDate
-//                },
-//                year, month, day
-//            )
-//            datePickerDialog.show()
-//
-//        }
-//
-//        viewBinding.tvDenNgay.setOnClickListener {
-//
-//
-//            val calendar = Calendar.getInstance()
-//            val year = calendar.get(Calendar.YEAR)
-//            val month = calendar.get(Calendar.MONTH)
-//            val day = calendar.get(Calendar.DAY_OF_MONTH)
-//
-//
-//            val datePickerDialog = DatePickerDialog(
-//                requireContext(),
-//                { _, selectedYear, selectedMonth, selectedDay ->
-//
-//                    val formattedDay = String.format("%02d", selectedDay)
-//                    val formattedMonth = String.format("%02d", selectedMonth + 1)
-//                    val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
-//
-//                    viewBinding.tvDenNgay.text = selectedDate
-//                },
-//                year, month, day
-//            )
-//            datePickerDialog.show()
-//
-//        }
 
         viewBinding.tvTuKhoang.setOnClickListener {
             showDialogLoaiPhong("TuKhoang")
@@ -317,7 +330,11 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             val giaToiDa = edGiaToiDa.text.toString().trim()
 
             if (giaToiThieu.isEmpty() || giaToiDa.isEmpty()) {
-                Toast.makeText(requireContext(), "Vui lòng nhập đủ thông tin giá", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Vui lòng nhập đủ thông tin giá",
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@setOnClickListener
             }
             // Tính tổng số khách
@@ -331,12 +348,30 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             viewBinding.tvDenKhoang.text = "$giaToiDa"
 
             if (tongSoNguoi <= 0) {
-                Toast.makeText(requireContext(), "Số khách phải lớn hơn 0", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Số khách phải lớn hơn 0", Toast.LENGTH_SHORT)
+                    .show()
                 return@setOnClickListener
             }
 
-            loaiPhongViewModel.filterLoaiPhongBySoKhach(tongSoNguoi)
+            val giaMin = giaToiThieu.toIntOrNull()
+            val giaMax = giaToiDa.toIntOrNull()
 
+            if (giaMin == null || giaMax == null || giaMin > giaMax) {
+                Toast.makeText(requireContext(), "Khoảng giá không hợp lệ", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
+
+            val loaiPhongList = loaiPhongViewModel.loaiPhongList.value
+            val filteredList = loaiPhongList?.filter { loaiPhong ->
+                loaiPhong.soLuongKhach == tongSoNguoi &&
+                        loaiPhong.giaTien >= giaMin && loaiPhong.giaTien <= giaMax
+            }
+            adapter?.let {
+                if (filteredList != null){
+                    it.updateList(filteredList)
+                }
+            }
             dialog.dismiss()
         }
     }

@@ -1,6 +1,7 @@
 package com.example.app_datn_haven_inn.database.repository
 
 import android.util.Log
+import com.example.app_datn_haven_inn.database.model.TienNghiPhongChiTietModel
 import com.example.app_datn_haven_inn.database.model.TienNghiPhongModel
 import com.example.app_datn_haven_inn.database.service.TienNghiPhongService
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +19,7 @@ class TienNghiPhongRepository (private val api: TienNghiPhongService) {
         }
     }
 
-    suspend fun getListTienNghiByIdLoaiPhong(idLoaiPhong: String): List<TienNghiPhongModel>? = withContext(Dispatchers.IO) {
+    suspend fun getListTienNghiByIdLoaiPhong(idLoaiPhong: String): List<TienNghiPhongChiTietModel>? = withContext(Dispatchers.IO) {
         val response = api.getListTienNghiByIdLoaiPhong(idLoaiPhong)
         if (response.isSuccessful) {
             Log.d("TienNghiPhongRepository", "getListTienNghiPhong Success: ${response.body()}")

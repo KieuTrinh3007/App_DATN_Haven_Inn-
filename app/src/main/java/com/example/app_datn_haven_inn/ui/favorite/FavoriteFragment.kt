@@ -30,9 +30,10 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
         super.initView()
         sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE)
         val idUser = sharedPreferences.getString("idNguoiDung", "")
+        Log.d("PhongNghiFragment", "idNguoiDung: $idUser")
 
         viewModel = ViewModelProvider(this)[YeuThichViewModel::class.java]
-        viewModel.getFavoritesByUserId(idUser = "6724a13a2378017ace035c51")
+        viewModel.getFavoritesByUserId(idUser.toString())
 
 
 
@@ -51,14 +52,6 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
 
     }
-//        sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE)
-//        val idUser = sharedPreferences.getString("idNguoiDung", "")
-//
-//        viewModel = ViewModelProvider(this)[YeuThichViewModel::class.java]
-//        idUser?.let {
-//            Log.d("idUser", it)
-//            viewModel.getFavoritesByUserId(it)
-//        }
 
 
 

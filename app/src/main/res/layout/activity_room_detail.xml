@@ -176,13 +176,12 @@
                         android:textStyle="bold"
                         android:textColor="@color/black"/>
                 </LinearLayout>
-
-                <!-- RecyclerView sẽ dùng FlexboxLayoutManager để tự động wrap -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_tiennghi"
+                <TextView
+                    android:id="@+id/tvMoTa"
+                    android:fontFamily="@font/roboto_regular"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:text="ahjgfhdgfh"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <LinearLayout
@@ -331,6 +330,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_tiennghiphong"
                 tools:listitem="@layout/item_tiennghiphong"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                app:spanCount="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"/>
@@ -382,6 +384,9 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_review"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:orientation="vertical"
+                    app:spanCount="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"/>
@@ -397,70 +402,13 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/bg_radius_10"
-                android:padding="10dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp">
-
-                <TextView
-                    android:id="@+id/btnVoucher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/bg_radius_5_yellow"
-                    android:drawableStart="@drawable/promo_code"
-                    android:drawablePadding="10dp"
-                    android:paddingHorizontal="10dp"
-                    android:gravity="center"
-                    android:text="Giảm 20% với Giá thành viên"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/txtGiaChinhThuc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="600.000đ"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txtGiaCu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="740.000đ"
-                        android:textColor="#8E8989"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/txtPhongTrong"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="Còn 10 phòng trống"
-                        android:textColor="#FF3A00"
-                        android:textSize="12sp"
-                        android:gravity="end"/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="33dp"
                     android:weightSum="2">
 
                     <TextView
@@ -495,8 +443,6 @@
                         android:textColor="@color/white"
                         android:textSize="13sp" />
                 </LinearLayout>
-            </LinearLayout>
-
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
