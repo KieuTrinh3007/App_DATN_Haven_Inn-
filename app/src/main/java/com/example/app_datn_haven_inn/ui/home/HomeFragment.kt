@@ -15,8 +15,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     val images =
         listOf(
             R.drawable.slideshow1,
-            R.drawable.slideshow1,
-            R.drawable.slideshow1
+            R.drawable.img_intro2,
+            R.drawable.img_intro3
         )
 
     val categories = listOf (

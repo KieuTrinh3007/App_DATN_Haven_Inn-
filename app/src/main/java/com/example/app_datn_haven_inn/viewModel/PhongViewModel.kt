@@ -16,6 +16,9 @@ class PhongViewModel : BaseViewModel() {
     private val _phongList = MutableLiveData<List<PhongModel>?>()
     val phongList: LiveData<List<PhongModel>?> get() = _phongList
 
+    private val _phongListByIdLoaiPhong = MutableLiveData<List<PhongModel>?>()
+    val phongListByIdLoaiPhong: LiveData<List<PhongModel>?> get() = _phongListByIdLoaiPhong
+
     private val _phong = MutableLiveData<PhongModel?>()
     val phong: LiveData<PhongModel?> get() = _phong
 
@@ -40,6 +43,19 @@ class PhongViewModel : BaseViewModel() {
 
 
                 _phongList.value = PhongRepository.getListPhong()
+            } catch (e: Exception) {
+                Log.e("phongViewModel", "Error fetching phong list", e)
+                _errorMessage.value = "Error fetching phong list: ${e.message}"
+            }
+        }
+    }
+
+    fun getListPhongByIdLoaiPhong(idLoaiPhong: String) {
+        viewModelScope.launch {
+            try {
+                val apiService : PhongService = CreateService.createService()
+                val PhongRepository = PhongRepository(apiService)
+                _phongListByIdLoaiPhong.value = PhongRepository.getListPhongByIdLoaiPhong(idLoaiPhong)
             } catch (e: Exception) {
                 Log.e("phongViewModel", "Error fetching phong list", e)
                 _errorMessage.value = "Error fetching phong list: ${e.message}"

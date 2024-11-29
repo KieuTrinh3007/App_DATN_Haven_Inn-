@@ -60,7 +60,7 @@
             android:name=".ui.auth.SignIn"
             android:exported="false" />
         <activity
-            android:name=".ui.onbording.WelcomeActivity"
+            android:name=".ui.room.RoomDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.room.TuyChinhDatPhongActivity"
@@ -83,17 +83,20 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
+            android:name=".ui.auth.SignUp"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
             android:name=".ui.auth.Register"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
+
+
         <activity
             android:name=".ui.cccd.ShowInfoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name=".ui.auth.SignUp"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:exported="true" />

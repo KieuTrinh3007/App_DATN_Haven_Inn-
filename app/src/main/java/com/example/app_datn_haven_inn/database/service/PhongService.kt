@@ -8,10 +8,14 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface PhongService {
     @GET("phongs/")
     suspend fun getListPhong(): Response<List<PhongModel>>
+
+    @GET("phongs/")
+    suspend fun getListPhongByIdLoaiPhong(@Query("id_LoaiPhong") idLoaiPhong: String): Response<List<PhongModel>>
 
     @POST("phongs/post")
     suspend fun addPhong(@Body Phong: PhongModel): Response<PhongModel>

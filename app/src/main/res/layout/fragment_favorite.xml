@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.favorite.FavoriteFragment">
 
@@ -15,10 +16,19 @@
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:text="Danh sách  các phòng yêu thích của bạn" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcvDanhSachFavorite"
+
+    <ImageView
+        android:id="@+id/iv_no_data"
         android:layout_width="match_parent"
-        tools:listitem="@layout/item_tt_phong"
+        android:src="@drawable/ic_favorite_select"
+        android:visibility="gone"
+        android:layout_height="match_parent"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_favorite"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_height="match_parent"
         android:layout_margin="15dp"/>
 

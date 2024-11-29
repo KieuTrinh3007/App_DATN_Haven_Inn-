@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.database.CreateService
+import com.example.app_datn_haven_inn.database.model.FavoriteRequest
+import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.database.model.YeuThichModel
 import com.example.app_datn_haven_inn.database.repository.YeuThichRepository
 import com.example.app_datn_haven_inn.database.service.YeuThichService
@@ -14,6 +16,9 @@ import kotlinx.coroutines.launch
 class YeuThichViewModel : BaseViewModel() {
     private val _yeuThichList = MutableLiveData<List<YeuThichModel>?>()
     val yeuThichList: LiveData<List<YeuThichModel>?> get() = _yeuThichList
+
+    private val _yeuThichList1 = MutableLiveData<List<LoaiPhongModel>?>()
+    val yeuThichList1: LiveData<List<LoaiPhongModel>?> get() = _yeuThichList1
 
     private val _yeuThich = MutableLiveData<YeuThichModel?>()
     val yeuThich: LiveData<YeuThichModel?> get() = _yeuThich
@@ -33,7 +38,6 @@ class YeuThichViewModel : BaseViewModel() {
     fun getListyeuThich() {
         viewModelScope.launch {
             try {
-
                 val apiService : YeuThichService = CreateService.createService()
                 val YeuThichRepository = YeuThichRepository(apiService)
                 _yeuThichList.value = YeuThichRepository.getListYeuThich()
@@ -43,13 +47,29 @@ class YeuThichViewModel : BaseViewModel() {
             }
         }
     }
+    fun getFavoritesByUserId(idNguoiDung: String) {
+        viewModelScope.launch {
+            try {
+                val apiService: YeuThichService = CreateService.createService()
+                val yeuThichRepository = YeuThichRepository(apiService)
+                val allFavorites = yeuThichRepository.getFavoritesByUserId(idNguoiDung)
+                _yeuThichList1.value = allFavorites
+            } catch (e: Exception) {
+                Log.e("YeuThichViewModel", "Error fetching favorites for user", e)
+                _errorMessage.value = "Error fetching favorites: ${e.message}"
+            }
+        }
+    }
 
-    fun addyeuThich(yeuThich: YeuThichModel) {
+    fun addyeuThich( yeuThich : FavoriteRequest) {
         viewModelScope.launch {
             try {
                 val apiService : YeuThichService = CreateService.createService()
                 val YeuThichRepository = YeuThichRepository(apiService)
-                _isyeuThichAdded.value = YeuThichRepository.addYeuThich(yeuThich) != null
+                val result = YeuThichRepository.addYeuThich(yeuThich)
+                if (result != null) {
+                    _isyeuThichAdded.value = true
+                }
             } catch (e: Exception) {
                 Log.e("yeuThichViewModel", "Error adding yeuThich", e)
                 _errorMessage.value = "Error adding yeuThich: ${e.message}"
@@ -71,12 +91,15 @@ class YeuThichViewModel : BaseViewModel() {
         }
     }
 
-    fun deleteyeuThich(id: String) {
+    fun deleteyeuThich(idLoaiPhong: String, idUser: String) {
         viewModelScope.launch {
             try {
                 val apiService : YeuThichService = CreateService.createService()
                 val YeuThichRepository = YeuThichRepository(apiService)
-                _isyeuThichDeleted.value = YeuThichRepository.deleteYeuThich(id)
+                val success = YeuThichRepository.deleteYeuThich(idLoaiPhong,idUser)
+                if (success) {
+                    _isyeuThichDeleted.value = true
+                }
             } catch (e: Exception) {
                 Log.e("yeuThichViewModel", "Error deleting yeuThich", e)
                 _errorMessage.value = "Error deleting yeuThich: ${e.message}"

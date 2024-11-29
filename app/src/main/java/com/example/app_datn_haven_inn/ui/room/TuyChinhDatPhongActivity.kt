@@ -24,14 +24,15 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
     override fun initView() {
         super.initView()
+        val idLoaiPhong = intent.getStringExtra("id_LoaiPhong")
+
         adapter = TuyChinhDatPhongAdapter(emptyList())
         binding.rvChonSoPhong.adapter = adapter
 
 
-        viewModel.getListphong()
-        viewModel.phongList.observe(this) { list ->
+        viewModel.getListPhongByIdLoaiPhong(idLoaiPhong.toString())
+        viewModel.phongListByIdLoaiPhong.observe(this) { list ->
             if (list != null) {
-
                 adapter?.let {
                     it.listSoPhong = list
                     it.notifyDataSetChanged()
@@ -109,30 +110,22 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
         }
 
-        updateBreakfastIcon()
-        binding.rdThemBuaSang.setOnClickListener{
-            isBreakfast = true
-            updateBreakfastIcon()
-        }
+//        updateBreakfastIcon()
 
-        binding.rdKhongBuaSang.setOnClickListener{
-            isBreakfast = false
-            updateBreakfastIcon()
-        }
 
     }
-
-    private fun updateBreakfastIcon(){
-        if (isBreakfast){
-            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
-            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
-
-        }else{
-            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
-            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
-
-        }
-    }
+//
+//    private fun updateBreakfastIcon(){
+//        if (isBreakfast){
+//            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
+//            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
+//
+//        }else{
+//            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
+//            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
+//
+//        }
+//    }
 
 
 }

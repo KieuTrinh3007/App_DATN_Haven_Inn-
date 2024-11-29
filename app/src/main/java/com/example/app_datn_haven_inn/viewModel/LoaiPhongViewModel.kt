@@ -12,7 +12,7 @@ import com.example.app_datn_haven_inn.database.service.LoaiPhongService
 import kotlinx.coroutines.launch
 
 class LoaiPhongViewModel : BaseViewModel() {
-    private val _loaiPhongList = MutableLiveData<List<LoaiPhongModel>?>()
+    val _loaiPhongList = MutableLiveData<List<LoaiPhongModel>?>()
     val loaiPhongList: LiveData<List<LoaiPhongModel>?> get() = _loaiPhongList
 
     private val _loaiPhong = MutableLiveData<LoaiPhongModel?>()
@@ -40,6 +40,19 @@ class LoaiPhongViewModel : BaseViewModel() {
             } catch (e: Exception) {
                 Log.e("loaiPhongViewModel", "Error fetching loaiPhong list", e)
                 _errorMessage.value = "Error fetching loaiPhong list: ${e.message}"
+            }
+        }
+    }
+
+    fun getLoaiPhongById(id: String) {
+        viewModelScope.launch {
+            try {
+                val apiService : LoaiPhongService = CreateService.createService()
+                val LoaiPhongRepository = LoaiPhongRepository(apiService)
+                _loaiPhong.value = LoaiPhongRepository.getLoaiPhongById(id)
+            } catch (e: Exception) {
+                Log.e("CarrierViewModel", "Error fetching carrier by ID", e)
+                _errorMessage.value = "Error fetching carrier by ID: ${e.message}"
             }
         }
     }
@@ -83,6 +96,8 @@ class LoaiPhongViewModel : BaseViewModel() {
             }
         }
     }
+
+
 
     fun clearErrorMessage() {
         _errorMessage.value = null

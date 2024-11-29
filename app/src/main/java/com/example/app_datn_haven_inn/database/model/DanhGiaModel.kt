@@ -8,6 +8,8 @@ data class DanhGiaModel (
     @field:SerializedName("id_LoaiPhong") var id_LoaiPhong: String,
     @field:SerializedName("soDiem") var soDiem: Double,
     @field:SerializedName("binhLuan") var binhLuan: String,
+    @field:SerializedName("createdAt") var ngayDanhGia: String
+
 
 
     )
