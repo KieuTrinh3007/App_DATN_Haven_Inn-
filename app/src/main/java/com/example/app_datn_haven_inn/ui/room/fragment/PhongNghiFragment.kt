@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.BaseFragment
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.model.FavoriteRequest
 import com.example.app_datn_haven_inn.database.model.YeuThichModel
 import com.example.app_datn_haven_inn.databinding.FragmentPhongNghiBinding
 import com.example.app_datn_haven_inn.ui.room.adapter.PhongNghiAdapter
@@ -174,24 +175,13 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             }
 
             if (phong.isFavorite) {
-
-                yeuThichViewModel.addyeuThich(phong.id)
+                    val yeuThich = FavoriteRequest(idNguoiDung, phong.id)
+                yeuThichViewModel.addyeuThich(yeuThich)
 
                 yeuThichViewModel.isyeuThichAdded.observe(viewLifecycleOwner) { success ->
                     Log.d("PhongNghiFragment", "Thêm yêu thích thành công: $success")
                     if (success) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Đã thêm vào yêu thích",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Thêm yêu thích thất bại",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
                         phong.isFavorite = false
                         adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
                     }
@@ -203,17 +193,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
                 yeuThichViewModel.isyeuThichDeleted.observe(viewLifecycleOwner) { success ->
                     if (success) {
-                        Toast.makeText(
-                            requireContext(),
-                            "Đã xóa khỏi yêu thích",
-                            Toast.LENGTH_SHORT
-                        ).show()
                     } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Xóa yêu thích thất bại",
-                            Toast.LENGTH_SHORT
-                        ).show()
                         phong.isFavorite = true
                         adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
                     }
