@@ -14,11 +14,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var viewModel: YeuThichViewModel
-    private var adapter = FavoriteAdapter(
-        mutableListOf(),
-        onFavoriteClick = { loaiPhong, position ->
-        }
-    )
+    private var adapter: FavoriteAdapter? = null
 
 
     override fun inflateViewBinding(): FragmentFavoriteBinding {
@@ -34,9 +30,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
         viewModel = ViewModelProvider(this)[YeuThichViewModel::class.java]
         viewModel.getFavoritesByUserId(idUser.toString())
-
-
-
+        adapter = FavoriteAdapter(mutableListOf())
 
         viewModel.yeuThichList1.observe(viewLifecycleOwner) { yeuThichList ->
             if (yeuThichList.isNullOrEmpty()) {
@@ -45,14 +39,51 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
             } else {
                 viewBinding.rvFavorite.visibility = View.VISIBLE
                 viewBinding.ivNoData.visibility = View.GONE
-                adapter.updateData(yeuThichList.toMutableList())
+                adapter?.updateData(yeuThichList.toMutableList())
                 viewBinding.rvFavorite.adapter = adapter
             }
+        }
+
+        adapter?.setOnFavoriteSelected { loaiPhong ->
+            viewModel.deleteyeuThich(loaiPhong.id, idUser.toString())
+            viewModel.getFavoritesByUserId(idUser.toString())
+            viewModel.yeuThichList1.observe(requireActivity()) { yeuThichList ->
+                if (yeuThichList.isNullOrEmpty()) {
+                    viewBinding.rvFavorite.visibility = View.GONE
+                    viewBinding.ivNoData.visibility = View.VISIBLE
+                } else {
+                    viewBinding.rvFavorite.visibility = View.VISIBLE
+                    viewBinding.ivNoData.visibility = View.GONE
+                    adapter?.updateData(yeuThichList.toMutableList())
+                    viewBinding.rvFavorite.adapter = adapter
+                }
+
+
+            }
+
         }
 
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val idUser = sharedPreferences.getString("idNguoiDung", "")
+        viewModel.getFavoritesByUserId(idUser.toString())
+        viewModel.yeuThichList1.observe(viewLifecycleOwner) { yeuThichList ->
+            if (yeuThichList.isNullOrEmpty()) {
+                viewBinding.rvFavorite.visibility = View.GONE
+                viewBinding.ivNoData.visibility = View.VISIBLE
+            } else {
+                viewBinding.rvFavorite.visibility = View.VISIBLE
+                viewBinding.ivNoData.visibility = View.GONE
+                adapter?.updateData(yeuThichList.toMutableList())
+                viewBinding.rvFavorite.adapter = adapter
+            }
+        }
+
+    }
 
 
 

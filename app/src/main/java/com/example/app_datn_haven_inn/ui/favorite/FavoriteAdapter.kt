@@ -12,8 +12,13 @@ import java.util.Locale
 
 class FavoriteAdapter(
     private var listFavorite: MutableList<LoaiPhongModel>,
-    private val onFavoriteClick: (LoaiPhongModel, Int) -> Unit
+
 ) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
+    private var onFavoriteClick: ((LoaiPhongModel) -> Unit)? = null
+
+    fun setOnFavoriteSelected(listener: (LoaiPhongModel) -> Unit) {
+        this.onFavoriteClick = listener
+    }
 
     class FavoriteViewHolder(val binding: ItemTtPhongBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -49,13 +54,15 @@ class FavoriteAdapter(
             ivFavorite.setImageResource(R.drawable.ic_favorite_select)
 
             ivFavorite.setOnClickListener {
-                onFavoriteClick(loaiPhong, position)
+                onFavoriteClick?.invoke(loaiPhong)
             }
+
         }
     }
 
 
     fun updateData(newList: MutableList<LoaiPhongModel>) {
+        listFavorite.clear()
         listFavorite = newList
         notifyDataSetChanged()
     }
