@@ -30,9 +30,10 @@ class EditProfile : AppCompatActivity() {
 
     private lateinit var imageViewAvatar: ImageView
     private lateinit var editTextName: EditText
-    private lateinit var textViewEmail: TextView
+    private lateinit var textViewEmail: EditText
     private lateinit var textViewPhone: EditText
     private lateinit var btSaveChanges: TextView
+    private lateinit var btn_back_edit: ImageView
 
     private var selectedImageUri: Uri? = null
     private var currentImageUrl: String? = null
@@ -52,6 +53,7 @@ class EditProfile : AppCompatActivity() {
         textViewEmail = findViewById(R.id.emailEditText)
         textViewPhone = findViewById(R.id.phoneTextView)
         btSaveChanges = findViewById(R.id.saveButton)
+        btn_back_edit = findViewById(R.id.btn_back_editprofile)
 
         nguoiDungService = CreateService.createService()
 
@@ -69,6 +71,10 @@ class EditProfile : AppCompatActivity() {
             idNguoiDung?.let { id ->
                 saveUserProfile(id)
             }
+        }
+
+        btn_back_edit.setOnClickListener{
+            finish()
         }
     }
 
@@ -88,7 +94,12 @@ class EditProfile : AppCompatActivity() {
                         oldTrangThai = it.trangThai?.toString() ?: "true"
                         oldCccd = it.cccd ?: ""
 
-                        Glide.with(this@EditProfile).load(it.hinhAnh).into(imageViewAvatar)
+                        // Nếu có URL của ảnh, tải ảnh về
+                        if (!it.hinhAnh.isNullOrEmpty()) {
+                            Glide.with(this@EditProfile)
+                                .load(it.hinhAnh)
+                                .into(imageViewAvatar)
+                        }
                     }
                 } else {
                     Toast.makeText(this@EditProfile, "Không thể tải dữ liệu", Toast.LENGTH_SHORT).show()
@@ -151,7 +162,6 @@ class EditProfile : AppCompatActivity() {
         }
     }
 
-
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK).apply {
             type = "image/*"
@@ -163,7 +173,13 @@ class EditProfile : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             selectedImageUri = data?.data
+            // Cập nhật lại ImageView với ảnh đã chọn
             imageViewAvatar.setImageURI(selectedImageUri)
+
+            // Kiểm tra nếu ảnh đã được chọn thì sử dụng Glide để tải ảnh từ URI
+            Glide.with(this)
+                .load(selectedImageUri)
+                .into(imageViewAvatar)
         }
     }
 
@@ -203,4 +219,3 @@ class EditProfile : AppCompatActivity() {
         private const val REQUEST_CODE_PICK_IMAGE = 100
     }
 }
-

@@ -358,7 +358,6 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -368,12 +367,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- Bản đồ Google Maps -->
                 <ImageView
+                    android:id="@+id/mapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_3" />
+                    android:src="@drawable/img_3"
+                    android:scaleType="centerCrop"/>
 
+                <!-- Địa chỉ -->
                 <TextView
                     android:id="@+id/locationAddress"
                     android:layout_width="match_parent"
@@ -386,8 +388,8 @@
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
-                <!-- Link to View More -->
                 <TextView
+                    android:id="@+id/xemtrongbando"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
@@ -395,8 +397,11 @@
                     android:paddingBottom="5dp"
                     android:text="Xem trong bản đồ >"
                     android:textColor="#64A89C"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:clickable="true"
+                    android:focusable="true" />
             </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
 

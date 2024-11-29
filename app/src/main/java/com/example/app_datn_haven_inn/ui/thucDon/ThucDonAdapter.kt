@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.food.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -7,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.AmThucModel
 import com.example.app_datn_haven_inn.databinding.ItemThucdonBinding
+import com.example.app_datn_haven_inn.ui.thucDon.KhamPhaThucDon
 
 class AmThucAdapter(
     private val listAmThuc: List<AmThucModel>,
@@ -42,8 +44,12 @@ class AmThucAdapter(
                 .into(binding.imgThucDon)
 
             binding.btnThucDon.setOnClickListener {
-                onButtonClick(item)
+                val context = binding.root.context
+                val intent = Intent(context, KhamPhaThucDon::class.java)
+                intent.putExtra("amThuc", item)
+                context.startActivity(intent)
             }
+
         }
     }
 }

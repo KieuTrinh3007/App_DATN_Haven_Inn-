@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.viewModel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -83,6 +84,16 @@ class ThongBaoViewModel : BaseViewModel() {
             }
         }
     }
+    fun toggleTrangThai(position: Int) {
+        _thongBaoList.value?.let { thongBaoList ->
+            val updatedList = thongBaoList.toMutableList()
+            val thongBao = updatedList[position]
+            thongBao.trangThai = !thongBao.trangThai
+            _thongBaoList.value = updatedList
+        }
+    }
+
+
 
     fun clearErrorMessage() {
         _errorMessage.value = null

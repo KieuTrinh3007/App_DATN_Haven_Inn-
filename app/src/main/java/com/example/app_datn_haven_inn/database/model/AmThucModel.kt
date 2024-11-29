@@ -1,17 +1,21 @@
 package com.example.app_datn_haven_inn.database.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
-data class AmThucModel (
-    @field:SerializedName("_id") var id: String,
-    @field:SerializedName("tenNhaHang") var tenNhaHang: String,
-    @field:SerializedName("hinhAnh") var hinhAnh: String,
-    @field:SerializedName("hinhAnhID") var hinhAnhID: String,
-    @field:SerializedName("moTa") var moTa: String,
-    @field:SerializedName("menu") var menu: ArrayList<String>,
-    @field:SerializedName("menuIDs") var menuIDs: ArrayList<String>,
-    @field:SerializedName("gioMoCua") var gioMoCua: String,
-    @field:SerializedName("gioDongCua") var gioDongCua: String,
-    @field:SerializedName("hotline") var hotline: String,
-    @field:SerializedName("viTri") var viTri: String,
-)
+@Parcelize
+data class AmThucModel(
+    @SerializedName("_id") var id: String,
+    @SerializedName("tenNhaHang") var tenNhaHang: String,
+    @SerializedName("hinhAnh") var hinhAnh: String,
+    @SerializedName("hinhAnhID") var hinhAnhID: String,
+    @SerializedName("moTa") var moTa: String,
+    @SerializedName("menu") var menu: ArrayList<String>,
+    @SerializedName("menuIDs") var menuIDs: ArrayList<String>,
+    @SerializedName("gioMoCua") var gioMoCua: String,
+    @SerializedName("gioDongCua") var gioDongCua: String,
+    @SerializedName("hotline") var hotline: String,
+    @SerializedName("viTri") var viTri: String
+) : Parcelable
+

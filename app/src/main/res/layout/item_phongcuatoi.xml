@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+   >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/khung_tb"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/img_pct"
+            android:layout_width="110dp"
+            android:layout_height="155dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/avat2"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/room_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phòng đơn, ban công hướng ra biển,
+thoáng mát"
+                android:textSize="15sp"
+                android:layout_marginBottom="5dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/building" />
+
+                <TextView
+                    android:id="@+id/tv_QuangCanh_pct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="14dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Quang cảnh thành phố"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/person13x13" />
+
+                <TextView
+                    android:id="@+id/tv_SLKhach_pct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/roboto_regular"
+                    android:layout_marginLeft="14dp"
+                    android:text="2 Khách"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/sleeping1" />
+
+                <TextView
+                    android:id="@+id/tv_LoaiGiuong_pct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="14dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:text="Một giường cỡ king"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/transform1" />
+
+                <TextView
+                    android:id="@+id/tv_DienTich_pct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="14dp"
+                    android:text="30 mét vuông"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/room_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tổng tiền: 2.900.000 đ"
+                android:textColor="#D32F2F"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="25dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

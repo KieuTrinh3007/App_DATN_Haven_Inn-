@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -24,6 +26,9 @@
         android:theme="@style/Theme.App_DATN_Haven_Inn"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.myRoom.MyRoomActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.auth.RePassword"
             android:exported="false" />
@@ -62,6 +67,9 @@
             android:exported="false" />
         <activity
             android:name=".ui.profile.RePassword"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.SetUpPassword"
             android:exported="false" />
         <activity
             android:name=".ui.auth.Forgot_password"

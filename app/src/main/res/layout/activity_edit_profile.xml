@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/btn_back_editprofile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_back_t"
@@ -81,7 +81,7 @@
                 android:drawableStart="@drawable/small_user"
                 android:drawablePadding="8dp"
                 android:padding="12dp"
-                android:text="Vũ Thị Vân Anh" />
+                android:hint="Vũ Thị Vân Anh" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -89,14 +89,16 @@
                 android:layout_marginTop="16dp"
                 android:hint="Email" />
 
-            <TextView
+            <EditText
                 android:id="@+id/emailEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/small_mail"
                 android:drawablePadding="8dp"
                 android:padding="12dp"
-                android:text="avan81837@gmail.com" />
+                android:clickable="false"
+                android:focusable="false"
+                android:hint="avan81837@gmail.com" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,48 +106,14 @@
                 android:layout_marginTop="16dp"
                 android:hint="Số điện thoại" />
 
-            <RelativeLayout
+            <EditText
+                android:id="@+id/phoneTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="34dp">
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bottom_border"
-                    android:drawableLeft="@drawable/phone"
-                    android:drawablePadding="15dp"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:paddingVertical="10dp"
-                    android:paddingStart="16dp"
-                    android:text="+84"
-                    android:textColor="@color/black"
-                    android:textSize="18dp" />
-
-                <EditText
-                    android:id="@+id/phoneTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="90dp"
-                    android:background="@drawable/bottom_border"
-                    android:hint="Số điện thoại"
-                    android:paddingVertical="10dp"
-                    android:paddingStart="20dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="#9CA0A8"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="80dp"
-                    android:text="|"
-                    android:textColor="#C4C4C4"
-                    android:textSize="29dp" />
-            </RelativeLayout>
-
-
+                android:drawableStart="@drawable/small_phone"
+                android:drawablePadding="13dp"
+                android:padding="12dp"
+                android:hint="Số điện thoại"/>
         </LinearLayout>
 
         <TextView

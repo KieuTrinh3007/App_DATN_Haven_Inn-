@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:layout_marginTop="16dp">
 
-    <!-- User Profile Picture -->
     <ImageView
         android:id="@+id/profileImage"
         android:layout_width="100dp"
@@ -68,7 +67,7 @@
             android:id="@+id/xmcccd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/small_room"
+            android:drawableStart="@drawable/xmcccd_small"
             android:drawablePadding="8dp"
             android:padding="12dp"
             android:text="Xác minh CCCD" />

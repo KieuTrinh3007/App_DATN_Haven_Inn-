@@ -2,7 +2,6 @@ package com.example.app_datn_haven_inn.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -22,7 +21,8 @@ class SignIn : AppCompatActivity() {
     private lateinit var edtEmail: EditText
     private lateinit var edtPassword: EditText
     private lateinit var btnSignIn: TextView
-    private lateinit var btnSignUp: TextView
+    private lateinit var btn_forgot_pw: TextView
+    private lateinit var btn_signUp: TextView
 
     // Sử dụng CreateService để tạo NguoiDungService
     private val nguoiDungService: NguoiDungService by lazy {
@@ -37,7 +37,8 @@ class SignIn : AppCompatActivity() {
         edtEmail = findViewById(R.id.edt_dangnhap_email)
         edtPassword = findViewById(R.id.edt_dangnhap_pass)
         btnSignIn = findViewById(R.id.btnSignIn)
-        btnSignUp = findViewById(R.id.txtSignUp)
+        btn_forgot_pw = findViewById(R.id.txt_dangnhap_forgot)
+        btn_signUp = findViewById(R.id.txtSignUpSignIn)
 
         // Xử lý sự kiện nút đăng nhập
         btnSignIn.setOnClickListener {
@@ -51,12 +52,15 @@ class SignIn : AppCompatActivity() {
             }
         }
 
-        btnSignUp.setOnClickListener {
-            val intent = Intent(this, SignUp::class.java)
-            startActivity(intent)
+        btn_forgot_pw.setOnClickListener{
+            val intent1 = Intent(this, Forgot_password::class.java)
+            startActivity(intent1)
         }
 
-        
+        btn_signUp.setOnClickListener{
+            val intent2 = Intent(this, Register::class.java)
+            startActivity(intent2)
+        }
     }
 
     private fun handleLogin(email: String, password: String) {
