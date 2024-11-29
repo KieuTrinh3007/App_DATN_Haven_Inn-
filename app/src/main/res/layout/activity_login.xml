@@ -58,12 +58,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/key"
-                android:drawablePadding="20dp"
+                android:drawablePadding="25dp"
                 android:hint="Mật khẩu"
                 android:paddingVertical="10dp"
                 android:textSize="18dp"
                 android:background="@drawable/bottom_border"
                 android:textColorHint="#9CA0A8"
+                android:inputType="textPassword"
                 android:textColor="@color/black" />
 
             <!-- Quên mật khẩu -->
@@ -78,6 +79,8 @@
                 android:layout_marginTop="25dp" />
 
             <!-- Nút đăng nhập -->
+
+            <!-- Điều khoản -->
             <TextView
                 android:id="@+id/btnSignIn"
                 android:layout_width="match_parent"
@@ -85,13 +88,12 @@
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="25dp"
                 android:background="@drawable/khung_button"
+                android:paddingVertical="10dp"
                 android:text="Đăng nhập"
                 android:textAlignment="center"
-                android:paddingVertical="10dp"
                 android:textColor="@color/white"
                 android:textSize="15dp" />
 
-            <!-- Điều khoản -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -4,14 +4,10 @@ import android.os.Handler
 import android.os.Looper
 import androidx.viewpager2.widget.ViewPager2
 import com.example.app_datn_haven_inn.BaseFragment
-import com.example.app_datn_haven_inn.ui.room.fragment.PhongNghiFragment
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.FragmentHomeBinding
-import com.example.app_datn_haven_inn.ui.home.fragment.OverviewFragment
-import com.example.app_datn_haven_inn.ui.home.adapter.CategoryAdapter
+import com.example.app_datn_haven_inn.ui.home.Fragment.OverviewFragment
 import com.example.app_datn_haven_inn.ui.home.adapter.SlideshowAdapter
-import com.example.app_datn_haven_inn.ui.home.fragment.ServiceFragment
-import com.example.app_datn_haven_inn.ui.thucDon.ThucDonFragment
 
 
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {
@@ -43,34 +39,34 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             .replace(R.id.fl_category, OverviewFragment())
             .commit()
 
-        val categoryAdapter = CategoryAdapter(categories, object : OnClickItem {
-            override fun onClickItem(position: Int) {
-                when(position){
-                    0 -> {
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fl_category, OverviewFragment())
-                            .commit()
-                    }
-                    1 -> {
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fl_category, ServiceFragment())
-                            .commit()
-                    }
-                    2 -> {
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fl_category, PhongNghiFragment())
-                            .commit()
-                    }
-                    else -> {
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.fl_category, ThucDonFragment())
-                            .commit()
-                    }
-                }
-            }
-        })
+//        val categoryAdapter = CategoryAdapter(categories, object : OnClickItem {
+//            override fun onClickItem(position: Int) {
+//                when(position){
+//                    0 -> {
+//                        requireActivity().supportFragmentManager.beginTransaction()
+//                            .replace(R.id.fl_category, OverviewFragment())
+//                            .commit()
+//                    }
+//                    1 -> {
+//                        requireActivity().supportFragmentManager.beginTransaction()
+//                            .replace(R.id.fl_category, ServiceFragment())
+//                            .commit()
+//                    }
+//                    2 -> {
+//                        requireActivity().supportFragmentManager.beginTransaction()
+//                            .replace(R.id.fl_category, PhongNghiFragment())
+//                            .commit()
+//                    }
+//                    else -> {
+//                        requireActivity().supportFragmentManager.beginTransaction()
+//                            .replace(R.id.fl_category, ThucDonFragment())
+//                            .commit()
+//                    }
+//                }
+//            }
+//        })
 
-        viewBinding.rvCategory.adapter = categoryAdapter
+//        viewBinding.rvCategory.adapter = categoryAdapter
 
         viewBinding.viewPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {

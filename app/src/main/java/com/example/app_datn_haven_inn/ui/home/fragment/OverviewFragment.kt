@@ -11,14 +11,18 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.AmThucModel
 import com.example.app_datn_haven_inn.database.repository.LoaiPhongRepository
 import com.example.app_datn_haven_inn.database.service.AmThucService
 import com.example.app_datn_haven_inn.database.service.LoaiPhongService
+import com.example.app_datn_haven_inn.ui.home.ServiceFragment
 import com.example.app_datn_haven_inn.ui.home.adapter.AmThucAdapter
 import com.example.app_datn_haven_inn.ui.home.adpter.RoomTopAdapter
+import com.example.app_datn_haven_inn.ui.room.fragment.PhongNghiFragment
+import com.example.app_datn_haven_inn.ui.thucDon.ThucDonFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -35,6 +39,10 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var recyclerViewFood: RecyclerView
     private lateinit var recyclerViewRoomTop: RecyclerView
+    private lateinit var xemloaiphong: TextView
+    private lateinit var xemmonan: TextView
+    private lateinit var xemtiennghi: TextView
+    private lateinit var bottombar: ViewPager2
     private lateinit var amThucAdapter: AmThucAdapter
     private lateinit var roomTopAdapter: RoomTopAdapter
     private lateinit var mMap: GoogleMap
@@ -48,6 +56,27 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_overview, container, false)
+
+        // Khởi tạo TextView
+        xemloaiphong = view.findViewById(R.id.xemloaiphong)
+        xemmonan = view.findViewById(R.id.xemmonan)
+        xemtiennghi = view.findViewById(R.id.xemtiennghi)
+
+        xemloaiphong.setOnClickListener {
+            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager2)
+            viewPager.currentItem = 2 // Chỉ mục của PhongNghiFragment trong adapter
+        }
+
+
+        xemmonan.setOnClickListener{
+            val intent1 = Intent(requireContext(), ThucDonFragment::class.java)
+            startActivity(intent1)
+        }
+
+        xemtiennghi.setOnClickListener{
+            val intent = Intent(requireContext(), ServiceFragment::class.java)
+            startActivity(intent)
+        }
 
         // Khởi tạo RecyclerView cho món ăn
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood)

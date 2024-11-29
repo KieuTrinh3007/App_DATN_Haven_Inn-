@@ -24,7 +24,6 @@ class SignIn : AppCompatActivity() {
     private lateinit var btn_forgot_pw: TextView
     private lateinit var btn_signUp: TextView
 
-    // Sử dụng CreateService để tạo NguoiDungService
     private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService<NguoiDungService>()
     }

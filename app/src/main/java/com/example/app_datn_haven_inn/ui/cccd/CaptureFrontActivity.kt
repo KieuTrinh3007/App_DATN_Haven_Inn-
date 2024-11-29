@@ -1,6 +1,7 @@
 package com.example.app_datn_haven_inn.ui.cccd
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -10,6 +11,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -17,70 +19,51 @@ import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.app_datn_haven_inn.R
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.barcode.BarcodeScanning
 import java.io.File
 import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class CaptureFrontActivity : AppCompatActivity() {
 
     private lateinit var previewView: PreviewView
     private lateinit var capturedImageView: ImageView
-    private lateinit var captureButton: Button
-    private lateinit var retryButton: Button
-    private lateinit var continueButton: Button
+    private lateinit var captureButton: ImageView
+    private lateinit var img_back_mt: ImageView
 
     private var imageCapture: ImageCapture? = null
     private var outputFile: File? = null
     private lateinit var cameraExecutor: ExecutorService
 
+    private var extractedInfo: MutableMap<String, String> = mutableMapOf()
+
     companion object {
         private const val CAMERA_PERMISSION_CODE = 1001
+        private const val TAG = "CaptureFrontActivity"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_capture_front)
 
-        // Ánh xạ các View
+        // Khởi tạo các view
         previewView = findViewById(R.id.previewView)
         capturedImageView = findViewById(R.id.capturedImage)
         captureButton = findViewById(R.id.captureButton)
-        retryButton = findViewById(R.id.retryButton)
-        continueButton = findViewById(R.id.continue_button)
+        img_back_mt = findViewById(R.id.id_back_mt)
 
-        // Kiểm tra quyền và khởi động camera
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_CODE
-            )
+        // Khởi tạo executor cho camera
+        cameraExecutor = Executors.newSingleThreadExecutor()
+
+        // Kiểm tra quyền truy cập camera
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
         } else {
             startCamera()
         }
 
-        // Nút "Chụp ảnh"
-        captureButton.setOnClickListener {
-            takePhoto()
-        }
-
-        // Nút "Chụp lại"
-        retryButton.setOnClickListener {
-            resetUIFront()
-            startCamera()
-        }
-
-        // Nút "Tiếp tục"
-        continueButton.setOnClickListener {
-            if (outputFile != null) {
-                val intent = Intent(this, CaptureBackActivity::class.java)
-                intent.putExtra("frontImagePath", outputFile!!.absolutePath)
-                startActivity(intent)
-            } else {
-                Toast.makeText(this, "Chưa có ảnh để chuyển tiếp", Toast.LENGTH_SHORT).show()
-            }
-        }
+        captureButton.setOnClickListener { takePhoto() }
     }
 
     private fun startCamera() {
@@ -88,22 +71,16 @@ class CaptureFrontActivity : AppCompatActivity() {
 
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
-
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(previewView.surfaceProvider)
-            }
-
+            val preview = Preview.Builder().build().also { it.setSurfaceProvider(previewView.surfaceProvider) }
             imageCapture = ImageCapture.Builder().build()
-
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
                 cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture
-                )
+                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
             } catch (e: Exception) {
                 Toast.makeText(this, "Không thể khởi động camera: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "Camera error: ${e.message}")
             }
         }, ContextCompat.getMainExecutor(this))
     }
@@ -111,71 +88,111 @@ class CaptureFrontActivity : AppCompatActivity() {
     private fun takePhoto() {
         val imageCapture = imageCapture ?: return
 
-        // Tạo tệp lưu ảnh mới mỗi khi chụp ảnh
         outputFile = File(filesDir, "${System.currentTimeMillis()}.jpg")
-
         val outputOptions = ImageCapture.OutputFileOptions.Builder(outputFile!!).build()
 
-        imageCapture.takePicture(
-            outputOptions,
-            ContextCompat.getMainExecutor(this),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                    // Chuyển tệp thành Bitmap và hiển thị
-                    val bitmap = BitmapFactory.decodeFile(outputFile!!.absolutePath)
-                    capturedImageView.setImageBitmap(bitmap)
-                    updateUIForCapturedImage()
-                }
+        imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
+            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+                val bitmap = BitmapFactory.decodeFile(outputFile!!.absolutePath)
+                capturedImageView.setImageBitmap(bitmap)
+                scanQRCode(bitmap)
+            }
 
-                override fun onError(exception: ImageCaptureException) {
-                    Toast.makeText(
-                        this@CaptureFrontActivity,
-                        "Chụp ảnh thất bại: ${exception.message}",
-                        Toast.LENGTH_SHORT
-                    ).show()
+            override fun onError(exception: ImageCaptureException) {
+                Toast.makeText(this@CaptureFrontActivity, "Chụp ảnh thất bại: ${exception.message}", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "Capture error: ${exception.message}")
+            }
+        })
+    }
+
+    private fun scanQRCode(bitmap: Bitmap) {
+        val inputImage = InputImage.fromBitmap(bitmap, 0)
+        val barcodeScanner = BarcodeScanning.getClient()
+
+        barcodeScanner.process(inputImage)
+            .addOnSuccessListener { barcodes ->
+                if (barcodes.isEmpty()) {
+                    showRetryDialog()
+                } else {
+                    for (barcode in barcodes) {
+                        val value = barcode.displayValue
+                        if (value != null) {
+                            parseQRCodeData(value)
+
+                            if (outputFile != null) {
+                                val intent = Intent(this, CaptureBackActivity::class.java)
+                                intent.putExtra("frontImagePath", outputFile!!.absolutePath)
+                                extractedInfo.forEach { (key, value) -> intent.putExtra(key, value) }
+                                startActivity(intent)
+                            }
+
+                            break
+                        }
+                    }
                 }
             }
-        )
-
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Không thể quét mã QR: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "Barcode scanning error: ${e.message}")
+            }
     }
 
-    private fun updateUIForCapturedImage() {
-        capturedImageView.visibility = ImageView.VISIBLE
-        previewView.visibility = PreviewView.GONE
-        retryButton.visibility = Button.VISIBLE
-        continueButton.visibility = Button.VISIBLE
-        captureButton.visibility = Button.GONE
-    }
+    private fun parseQRCodeData(data: String) {
+        val sections = data.split("||")
+        if (sections.size == 2) {
+            val cccd = sections[0] // Số CCCD
+            val remainingData = sections[1]
 
-    private fun resetUIFront() {
-        capturedImageView.setImageBitmap(null)
-        capturedImageView.visibility = ImageView.GONE
+            val fields = remainingData.split("|")
+            if (fields.size == 5) {
+                extractedInfo["cccd"] = cccd
+                extractedInfo["name"] = fields[0]
+                extractedInfo["birthDate"] = fields[1]
+                extractedInfo["gender"] = fields[2]
+                extractedInfo["address"] = fields[3]
+                extractedInfo["issueDate"] = fields[4]
 
-        // Hiển thị lại preview view và ẩn các nút đã chụp
-        previewView.visibility = PreviewView.VISIBLE
+                Toast.makeText(
+                    this,
+                    "Thông tin CCCD:\n" +
+                            "Số CCCD: $cccd\n" +
+                            "Họ và tên: ${fields[0]}\n" +
+                            "Giới tính: ${fields[1]}\n" +
+                            "Ngày sinh: ${fields[2]}\n" +
+                            "Nơi thường trú: ${fields[3]}\n" +
+                            "Ngày cấp: ${fields[4]}",
+                    Toast.LENGTH_LONG
+                ).show()
 
-        // Ẩn nút "Chụp lại" và "Tiếp tục" sau khi reset UI
-        retryButton.visibility = Button.GONE
-        continueButton.visibility = Button.GONE
-
-        captureButton.visibility = Button.VISIBLE
-        captureButton.text = "Chụp ảnh"
-    }
-
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startCamera()
+                Log.d(TAG, "Extracted Data: $extractedInfo")
             } else {
-                Toast.makeText(this, "Ứng dụng cần quyền Camera để hoạt động", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Dữ liệu mã QR không hợp lệ.", Toast.LENGTH_SHORT).show()
+                Log.e(TAG, "Invalid QR data format: $data")
             }
+        } else {
+            Toast.makeText(this, "Định dạng mã QR không đúng.", Toast.LENGTH_SHORT).show()
+            Log.e(TAG, "Invalid QR data format: $data")
         }
+    }
+
+    private fun showRetryDialog() {
+        val dialog = AlertDialog.Builder(this)
+            .setTitle("Không phát hiện mã QR")
+            .setMessage("Không có mã QR trong ảnh. Bạn có muốn chụp lại không?")
+            .setPositiveButton("Chụp lại") { _, _ ->
+                capturedImageView.setImageBitmap(null)
+                startCamera()
+            }
+            .setNegativeButton("Hủy", null)
+            .create()
+
+        dialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Xóa ảnh trong ImageView khi quay lại Activity
+        capturedImageView.setImageBitmap(null) // Đặt lại ImageView về trạng thái ban đầu
     }
 
     override fun onDestroy() {

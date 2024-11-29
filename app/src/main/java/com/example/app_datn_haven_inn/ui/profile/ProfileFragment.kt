@@ -17,6 +17,7 @@ import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.ui.auth.RePassword
 import com.example.app_datn_haven_inn.ui.auth.SignIn
 import com.example.app_datn_haven_inn.ui.cccd.CaptureFrontActivity
+import com.example.app_datn_haven_inn.ui.cccd.CccdGuide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,7 +31,6 @@ class ProfileFragment : Fragment() {
     private lateinit var xmcccd: TextView
     private lateinit var doiMK: TextView
     private lateinit var bt_signout: ImageView
-    private val LOCATION_PERMISSION_REQUEST_CODE = 100
     private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService()
     }
@@ -64,7 +64,7 @@ class ProfileFragment : Fragment() {
         }
 
         xmcccd.setOnClickListener {
-            val intent = Intent(requireContext(), CaptureFrontActivity::class.java)
+            val intent = Intent(requireContext(), CccdGuide::class.java)
             startActivity(intent)
         }
 
