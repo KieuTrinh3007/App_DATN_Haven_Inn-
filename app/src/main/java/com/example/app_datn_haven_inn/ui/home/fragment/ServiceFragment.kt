@@ -1,6 +1,8 @@
 package com.example.app_datn_haven_inn.ui.home.fragment
 
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +23,7 @@ class ServiceFragment : AppCompatActivity() {
     // Khai báo các thành phần UI
     private lateinit var recyclerViewService: RecyclerView
     private lateinit var recyclerViewServices: RecyclerView
+    private lateinit var img_back_tiennghi: ImageView
 
     // Khai báo các adapter
     private lateinit var adapter: ServiceAdapter
@@ -33,6 +36,7 @@ class ServiceFragment : AppCompatActivity() {
         // Ánh xạ các thành phần UI
         recyclerViewService = findViewById(R.id.recyclerViewService)
         recyclerViewServices = findViewById(R.id.recyclerViewServices)
+        img_back_tiennghi = findViewById(R.id.img_back_tiennghi)
 
         // Thiết lập adapter và layout cho RecyclerView đầu tiên
         adapter = ServiceAdapter()
@@ -43,6 +47,10 @@ class ServiceFragment : AppCompatActivity() {
         adapterServices = ServicesAdapter()
         recyclerViewServices.layoutManager = LinearLayoutManager(this)
         recyclerViewServices.adapter = adapterServices
+
+        img_back_tiennghi.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
         // Gọi API để lấy dữ liệu
         fetchServices()
