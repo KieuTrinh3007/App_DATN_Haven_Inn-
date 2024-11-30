@@ -24,6 +24,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
     private var tienNghiViewModel: TienNghiPhongViewModel? = null
     private var loaiPhongViewModel: LoaiPhongViewModel? = null
     private var danhGiaViewModel: DanhGiaViewModel? = null
+    private var isFavorite = false
     override fun createBinding(): ActivityRoomDetailBinding {
         return ActivityRoomDetailBinding.inflate(layoutInflater)
     }

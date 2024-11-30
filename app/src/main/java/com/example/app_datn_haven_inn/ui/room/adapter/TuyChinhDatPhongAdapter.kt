@@ -31,14 +31,15 @@ class TuyChinhDatPhongAdapter(
         }
 
             when (listSoPhong.get(position).trangThai) {
-                0 -> { // Hết phòng
+                0 -> { // Còn phòng
                     holder.binding.root.isEnabled = false
-                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_selected)
+                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_unselect)
+
                 }
 
-                1 -> { // Chưa chọn
+                1 -> { // Hết phng
                     holder.binding.root.isEnabled = true
-                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_unselect)
+                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_selected)
                 }
 
                 2 -> { // Đã chọn
