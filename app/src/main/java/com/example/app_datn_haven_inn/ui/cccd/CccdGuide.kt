@@ -21,12 +21,15 @@ class CccdGuide : AppCompatActivity() {
         btn_bat_dau_chup = findViewById(R.id.btn_bat_dau_chup)
         btn_back = findViewById(R.id.img_back_xt1)
 
-        btn_back.setOnClickListener{
+        btn_back.setOnClickListener {
             finish()
         }
 
-        btn_bat_dau_chup.setOnClickListener{
+        val idNguoiDung = intent.getStringExtra("idNguoiDung")
+
+        btn_bat_dau_chup.setOnClickListener {
             val intent = Intent(this, CaptureFrontActivity::class.java)
+            intent.putExtra("idNguoiDung", idNguoiDung)
             startActivity(intent)
         }
     }

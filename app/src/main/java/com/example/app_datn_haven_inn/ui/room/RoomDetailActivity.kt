@@ -169,7 +169,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         }
     }
 
-
     override fun onDestroy() {
         super.onDestroy()
         timer?.cancel()

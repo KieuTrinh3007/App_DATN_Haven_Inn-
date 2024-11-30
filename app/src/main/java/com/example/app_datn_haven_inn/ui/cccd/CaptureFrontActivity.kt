@@ -63,7 +63,9 @@ class CaptureFrontActivity : AppCompatActivity() {
             startCamera()
         }
 
-        captureButton.setOnClickListener { takePhoto() }
+        val idNguoiDung = intent.getStringExtra("idNguoiDung")
+
+        captureButton.setOnClickListener { takePhoto(idNguoiDung!!) }
     }
 
     private fun startCamera() {
@@ -85,7 +87,7 @@ class CaptureFrontActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun takePhoto() {
+    private fun takePhoto(idNguoiDung: String) {
         val imageCapture = imageCapture ?: return
 
         outputFile = File(filesDir, "${System.currentTimeMillis()}.jpg")
@@ -95,7 +97,7 @@ class CaptureFrontActivity : AppCompatActivity() {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 val bitmap = BitmapFactory.decodeFile(outputFile!!.absolutePath)
                 capturedImageView.setImageBitmap(bitmap)
-                scanQRCode(bitmap)
+                scanQRCode(bitmap, idNguoiDung)
             }
 
             override fun onError(exception: ImageCaptureException) {
@@ -105,7 +107,7 @@ class CaptureFrontActivity : AppCompatActivity() {
         })
     }
 
-    private fun scanQRCode(bitmap: Bitmap) {
+    private fun scanQRCode(bitmap: Bitmap, idNguoiDung: String) {
         val inputImage = InputImage.fromBitmap(bitmap, 0)
         val barcodeScanner = BarcodeScanning.getClient()
 
@@ -122,6 +124,9 @@ class CaptureFrontActivity : AppCompatActivity() {
                             if (outputFile != null) {
                                 val intent = Intent(this, CaptureBackActivity::class.java)
                                 intent.putExtra("frontImagePath", outputFile!!.absolutePath)
+
+                                intent.putExtra("idNguoiDung", idNguoiDung)
+
                                 extractedInfo.forEach { (key, value) -> intent.putExtra(key, value) }
                                 startActivity(intent)
                             }
@@ -152,17 +157,17 @@ class CaptureFrontActivity : AppCompatActivity() {
                 extractedInfo["address"] = fields[3]
                 extractedInfo["issueDate"] = fields[4]
 
-                Toast.makeText(
-                    this,
-                    "Thông tin CCCD:\n" +
-                            "Số CCCD: $cccd\n" +
-                            "Họ và tên: ${fields[0]}\n" +
-                            "Giới tính: ${fields[1]}\n" +
-                            "Ngày sinh: ${fields[2]}\n" +
-                            "Nơi thường trú: ${fields[3]}\n" +
-                            "Ngày cấp: ${fields[4]}",
-                    Toast.LENGTH_LONG
-                ).show()
+//                Toast.makeText(
+//                    this,
+//                    "Thông tin CCCD:\n" +
+//                            "Số CCCD: $cccd\n" +
+//                            "Họ và tên: ${fields[0]}\n" +
+//                            "Giới tính: ${fields[1]}\n" +
+//                            "Ngày sinh: ${fields[2]}\n" +
+//                            "Nơi thường trú: ${fields[3]}\n" +
+//                            "Ngày cấp: ${fields[4]}",
+//                    Toast.LENGTH_LONG
+//                ).show()
 
                 Log.d(TAG, "Extracted Data: $extractedInfo")
             } else {

@@ -3,6 +3,7 @@ package com.example.app_datn_haven_inn.ui.profile
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,13 +59,16 @@ class ProfileFragment : Fragment() {
         }
 
         doiMK.setOnClickListener {
-            val intent = Intent(requireContext(), RePassword::class.java)
-            intent.putExtra("idNguoiDung", idNguoiDung)
-            startActivityForResult(intent, 100)
+            val intent1 = Intent(requireContext(), RePassword::class.java)
+            intent1.putExtra("idNguoiDung", idNguoiDung)
+            startActivityForResult(intent1, 100)
         }
+
+        Log.e("ProfileFragment", "idNguoiDung is null or empty" + idNguoiDung)
 
         xmcccd.setOnClickListener {
             val intent = Intent(requireContext(), CccdGuide::class.java)
+            intent.putExtra("idNguoiDung", idNguoiDung)
             startActivity(intent)
         }
 

@@ -26,7 +26,6 @@ class CaptureBackActivity : AppCompatActivity() {
     private lateinit var capturedImageViewBack: ImageView
     private lateinit var captureButtonBack: ImageView
 
-    val frontImagePath = intent?.getStringExtra("frontImagePath")
     private var imageCapture: ImageCapture? = null
     private var outputFile: File? = null
     private lateinit var cameraExecutor: ExecutorService
@@ -46,9 +45,11 @@ class CaptureBackActivity : AppCompatActivity() {
         // Khởi động camera
         startCamera()
 
+        val idNguoiDung = intent.getStringExtra("idNguoiDung")
+        val frontImagePath = intent.getStringExtra("frontImagePath")
         // Nút "Chụp ảnh"
         captureButtonBack.setOnClickListener {
-            takePhoto()
+            takePhoto(idNguoiDung!!, frontImagePath)
         }
     }
 
@@ -76,7 +77,7 @@ class CaptureBackActivity : AppCompatActivity() {
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun takePhoto() {
+    private fun takePhoto(idNguoiDung: String, frontImagePath: String?) {
         val imageCapture = imageCapture ?: return
 
         // Tạo tệp lưu ảnh mới mỗi khi chụp ảnh
@@ -94,7 +95,7 @@ class CaptureBackActivity : AppCompatActivity() {
                     capturedImageViewBack.setImageBitmap(bitmap)
 
                     // Kiểm tra thông tin ngày cấp từ ảnh
-                    extractCCCDData(bitmap)
+                    extractCCCDData(bitmap, idNguoiDung, frontImagePath)
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -108,7 +109,7 @@ class CaptureBackActivity : AppCompatActivity() {
         )
     }
 
-    private fun extractCCCDData(bitmap: Bitmap) {
+    private fun extractCCCDData(bitmap: Bitmap, idNguoiDung: String, frontImagePath: String?) {
         val extractor = CCCDDataExtractor()
         extractor.extractCCCDInfo(bitmap) { dataMap ->
             if (dataMap.isNotEmpty()) {
@@ -123,6 +124,7 @@ class CaptureBackActivity : AppCompatActivity() {
                     outputFile?.let {
                         intent1.putExtra("backImagePath", it.absolutePath)
                     }
+
                     frontImagePath?.let {
                         intent1.putExtra("frontImagePath", it)
                     }
@@ -136,7 +138,8 @@ class CaptureBackActivity : AppCompatActivity() {
                     intent.getStringExtra("issueDate")?.let { intent1.putExtra("issueDate", it) }
 
                     // Truyền thông tin ngày cấp từ mặt sau
-                    intent1.putExtra("issueDateBack", issueDate)
+//                    intent1.putExtra("issueDateBack", issueDate)
+                    intent1.putExtra("idNguoiDung", idNguoiDung)
 
                     startActivity(intent1)
                 } else {
