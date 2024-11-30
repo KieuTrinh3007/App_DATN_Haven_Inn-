@@ -8,13 +8,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.app_datn_haven_inn.BaseFragment
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.databinding.FragmentFavoriteBinding
+import com.example.app_datn_haven_inn.ui.room.adapter.PhongNghiAdapter
 import com.example.app_datn_haven_inn.viewModel.YeuThichViewModel
 
 class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var viewModel: YeuThichViewModel
-    private var adapter: FavoriteAdapter? = null
+    private var adapter: PhongNghiAdapter? = null
 
 
     override fun inflateViewBinding(): FragmentFavoriteBinding {
@@ -30,7 +31,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
         viewModel = ViewModelProvider(this)[YeuThichViewModel::class.java]
         viewModel.getFavoritesByUserId(idUser.toString())
-        adapter = FavoriteAdapter(mutableListOf())
+        adapter = PhongNghiAdapter(mutableListOf())
 
         viewModel.yeuThichList1.observe(viewLifecycleOwner) { yeuThichList ->
             if (yeuThichList.isNullOrEmpty()) {
@@ -39,29 +40,28 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
             } else {
                 viewBinding.rvFavorite.visibility = View.VISIBLE
                 viewBinding.ivNoData.visibility = View.GONE
-                adapter?.updateData(yeuThichList.toMutableList())
+                adapter?.updateList(yeuThichList.toMutableList())
                 viewBinding.rvFavorite.adapter = adapter
             }
         }
 
-        adapter?.setOnFavoriteSelected { loaiPhong ->
+        adapter?.setonFavotiteSelected { loaiPhong ->
+            // Gọi hàm xóa yêu thích
             viewModel.deleteyeuThich(loaiPhong.id, idUser.toString())
-            viewModel.getFavoritesByUserId(idUser.toString())
-            viewModel.yeuThichList1.observe(requireActivity()) { yeuThichList ->
-                if (yeuThichList.isNullOrEmpty()) {
+
+            // Quan sát danh sách yêu thích và cập nhật giao diện
+            viewModel.yeuThichList1.observe(viewLifecycleOwner) { updatedList ->
+                if (updatedList.isNullOrEmpty()) {
                     viewBinding.rvFavorite.visibility = View.GONE
                     viewBinding.ivNoData.visibility = View.VISIBLE
                 } else {
+                    adapter?.updateList(updatedList.toMutableList())
                     viewBinding.rvFavorite.visibility = View.VISIBLE
                     viewBinding.ivNoData.visibility = View.GONE
-                    adapter?.updateData(yeuThichList.toMutableList())
-                    viewBinding.rvFavorite.adapter = adapter
                 }
-
-
             }
-
         }
+
 
 
     }
@@ -78,7 +78,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
             } else {
                 viewBinding.rvFavorite.visibility = View.VISIBLE
                 viewBinding.ivNoData.visibility = View.GONE
-                adapter?.updateData(yeuThichList.toMutableList())
+                adapter?.updateList(yeuThichList.toMutableList())
                 viewBinding.rvFavorite.adapter = adapter
             }
         }

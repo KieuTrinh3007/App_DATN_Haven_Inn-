@@ -140,7 +140,7 @@
                         android:id="@+id/txt_number_review"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="10 nhận xét"
+                        android:text="0 nhận xét"
                         android:textSize="10sp"
                         android:textColor="@color/black"/>
 

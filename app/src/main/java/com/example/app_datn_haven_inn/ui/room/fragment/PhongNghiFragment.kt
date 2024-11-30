@@ -3,6 +3,7 @@ package com.example.app_datn_haven_inn.ui.room.fragment
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.util.Log
@@ -12,6 +13,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -24,11 +26,14 @@ import com.example.app_datn_haven_inn.databinding.FragmentPhongNghiBinding
 import com.example.app_datn_haven_inn.ui.room.adapter.PhongNghiAdapter
 import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
 import com.example.app_datn_haven_inn.viewModel.YeuThichViewModel
+import java.text.NumberFormat
 import java.util.Calendar
+import java.util.Locale
 
 
 class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
+    private lateinit var sharedPreferences: SharedPreferences
     private var adapter: PhongNghiAdapter? = null
     private lateinit var loaiPhongViewModel: LoaiPhongViewModel
     private lateinit var yeuThichViewModel: YeuThichViewModel
@@ -37,6 +42,20 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         return FragmentPhongNghiBinding.inflate(layoutInflater)
     }
 
+    override fun onResume() {
+        super.onResume()
+        sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val idUser = sharedPreferences.getString("idNguoiDung", "")
+        yeuThichViewModel.getFavoritesByUserId(idUser.toString())
+        yeuThichViewModel.yeuThichList1.observe(viewLifecycleOwner) { updatedList ->
+            if (updatedList != null) {
+                adapter?.listPhong?.forEach { phong ->
+                    phong.isFavorite = updatedList.any { it.id == phong.id }
+                }
+                adapter?.notifyDataSetChanged()
+            }
+        }
+    }
 
     override fun initView() {
         super.initView()
@@ -181,6 +200,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                 yeuThichViewModel.isyeuThichAdded.observe(viewLifecycleOwner) { success ->
                     Log.d("PhongNghiFragment", "Thêm yêu thích thành công: $success")
                     if (success) {
+                        yeuThichViewModel.getFavoritesByUserId(idNguoiDung)
                     } else {
                         phong.isFavorite = false
                         adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
@@ -193,6 +213,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
                 yeuThichViewModel.isyeuThichDeleted.observe(viewLifecycleOwner) { success ->
                     if (success) {
+                        yeuThichViewModel.getFavoritesByUserId(idNguoiDung)
                     } else {
                         phong.isFavorite = true
                         adapter?.notifyItemChanged(adapter?.listPhong?.indexOf(phong) ?: 0)
@@ -335,8 +356,10 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
             val giaMin = giaToiThieu.toIntOrNull()
             val giaMax = giaToiDa.toIntOrNull()
+            val giaMinFormatted = formatCurrency(giaMin)
+            val giaMaxFormatted = formatCurrency(giaMax)
 
-            if (giaMin == null || giaMax == null || giaMin > giaMax) {
+            if (giaMinFormatted == null || giaMaxFormatted == null || giaMinFormatted > giaMaxFormatted) {
                 Toast.makeText(requireContext(), "Khoảng giá không hợp lệ", Toast.LENGTH_SHORT)
                     .show()
                 return@setOnClickListener
@@ -344,8 +367,8 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
             val loaiPhongList = loaiPhongViewModel.loaiPhongList.value
             val filteredList = loaiPhongList?.filter { loaiPhong ->
-                loaiPhong.soLuongKhach == tongSoNguoi &&
-                        loaiPhong.giaTien >= giaMin && loaiPhong.giaTien <= giaMax
+                loaiPhong.soLuongKhach >= tongSoNguoi &&
+                        loaiPhong.giaTien >= giaMin!! && loaiPhong.giaTien <= giaMax!!
             }
             adapter?.let {
                 if (filteredList != null){
@@ -353,6 +376,12 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                 }
             }
             dialog.dismiss()
+
         }
+    }
+    fun formatCurrency(amount: Int?): String {
+        if (amount == null) return ""
+        val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
+        return formatter.format(amount)
     }
 }

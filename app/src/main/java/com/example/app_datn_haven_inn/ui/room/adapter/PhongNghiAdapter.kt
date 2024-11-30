@@ -70,12 +70,6 @@ class PhongNghiAdapter(
             val giaChinhThuc = phong.giaTien.toInt()
             val giaVip = giaChinhThuc + 300000
 
-
-
-
-
-
-
             tvTuyChinh.setOnClickListener{
                 val context = holder.binding.root.context
                 val intent = Intent(context, TuyChinhDatPhongActivity::class.java)
@@ -116,8 +110,7 @@ class PhongNghiAdapter(
         listPhong = newList
         notifyDataSetChanged()
     }
-
-    private fun updateFavoriteIcon(binding: ItemTtPhongBinding, phong: LoaiPhongModel) {
+     fun updateFavoriteIcon(binding: ItemTtPhongBinding, phong: LoaiPhongModel) {
         binding.ivFavorite.setImageResource(
             if (phong.isFavorite == true) R.drawable.ic_favorite_select
             else R.drawable.ic_favorite_unselect
