@@ -99,6 +99,7 @@ class YeuThichViewModel : BaseViewModel() {
                 val success = YeuThichRepository.deleteYeuThich(idLoaiPhong,idUser)
                 if (success) {
                     _isyeuThichDeleted.value = true
+                    getFavoritesByUserId(idUser)
                 }
             } catch (e: Exception) {
                 Log.e("yeuThichViewModel", "Error deleting yeuThich", e)
