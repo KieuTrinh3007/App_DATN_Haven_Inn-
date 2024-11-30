@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.cccd
 
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -31,6 +32,7 @@ class ShowInfoActivity : AppCompatActivity() {
     private lateinit var textViewCCCD: TextInputEditText
     private lateinit var textViewDateCap: TextInputEditText
     private lateinit var btnVerify: TextView
+    private lateinit var img_back_vemt: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +46,7 @@ class ShowInfoActivity : AppCompatActivity() {
         textViewCCCD = findViewById(R.id.textNumberCCCD)
         textViewDateCap = findViewById(R.id.textDateCapCCCD)
         btnVerify = findViewById(R.id.buttonAddCCCD)
+        img_back_vemt = findViewById(R.id.img_back_vemt)
 
         val frontImagePath = intent.getStringExtra("frontImagePath")
         val backImagePath = intent.getStringExtra("backImagePath")
@@ -96,6 +99,13 @@ class ShowInfoActivity : AppCompatActivity() {
             } else {
                 showToast("Dữ liệu không đầy đủ để xác thực")
             }
+
+
+        }
+
+        img_back_vemt.setOnClickListener {
+            val intent = Intent(this, CaptureFrontActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -167,11 +177,11 @@ class ShowInfoActivity : AppCompatActivity() {
             if (date != null) {
                 outputFormat.format(date)
             } else {
-                dateString // Nếu không thể chuyển đổi, trả về ngày gốc
+                dateString
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            dateString // Trả về ngày gốc nếu có lỗi
+            dateString
         }
     }
 

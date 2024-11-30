@@ -5,8 +5,11 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +28,8 @@ class CaptureBackActivity : AppCompatActivity() {
     private lateinit var previewViewBack: PreviewView
     private lateinit var capturedImageViewBack: ImageView
     private lateinit var captureButtonBack: ImageView
+    private lateinit var id_back_ms: ImageView
+    private lateinit var progressBar: ProgressBar
 
     private var imageCapture: ImageCapture? = null
     private var outputFile: File? = null
@@ -38,6 +43,8 @@ class CaptureBackActivity : AppCompatActivity() {
         previewViewBack = findViewById(R.id.previewViewBack)
         capturedImageViewBack = findViewById(R.id.capturedImageViewBack)
         captureButtonBack = findViewById(R.id.captureButtonBack)
+        id_back_ms = findViewById(R.id.id_back_ms)
+        progressBar = findViewById(R.id.progressBarMS)
 
         // Khởi tạo camera executor
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -50,6 +57,10 @@ class CaptureBackActivity : AppCompatActivity() {
         // Nút "Chụp ảnh"
         captureButtonBack.setOnClickListener {
             takePhoto(idNguoiDung!!, frontImagePath)
+        }
+
+        id_back_ms.setOnClickListener{
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
@@ -80,6 +91,11 @@ class CaptureBackActivity : AppCompatActivity() {
     private fun takePhoto(idNguoiDung: String, frontImagePath: String?) {
         val imageCapture = imageCapture ?: return
 
+        captureButtonBack.isEnabled = false
+
+        val progressBar = findViewById<ProgressBar>(R.id.progressBarMS)
+        progressBar.visibility = View.VISIBLE
+
         // Tạo tệp lưu ảnh mới mỗi khi chụp ảnh
         outputFile = File(filesDir, "${System.currentTimeMillis()}.jpg")
 
@@ -92,10 +108,16 @@ class CaptureBackActivity : AppCompatActivity() {
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                     // Chuyển tệp thành Bitmap và hiển thị
                     val bitmap = BitmapFactory.decodeFile(outputFile!!.absolutePath)
+                    capturedImageViewBack.visibility = View.VISIBLE
                     capturedImageViewBack.setImageBitmap(bitmap)
 
-                    // Kiểm tra thông tin ngày cấp từ ảnh
-                    extractCCCDData(bitmap, idNguoiDung, frontImagePath)
+                    val handler = android.os.Handler()
+                    handler.postDelayed({
+                        progressBar.visibility = View.GONE
+                        captureButtonBack.isEnabled = true
+                        extractCCCDData(bitmap, idNguoiDung, frontImagePath)
+                    }, 1000) // Độ trễ 1 giây
+
                 }
 
                 override fun onError(exception: ImageCaptureException) {
@@ -154,21 +176,33 @@ class CaptureBackActivity : AppCompatActivity() {
     }
 
     private fun showRetryDialogBack() {
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("Không phát hiện thông tin ngày cấp")
-            .setMessage("Không có thông tin ngày cấp trong ảnh. Bạn có muốn chụp lại không?")
-            .setPositiveButton("Chụp lại") { _, _ ->
-                capturedImageViewBack.setImageBitmap(null)
-                startCamera()
-            }
+        val dialogView = layoutInflater.inflate(R.layout.custom_dialog, null) // Thay bằng file layout của bạn
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogView)
             .setCancelable(false)
             .create()
 
-        dialog.show()
+        val titleTextView = dialogView.findViewById<TextView>(R.id.dialog_title)
+        val messageTextView = dialogView.findViewById<TextView>(R.id.dialog_message)
+
+        titleTextView.text = "Thông báo"
+        messageTextView.text = "Đảm bảo giấy tờ không bị mờ, tối hoặc chói sáng"
+
+        // Xử lý nút "OK" trong dialog
+        val okButton = dialogView.findViewById<TextView>(R.id.dialog_ok_button)
+        okButton.setOnClickListener {
+            alertDialog.dismiss() // Đóng dialog
+            capturedImageViewBack.setImageBitmap(null)
+            startCamera() // Bắt đầu lại camera để thử chụp lại
+        }
+
+        alertDialog.show()
     }
 
     override fun onResume() {
         super.onResume()
+        progressBar.visibility = View.GONE
         capturedImageViewBack.setImageBitmap(null)
     }
 

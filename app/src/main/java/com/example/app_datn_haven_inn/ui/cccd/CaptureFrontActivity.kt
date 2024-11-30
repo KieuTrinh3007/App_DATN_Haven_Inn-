@@ -8,8 +8,11 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +34,7 @@ class CaptureFrontActivity : AppCompatActivity() {
     private lateinit var capturedImageView: ImageView
     private lateinit var captureButton: ImageView
     private lateinit var img_back_mt: ImageView
+    private lateinit var progressBar: ProgressBar
 
     private var imageCapture: ImageCapture? = null
     private var outputFile: File? = null
@@ -52,6 +56,7 @@ class CaptureFrontActivity : AppCompatActivity() {
         capturedImageView = findViewById(R.id.capturedImage)
         captureButton = findViewById(R.id.captureButton)
         img_back_mt = findViewById(R.id.id_back_mt)
+        progressBar = findViewById(R.id.progressBarMT)
 
         // Khởi tạo executor cho camera
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -66,6 +71,11 @@ class CaptureFrontActivity : AppCompatActivity() {
         val idNguoiDung = intent.getStringExtra("idNguoiDung")
 
         captureButton.setOnClickListener { takePhoto(idNguoiDung!!) }
+
+        img_back_mt.setOnClickListener{
+            val intent1 = Intent(this, CccdGuide::class.java)
+            startActivity(intent1)
+        }
     }
 
     private fun startCamera() {
@@ -90,14 +100,27 @@ class CaptureFrontActivity : AppCompatActivity() {
     private fun takePhoto(idNguoiDung: String) {
         val imageCapture = imageCapture ?: return
 
+        captureButton.isEnabled = false
+
+        val progressBar = findViewById<ProgressBar>(R.id.progressBarMT)
+        progressBar.visibility = View.VISIBLE
+
         outputFile = File(filesDir, "${System.currentTimeMillis()}.jpg")
         val outputOptions = ImageCapture.OutputFileOptions.Builder(outputFile!!).build()
 
         imageCapture.takePicture(outputOptions, ContextCompat.getMainExecutor(this), object : ImageCapture.OnImageSavedCallback {
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                 val bitmap = BitmapFactory.decodeFile(outputFile!!.absolutePath)
+
+                capturedImageView.visibility = View.VISIBLE
                 capturedImageView.setImageBitmap(bitmap)
-                scanQRCode(bitmap, idNguoiDung)
+
+                val handler = android.os.Handler()
+                handler.postDelayed({
+                    progressBar.visibility = View.GONE
+                    captureButton.isEnabled = true
+                    scanQRCode(bitmap, idNguoiDung)
+                }, 1000) // Độ trễ 1 giây
             }
 
             override fun onError(exception: ImageCaptureException) {
@@ -157,18 +180,6 @@ class CaptureFrontActivity : AppCompatActivity() {
                 extractedInfo["address"] = fields[3]
                 extractedInfo["issueDate"] = fields[4]
 
-//                Toast.makeText(
-//                    this,
-//                    "Thông tin CCCD:\n" +
-//                            "Số CCCD: $cccd\n" +
-//                            "Họ và tên: ${fields[0]}\n" +
-//                            "Giới tính: ${fields[1]}\n" +
-//                            "Ngày sinh: ${fields[2]}\n" +
-//                            "Nơi thường trú: ${fields[3]}\n" +
-//                            "Ngày cấp: ${fields[4]}",
-//                    Toast.LENGTH_LONG
-//                ).show()
-
                 Log.d(TAG, "Extracted Data: $extractedInfo")
             } else {
                 Toast.makeText(this, "Dữ liệu mã QR không hợp lệ.", Toast.LENGTH_SHORT).show()
@@ -181,23 +192,35 @@ class CaptureFrontActivity : AppCompatActivity() {
     }
 
     private fun showRetryDialog() {
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("Không phát hiện mã QR")
-            .setMessage("Không có mã QR trong ảnh. Bạn có muốn chụp lại không?")
-            .setPositiveButton("Chụp lại") { _, _ ->
-                capturedImageView.setImageBitmap(null)
-                startCamera()
-            }
-            .setNegativeButton("Hủy", null)
+        val dialogView = layoutInflater.inflate(R.layout.custom_dialog, null) // Thay bằng file layout của bạn
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setCancelable(false)
             .create()
 
-        dialog.show()
+        val titleTextView = dialogView.findViewById<TextView>(R.id.dialog_title)
+        val messageTextView = dialogView.findViewById<TextView>(R.id.dialog_message)
+
+        titleTextView.text = "Thông báo"
+        messageTextView.text = "Đảm bảo giấy tờ không bị mờ, tối hoặc chói sáng"
+
+        // Xử lý nút "OK" trong dialog
+        val okButton = dialogView.findViewById<TextView>(R.id.dialog_ok_button)
+        okButton.setOnClickListener {
+            alertDialog.dismiss() // Đóng dialog
+            capturedImageView.setImageBitmap(null)
+            startCamera() // Bắt đầu lại camera để thử chụp lại
+        }
+
+        alertDialog.show()
     }
 
     override fun onResume() {
         super.onResume()
-        // Xóa ảnh trong ImageView khi quay lại Activity
-        capturedImageView.setImageBitmap(null) // Đặt lại ImageView về trạng thái ban đầu
+        capturedImageView.setImageBitmap(null)
+        progressBar.visibility = View.GONE
+        startCamera()
     }
 
     override fun onDestroy() {

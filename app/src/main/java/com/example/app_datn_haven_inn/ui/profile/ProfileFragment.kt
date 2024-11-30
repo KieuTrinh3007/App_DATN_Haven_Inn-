@@ -1,6 +1,7 @@
 package com.example.app_datn_haven_inn.ui.profile
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -73,8 +74,7 @@ class ProfileFragment : Fragment() {
         }
 
         bt_signout.setOnClickListener {
-            val intent = Intent(requireContext(), SignIn::class.java)
-            startActivity(intent)
+            showLogoutDialog()
         }
 
 
@@ -119,4 +119,31 @@ class ProfileFragment : Fragment() {
             }
         }
     }
+
+    private fun showLogoutDialog() {
+        // Inflate layout từ XML để tạo dialog
+        val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setView(dialogView)
+
+        val dialog = builder.create()
+
+        val btnCancel = dialogView.findViewById<TextView>(R.id.dialog_cancel_button)
+        val btnLogout = dialogView.findViewById<TextView>(R.id.dialog_logout_button)
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnLogout.setOnClickListener {
+            val intent = Intent(requireContext(), SignIn::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+
+        dialog.show()
+    }
+
+
 }

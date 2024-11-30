@@ -15,7 +15,7 @@ class CccdGuide : AppCompatActivity() {
     private lateinit var btn_back: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
         setContentView(R.layout.activity_cccd_guide)
 
         btn_bat_dau_chup = findViewById(R.id.btn_bat_dau_chup)

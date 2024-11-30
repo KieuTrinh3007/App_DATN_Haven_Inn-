@@ -18,10 +18,8 @@ import com.example.app_datn_haven_inn.database.model.AmThucModel
 import com.example.app_datn_haven_inn.database.repository.LoaiPhongRepository
 import com.example.app_datn_haven_inn.database.service.AmThucService
 import com.example.app_datn_haven_inn.database.service.LoaiPhongService
-import com.example.app_datn_haven_inn.ui.home.ServiceFragment
 import com.example.app_datn_haven_inn.ui.home.adapter.AmThucAdapter
 import com.example.app_datn_haven_inn.ui.home.adpter.RoomTopAdapter
-import com.example.app_datn_haven_inn.ui.room.fragment.PhongNghiFragment
 import com.example.app_datn_haven_inn.ui.thucDon.ThucDonFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

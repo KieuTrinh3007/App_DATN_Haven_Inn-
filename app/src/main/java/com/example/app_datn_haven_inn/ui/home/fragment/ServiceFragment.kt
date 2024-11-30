@@ -1,4 +1,4 @@
-package com.example.app_datn_haven_inn.ui.home
+package com.example.app_datn_haven_inn.ui.home.fragment
 
 import android.os.Bundle
 import android.widget.Toast
