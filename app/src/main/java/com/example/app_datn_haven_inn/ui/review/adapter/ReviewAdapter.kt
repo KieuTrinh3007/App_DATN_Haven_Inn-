@@ -20,8 +20,6 @@ class ReviewAdapter(
         return ViewHolder(binding)
     }
 
-
-
     override fun getItemCount(): Int {
        return listReview.size
     }
@@ -33,7 +31,6 @@ class ReviewAdapter(
         Glide.with(holder.binding.root.context)
             .load(listReview[position].hinhAnh)
             .into(holder.binding.imgAvatar)
-
 
         val dateOnly = listReview[position].ngayDanhGia.substring(0, 10)
         holder.binding.txtNgaythang.text = dateOnly

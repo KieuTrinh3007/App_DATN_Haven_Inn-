@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/border_bogoc">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_avatar_danhgia"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/circle" />
+
+            <TextView
+                android:id="@+id/tv_ten_nguoi_dung_danhgia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="ten nguoi dung"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/rating_bar_danhgia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="9.0"
+                android:textSize="13dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_nhan_xet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="10dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/roboto_regular"
+            android:hint="nhan xet"
+            android:paddingHorizontal="11dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_ngay_danhgia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="09/11/2021"
+            android:textSize="11dp"
+            android:textColor="@color/black"
+            android:layout_gravity="right"/>
+    </LinearLayout>
+
+</LinearLayout>
