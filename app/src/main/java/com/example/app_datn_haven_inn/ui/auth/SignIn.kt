@@ -74,15 +74,15 @@ class SignIn : AppCompatActivity() {
                         if ((responseBody["status"] as? Double)?.toInt() == 200 && responseBody["userId"] != null) {
                             val userId = responseBody["userId"] as String
                             saveUserToSharedPreferences(userId)
-                            Toast.makeText(this@SignIn, "Đăng nhập thành công!", Toast.LENGTH_SHORT)
-                                .show()
+//                            Toast.makeText(this@SignIn, "Đăng nhập thành công!", Toast.LENGTH_SHORT)
+//                                .show()
                             navigateToHomeScreen()
                         }
                         else {
                             val errorMessage = responseBody["message"] as? String
                             Toast.makeText(
                                 this@SignIn,
-                                errorMessage ?: "Đăng nhập thất bại",
+                                errorMessage ?: "Tên tài khoản hoặc mật khẩu không chính xác",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -90,7 +90,7 @@ class SignIn : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@SignIn,
-                            "Đăng nhập thất bại. Vui lòng kiểm tra lại!",
+                            "Tên tài khoản hoặc mật khẩu không chính xác",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -122,4 +122,5 @@ class SignIn : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
 }
