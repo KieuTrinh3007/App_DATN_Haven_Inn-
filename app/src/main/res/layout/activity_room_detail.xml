@@ -363,7 +363,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txt_danhgiadetail"
+                        android:id="@+id/txt_rating1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:hint="9.0"

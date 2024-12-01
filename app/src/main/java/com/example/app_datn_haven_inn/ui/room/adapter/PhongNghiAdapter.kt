@@ -74,6 +74,7 @@ class PhongNghiAdapter(
                 val context = holder.binding.root.context
                 val intent = Intent(context, TuyChinhDatPhongActivity::class.java)
                 intent.putExtra("id_LoaiPhong", phong.id)
+                intent.putExtra("giaTien", phong.giaTien.toString())
                 context.startActivity(intent)
             }
 
@@ -88,6 +89,7 @@ class PhongNghiAdapter(
                 intent.putExtra("dienTich", phong.dienTich.toString())
                 intent.putExtra("hinhAnh", phong.hinhAnh.toTypedArray())
                 intent.putExtra("moTa", phong.moTa)
+                intent.putExtra("giaTien", phong.giaTien.toString())
                 intent.putExtra("isFavorite", phong.isFavorite)
                 context.startActivity(intent)
             }

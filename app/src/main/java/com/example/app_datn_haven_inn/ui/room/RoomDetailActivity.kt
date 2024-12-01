@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.app_datn_haven_inn.BaseActivity
@@ -28,13 +29,11 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
     private var timer: Timer? = null
     private var mListphoto: List<String> = listOf()
     private var adapter: TienNghiPhongAdapter? = null
-    private var adapterPhongNghi: PhongNghiAdapter? = null
     private var adapterReview: ReviewAdapter? = null
     private var tienNghiViewModel: TienNghiPhongViewModel? = null
     private var loaiPhongViewModel: LoaiPhongViewModel? = null
     private var danhGiaViewModel: DanhGiaViewModel? = null
     private lateinit var yeuThichViewModel: YeuThichViewModel
-    private var currentLoaiPhong: LoaiPhongModel? = null
     private var isFavorite = false
     override fun createBinding(): ActivityRoomDetailBinding {
         return ActivityRoomDetailBinding.inflate(layoutInflater)
@@ -62,12 +61,9 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         val tvSLKhach = intent.getStringExtra("soLuongKhach").toString() + " Khách"
         val tvDienTich = intent.getStringExtra("dienTich").toString() + " mét vuông"
         val hinhAnh = intent.getStringArrayExtra("hinhAnh")
+        val tvGiaTien = intent.getStringExtra("giaTien").toString()
         val moTa = intent.getStringExtra("moTa")
          isFavorite = intent.getBooleanExtra("isFavorite", false)
-
-        Log.d("YEUBANTRINH","$isFavorite")
-
-        Toast.makeText(this, tvTenPhong + "\n" + tvSLGiuong +"\n" + tvDienTich, Toast.LENGTH_SHORT).show()
 
         binding.txtTenPhong.text = tvTenPhong
         binding.tvSLGiuong.text = tvSLGiuong
@@ -195,6 +191,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         binding.btnTuyChinh.setOnClickListener {
             val intent = Intent(this, TuyChinhDatPhongActivity::class.java)
             intent.putExtra("id_LoaiPhong", idLoaiPhong)
+            intent.putExtra("giaTien", tvGiaTien)
             startActivity(intent)
         }
 
@@ -234,18 +231,24 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
         val idUser  = sharedPreferences.getString("idNguoiDung", "")
 
-        // Lấy danh sách yêu thích từ ViewModel
         yeuThichViewModel.getFavoritesByUserId(idUser .toString())
         yeuThichViewModel.yeuThichList1.observe(this) { yeuThichList ->
             if (yeuThichList != null) {
-                // Kiểm tra xem idLoaiPhong có trong danh sách yêu thích không
+
                 isFavorite = yeuThichList.any { it.id == idLoaiPhong }
 
                 // Cập nhật trạng thái cho nút thêm yêu thích
                 if (isFavorite) {
                     binding.btnAddFavorite.visibility = View.GONE
+                    val params = binding.btnTuyChinh.layoutParams as LinearLayout.LayoutParams
+                    params.weight = 2f
+                    params.marginStart = 0
+                    binding.btnTuyChinh.layoutParams = params
                 } else {
                     binding.btnAddFavorite.visibility = View.VISIBLE
+                    val params = binding.btnTuyChinh.layoutParams as LinearLayout.LayoutParams
+                    params.weight = 1f
+                    binding.btnTuyChinh.layoutParams = params
                 }
             }
         }

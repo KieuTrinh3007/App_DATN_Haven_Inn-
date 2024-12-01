@@ -214,7 +214,7 @@
        android:textSize="16sp"
        android:textColor="#000000"
        android:fontFamily="@font/roboto_light"
-       android:layout_marginTop="18dp"
+       android:layout_marginTop="7dp"
        android:text="Quyền lợi:"/>
 
    <TextView
@@ -228,7 +228,7 @@
        android:layout_marginStart="7dp"
        android:layout_marginEnd="24dp"
        android:fontFamily="@font/roboto_regular"
-       android:layout_marginTop="18dp"
+       android:layout_marginTop="7dp"
        android:text="Phòng được trang bị đầy đủ trang thiết bị \nvà tiện nghi, Được cấp thẻ VIP khi \nnhận phòng để trải nghiệp các dịch vụ \nhấp dẫn chỉ có tại Haven Inn"/>
 
    <View
@@ -254,9 +254,11 @@
        android:text="Chi tiết giá phòng"/>
 
    <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/rv_chiTietGiaPhong"
        android:layout_width="match_parent"
        android:layout_marginTop="13dp"
        android:layout_marginHorizontal="24dp"
+       app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
        tools:listitem="@layout/item_chi_tiet_gia_phong"
        app:layout_constraintTop_toBottomOf="@id/tvChiTietGiaPhong"
        android:layout_height="wrap_content"/>
