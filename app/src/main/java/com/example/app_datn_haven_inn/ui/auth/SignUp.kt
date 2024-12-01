@@ -21,6 +21,7 @@ class SignUp : AppCompatActivity() {
 	private lateinit var edtEmail: EditText
 	private lateinit var edtPassword: EditText
 	private lateinit var btnSignUp: TextView
+	private lateinit var txt_dangnhap_sign_up: TextView
 	private lateinit var userService: NguoiDungService
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,7 @@ class SignUp : AppCompatActivity() {
 		edtEmail = findViewById(R.id.edt_xacnhan_email)
 		edtPassword = findViewById(R.id.edt_dk_pass)
 		btnSignUp = findViewById(R.id.btn_dangky)
+		txt_dangnhap_sign_up = findViewById(R.id.txt_dangnhap_sign_up)
 
 		// Tạo service để kết nối API
 		userService = CreateService.createService()
@@ -41,6 +43,12 @@ class SignUp : AppCompatActivity() {
 			edtEmail.setText(receivedEmail)
 			edtEmail.isFocusable = false // Ngăn chỉnh sửa
 			edtEmail.isCursorVisible = false
+		}
+
+		txt_dangnhap_sign_up.setOnClickListener {
+			val intent = Intent(this, SignIn::class.java)
+			startActivity(intent)
+			finish()
 		}
 
 		btnSignUp.setOnClickListener {
@@ -70,9 +78,7 @@ class SignUp : AppCompatActivity() {
 					hinhAnh = null,
 					hinhAnhID = "",
 					chucVu = 0,
-					trangThai = true,
-					cccd = ""
-				)
+					trangThai = true)
 
 				// Gọi API từ service
 				val response = userService.registerNguoiDung(newUser)

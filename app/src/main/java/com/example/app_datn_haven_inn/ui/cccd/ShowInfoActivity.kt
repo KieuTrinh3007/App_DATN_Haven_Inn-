@@ -1,88 +1,193 @@
 package com.example.app_datn_haven_inn.ui.cccd
 
-import android.graphics.Bitmap
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.CreateService
+import com.example.app_datn_haven_inn.database.service.CccdService
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class ShowInfoActivity : AppCompatActivity() {
 
-    private lateinit var imageViewFront: ImageView
-    private lateinit var imageViewBack: ImageView
-    private lateinit var textViewName: TextView
-    private lateinit var textViewGender: TextView
-    private lateinit var textViewBirthDate: TextView
-    private lateinit var textViewAddress: TextView
-    private lateinit var textViewNationality: TextView
-    private lateinit var textViewCCCD: TextView
-    private lateinit var textViewDateCap: TextView
+    private lateinit var textViewName: TextInputEditText
+    private lateinit var textViewGender: TextInputEditText
+    private lateinit var textViewBirthDate: TextInputEditText
+    private lateinit var textViewAddress: TextInputEditText
+    private lateinit var textViewCCCD: TextInputEditText
+    private lateinit var textViewDateCap: TextInputEditText
+    private lateinit var btnVerify: TextView
+    private lateinit var img_back_vemt: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_info)
 
         // Ánh xạ các View
-        imageViewFront = findViewById(R.id.imageViewFrontCCCD)
-        imageViewBack = findViewById(R.id.imageViewBackCCCD)
         textViewName = findViewById(R.id.textViewNameCCCD)
         textViewGender = findViewById(R.id.textViewGenderCCCD)
         textViewBirthDate = findViewById(R.id.textViewBirthDateCCCD)
         textViewAddress = findViewById(R.id.textViewAddressCCCD)
-        textViewNationality = findViewById(R.id.textViewNationalityCCCD)
         textViewCCCD = findViewById(R.id.textNumberCCCD)
         textViewDateCap = findViewById(R.id.textDateCapCCCD)
+        btnVerify = findViewById(R.id.buttonAddCCCD)
+        img_back_vemt = findViewById(R.id.img_back_vemt)
 
-        // Lấy đường dẫn ảnh từ Intent
         val frontImagePath = intent.getStringExtra("frontImagePath")
         val backImagePath = intent.getStringExtra("backImagePath")
+        val cccd = intent.getStringExtra("cccd")
+        val name = intent.getStringExtra("name")
+        val gender = intent.getStringExtra("gender")
+        val birthDate = intent.getStringExtra("birthDate")
+        val address = intent.getStringExtra("address")
+        val issueDate = intent.getStringExtra("issueDate")
+        val idNguoiDung = intent.getStringExtra("idNguoiDung")
+        Log.d("idNguoiDung1", "onCreate: " + idNguoiDung)
 
-        // Hiển thị ảnh mặt trước
-        frontImagePath?.let {
-            val frontBitmap = BitmapFactory.decodeFile(it)
-            frontBitmap?.let { bitmap ->
-                imageViewFront.setImageBitmap(bitmap)
-                extractCCCDData(bitmap, isFront = true)
-            } ?: showToast("Không thể tải ảnh mặt trước!")
+        disableEditText(textViewName)
+        disableEditText(textViewGender)
+        disableEditText(textViewBirthDate)
+        disableEditText(textViewAddress)
+        disableEditText(textViewCCCD)
+        disableEditText(textViewDateCap)
+
+        // Hiển thị thông tin CCCD
+        if (!cccd.isNullOrEmpty() && !name.isNullOrEmpty() && !gender.isNullOrEmpty()) {
+            textViewCCCD.setText(cccd)
+            textViewName.setText(name)
+            textViewGender.setText(gender)
+            textViewBirthDate.setText(formatDate("$birthDate"))
+            textViewAddress.setText(address)
+            textViewDateCap.setText(formatDate("$issueDate"))
+        } else {
+            showToast("Không có thông tin CCCD để hiển thị")
         }
 
-        // Hiển thị ảnh mặt sau
-        backImagePath?.let {
-            val backBitmap = BitmapFactory.decodeFile(it)
-            backBitmap?.let { bitmap ->
-                imageViewBack.setImageBitmap(bitmap)
-                extractCCCDData(bitmap, isFront = false)
-            } ?: showToast("Không thể tải ảnh mặt sau!")
+        Log.d(
+            "showinfo",
+            "idNguoiDung: $idNguoiDung, frontImagePath: $frontImagePath, backImagePath: $backImagePath"
+        )
+
+        btnVerify.setOnClickListener {
+            if (idNguoiDung != null && frontImagePath != null && backImagePath != null) {
+                uploadCccdToServer(
+                    idNguoiDung,
+                    cccd ?: "",
+                    name ?: "",
+                    gender ?: "",
+                    formatDate("$birthDate") ?: "",
+                    address ?: "",
+                    formatDate("$issueDate") ?: "",
+                    frontImagePath,
+                    backImagePath,
+                )
+            } else {
+                showToast("Dữ liệu không đầy đủ để xác thực")
+            }
+
+
+        }
+
+        img_back_vemt.setOnClickListener {
+            val intent = Intent(this, CaptureFrontActivity::class.java)
+            startActivity(intent)
         }
     }
 
-    private fun extractCCCDData(bitmap: Bitmap, isFront: Boolean) {
-        val extractor = CCCDDataExtractor()
-        extractor.extractCCCDInfo(bitmap) { dataMap ->
-            if (dataMap.isNotEmpty()) {
-                if (isFront) {
-                    // Cập nhật thông tin mặt trước
-                    textViewCCCD.text = "Số CCCD: ${dataMap["cccd_number"] ?: "Không rõ"}"
-                    textViewName.text = "Họ và tên: ${dataMap["name"] ?: "Không rõ"}"
-                    textViewGender.text = "Giới tính: ${dataMap["gender"] ?: "Không rõ"}"
-                    textViewBirthDate.text = "Ngày sinh: ${dataMap["birth_date"] ?: "Không rõ"}"
-                    textViewAddress.text = "Nơi cư trú: ${dataMap["address"] ?: "Không rõ"}"
-                    textViewNationality.text = "Quốc tịch: ${dataMap["nationality"] ?: "Không rõ"}"
-                } else {
-                    // Cập nhật thông tin mặt sau
-                    textViewDateCap.text = "Ngày cấp: ${dataMap["issue_date"] ?: "Không rõ"}"
+    private fun uploadCccdToServer(
+        userId: String,
+        cccd: String,
+        name: String,
+        gender: String,
+        birthDate: String,
+        address: String,
+        issueDate: String,
+        frontImagePath: String,
+        backImagePath: String
+    ) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                // Chuẩn bị dữ liệu
+                val service = CreateService.createService<CccdService>()
+                val idNguoiDung = createRequestBody(userId)
+                val soCCCD = createRequestBody(cccd)
+                val hoTen = createRequestBody(name)
+                val gioiTinh = createRequestBody(gender)
+                val ngaySinh = createRequestBody(birthDate)
+                val queQuan = createRequestBody(address)
+                val ngayCap = createRequestBody(issueDate)
+                val matTruocPart = createMultipartBody("matTruoc", File(frontImagePath))
+                val matSauPart = createMultipartBody("matSau", File(backImagePath))
+
+                // Gửi yêu cầu lên server
+                val response = service.addCccd(
+                    idNguoiDung, soCCCD, hoTen, ngaySinh, gioiTinh, ngayCap, queQuan,
+                    matTruocPart, matSauPart
+                )
+
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        showToast("Xác thực thành công!")
+                    } else {
+                        showToast("Lỗi xác thực: ${response.errorBody()?.string()}")
+                    }
                 }
-            } else {
-                showToast(if (isFront) "Không thể nhận diện thông tin mặt trước!" else "Không thể nhận diện thông tin mặt sau!")
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    showToast("Lỗi: ${e.message}")
+                }
             }
         }
     }
 
+    private fun createRequestBody(value: String): RequestBody {
+        return RequestBody.create("text/plain".toMediaTypeOrNull(), value)
+    }
+
+    private fun createMultipartBody(partName: String, file: File): MultipartBody.Part {
+        val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), file)
+        return MultipartBody.Part.createFormData(partName, file.name, requestFile)
+    }
+
+    private fun disableEditText(editText: TextInputEditText) {
+        editText.isFocusable = false
+        editText.isClickable = false
+    }
+
+    fun formatDate(dateString: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("ddMMyyyy", Locale.getDefault())
+            val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val date = inputFormat.parse(dateString)
+            if (date != null) {
+                outputFormat.format(date)
+            } else {
+                dateString
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            dateString
+        }
+    }
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
+
 }

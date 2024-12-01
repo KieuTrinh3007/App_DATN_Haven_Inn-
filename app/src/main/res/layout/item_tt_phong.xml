@@ -26,7 +26,7 @@
                 android:src="@drawable/top_banner" />
 
             <ImageView
-                android:id="@+id/imgAddFavorite"
+                android:id="@+id/iv_favorite"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="top|end"
@@ -210,87 +210,64 @@
             android:textColor="#64A89C"
             android:textSize="10sp" />
 
-        <TextView
-            android:id="@+id/btnVoucher"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/bg_radius_5_yellow"
-            android:drawableStart="@drawable/promo_code"
-            android:drawablePadding="10dp"
-            android:gravity="center"
-            android:fontFamily="@font/roboto_bold"
-            android:paddingHorizontal="10dp"
-            android:text="Giảm 20% với Giá thành viên"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="10sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal">
-
+            <TextView
+                android:id="@+id/tv_GiaTu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giá từ:"
+                android:fontFamily="@font/roboto_regular"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/tv_GiaChinhThuc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="600.000đ"
+                android:paddingStart="7dp"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_GiaCu"
+                android:id="@+id/tv_cach"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-"
+                android:paddingStart="7dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_GiaVip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:text="920.000đ"
+                android:fontFamily="@font/roboto_bold"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="15sp" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/tv_SLPhongTrong"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:fontFamily="@font/roboto_regular"-->
+<!--                android:text="Còn 3 phòng trống"-->
+<!--                android:textColor="#FF3A00"-->
+<!--                android:textSize="13sp" />-->
 
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_TongThanhToan"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:text="Tổng 1.200.000 đ cho 2 đêm"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
-
-            <TextView
-                android:id="@+id/tv_SLPhongTrong"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:fontFamily="@font/roboto_regular"
-                android:text="Còn 3 phòng trống"
-                android:layout_marginLeft="30dp"
-                android:textColor="#FF3A00"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_ChiTietGia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:fontFamily="@font/roboto_regular"
-            android:text="Chi tiết giá >"
-            android:textColor="#64A89C"
-            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tv_TuyChinh"
@@ -304,7 +281,7 @@
             android:textAllCaps="false"
             android:paddingVertical="6dp"
             android:textAlignment="center"
-            android:layout_marginVertical="10dp"
+            android:layout_marginVertical="14dp"
             android:textColor="@color/white"
             android:textSize="20sp" />
 

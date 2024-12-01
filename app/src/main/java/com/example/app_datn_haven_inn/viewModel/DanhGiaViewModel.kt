@@ -15,6 +15,10 @@ class DanhGiaViewModel : BaseViewModel() {
     private val _danhGiaList = MutableLiveData<List<DanhGiaModel>?>()
     val danhGiaList: LiveData<List<DanhGiaModel>?> get() = _danhGiaList
 
+    private val _danhGiaListByIdLoaiPhong = MutableLiveData<List<DanhGiaModel>?>()
+    val danhGiaListByIdLoaiPhong: LiveData<List<DanhGiaModel>?> get() = _danhGiaListByIdLoaiPhong
+
+
     private val _danhGia = MutableLiveData<DanhGiaModel?>()
     val danhGia: LiveData<DanhGiaModel?> get() = _danhGia
 
@@ -37,6 +41,20 @@ class DanhGiaViewModel : BaseViewModel() {
                 val apiService : DanhGiaService = CreateService.createService()
                 val DanhGiaRepository = DanhGiaRepository(apiService)
                 _danhGiaList.value = DanhGiaRepository.getListDanhGia()
+            } catch (e: Exception) {
+                Log.e("danhGiaViewModel", "Error fetching danhGia list", e)
+                _errorMessage.value = "Error fetching danhGia list: ${e.message}"
+            }
+        }
+    }
+
+    fun getListdanhGiaByIdLoaiPhong(idLoaiPhong: String) {
+        viewModelScope.launch {
+            try {
+
+                val apiService : DanhGiaService = CreateService.createService()
+                val DanhGiaRepository = DanhGiaRepository(apiService)
+                _danhGiaListByIdLoaiPhong.value = DanhGiaRepository.getListDanhGiaByIdLoaiPhong(idLoaiPhong)
             } catch (e: Exception) {
                 Log.e("danhGiaViewModel", "Error fetching danhGia list", e)
                 _errorMessage.value = "Error fetching danhGia list: ${e.message}"

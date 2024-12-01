@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -30,17 +31,20 @@ class EditProfile : AppCompatActivity() {
 
     private lateinit var imageViewAvatar: ImageView
     private lateinit var editTextName: EditText
-    private lateinit var textViewEmail: TextView
+    private lateinit var textViewEmail: EditText
     private lateinit var textViewPhone: EditText
     private lateinit var btSaveChanges: TextView
+    private lateinit var btnBack: ImageView
+    private lateinit var progressBar: View
 
     private var selectedImageUri: Uri? = null
     private var currentImageUrl: String? = null
 
-    private var oldMatKhau: String = ""
-    private var oldChucVu: String = ""
-    private var oldTrangThai: String = "true"
-    private var oldCccd: String = ""
+    private var oldName = ""
+    private var oldPhone = ""
+    private var oldMatKhau = ""
+    private var oldChucVu = ""
+    private var oldTrangThai = "true"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +56,8 @@ class EditProfile : AppCompatActivity() {
         textViewEmail = findViewById(R.id.emailEditText)
         textViewPhone = findViewById(R.id.phoneTextView)
         btSaveChanges = findViewById(R.id.saveButton)
+        btnBack = findViewById(R.id.btn_back_editprofile)
+        progressBar = findViewById(R.id.progressBar)
 
         nguoiDungService = CreateService.createService()
 
@@ -67,12 +73,30 @@ class EditProfile : AppCompatActivity() {
 
         btSaveChanges.setOnClickListener {
             idNguoiDung?.let { id ->
-                saveUserProfile(id)
+                val name = editTextName.text.toString().trim()
+                val phone = textViewPhone.text.toString().trim()
+
+                // Validate input
+                if (name.isEmpty() || phone.isEmpty()) {
+                    Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                if (name == oldName && phone == oldPhone && selectedImageUri == null) {
+                    Toast.makeText(this, "Không có thay đổi nào được thực hiện", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                performUpdateProfile(id, name, phone)
             }
+        }
+
+        btnBack.setOnClickListener {
+            finish()
         }
     }
 
     private fun loadUserInfo(id: String) {
+        showLoading(true)
         lifecycleScope.launch {
             try {
                 val response = nguoiDungService.getListNguoiDung()
@@ -83,74 +107,72 @@ class EditProfile : AppCompatActivity() {
                         textViewEmail.setText(it.email)
                         textViewPhone.setText(it.soDienThoai)
                         currentImageUrl = it.hinhAnh
+                        oldName = it.tenNguoiDung ?: ""
+                        oldPhone = it.soDienThoai ?: ""
                         oldMatKhau = it.matKhau ?: ""
                         oldChucVu = it.chucVu?.toString() ?: "0"
                         oldTrangThai = it.trangThai?.toString() ?: "true"
-                        oldCccd = it.cccd ?: ""
 
-                        Glide.with(this@EditProfile).load(it.hinhAnh).into(imageViewAvatar)
+                        if (!it.hinhAnh.isNullOrEmpty()) {
+                            Glide.with(this@EditProfile)
+                                .load(it.hinhAnh)
+                                .into(imageViewAvatar)
+                        }
                     }
                 } else {
                     Toast.makeText(this@EditProfile, "Không thể tải dữ liệu", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@EditProfile, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+            } finally {
+                showLoading(false)
             }
         }
     }
 
-    private fun saveUserProfile(id: String) {
-        val name = editTextName.text.toString().trim()
-        val sdt = textViewPhone.text.toString().trim()
-
-        if (name.isEmpty() || sdt.isEmpty()) {
-            Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val nameBody = name.toRequestBody()
-        val sdtBody = sdt.toRequestBody()
-
-        val imagePart = selectedImageUri?.let { uri ->
-            val file = getFileFromUri(uri)
-            if (file != null) {
-                val requestBody = file.asRequestBody("image/*".toMediaTypeOrNull())
-                MultipartBody.Part.createFormData("image", file.name, requestBody)
-            } else {
-                Toast.makeText(this, "Không thể xử lý tệp ảnh", Toast.LENGTH_SHORT).show()
-                null
-            }
-        }
-
+    private fun performUpdateProfile(id: String, name: String, phone: String) {
+        showLoading(true)
         lifecycleScope.launch {
             try {
+                val nameBody = name.toRequestBody()
+                val phoneBody = phone.toRequestBody()
+                val imagePart = prepareImagePart()
+
                 val response = nguoiDungService.updateNguoiDung(
                     id = id,
                     tenNguoiDung = nameBody,
-                    soDienThoai = sdtBody,
+                    soDienThoai = phoneBody,
                     matKhau = oldMatKhau.toRequestBody(),
                     email = textViewEmail.text.toString().toRequestBody(),
                     chucVu = oldChucVu.toRequestBody(),
                     trangThai = oldTrangThai.toRequestBody(),
                     image = imagePart
                 )
+
                 if (response.isSuccessful) {
                     Toast.makeText(this@EditProfile, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
-
-                    // Trả kết quả về ProfileFragment
-                    val resultIntent = Intent()
-                    resultIntent.putExtra("updated", true)
-                    setResult(Activity.RESULT_OK, resultIntent)
-                    finish() // Kết thúc Activity và quay lại ProfileFragment
+                    setResult(Activity.RESULT_OK, Intent().putExtra("updated", true))
+                    finish()
                 } else {
                     Toast.makeText(this@EditProfile, "Cập nhật thất bại", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@EditProfile, "Lỗi: ${e.message}", Toast.LENGTH_SHORT).show()
+            } finally {
+                showLoading(false)
             }
         }
     }
 
+    private fun prepareImagePart(): MultipartBody.Part? {
+        return selectedImageUri?.let { uri ->
+            val file = getFileFromUri(uri)
+            file?.let {
+                val requestBody = it.asRequestBody("image/*".toMediaTypeOrNull())
+                MultipartBody.Part.createFormData("image", file.name, requestBody)
+            }
+        }
+    }
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK).apply {
@@ -163,11 +185,10 @@ class EditProfile : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
             selectedImageUri = data?.data
-            imageViewAvatar.setImageURI(selectedImageUri)
+            Glide.with(this).load(selectedImageUri).into(imageViewAvatar)
         }
     }
 
-    // Get file from URI for image upload
     private fun getFileFromUri(uri: Uri): File? {
         return try {
             val fileName = getFileName(uri)
@@ -184,7 +205,6 @@ class EditProfile : AppCompatActivity() {
         }
     }
 
-    // Get file name from URI
     private fun getFileName(uri: Uri): String {
         var name = "temp_image"
         val cursor = contentResolver.query(uri, null, null, null, null)
@@ -196,6 +216,18 @@ class EditProfile : AppCompatActivity() {
         return name
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        val overlay = findViewById<View>(R.id.overlay) // Overlay mờ
+        progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        overlay.visibility = if (isLoading) View.VISIBLE else View.GONE
+
+        editTextName.isEnabled = !isLoading
+        textViewEmail.isEnabled = !isLoading
+        textViewPhone.isEnabled = !isLoading
+        btSaveChanges.isEnabled = !isLoading
+    }
+
+
     private fun String.toRequestBody(): RequestBody =
         this.toRequestBody("text/plain".toMediaTypeOrNull())
 
@@ -203,4 +235,3 @@ class EditProfile : AppCompatActivity() {
         private const val REQUEST_CODE_PICK_IMAGE = 100
     }
 }
-

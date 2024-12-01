@@ -6,27 +6,34 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.model.TienNghiModel
+import com.example.app_datn_haven_inn.database.model.TienNghiPhongChiTietModel
+import com.example.app_datn_haven_inn.database.model.TienNghiPhongModel
+import com.example.app_datn_haven_inn.databinding.ItemTiennghiphongBinding
 import com.example.app_datn_haven_inn.ui.room.model.TienNghiPhong
 
-class TienNghiPhongAdapter(private val items: List<TienNghiPhong>) : RecyclerView.Adapter<TienNghiPhongAdapter.TienNghiViewHolder>() {
+class TienNghiPhongAdapter(var items: List<TienNghiPhongChiTietModel>) : RecyclerView.Adapter<TienNghiPhongAdapter.TienNghiViewHolder>() {
 
-    class TienNghiViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imgTienNghi: ImageView = view.findViewById(R.id.imgTienNghi)
-        val tvTenTienNghi: TextView = view.findViewById(R.id.tvTenTienNghi)
-        val tvMoTa: TextView = view.findViewById(R.id.tvMoTa)
+    class TienNghiViewHolder(var binding: ItemTiennghiphongBinding) : RecyclerView.ViewHolder(binding.root) {
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TienNghiViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_tiennghiphong, parent, false)
-        return TienNghiViewHolder(view)
+        val item = ItemTiennghiphongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return TienNghiViewHolder(item)
     }
 
     override fun onBindViewHolder(holder: TienNghiViewHolder, position: Int) {
-        val tienNghi = items[position]
-        holder.tvTenTienNghi.text = tienNghi.tenTienNghi
-        holder.tvMoTa.text = tienNghi.moTa
-        holder.imgTienNghi.setImageResource(tienNghi.imageResId) // Assuming image is a drawable resource ID
+        val item = items[position]
+        holder.binding.tvMoTa.text = item.moTa
+        holder.binding.tvTenTienNghi.text = item.id_TienNghi.tenTienNghi
+        // Load image
+        Glide.with(holder.binding.root.context)
+            .load(item.id_TienNghi.image)
+            .into(holder.binding.imgTienNghi)
+
     }
 
     override fun getItemCount(): Int = items.size

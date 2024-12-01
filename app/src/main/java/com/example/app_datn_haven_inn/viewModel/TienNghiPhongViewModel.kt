@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.database.CreateService
+import com.example.app_datn_haven_inn.database.model.TienNghiPhongChiTietModel
 import com.example.app_datn_haven_inn.database.model.TienNghiPhongModel
 import com.example.app_datn_haven_inn.database.repository.TienNghiPhongRepository
 import com.example.app_datn_haven_inn.database.service.TienNghiPhongService
@@ -15,6 +16,9 @@ class TienNghiPhongViewModel : BaseViewModel() {
 
     private val _tienNghiPhongList = MutableLiveData<List<TienNghiPhongModel>?>()
     val tienNghiPhongList: LiveData<List<TienNghiPhongModel>?> get() = _tienNghiPhongList
+
+    private val _tienNghiPhongListByIdLoaiPhong = MutableLiveData<List<TienNghiPhongChiTietModel>?>()
+    val tienNghiPhongListByIdLoaiPhong: LiveData<List<TienNghiPhongChiTietModel>?> get() = _tienNghiPhongListByIdLoaiPhong
 
     private val _tienNghiPhong = MutableLiveData<TienNghiPhongModel?>()
     val tienNghiPhong: LiveData<TienNghiPhongModel?> get() = _tienNghiPhong
@@ -38,6 +42,19 @@ class TienNghiPhongViewModel : BaseViewModel() {
                 val apiService : TienNghiPhongService = CreateService.createService()
                 val TienNghiPhongRepository = TienNghiPhongRepository(apiService)
                 _tienNghiPhongList.value = TienNghiPhongRepository.getListTienNghiPhong()
+            } catch (e: Exception) {
+                Log.e("tienNghiPhongViewModel", "Error fetching tienNghiPhong list", e)
+                _errorMessage.value = "Error fetching tienNghiPhong list: ${e.message}"
+            }
+        }
+    }
+
+    fun getListTienNghiPhongByIdLoaiPhong(idLoaiPhong: String) {
+        viewModelScope.launch {
+            try {
+                val apiService : TienNghiPhongService = CreateService.createService()
+                val TienNghiPhongRepository = TienNghiPhongRepository(apiService)
+                _tienNghiPhongListByIdLoaiPhong.value = TienNghiPhongRepository.getListTienNghiByIdLoaiPhong(idLoaiPhong)
             } catch (e: Exception) {
                 Log.e("tienNghiPhongViewModel", "Error fetching tienNghiPhong list", e)
                 _errorMessage.value = "Error fetching tienNghiPhong list: ${e.message}"

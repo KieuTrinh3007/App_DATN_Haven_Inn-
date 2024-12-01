@@ -1,60 +1,112 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
+    android:baselineAligned="false"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="10dp"
+    android:background="#777777">
 
-    <!-- Hiển thị Camera bằng PreviewView -->
-    <androidx.camera.view.PreviewView
-        android:id="@+id/previewView"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
-
-    <!-- Hiển thị ảnh đã chụp -->
+    <!-- Nút quay lại -->
     <ImageView
-        android:id="@+id/capturedImage"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:scaleType="centerCrop"
-        android:visibility="gone" />
+        android:id="@+id/id_back_mt"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/white"
+        android:paddingVertical="7dp"
+        android:paddingRight="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/back" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
 
-        <Button
-            android:id="@+id/captureButton"
+        <!-- Tiêu đề -->
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/previewView"
-            android:layout_centerHorizontal="true"
-            android:text="Chụp ảnh" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="40dp"
+            android:text="Chụp mặt trước"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
 
-        <Button
-            android:id="@+id/continue_button"
-            android:layout_width="wrap_content"
+        <!-- Camera Preview -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/captureButton"
-            android:layout_centerHorizontal="true"
-            android:text="Tiếp tục"
-            android:visibility="gone"
-            android:layout_marginRight="20dp"/>
+            app:cardCornerRadius="15dp">
 
-        <Button
-            android:id="@+id/retryButton"
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Hướng dẫn -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#505050"
+                    android:fontFamily="@font/roboto_regular"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="10dp"
+                    android:text="Hãy đặt CCCD trên mặt phẳng và đảm bảo giấy tờ không bị mờ, tối hoặc chói sáng"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <androidx.camera.view.PreviewView
+                    android:id="@+id/previewView"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_centerHorizontal="true" >
+
+                    <ImageView
+                        android:id="@+id/capturedImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:scaleType="centerCrop" />
+                </androidx.camera.view.PreviewView>
+
+                <!-- Hiển thị ảnh đã chụp -->
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Nút chụp và vòng xoay -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/captureButton"
-            android:layout_centerHorizontal="true"
-            android:text="Chụp lại"
-            android:visibility="gone"/>
+            android:layout_marginTop="40dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <!-- Nút chụp -->
+            <ImageView
+                android:id="@+id/captureButton"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/circle"
+                android:backgroundTint="#4CAF50"
+                android:padding="10dp"
+                android:src="@drawable/img_12" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarMT"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminate="true" />
+</FrameLayout>
