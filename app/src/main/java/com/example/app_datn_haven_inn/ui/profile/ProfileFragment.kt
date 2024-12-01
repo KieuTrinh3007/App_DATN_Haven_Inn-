@@ -32,6 +32,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
+import com.example.app_datn_haven_inn.ui.myRoom.MyRoomActivity
 import java.util.Calendar
 
 class ProfileFragment : Fragment() {
@@ -60,10 +61,18 @@ class ProfileFragment : Fragment() {
         xmcccd = view.findViewById(R.id.xmcccd)
         doiMK = view.findViewById(R.id.changePassword)
         bt_signout = view.findViewById(R.id.signOut)
+        val tvMyRoom = view.findViewById<TextView>(R.id.myRoom)
 
         val idNguoiDung = arguments?.getString("idNguoiDung")
         idNguoiDung?.let { fetchUserProfile(it) }
+        val url = "/api/nguoidungs/myroom/$idNguoiDung"
 
+        tvMyRoom.setOnClickListener {
+            // Xử lý chuyển màn hình sang MyRoomActivity
+            val intent = Intent(requireContext(), MyRoomActivity::class.java)
+            intent.putExtra("idNguoiDung", idNguoiDung) // Truyền ID người dùng
+            startActivity(intent)
+        }
         bt_edit_profile.setOnClickListener {
             val intent = Intent(requireContext(), EditProfile::class.java)
             intent.putExtra("idNguoiDung", idNguoiDung)
