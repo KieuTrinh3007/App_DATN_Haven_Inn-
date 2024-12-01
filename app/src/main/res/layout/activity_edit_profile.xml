@@ -41,7 +41,7 @@
         android:clipToOutline="true"
         android:contentDescription="@string/profile_image"
         android:scaleType="centerCrop"
-        android:src="@drawable/vanh"
+        android:src="@drawable/img_13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

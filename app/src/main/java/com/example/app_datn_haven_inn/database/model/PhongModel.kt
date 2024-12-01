@@ -8,5 +8,5 @@ data class PhongModel (
     @field:SerializedName("id_LoaiPhong") var id_LoaiPhong: String,
     @field:SerializedName("VIP") var vip: Boolean,
     @field:SerializedName("trangThai") var trangThai: Int,
-
+    var isSelected  : Boolean = false
 )

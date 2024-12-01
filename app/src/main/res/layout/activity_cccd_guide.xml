@@ -151,13 +151,13 @@
             android:id="@+id/btn_bat_dau_chup"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="25dp"
             android:background="@drawable/khung_button"
             android:gravity="center"
             android:text="Bắt đầu chụp"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:layout_marginBottom="30dp"/>
 
     </LinearLayout>
 </LinearLayout>

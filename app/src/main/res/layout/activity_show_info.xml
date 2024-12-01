@@ -18,7 +18,7 @@
 
             <!-- ImageView Back Icon -->
             <ImageView
-                android:id="@+id/img_back_doiMK"
+                android:id="@+id/img_back_vemt"
                 android:layout_width="25dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -166,7 +166,7 @@
             </com.google.android.material.textfield.TextInputLayout>
             <!-- Nút Trở về -->
             <TextView
-                android:id="@+id/buttonBackCCCD"
+                android:id="@+id/buttonAddCCCD"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="25dp"

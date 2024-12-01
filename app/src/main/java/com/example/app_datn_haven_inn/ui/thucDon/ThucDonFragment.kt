@@ -2,6 +2,7 @@ package com.example.app_datn_haven_inn.ui.thucDon
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ class ThucDonFragment : AppCompatActivity() {
     // Ánh xạ các thành phần UI
     private lateinit var recyclerViewThucDon: RecyclerView
     private lateinit var progressBarThucDon: ProgressBar
+    private lateinit var img_back_thucDon: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +31,15 @@ class ThucDonFragment : AppCompatActivity() {
         // Ánh xạ UI
         recyclerViewThucDon = findViewById(R.id.viewThucDon)
         progressBarThucDon = findViewById(R.id.progressBarThucdon)
+        img_back_thucDon = findViewById(R.id.img_back_thucDon)
 
         // Thiết lập ViewModel
         amThucViewModel = ViewModelProvider(this).get(AmThucViewModel::class.java)
         amThucViewModel.getListamThuc()
+
+        img_back_thucDon.setOnClickListener{
+            onBackPressedDispatcher.onBackPressed()
+        }
 
         // Lắng nghe danh sách món ăn
         amThucViewModel.amThucList.observe(this, Observer { amThucList ->

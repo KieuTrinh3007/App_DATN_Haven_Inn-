@@ -7,6 +7,7 @@ data class TienNghiPhong(
     @field:SerializedName("tenTienNghi") var tenTienNghi: String,
     @field:SerializedName("image") var image: String,
 )
+
 data class TienNghiPhongChiTietModel (
     @field:SerializedName("_id") var id: String,
     @field:SerializedName("id_LoaiPhong") var id_LoaiPhong: String,
