@@ -51,7 +51,6 @@ class RePassword : AppCompatActivity() {
         passVisible1 = findViewById(R.id.passVisible1)
         passVisible2 = findViewById(R.id.passVisible2)
 
-
         // Thiết lập sự kiện click cho nút Lưu
         saveButton.setOnClickListener { handleChangePassword() }
 
