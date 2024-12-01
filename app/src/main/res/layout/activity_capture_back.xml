@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -46,6 +46,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- Hướng dẫn -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,17 +64,18 @@
                     android:id="@+id/previewViewBack"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true" >
+
+                    <ImageView
+                        android:id="@+id/capturedImageViewBack"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:scaleType="centerCrop" />
+                </androidx.camera.view.PreviewView>
 
                 <!-- Hiển thị ảnh đã chụp -->
-                <ImageView
-                    android:id="@+id/capturedImageViewBack"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -95,4 +97,12 @@
                 android:src="@drawable/img_12" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarMS"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminate="true" />
+</FrameLayout>

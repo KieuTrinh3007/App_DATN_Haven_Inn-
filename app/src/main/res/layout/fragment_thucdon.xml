@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,90 +7,110 @@
     tools:context=".ui.thucDon.ThucDonFragment">
 
     <!-- Sử dụng ScrollView để cuộn toàn bộ màn hình -->
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:orientation="vertical">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="10dp">
+
+            <!-- Back Icon -->
+            <ImageView
+                android:id="@+id/img_back_thucDon"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:contentDescription="Back Icon"
+                android:src="@drawable/ic_back_t" />
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/roboto_regular"
+                android:text="Ẩm thực của khách sạn"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="16dp">
-
-            <!-- Tiêu đề lớn -->
-            <TextView
-                android:id="@+id/titleLarge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Ẩm thực của khách sạn"
-                android:textSize="25sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/roboto_regular"
-                android:layout_marginTop="4dp" />
+            android:paddingHorizontal="20dp">
 
             <!-- Tiêu đề nhỏ -->
             <TextView
                 android:id="@+id/titleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:text="Từ đặc sản địa phương đến phong vị quốc tế"
-                android:textSize="16sp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/roboto_regular"
-                android:layout_marginTop="8dp" />
+                android:text="Từ đặc sản địa phương đến phong vị quốc tế"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <!-- Mô tả ẩm thực -->
             <TextView
                 android:id="@+id/foodDescription1"
                 android:layout_width="match_parent"
-                android:fontFamily="@font/roboto_light"
-                android:textColor="@color/black"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_light"
                 android:text="• Hệ thống 3 nhà với những món ăn đặc trưng riêng"
-                android:textSize="12sp"
-                android:layout_marginTop="8dp" />
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/foodDescription2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/black"
                 android:text="• Panorama Palace ở tầng cao đầy phong cách với món Hoa trữ danh, món Việt truyền thống hay thực đơn phong cách phương Tây."
-                android:textSize="12sp"
-                android:layout_marginTop="4dp" />
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/foodDescription3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/black"
                 android:text="• Các loại bánh ngọt và thức uống tinh tế luôn sẵn sàng cho thực khách tại Haven Confections ngay tầng 1."
-                android:textSize="12sp"
-                android:layout_marginTop="4dp" />
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/foodDescription4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/roboto_light"
-                android:textColor="@color/black"
                 android:text="• Thư giãn với những tách cafe trà tại The Coffee Nook."
-                android:textSize="12sp"
-                android:layout_marginTop="4dp" />
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/foodDescription5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_light"
-                android:textColor="@color/black"
+                android:layout_marginTop="4dp"
                 android:layout_marginBottom="26dp"
+                android:fontFamily="@font/roboto_light"
                 android:text="• Với Menu 10+ món ăn luôn sẵn sàng phục vụ cho thực khách ngay tại phòng 24/24."
-                android:textSize="12sp"
-                android:layout_marginTop="4dp" />
+                android:textColor="@color/black"
+                android:textSize="12sp" />
 
             <!-- RecyclerView và ProgressBar -->
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -112,17 +132,17 @@
                     android:id="@+id/viewThucDon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/item_thucdon"
                     android:clipToPadding="false"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:listitem="@layout/item_thucdon" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

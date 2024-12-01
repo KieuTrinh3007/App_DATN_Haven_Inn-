@@ -3,6 +3,7 @@ package com.example.app_datn_haven_inn.ui.room
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.BaseViewModel
@@ -42,7 +43,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         adapter = TienNghiPhongAdapter(listOf())
         binding.rvTiennghiphong.adapter = adapter
 
-
         adapterReview = ReviewAdapter(listOf())
         binding.rvReview.adapter = adapterReview
 
@@ -53,12 +53,13 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         val hinhAnh = intent.getStringArrayExtra("hinhAnh")
         val moTa = intent.getStringExtra("moTa")
 
+        Toast.makeText(this, tvTenPhong + "\n" + tvSLGiuong +"\n" + tvDienTich, Toast.LENGTH_SHORT).show()
+
         binding.txtTenPhong.text = tvTenPhong
         binding.tvSLGiuong.text = tvSLGiuong
         binding.txtNumberGuest.text = tvSLKhach
         binding.tvDienTich.text = tvDienTich
         binding.tvMoTa.text = moTa
-
 
         Log.d("hinhAnh", hinhAnh.toString())
         if (hinhAnh != null) {
@@ -69,20 +70,16 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             photoAdapter.registerDataSetObserver(binding.circleIndicator.dataSetObserver)
         }
 
-
         tienNghiViewModel?.getListTienNghiPhongByIdLoaiPhong(idLoaiPhong.toString())
         tienNghiViewModel?.tienNghiPhongListByIdLoaiPhong?.observe(this) { list ->
             Log.d("tienNghiPhongViewModel", "List size: ${list?.size}")
             if (list != null) {
-
                 adapter?.let {
                     it.items = list
                     it.notifyDataSetChanged()
                 }
-
             }
         }
-
 
         danhGiaViewModel?.getListdanhGiaByIdLoaiPhong(idLoaiPhong.toString())
         danhGiaViewModel?.danhGiaListByIdLoaiPhong?.observe(this) { review ->
@@ -169,7 +166,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             totalItem
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

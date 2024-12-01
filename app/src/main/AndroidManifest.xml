@@ -36,9 +36,6 @@
             android:name=".ui.thucDon.ThucDonFragment"
             android:exported="false" />
         <activity
-            android:name=".ui.home.ServiceFragment"
-            android:exported="false" />
-        <activity
             android:name=".ui.auth.RePassword"
             android:exported="false" />
         <activity
@@ -61,8 +58,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".ui.home.fragment.ServiceFragment"
+            android:exported="false" />
         <activity
             android:name=".ui.room.RoomDetailActivity"
             android:exported="false" />
