@@ -42,7 +42,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         adapter = TienNghiPhongAdapter(listOf())
         binding.rvTiennghiphong.adapter = adapter
 
-
         adapterReview = ReviewAdapter(listOf())
         binding.rvReview.adapter = adapterReview
 
@@ -59,7 +58,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         binding.tvDienTich.text = tvDienTich
         binding.tvMoTa.text = moTa
 
-
         Log.d("hinhAnh", hinhAnh.toString())
         if (hinhAnh != null) {
             mListphoto = hinhAnh.toList()
@@ -69,20 +67,16 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             photoAdapter.registerDataSetObserver(binding.circleIndicator.dataSetObserver)
         }
 
-
         tienNghiViewModel?.getListTienNghiPhongByIdLoaiPhong(idLoaiPhong.toString())
         tienNghiViewModel?.tienNghiPhongListByIdLoaiPhong?.observe(this) { list ->
             Log.d("tienNghiPhongViewModel", "List size: ${list?.size}")
             if (list != null) {
-
                 adapter?.let {
                     it.items = list
                     it.notifyDataSetChanged()
                 }
-
             }
         }
-
 
         danhGiaViewModel?.getListdanhGiaByIdLoaiPhong(idLoaiPhong.toString())
         danhGiaViewModel?.danhGiaListByIdLoaiPhong?.observe(this) { review ->
