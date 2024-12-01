@@ -53,15 +53,13 @@ class SignIn : AppCompatActivity() {
             if (isPasswordVisible) {
                 // Hiển thị mật khẩu
                 edtPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "hide"
             } else {
                 // Ẩn mật khẩu
                 edtPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "nohide"
             }
 
-            // Đặt con trỏ về cuối dòng
-            edtPassword.setSelection(edtPassword.text.length)
         }
 
         // Xử lý sự kiện nút đăng nhập

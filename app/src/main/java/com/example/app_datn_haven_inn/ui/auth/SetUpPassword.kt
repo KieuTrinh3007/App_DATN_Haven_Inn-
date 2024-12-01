@@ -70,15 +70,13 @@ class SetUpPassword : AppCompatActivity() {
             if (isPasswordVisible) {
                 // Hiển thị mật khẩu
                 edtNewPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "hide"
             } else {
                 // Ẩn mật khẩu
                 edtNewPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "nohide"
             }
 
-            // Đặt con trỏ về cuối dòng
-            edtNewPassword.setSelection(edtNewPassword.text.length)
         }
 
         passVisible1.setOnClickListener {
@@ -87,15 +85,13 @@ class SetUpPassword : AppCompatActivity() {
             if (isPasswordVisible1) {
                 // Hiển thị mật khẩu
                 edtConfirmPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                passVisible1.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+                passVisible1.setImageResource(R.drawable.nohide) // Đổi icon thành "hide"
             } else {
                 // Ẩn mật khẩu
                 edtConfirmPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                passVisible1.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+                passVisible1.setImageResource(R.drawable.hide) // Đổi icon thành "nohide"
             }
 
-            // Đặt con trỏ về cuối dòng
-            edtConfirmPassword.setSelection(edtConfirmPassword.text.length)
         }
     }
     private fun setUpPassword(newPassword: String) {

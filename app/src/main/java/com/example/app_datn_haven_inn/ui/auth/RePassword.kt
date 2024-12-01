@@ -69,11 +69,11 @@ class RePassword : AppCompatActivity() {
             if (isPasswordVisible) {
                 // Hiển thị mật khẩu
                 oldPass.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "hide"
             } else {
                 // Ẩn mật khẩu
                 oldPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "nohide"
             }
 
             // Đặt con trỏ về cuối dòng
@@ -86,11 +86,11 @@ class RePassword : AppCompatActivity() {
             if (isPasswordVisible1) {
                 // Hiển thị mật khẩu
                 newPass.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                passVisible1.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+                passVisible1.setImageResource(R.drawable.nohide) // Đổi icon thành "hide"
             } else {
                 // Ẩn mật khẩu
                 newPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                passVisible1.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+                passVisible1.setImageResource(R.drawable.hide) // Đổi icon thành "nohide"
             }
 
             // Đặt con trỏ về cuối dòng
@@ -103,11 +103,11 @@ class RePassword : AppCompatActivity() {
             if (isPasswordVisible2) {
                 // Hiển thị mật khẩu
                 reNewPass.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                passVisible2.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+                passVisible2.setImageResource(R.drawable.nohide) // Đổi icon thành "hide"
             } else {
                 // Ẩn mật khẩu
                 reNewPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                passVisible2.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+                passVisible2.setImageResource(R.drawable.hide) // Đổi icon thành "nohide"
             }
 
             // Đặt con trỏ về cuối dòng

@@ -77,7 +77,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginBottom="24dp"
                     android:layout_margin="12dp"
-                    android:src="@drawable/nohide" />
+                    android:src="@drawable/hide" />
 
             </RelativeLayout>
 
