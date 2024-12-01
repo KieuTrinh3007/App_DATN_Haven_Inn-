@@ -10,14 +10,17 @@ import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
 import com.example.app_datn_haven_inn.ui.booking.fragment.BookingFragment
+import com.example.app_datn_haven_inn.ui.review.adapter.ReviewAdapter
+import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
 import java.util.Calendar
 
 class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, PhongViewModel>() {
 
-    var isBreakfast = false
+
     private var adapter: TuyChinhDatPhongAdapter? = null
+    private var selectedRoomAdapter: SelectedRoomAdapter? = null
     override fun createBinding() = ActivityTuyChinhDatPhongBinding.inflate(layoutInflater)
     override fun setViewModel() = PhongViewModel()
 
@@ -25,8 +28,18 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
     override fun initView() {
         super.initView()
         val idLoaiPhong = intent.getStringExtra("id_LoaiPhong")
-
-        adapter = TuyChinhDatPhongAdapter(emptyList())
+        val tvGiaPhong = intent.getStringExtra("giaTien").toString()
+        adapter = TuyChinhDatPhongAdapter(emptyList(), onRoomClick = { selectedRoom, isSelected ->
+            if (isSelected) {
+                selectedRoomAdapter?.addRoom(selectedRoom, tvGiaPhong)
+            } else {
+                selectedRoomAdapter?.removeRoom(selectedRoom)
+            }
+        })
+        // Adapter cho rv_ChiTietGiaPhong
+        val selectedRoomList = mutableListOf<Pair<String, String>>()
+        selectedRoomAdapter = SelectedRoomAdapter(selectedRoomList)
+        binding.rvChiTietGiaPhong.adapter = selectedRoomAdapter
         binding.rvChonSoPhong.adapter = adapter
 
 
@@ -110,22 +123,12 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
         }
 
-//        updateBreakfastIcon()
+
 
 
     }
-//
-//    private fun updateBreakfastIcon(){
-//        if (isBreakfast){
-//            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
-//            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
-//
-//        }else{
-//            binding.rdThemBuaSang.setBackgroundResource(R.drawable.iv_no_breakfast)
-//            binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_breakfast)
-//
-//        }
-//    }
+
+
 
 
 }

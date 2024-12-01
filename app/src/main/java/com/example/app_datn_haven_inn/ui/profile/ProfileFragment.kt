@@ -42,6 +42,7 @@ class ProfileFragment : Fragment() {
     private lateinit var bt_edit_profile: ImageView
     private lateinit var xmcccd: TextView
     private lateinit var doiMK: TextView
+    private lateinit var feedback: TextView
     private lateinit var bt_signout: ImageView
     private val danhGiaService = CreateService.createService<DanhGiaService>()
 
@@ -61,6 +62,7 @@ class ProfileFragment : Fragment() {
         xmcccd = view.findViewById(R.id.xmcccd)
         doiMK = view.findViewById(R.id.changePassword)
         bt_signout = view.findViewById(R.id.signOut)
+        feedback = view.findViewById(R.id.feedback)
         val tvMyRoom = view.findViewById<TextView>(R.id.myRoom)
 
         val idNguoiDung = arguments?.getString("idNguoiDung")
@@ -110,8 +112,11 @@ class ProfileFragment : Fragment() {
 
         val currentTime = "$day/$month/$year $hour:$minute:$second"
         println("Thời gian hiện tại: $currentTime")
-        //
 
+        feedback.setOnClickListener {
+            openDanhGiaDialog(idNguoiDung!!, "67446832a4f78acbbd544233", currentTime)
+        }
+        //////////////////////////////
 
         return view
     }

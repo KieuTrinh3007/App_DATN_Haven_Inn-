@@ -20,7 +20,7 @@
     <!-- CardView bao bọc nội dung chính -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="500dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
@@ -37,6 +37,7 @@
             android:paddingHorizontal="20dp"
             android:paddingVertical="16dp">
 
+            <!-- Nhập số điện thoại -->
             <EditText
                 android:id="@+id/edt_dangnhap_email"
                 android:layout_width="match_parent"
@@ -50,20 +51,36 @@
                 android:textColor="@color/black"
                 android:textColorHint="#9CA0A8" />
 
-            <!-- Nhập mật khẩu -->
-            <EditText
-                android:id="@+id/edt_dangnhap_pass"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bottom_border"
-                android:drawableStart="@drawable/key"
-                android:drawablePadding="25dp"
-                android:hint="Mật khẩu"
-                android:inputType="textPassword"
-                android:paddingVertical="10dp"
-                android:textColor="@color/black"
-                android:textColorHint="#9CA0A8"
-                android:textSize="18dp" />
+                >
+                <!-- Nhập mật khẩu -->
+                <EditText
+                    android:id="@+id/edt_dangnhap_pass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/key"
+                    android:drawablePadding="25dp"
+                    android:hint="Mật khẩu"
+                    android:paddingVertical="10dp"
+                    android:textSize="18dp"
+                    android:background="@drawable/bottom_border"
+                    android:textColorHint="#9CA0A8"
+                    android:inputType="textPassword"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:id="@+id/passVisible"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginBottom="24dp"
+                    android:layout_margin="12dp"
+                    android:src="@drawable/hide" />
+
+            </RelativeLayout>
+
 
             <!-- Quên mật khẩu -->
             <TextView

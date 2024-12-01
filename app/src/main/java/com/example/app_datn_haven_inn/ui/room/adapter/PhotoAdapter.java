@@ -35,8 +35,6 @@ public class PhotoAdapter extends PagerAdapter {
 
         Glide.with(mcontext).load(photo).error(R.drawable.img_2).into(imgPhoto);
 
-
-        // Add view to viewgroup
         container.addView(view);
 
         return view;
@@ -58,7 +56,6 @@ public class PhotoAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        // Remove view
         container.removeView((View) object);
     }
 }

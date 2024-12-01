@@ -2,6 +2,7 @@ package com.example.app_datn_haven_inn.database.repository
 
 import android.util.Log
 import com.example.app_datn_haven_inn.database.model.DanhGiaModel
+import com.example.app_datn_haven_inn.database.model.DanhGiaNguoiDungModel
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -18,7 +19,7 @@ class DanhGiaRepository (private val api: DanhGiaService) {
         }
     }
 
-    suspend fun getListDanhGiaByIdLoaiPhong(idLoaiPhong: String): List<DanhGiaModel>? = withContext(Dispatchers.IO) {
+    suspend fun getListDanhGiaByIdLoaiPhong(idLoaiPhong: String): List<DanhGiaNguoiDungModel>? = withContext(Dispatchers.IO) {
         val response = api.getListDanhGiaByIdLoaiPhong(idLoaiPhong)
         if (response.isSuccessful) {
             Log.d("DanhGiaRepository", "getListDanhGia Success: ${response.body()}")

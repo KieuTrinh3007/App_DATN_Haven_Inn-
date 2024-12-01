@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.DanhGiaModel
+import com.example.app_datn_haven_inn.database.model.DanhGiaNguoiDungModel
 import com.example.app_datn_haven_inn.database.repository.DanhGiaRepository
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
 import kotlinx.coroutines.launch
@@ -15,8 +16,8 @@ class DanhGiaViewModel : BaseViewModel() {
     private val _danhGiaList = MutableLiveData<List<DanhGiaModel>?>()
     val danhGiaList: LiveData<List<DanhGiaModel>?> get() = _danhGiaList
 
-    private val _danhGiaListByIdLoaiPhong = MutableLiveData<List<DanhGiaModel>?>()
-    val danhGiaListByIdLoaiPhong: LiveData<List<DanhGiaModel>?> get() = _danhGiaListByIdLoaiPhong
+    private val _danhGiaListByIdLoaiPhong = MutableLiveData<List<DanhGiaNguoiDungModel>?>()
+    val danhGiaListByIdLoaiPhong: LiveData<List<DanhGiaNguoiDungModel>?> get() = _danhGiaListByIdLoaiPhong
 
 
     private val _danhGia = MutableLiveData<DanhGiaModel?>()
