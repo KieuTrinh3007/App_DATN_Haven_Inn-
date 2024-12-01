@@ -1,18 +1,11 @@
 package com.example.app_datn_haven_inn.ui.room.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.app_datn_haven_inn.R
-import com.example.app_datn_haven_inn.database.model.TienNghiModel
 import com.example.app_datn_haven_inn.database.model.TienNghiPhongChiTietModel
-import com.example.app_datn_haven_inn.database.model.TienNghiPhongModel
 import com.example.app_datn_haven_inn.databinding.ItemTiennghiphongBinding
-import com.example.app_datn_haven_inn.ui.room.model.TienNghiPhong
 
 class TienNghiPhongAdapter(var items: List<TienNghiPhongChiTietModel>) : RecyclerView.Adapter<TienNghiPhongAdapter.TienNghiViewHolder>() {
 

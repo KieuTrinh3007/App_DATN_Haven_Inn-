@@ -14,5 +14,4 @@ data class LoaiPhongModel (
     @field:SerializedName("moTa") var moTa: String,
     @field:SerializedName("trangThai") var trangThai: Boolean,
     var isFavorite : Boolean = false
-
     )

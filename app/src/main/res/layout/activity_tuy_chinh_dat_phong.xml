@@ -204,40 +204,12 @@
        android:layout_marginTop="14.05dp"
        android:text="Phòng VIP"/>
 
-
-   <TextView
-       android:id="@+id/tvChiPhi"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tvPhongVip"
-       android:layout_marginStart="24dp"
-       android:textSize="16sp"
-       android:textColor="#000000"
-       android:fontFamily="@font/roboto_light"
-       android:layout_marginTop="18dp"
-       android:text="Chi phí:"/>
-
-   <TextView
-       android:id="@+id/tvGia"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       app:layout_constraintEnd_toEndOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tvPhongVip"
-       android:textSize="16sp"
-       android:textColor="#000000"
-       android:layout_marginEnd="24dp"
-       android:fontFamily="@font/roboto_regular"
-       android:layout_marginTop="18dp"
-       android:text="+ 300.000đ"/>
-
-
    <TextView
        android:id="@+id/tvQuyenLoi"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        app:layout_constraintStart_toStartOf="parent"
-       app:layout_constraintTop_toBottomOf="@id/tvChiPhi"
+       app:layout_constraintTop_toBottomOf="@id/tvPhongVip"
        android:layout_marginStart="24dp"
        android:textSize="16sp"
        android:textColor="#000000"
@@ -249,7 +221,7 @@
        android:id="@+id/tvMoTa"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       app:layout_constraintTop_toBottomOf="@id/tvChiPhi"
+       app:layout_constraintTop_toBottomOf="@id/tvPhongVip"
        app:layout_constraintStart_toEndOf="@id/tvQuyenLoi"
        android:textSize="14sp"
        android:textColor="#000000"
