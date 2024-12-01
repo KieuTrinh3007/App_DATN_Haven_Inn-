@@ -105,7 +105,7 @@ class ProfileFragment : Fragment() {
         println("Thời gian hiện tại: $currentTime")
 
         feedback.setOnClickListener {
-            openDanhGiaDialog(idNguoiDung!!, "6744740f2fc05a4fc789b59b", currentTime)
+            openDanhGiaDialog(idNguoiDung!!, "67446832a4f78acbbd544233", currentTime)
         }
         //////////////////////////////
 

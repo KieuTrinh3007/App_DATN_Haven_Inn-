@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
-import com.example.app_datn_haven_inn.database.NetworkModule
 import com.example.app_datn_haven_inn.database.model.DanhGiaModel
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import kotlinx.coroutines.CoroutineScope
@@ -19,7 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ReviewAdapter(private val context: Context, var listReview: List<DanhGiaModel>) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>() {
+class DanhGiaAdapter(private val context: Context, var listReview: List<DanhGiaModel>) : RecyclerView.Adapter<DanhGiaAdapter.ReviewViewHolder>() {
     private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService<NguoiDungService>()
     }

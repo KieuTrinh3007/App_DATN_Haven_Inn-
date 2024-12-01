@@ -17,12 +17,13 @@
 
         <!-- Avatar -->
         <ImageView
-            android:id="@+id/img_avatar_danhgia"
+            android:id="@+id/img_avatar"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:src="@drawable/ic_person"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
             android:layout_marginEnd="8dp"
+            android:clipToOutline="true"
             android:background="@drawable/circle_shape"/>
 
         <!-- Tên người dùng và Rating -->
@@ -33,7 +34,7 @@
             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tv_ten_nguoi_dung_danhgia"
+                android:id="@+id/txt_tennguoidung"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tên người dùng"
@@ -52,7 +53,7 @@
                 android:layout_marginEnd="4dp"/>
 
             <TextView
-                android:id="@+id/rating_bar_danhgia"
+                android:id="@+id/txt_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="8/10"
@@ -66,7 +67,7 @@
     <!-- Bình luận -->
 
     <TextView
-        android:id="@+id/tv_nhan_xet"
+        android:id="@+id/txt_binhluan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Bình luận của người dùng"
@@ -78,7 +79,7 @@
 
     <!-- Ngày tháng -->
     <TextView
-        android:id="@+id/tv_ngay_danhgia"
+        android:id="@+id/txt_ngaythang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Ngày tháng"
