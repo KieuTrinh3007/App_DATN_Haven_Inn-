@@ -3,6 +3,7 @@ package com.example.app_datn_haven_inn.ui.room
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.BaseViewModel
@@ -51,6 +52,8 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         val tvDienTich = intent.getStringExtra("dienTich").toString() + " mét vuông"
         val hinhAnh = intent.getStringArrayExtra("hinhAnh")
         val moTa = intent.getStringExtra("moTa")
+
+        Toast.makeText(this, tvTenPhong + "\n" + tvSLGiuong +"\n" + tvDienTich, Toast.LENGTH_SHORT).show()
 
         binding.txtTenPhong.text = tvTenPhong
         binding.tvSLGiuong.text = tvSLGiuong

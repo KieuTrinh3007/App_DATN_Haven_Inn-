@@ -3,6 +3,7 @@ package com.example.app_datn_haven_inn.ui.home.fragment
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,7 @@ import com.example.app_datn_haven_inn.database.service.AmThucService
 import com.example.app_datn_haven_inn.database.service.LoaiPhongService
 import com.example.app_datn_haven_inn.ui.home.adapter.AmThucAdapter
 import com.example.app_datn_haven_inn.ui.home.adpter.RoomTopAdapter
+import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import com.example.app_datn_haven_inn.ui.thucDon.ThucDonFragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -32,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import kotlin.math.log
 
 class OverviewFragment : Fragment(), OnMapReadyCallback {
 
@@ -40,7 +43,6 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
     private lateinit var xemloaiphong: TextView
     private lateinit var xemmonan: TextView
     private lateinit var xemtiennghi: TextView
-    private lateinit var bottombar: ViewPager2
     private lateinit var amThucAdapter: AmThucAdapter
     private lateinit var roomTopAdapter: RoomTopAdapter
     private lateinit var mMap: GoogleMap
@@ -64,7 +66,6 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
             val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager2)
             viewPager.currentItem = 2 // Chỉ mục của PhongNghiFragment trong adapter
         }
-
 
         xemmonan.setOnClickListener{
             val intent1 = Intent(requireContext(), ThucDonFragment::class.java)
@@ -162,7 +163,21 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
             val roomList = repository.getListLoaiPhong()
             withContext(Dispatchers.Main) {
                 if (!roomList.isNullOrEmpty()) {
-                    roomTopAdapter = RoomTopAdapter(requireContext(), roomList)
+                    roomTopAdapter = RoomTopAdapter(requireContext(), roomList) { room ->
+                        // Khởi động Activity mới với idLoaiPhong
+                        val intent = Intent(requireContext(), RoomDetailActivity::class.java)
+                        intent.putExtra("id_LoaiPhong", room.id)
+                        intent.putExtra("tenLoaiPhong", room.tenLoaiPhong)
+                        intent.putExtra("giuong", room.giuong)
+                        intent.putExtra("soLuongKhach", room.soLuongKhach.toString())
+                        intent.putExtra("dienTich", room.dienTich.toString())
+                        intent.putExtra("hinhAnh", room.hinhAnh.toTypedArray())
+                        intent.putExtra("moTa", room.moTa)
+
+                        Log.d("modelRoomTop", "loadRoomTopData: " + room.id + room.tenLoaiPhong +
+                        room.giuong + room.dienTich + room.hinhAnh + room.moTa + room.soLuongKhach)
+                        startActivity(intent)
+                    }
                     recyclerViewRoomTop.adapter = roomTopAdapter
                 } else {
                     // Xử lý lỗi nếu không có dữ liệu
@@ -170,4 +185,5 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
             }
         }
     }
+
 }
