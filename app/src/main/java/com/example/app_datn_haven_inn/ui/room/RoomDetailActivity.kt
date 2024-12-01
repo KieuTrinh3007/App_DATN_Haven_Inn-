@@ -54,7 +54,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         adapter = TienNghiPhongAdapter(listOf())
         binding.rvTiennghiphong.adapter = adapter
 
-
         adapterReview = ReviewAdapter(listOf())
         binding.rvReview.adapter = adapterReview
 
@@ -67,6 +66,8 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
          isFavorite = intent.getBooleanExtra("isFavorite", false)
 
         Log.d("YEUBANTRINH","$isFavorite")
+
+        Toast.makeText(this, tvTenPhong + "\n" + tvSLGiuong +"\n" + tvDienTich, Toast.LENGTH_SHORT).show()
 
         binding.txtTenPhong.text = tvTenPhong
         binding.tvSLGiuong.text = tvSLGiuong
@@ -83,20 +84,16 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             photoAdapter.registerDataSetObserver(binding.circleIndicator.dataSetObserver)
         }
 
-
         tienNghiViewModel?.getListTienNghiPhongByIdLoaiPhong(idLoaiPhong.toString())
         tienNghiViewModel?.tienNghiPhongListByIdLoaiPhong?.observe(this) { list ->
             Log.d("tienNghiPhongViewModel", "List size: ${list?.size}")
             if (list != null) {
-
                 adapter?.let {
                     it.items = list
                     it.notifyDataSetChanged()
                 }
-
             }
         }
-
 
         danhGiaViewModel?.getListdanhGiaByIdLoaiPhong(idLoaiPhong.toString())
         danhGiaViewModel?.danhGiaListByIdLoaiPhong?.observe(this) { review ->
@@ -226,7 +223,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             totalItem
         }
     }
-
 
     override fun onDestroy() {
         super.onDestroy()

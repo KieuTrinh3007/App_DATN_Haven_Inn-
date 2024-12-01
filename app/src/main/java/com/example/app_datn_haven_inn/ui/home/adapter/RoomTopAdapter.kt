@@ -13,7 +13,8 @@ import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 
 class RoomTopAdapter(
     private val context: Context,
-    private val roomList: List<LoaiPhongModel>
+    private val roomList: List<LoaiPhongModel>,
+    private val onItemClick: (LoaiPhongModel) -> Unit
 ) : RecyclerView.Adapter<RoomTopAdapter.RoomViewHolder>() {
 
     class RoomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -33,13 +34,18 @@ class RoomTopAdapter(
         // Load hình ảnh đầu tiên
         if (room.hinhAnh.isNotEmpty()) {
             Glide.with(context)
-                .load(room.hinhAnh[0]) // Load hình đầu tiên
+                .load(room.hinhAnh[0])
                 .into(holder.imgRoom)
+        }
+
+        // Xử lý sự kiện click
+        holder.itemView.setOnClickListener {
+            onItemClick(room)
         }
     }
 
     override fun getItemCount(): Int {
-        // Giới hạn tối đa 2 phòng
         return roomList.size.coerceAtMost(4)
     }
 }
+

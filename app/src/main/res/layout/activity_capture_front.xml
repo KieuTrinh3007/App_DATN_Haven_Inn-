@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +7,7 @@
     android:padding="10dp"
     android:background="#777777">
 
+    <!-- Nút quay lại -->
     <ImageView
         android:id="@+id/id_back_mt"
         android:layout_width="35dp"
@@ -25,6 +26,7 @@
         android:orientation="vertical"
         android:gravity="center_vertical">
 
+        <!-- Tiêu đề -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,9 +35,9 @@
             android:text="Chụp mặt trước"
             android:textSize="25dp"
             android:textStyle="bold"
-            android:textColor="@color/white"/>
-        <!-- Hiển thị Camera bằng PreviewView -->
+            android:textColor="@color/white" />
 
+        <!-- Camera Preview -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- Hướng dẫn -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -63,20 +66,22 @@
                     android:id="@+id/previewView"
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
-                    android:layout_centerHorizontal="true" />
+                    android:layout_centerHorizontal="true" >
+
+                    <ImageView
+                        android:id="@+id/capturedImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"
+                        android:scaleType="centerCrop" />
+                </androidx.camera.view.PreviewView>
 
                 <!-- Hiển thị ảnh đã chụp -->
-                <ImageView
-                    android:id="@+id/capturedImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
-                    android:scaleType="centerCrop"
-                    android:visibility="gone" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <!-- Nút chụp và vòng xoay -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,6 +89,7 @@
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
+            <!-- Nút chụp -->
             <ImageView
                 android:id="@+id/captureButton"
                 android:layout_width="65dp"
@@ -95,4 +101,12 @@
                 android:src="@drawable/img_12" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarMT"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:indeterminate="true" />
+</FrameLayout>

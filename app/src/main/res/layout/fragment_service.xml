@@ -8,23 +8,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:paddingHorizontal="10dp"
+            android:layout_marginTop="16dp">
 
             <ImageView
                 android:id="@+id/img_back_tiennghi"
                 android:layout_width="33dp"
                 android:layout_height="22dp"
-                android:contentDescription="Back Icon"
-                android:src="@drawable/ic_back_t"
                 android:layout_marginRight="10dp"
-                android:visibility="gone"/>
+                android:contentDescription="Back Icon"
+                android:src="@drawable/ic_back_t" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,129 +33,135 @@
                 android:text="Tiện nghi, dịch vụ nơi lưu trữ"
                 android:textColor="@color/black"
                 android:textSize="23sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="Tiện nghi, dịch vụ hàng đầu phù hợp cho gia đình"
-            android:textSize="14dp"
-            android:textStyle="bold" />
-
-        <GridLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:columnOrderPreserved="false"
-            android:paddingStart="10dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="10dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <!-- Amenity 1 -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Tiện nghi, dịch vụ hàng đầu phù hợp cho gia đình"
+                android:textSize="14dp"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/image_1" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Hồ bơi trẻ em"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <!-- Amenity 2 -->
-            <LinearLayout
-                android:layout_width="0dp"
+            <GridLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:columnCount="2"
+                android:columnOrderPreserved="false"
+                android:paddingStart="10dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="10dp">
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/image_3" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <!-- Amenity 1 -->
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Sân quần vợt"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
 
-            <!-- Amenity 3 -->
-            <LinearLayout
-                android:layout_width="0dp"
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/image_1" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Hồ bơi trẻ em"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <!-- Amenity 2 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:src="@drawable/image_3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Sân quần vợt"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Amenity 3 -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="15dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/image_3" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:scaleType="centerCrop"
+                        android:text="Phòng cách âm"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+
+            </GridLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_columnWeight="1"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Tiện nghi, dịch vụ hàng đầu phù hợp cho gia đình"
+                android:textSize="14dp"
+                android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/image_3" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewService"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:nestedScrollingEnabled="false"
+                android:padding="5dp"
+                tools:listitem="@layout/item_service" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:scaleType="centerCrop"
-                    android:text="Phòng cách âm"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-
-        </GridLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
-            android:fontFamily="@font/roboto_medium"
-            android:text="Tiện nghi, dịch vụ hàng đầu phù hợp cho gia đình"
-            android:textSize="14dp"
-            android:textStyle="bold" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewService"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:nestedScrollingEnabled="false"
-            android:padding="5dp"
-            tools:listitem="@layout/item_service" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewServices"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            android:padding="5dp"
-            tools:listitem="@layout/item_services" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewServices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                android:padding="5dp"
+                tools:listitem="@layout/item_services" />
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
