@@ -13,11 +13,13 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.app_datn_haven_inn.BaseFragment
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.FavoriteRequest
@@ -235,6 +237,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         viewBinding.llSoNguoi.setOnClickListener {
             showDialogLoaiPhong("SoNguoi")
         }
+
     }
 
     private fun showDialogLoaiPhong(dataType: String) {
@@ -264,6 +267,13 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         ivClose.setOnClickListener {
             dialog.dismiss()
         }
+
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager2)
+                viewPager.currentItem = 0
+            }
+        })
 
         // Lấy giá trị hiện tại từ layout chính
         val soLuongNguoiLon = viewBinding.tvSoKhach.text.toString().split(" ")[0].toIntOrNull() ?: 0
@@ -379,6 +389,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
         }
     }
+
     fun formatCurrency(amount: Int?): String {
         if (amount == null) return ""
         val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
