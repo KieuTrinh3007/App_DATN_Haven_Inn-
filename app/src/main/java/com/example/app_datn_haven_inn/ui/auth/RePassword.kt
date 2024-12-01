@@ -24,9 +24,13 @@ class RePassword : AppCompatActivity() {
     private lateinit var reNewPass: EditText
     private lateinit var saveButton: TextView
     private lateinit var btn_back: ImageView
-    private lateinit var toggleOldPass: ImageView
-    private lateinit var toggleNewPass: ImageView
-    private lateinit var toggleReNewPass: ImageView
+    private lateinit var passVisible: ImageView
+    private lateinit var passVisible1: ImageView
+    private lateinit var passVisible2: ImageView
+
+    var isPasswordVisible = false
+    var isPasswordVisible1 = false
+    var isPasswordVisible2 = false
     private var userId: String = "" // ID người dùng được truyền từ Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,10 +47,10 @@ class RePassword : AppCompatActivity() {
         reNewPass = findViewById(R.id.reNewPass)
         saveButton = findViewById(R.id.btn_doimk)
         btn_back = findViewById(R.id.img_back_doiMK)
+        passVisible = findViewById(R.id.passVisible)
+        passVisible1 = findViewById(R.id.passVisible1)
+        passVisible2 = findViewById(R.id.passVisible2)
 
-//        toggleOldPass = findViewById(R.id.toggle_oldPass)
-//        toggleNewPass = findViewById(R.id.toggle_newPass)
-//        toggleReNewPass = findViewById(R.id.toggle_reNewPass)
 
         // Thiết lập sự kiện click cho nút Lưu
         saveButton.setOnClickListener { handleChangePassword() }
@@ -55,34 +59,63 @@ class RePassword : AppCompatActivity() {
             finish()
         }
 
-//        toggleOldPass.setOnClickListener {
-//            togglePasswordVisibility(oldPass, toggleOldPass)
-//        }
-//
-//        toggleNewPass.setOnClickListener {
-//            togglePasswordVisibility(newPass, toggleNewPass)
-//        }
-//
-//        toggleReNewPass.setOnClickListener {
-//            togglePasswordVisibility(reNewPass, toggleReNewPass)
-//        }
+        hidepass()
     }
 
-//    private fun togglePasswordVisibility(editText: EditText, toggleIcon: ImageView) {
-//        // Kiểm tra hiện tại đang ẩn hay hiện mật khẩu
-//        if (editText.inputType == InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD) {
-//            // Đổi thành hiện mật khẩu
-//            editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-//            toggleIcon.setImageResource(R.drawable.nohide) // Icon hiện mật khẩu
-//        } else {
-//            // Đổi thành ẩn mật khẩu
-//            editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-//            toggleIcon.setImageResource(R.drawable.hide) // Icon ẩn mật khẩu
-//        }
-//
-//        // Đặt con trỏ vào cuối của EditText
-//        editText.setSelection(editText.text.length)
-//    }
+    private fun hidepass(){
+        passVisible.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+
+            if (isPasswordVisible) {
+                // Hiển thị mật khẩu
+                oldPass.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+            } else {
+                // Ẩn mật khẩu
+                oldPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+            }
+
+            // Đặt con trỏ về cuối dòng
+            oldPass.setSelection(oldPass.text.length)
+        }
+
+        passVisible1.setOnClickListener {
+            isPasswordVisible1 = !isPasswordVisible1
+
+            if (isPasswordVisible1) {
+                // Hiển thị mật khẩu
+                newPass.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passVisible1.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+            } else {
+                // Ẩn mật khẩu
+                newPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passVisible1.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+            }
+
+            // Đặt con trỏ về cuối dòng
+            newPass.setSelection(newPass.text.length)
+        }
+
+        passVisible2.setOnClickListener {
+            isPasswordVisible2 = !isPasswordVisible2
+
+            if (isPasswordVisible2) {
+                // Hiển thị mật khẩu
+                reNewPass.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passVisible2.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+            } else {
+                // Ẩn mật khẩu
+                reNewPass.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passVisible2.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+            }
+
+            // Đặt con trỏ về cuối dòng
+            reNewPass.setSelection(reNewPass.text.length)
+        }
+
+    }
+
 
     private fun handleChangePassword() {
         val oldPassword = oldPass.text.toString().trim()

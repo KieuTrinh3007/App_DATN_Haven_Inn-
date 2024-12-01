@@ -2,7 +2,10 @@ package com.example.app_datn_haven_inn.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,7 +26,11 @@ class SignIn : AppCompatActivity() {
     private lateinit var btnSignIn: TextView
     private lateinit var btn_forgot_pw: TextView
     private lateinit var btn_signUp: TextView
+    private lateinit var passVisible: ImageView
 
+    var isPasswordVisible = false
+
+    // Sử dụng CreateService để tạo NguoiDungService
     private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService<NguoiDungService>()
     }
@@ -38,6 +45,24 @@ class SignIn : AppCompatActivity() {
         btnSignIn = findViewById(R.id.btnSignIn)
         btn_forgot_pw = findViewById(R.id.txt_dangnhap_forgot)
         btn_signUp = findViewById(R.id.txtSignUpSignIn)
+        passVisible = findViewById(R.id.passVisible)
+
+        passVisible.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+
+            if (isPasswordVisible) {
+                // Hiển thị mật khẩu
+                edtPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "hide"
+            } else {
+                // Ẩn mật khẩu
+                edtPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "nohide"
+            }
+
+            // Đặt con trỏ về cuối dòng
+            edtPassword.setSelection(edtPassword.text.length)
+        }
 
         // Xử lý sự kiện nút đăng nhập
         btnSignIn.setOnClickListener {
