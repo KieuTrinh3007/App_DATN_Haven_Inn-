@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.room.RoomDetailActivity">
+    tools:context=".ui.room.RoomDetailActivity"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,7 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:layout_marginTop="68dp">
+        android:layout_marginTop="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,9 +49,7 @@
             <!-- Slide Show Layout with Buttons -->
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginTop="10dp">
-
+                android:layout_height="250dp">
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/viewpager"
                     android:layout_width="match_parent"
@@ -113,7 +112,7 @@
                     android:id="@+id/txt_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="9.0"
+                    android:text="0.0"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"
@@ -362,20 +361,20 @@
                         android:id="@+id/txtRating1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="9.0"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
+                        android:layout_marginLeft="90dp"
                         android:background="@drawable/bg_radius_5_danh_gia"
+                        android:text="0.0"
                         android:paddingHorizontal="8dp"
                         android:paddingVertical="5dp"
-                        android:layout_marginLeft="90dp"/>
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/txt_number_review1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="10 nhận xét"
+                        android:text="Chưa có nhận xét"
                         android:textColor="@color/black"
                         android:layout_marginStart="9dp"
                         android:textSize="10sp"
@@ -447,4 +446,4 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

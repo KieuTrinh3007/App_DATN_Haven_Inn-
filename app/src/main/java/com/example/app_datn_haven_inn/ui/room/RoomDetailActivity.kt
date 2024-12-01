@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.databinding.ActivityRoomDetailBinding
-import com.example.app_datn_haven_inn.ui.review.adapter.ReviewAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.PhotoAdapter
+import com.example.app_datn_haven_inn.ui.room.adapter.ReviewAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TienNghiPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.DanhGiaViewModel
 import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
@@ -42,9 +42,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         danhGiaViewModel = ViewModelProvider(this)[DanhGiaViewModel::class.java]
         adapter = TienNghiPhongAdapter(listOf())
         binding.rvTiennghiphong.adapter = adapter
-
-        adapterReview = ReviewAdapter(listOf())
-        binding.rvReview.adapter = adapterReview
 
         val tvTenPhong = intent.getStringExtra("tenLoaiPhong").toString()
         val tvSLGiuong = intent.getStringExtra("giuong").toString()
@@ -141,7 +138,46 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         }
 
 
+        danhGiaViewModel?.getListdanhGiaByIdLoaiPhong(idLoaiPhong.toString())
+        danhGiaViewModel?.danhGiaListByIdLoaiPhong?.observe(this) { review ->
+            if (review != null) {
+                val soDanhGia = review.size
+                val firstTwoReviews = review.take(2)
 
+                binding.txtNumberReview1.text = "Có $soDanhGia nhận xét"
+                binding.txtNumberReview.text = "$soDanhGia nhận xét"
+
+                if (soDanhGia > 2) {
+                    binding.txtSeeAllReviews.visibility = View.VISIBLE
+                } else {
+                    binding.txtSeeAllReviews.visibility = View.GONE
+                }
+
+                val totalPoints = review.sumOf { it.soDiem }
+                val averageRating = if (review.isNotEmpty()) totalPoints.toFloat() / review.size else 0f
+
+                binding.txtRating.text = String.format("%.1f", averageRating)
+                binding.txtRating1.text = String.format("%.1f", averageRating)
+
+                adapterReview?.let {
+                    it.listReview = firstTwoReviews
+                    it.notifyDataSetChanged()
+                }
+
+                binding.txtSeeAllReviews.setOnClickListener {
+                    // Show all reviews when clicked
+                    adapterReview?.let {
+                        it.listReview = review
+                        it.notifyDataSetChanged()
+                    }
+
+                    binding.txtSeeAllReviews.visibility = View.GONE
+                }
+            }
+        }
+
+        adapterReview = ReviewAdapter(this, listOf())
+        binding.rvReview.adapter = adapterReview
     }
 
 
@@ -172,6 +208,5 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         timer?.cancel()
         timer = null
     }
-
 
 }
