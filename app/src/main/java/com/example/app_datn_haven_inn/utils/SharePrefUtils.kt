@@ -23,5 +23,4 @@ object SharePrefUtils {
         val sharedPref = context.getSharedPreferences("YeuThichPref", Context.MODE_PRIVATE)
         return sharedPref.getBoolean(phong.id.toString(), false)  // Lấy trạng thái yêu thích từ SharedPreferences
     }
-
 }

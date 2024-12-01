@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.room.adapter
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Paint
 import android.util.Log
@@ -19,6 +20,7 @@ import java.util.Locale
 
 class PhongNghiAdapter(
     var listPhong: List<LoaiPhongModel>,
+    val context : Context
 ) : RecyclerView.Adapter<PhongNghiAdapter.PhongNghiViewHolder>() {
     private var onItemClick: ((LoaiPhongModel, Int) -> Unit)? = null
     private var onFavotiteSelected: ((LoaiPhongModel) -> Unit)? = null
@@ -47,7 +49,6 @@ class PhongNghiAdapter(
     override fun onBindViewHolder(holder: PhongNghiViewHolder, position: Int) {
 
         val phong = listPhong[position]
-        val context = holder.binding.root.context
         phong.isFavorite = loadFavoriteState(context, phong)
         holder.binding.apply {
             val imageUrl = phong.hinhAnh[0]
@@ -67,20 +68,19 @@ class PhongNghiAdapter(
             tvLoaiGiuong.text = phong.giuong
             tvGiaChinhThuc.text = "${formatCurrency(phong.giaTien.toInt())}đ"
             tvGiaVip.text = "${formatCurrency(phong.giaTien.toInt() + 300000)}đ"
-            val giaChinhThuc = phong.giaTien.toInt()
-            val giaVip = giaChinhThuc + 300000
+
 
             tvTuyChinh.setOnClickListener{
                 val context = holder.binding.root.context
                 val intent = Intent(context, TuyChinhDatPhongActivity::class.java)
                 intent.putExtra("id_LoaiPhong", phong.id)
+                intent.putExtra("giaTien", phong.giaTien.toString())
                 context.startActivity(intent)
             }
 
 
             holder.itemView.setOnClickListener {
                 Log.d("hinhAnh",phong.hinhAnh.toString())
-                val context = holder.binding.root.context
                 val intent = Intent(context, RoomDetailActivity::class.java)
                 intent.putExtra("id_LoaiPhong", phong.id)
                 intent.putExtra("tenLoaiPhong", phong.tenLoaiPhong)
@@ -89,12 +89,13 @@ class PhongNghiAdapter(
                 intent.putExtra("dienTich", phong.dienTich.toString())
                 intent.putExtra("hinhAnh", phong.hinhAnh.toTypedArray())
                 intent.putExtra("moTa", phong.moTa)
+                intent.putExtra("giaTien", phong.giaTien.toString())
+                intent.putExtra("isFavorite", phong.isFavorite)
                 context.startActivity(intent)
             }
 
             updateFavoriteIcon(this, phong)
 
-            // Xử lý sự kiện yêu thích
             ivFavorite.setOnClickListener {
                 phong.isFavorite = !(phong.isFavorite ?: false)
                 onFavotiteSelected?.invoke(phong)
@@ -115,6 +116,13 @@ class PhongNghiAdapter(
             if (phong.isFavorite == true) R.drawable.ic_favorite_select
             else R.drawable.ic_favorite_unselect
         )
+    }
+    fun updateFavoriteState(itemId: String, isFavorite: Boolean) {
+        val index = listPhong.indexOfFirst { it.id == itemId }
+        if (index != -1) {
+            listPhong[index].isFavorite = isFavorite
+            notifyItemChanged(index)
+        }
     }
 
     private fun formatCurrency(amount: Int): String {

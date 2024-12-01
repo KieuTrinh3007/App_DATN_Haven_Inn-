@@ -1,8 +1,10 @@
 package com.example.app_datn_haven_inn.ui.room.fragment
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -13,13 +15,14 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.viewpager2.widget.ViewPager2
 import com.example.app_datn_haven_inn.BaseFragment
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.FavoriteRequest
@@ -28,6 +31,7 @@ import com.example.app_datn_haven_inn.databinding.FragmentPhongNghiBinding
 import com.example.app_datn_haven_inn.ui.room.adapter.PhongNghiAdapter
 import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
 import com.example.app_datn_haven_inn.viewModel.YeuThichViewModel
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.util.Calendar
 import java.util.Locale
@@ -47,8 +51,8 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
     override fun onResume() {
         super.onResume()
         sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE)
-        val idUser = sharedPreferences.getString("idNguoiDung", "")
-        yeuThichViewModel.getFavoritesByUserId(idUser.toString())
+        val idUser  = sharedPreferences.getString("idNguoiDung", "")
+        yeuThichViewModel.getFavoritesByUserId(idUser .toString())
         yeuThichViewModel.yeuThichList1.observe(viewLifecycleOwner) { updatedList ->
             if (updatedList != null) {
                 adapter?.listPhong?.forEach { phong ->
@@ -63,7 +67,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         super.initView()
 
         viewBinding.rcvDanhSachPhong.layoutManager = LinearLayoutManager(requireContext())
-        adapter = PhongNghiAdapter(emptyList())
+        adapter = PhongNghiAdapter(emptyList(),requireContext())
         viewBinding.rcvDanhSachPhong.adapter = adapter
 
         loaiPhongViewModel = ViewModelProvider(requireActivity())[LoaiPhongViewModel::class.java]
@@ -71,7 +75,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
         loaiPhongViewModel.getListloaiPhong()
 
-        loaiPhongViewModel.loaiPhongList.observe(this) { list ->
+        loaiPhongViewModel.loaiPhongList.observe(viewLifecycleOwner) { list ->
             Log.d("PhongNghiFragment", "List size: ${list?.size}")
             if (list != null) {
                 adapter?.let {
@@ -179,9 +183,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         }
 
 
-
         adapter?.setonFavotiteSelected { phong ->
-            // Lấy idNguoiDung từ SharedPreferences
             val sharedPreferences =
                 requireActivity().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
             val idNguoiDung = sharedPreferences?.getString("idNguoiDung", null)
@@ -238,6 +240,8 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             showDialogLoaiPhong("SoNguoi")
         }
 
+
+
     }
 
     private fun showDialogLoaiPhong(dataType: String) {
@@ -268,16 +272,9 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             dialog.dismiss()
         }
 
-        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager2)
-                viewPager.currentItem = 0
-            }
-        })
-
         // Lấy giá trị hiện tại từ layout chính
         val soLuongNguoiLon = viewBinding.tvSoKhach.text.toString().split(" ")[0].toIntOrNull() ?: 0
-        val soLuongTreEm = 0 // Bạn có thể lấy số lượng trẻ em từ TextView tương ứng nếu có.
+        val soLuongTreEm = 0
         val giaToiThieu = viewBinding.tvTuKhoang.text.toString().replace(" VNĐ", "0")
         val giaToiDa = viewBinding.tvDenKhoang.text.toString().replace(" VNĐ", "0")
 
@@ -353,10 +350,13 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             val soTreEm = tvSoLuongTreEm.text.toString().toInt()
             val tongSoNguoi = soNguoiLon + soTreEm
 
+            val formattedGiaToiThieu = formatCurrency(giaToiThieu)
+            val formattedGiaToiDa = formatCurrency(giaToiDa)
+
             // Cập nhật vào các TextView tương ứng
             viewBinding.tvSoKhach.text = "$tongSoNguoi khách"
-            viewBinding.tvTuKhoang.text = "$giaToiThieu"
-            viewBinding.tvDenKhoang.text = "$giaToiDa"
+            viewBinding.tvTuKhoang.text = "$formattedGiaToiThieu"
+            viewBinding.tvDenKhoang.text = "$formattedGiaToiDa"
 
             if (tongSoNguoi <= 0) {
                 Toast.makeText(requireContext(), "Số khách phải lớn hơn 0", Toast.LENGTH_SHORT)
@@ -366,8 +366,8 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
             val giaMin = giaToiThieu.toIntOrNull()
             val giaMax = giaToiDa.toIntOrNull()
-            val giaMinFormatted = formatCurrency(giaMin)
-            val giaMaxFormatted = formatCurrency(giaMax)
+            val giaMinFormatted = formatCurrency(giaMin.toString())
+            val giaMaxFormatted = formatCurrency(giaMax.toString())
 
             if (giaMinFormatted == null || giaMaxFormatted == null || giaMinFormatted > giaMaxFormatted) {
                 Toast.makeText(requireContext(), "Khoảng giá không hợp lệ", Toast.LENGTH_SHORT)
@@ -389,10 +389,14 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
 
         }
     }
-
-    fun formatCurrency(amount: Int?): String {
-        if (amount == null) return ""
-        val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
-        return formatter.format(amount)
+    fun formatCurrency(amount: String): String {
+        return try {
+            val number = amount.toLong()
+            val decimalFormat = DecimalFormat("#,###")
+            decimalFormat.format(number)
+        } catch (e: Exception) {
+            "0"
+        }
     }
+
 }

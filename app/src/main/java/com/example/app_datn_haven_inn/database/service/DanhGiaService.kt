@@ -2,6 +2,7 @@ package com.example.app_datn_haven_inn.database.service
 
 import com.example.app_datn_haven_inn.database.model.AmThucModel
 import com.example.app_datn_haven_inn.database.model.DanhGiaModel
+import com.example.app_datn_haven_inn.database.model.DanhGiaNguoiDungModel
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -16,7 +17,7 @@ interface DanhGiaService {
     suspend fun getListDanhGia(): Response<List<DanhGiaModel>>
 
     @GET("danhgias/")
-    suspend fun getListDanhGiaByIdLoaiPhong(@Query("id_LoaiPhong") idLoaiPhong: String): Response<List<DanhGiaModel>>
+    suspend fun getListDanhGiaByIdLoaiPhong(@Query("id_LoaiPhong") idLoaiPhong: String): Response<List<DanhGiaNguoiDungModel>>
 
     @POST("danhgias/post")
     suspend fun addDanhGia(@Body DanhGia: DanhGiaModel): Response<DanhGiaModel>

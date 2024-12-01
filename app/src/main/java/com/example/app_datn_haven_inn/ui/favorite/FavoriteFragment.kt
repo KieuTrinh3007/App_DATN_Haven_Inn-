@@ -1,8 +1,12 @@
 package com.example.app_datn_haven_inn.ui.favorite
 
+import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.lifecycle.ViewModelProvider
 import com.example.app_datn_haven_inn.BaseFragment
@@ -17,7 +21,6 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
     private lateinit var viewModel: YeuThichViewModel
     private var adapter: PhongNghiAdapter? = null
 
-
     override fun inflateViewBinding(): FragmentFavoriteBinding {
         return FragmentFavoriteBinding.inflate(layoutInflater)
     }
@@ -25,13 +28,14 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
     override fun initView() {
         super.initView()
+
         sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE)
         val idUser = sharedPreferences.getString("idNguoiDung", "")
         Log.d("PhongNghiFragment", "idNguoiDung: $idUser")
 
         viewModel = ViewModelProvider(this)[YeuThichViewModel::class.java]
         viewModel.getFavoritesByUserId(idUser.toString())
-        adapter = PhongNghiAdapter(mutableListOf())
+        adapter = PhongNghiAdapter(mutableListOf(),requireContext())
 
         viewModel.yeuThichList1.observe(viewLifecycleOwner) { yeuThichList ->
             if (yeuThichList.isNullOrEmpty()) {
@@ -79,6 +83,11 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
                 viewBinding.rvFavorite.visibility = View.VISIBLE
                 viewBinding.ivNoData.visibility = View.GONE
                 adapter?.updateList(yeuThichList.toMutableList())
+                yeuThichList.forEach { phong ->
+                    adapter?.updateFavoriteState(itemId = phong.id,phong.isFavorite)
+//
+                }
+
                 viewBinding.rvFavorite.adapter = adapter
             }
         }
