@@ -1,19 +1,27 @@
 package com.example.app_datn_haven_inn.ui.room
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.BaseViewModel
+import com.example.app_datn_haven_inn.database.model.FavoriteRequest
+import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.databinding.ActivityRoomDetailBinding
 import com.example.app_datn_haven_inn.ui.review.adapter.ReviewAdapter
+import com.example.app_datn_haven_inn.ui.room.adapter.PhongNghiAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.PhotoAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TienNghiPhongAdapter
+import com.example.app_datn_haven_inn.utils.SharePrefUtils.saveFavoriteState
 import com.example.app_datn_haven_inn.viewModel.DanhGiaViewModel
 import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
 import com.example.app_datn_haven_inn.viewModel.TienNghiPhongViewModel
+import com.example.app_datn_haven_inn.viewModel.YeuThichViewModel
 import java.util.Timer
 
 class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel>() {
@@ -25,6 +33,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
     private var tienNghiViewModel: TienNghiPhongViewModel? = null
     private var loaiPhongViewModel: LoaiPhongViewModel? = null
     private var danhGiaViewModel: DanhGiaViewModel? = null
+    private lateinit var yeuThichViewModel: YeuThichViewModel
     private var isFavorite = false
     override fun createBinding(): ActivityRoomDetailBinding {
         return ActivityRoomDetailBinding.inflate(layoutInflater)
@@ -36,6 +45,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
 
     override fun initView() {
         super.initView()
+        yeuThichViewModel = ViewModelProvider(this)[YeuThichViewModel::class.java]
         val idLoaiPhong = intent.getStringExtra("id_LoaiPhong")
         loaiPhongViewModel = ViewModelProvider(this)[LoaiPhongViewModel::class.java]
         tienNghiViewModel = ViewModelProvider(this)[TienNghiPhongViewModel::class.java]
@@ -51,9 +61,9 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         val tvSLKhach = intent.getStringExtra("soLuongKhach").toString() + " Khách"
         val tvDienTich = intent.getStringExtra("dienTich").toString() + " mét vuông"
         val hinhAnh = intent.getStringArrayExtra("hinhAnh")
+        val tvGiaTien = intent.getStringExtra("giaTien").toString()
         val moTa = intent.getStringExtra("moTa")
-
-        Toast.makeText(this, tvTenPhong + "\n" + tvSLGiuong +"\n" + tvDienTich, Toast.LENGTH_SHORT).show()
+         isFavorite = intent.getBooleanExtra("isFavorite", false)
 
         binding.txtTenPhong.text = tvTenPhong
         binding.tvSLGiuong.text = tvSLGiuong
@@ -88,7 +98,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                 val soDanhGia = review.size
                 val firstTwoReviews = review.take(2)
 
-                binding.txtNumberReview1.text = "Có $soDanhGia nhận xét"
+                binding.txtNumberReview1.text = "$soDanhGia nhận xét"
                 binding.txtNumberReview.text = "$soDanhGia nhận xét"
                 if (soDanhGia > 2) {
 
@@ -98,7 +108,8 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                 }
 
                 val totalPoints = review.sumOf { it.soDiem }
-                val averageRating = if (review.isNotEmpty()) totalPoints.toFloat() / review.size else 0f
+                val averageRating =
+                    if (review.isNotEmpty()) totalPoints.toFloat() / review.size else 0f
 
                 // Cập nhật điểm trung bình vào TextView txtRating
                 binding.txtRating.text = String.format("%.1f", averageRating)
@@ -110,13 +121,10 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                 }
 
                 binding.txtSeeAllReviews.setOnClickListener {
-                    // Khi bấm vào "See All", hiển thị tất cả nhận xét
                     adapterReview?.let {
-                        it.listReview = review // Gán toàn bộ danh sách nhận xét
+                        it.listReview = review
                         it.notifyDataSetChanged()
                     }
-
-                    // Ẩn nút "Xem tất cả nhận xét" sau khi nhấn
                     binding.txtSeeAllReviews.visibility = View.GONE
                 }
             }
@@ -124,7 +132,12 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
 
 
         binding.icBack.setOnClickListener {
+            val resultIntent = Intent()
+            resultIntent.putExtra("itemId", intent.getStringExtra("id_LoaiPhong"))
+            resultIntent.putExtra("isFavorite", isFavorite)
+            setResult(Activity.RESULT_OK, resultIntent)
             finish()
+
         }
 
         binding.btnBack.setOnClickListener {
@@ -136,10 +149,51 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         }
 
 
-        binding.btnTuyChinh.setOnClickListener {
-            startActivity(Intent(this, TuyChinhDatPhongActivity::class.java))
+        checkIfFavorite(idLoaiPhong)
+
+        binding.btnAddFavorite.setOnClickListener {
+            val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+            val idUser  = sharedPreferences.getString("idNguoiDung", "")
+
+            if (idUser .isNullOrEmpty()) {
+                Toast.makeText(this, "Vui lòng đăng nhập để thêm yêu thích", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val yeuThich = FavoriteRequest(idUser , idLoaiPhong.toString())
+            yeuThichViewModel.addyeuThich(yeuThich)
+            yeuThichViewModel.isyeuThichAdded.observe(this) { success ->
+                if (success) {
+                    // Cập nhật trạng thái isFavorite
+                    isFavorite = true
+                    val currentRoom = LoaiPhongModel(
+                        id = idLoaiPhong ?: "",
+                        tenLoaiPhong = tvTenPhong,
+                        giuong = tvSLGiuong,
+                        soLuongKhach = tvSLKhach.toIntOrNull() ?: 0,
+                        dienTich = tvDienTich.replace(" mét vuông", "").toDoubleOrNull() ?: 0.0,
+                        hinhAnh = ArrayList(mListphoto),
+                        hinhAnhIDs = arrayListOf(),
+                        giaTien = 0.0,
+                        moTa = moTa ?: "",
+                        trangThai = true,
+                        isFavorite = true
+                    )
+                    saveFavoriteState(this, currentRoom)
+                    // Cập nhật lại giao diện
+                    binding.btnAddFavorite.visibility = View.GONE
+                    Toast.makeText(this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
+
+        binding.btnTuyChinh.setOnClickListener {
+            val intent = Intent(this, TuyChinhDatPhongActivity::class.java)
+            intent.putExtra("id_LoaiPhong", idLoaiPhong)
+            intent.putExtra("giaTien", tvGiaTien)
+            startActivity(intent)
+        }
 
 
     }
@@ -173,5 +227,30 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         timer = null
     }
 
+    private fun checkIfFavorite(idLoaiPhong: String?) {
+        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val idUser  = sharedPreferences.getString("idNguoiDung", "")
 
+        yeuThichViewModel.getFavoritesByUserId(idUser .toString())
+        yeuThichViewModel.yeuThichList1.observe(this) { yeuThichList ->
+            if (yeuThichList != null) {
+
+                isFavorite = yeuThichList.any { it.id == idLoaiPhong }
+
+                // Cập nhật trạng thái cho nút thêm yêu thích
+                if (isFavorite) {
+                    binding.btnAddFavorite.visibility = View.GONE
+                    val params = binding.btnTuyChinh.layoutParams as LinearLayout.LayoutParams
+                    params.weight = 2f
+                    params.marginStart = 0
+                    binding.btnTuyChinh.layoutParams = params
+                } else {
+                    binding.btnAddFavorite.visibility = View.VISIBLE
+                    val params = binding.btnTuyChinh.layoutParams as LinearLayout.LayoutParams
+                    params.weight = 1f
+                    binding.btnTuyChinh.layoutParams = params
+                }
+            }
+        }
+    }
 }

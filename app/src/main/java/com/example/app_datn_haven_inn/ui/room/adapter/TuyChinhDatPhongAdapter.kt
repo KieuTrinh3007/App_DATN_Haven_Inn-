@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.databinding.ItemSoPhongBinding
 
 class TuyChinhDatPhongAdapter(
-    var listSoPhong: List<PhongModel>
+    var listSoPhong: List<PhongModel>,
+    private val onRoomClick: (String, Boolean) -> Unit
 ) : RecyclerView.Adapter<TuyChinhDatPhongAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -23,42 +25,41 @@ class TuyChinhDatPhongAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.tvSoPhong.text = listSoPhong.get(position).soPhong
-
+        val item = listSoPhong[position]
         if (listSoPhong.get(position).vip) {
 
             holder.binding.tvSoPhong.text = "VIP\n" + listSoPhong.get(position).soPhong
             holder.binding.tvSoPhong.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
         }
 
-            when (listSoPhong.get(position).trangThai) {
-                0 -> { // Còn phòng
-                    holder.binding.root.isEnabled = false
+        holder.binding.tvSoPhong.setBackgroundResource(
+            if (item.isSelected) R.drawable.bg_room_select else R.drawable.bg_room_unselect
+        )
+
+        when (listSoPhong.get(position).trangThai) {
+            0 -> { // Còn phòng
+                holder.binding.root.isEnabled = true
+                if (!item.isSelected) {
                     holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_unselect)
-
-                }
-
-                1 -> { // Hết phng
-                    holder.binding.root.isEnabled = true
-                    holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_selected)
-                }
-
-                2 -> { // Đã chọn
-                    holder.binding.root.isEnabled = true
+                } else {
                     holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_select)
                 }
             }
+            1,2 -> { // Hết phòng
+                holder.binding.root.isEnabled = false
+                holder.binding.tvSoPhong.setBackgroundResource(R.drawable.bg_room_selected)
+            }
 
+        }
 
-        // Xử lý sự kiện click để chọn phòng
         holder.binding.root.setOnClickListener {
-            if (listSoPhong.get(position).trangThai == 1) {
-                listSoPhong.get(position).trangThai = 2
+            if (item.trangThai == 0) {
+                item.isSelected = !item.isSelected
                 notifyItemChanged(position)
-            } else if (listSoPhong.get(position).trangThai == 2) {
-                listSoPhong.get(position).trangThai = 1
-                notifyItemChanged(position)
+                onRoomClick(item.soPhong, item.isSelected)
             }
         }
+
     }
     class ViewHolder(val binding: ItemSoPhongBinding) : RecyclerView.ViewHolder(binding.root)
 

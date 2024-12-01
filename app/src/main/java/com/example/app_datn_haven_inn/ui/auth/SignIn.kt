@@ -2,6 +2,7 @@ package com.example.app_datn_haven_inn.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -42,6 +43,7 @@ class SignIn : AppCompatActivity() {
         // Xử lý sự kiện nút đăng nhập
         btnSignIn.setOnClickListener {
             val email = edtEmail.text.toString().trim()
+            Log.d("YEUBANTRINH","$email")
             val password = edtPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
