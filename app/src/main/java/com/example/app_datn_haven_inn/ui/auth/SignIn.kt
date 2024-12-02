@@ -3,7 +3,7 @@ package com.example.app_datn_haven_inn.ui.auth
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,6 +27,7 @@ class SignIn : AppCompatActivity() {
     private lateinit var btn_forgot_pw: TextView
     private lateinit var btn_signUp: TextView
     private lateinit var passVisible: ImageView
+    private lateinit var chkRememberMe: CheckBox
 
     var isPasswordVisible = false
 
@@ -46,6 +47,9 @@ class SignIn : AppCompatActivity() {
         btn_forgot_pw = findViewById(R.id.txt_dangnhap_forgot)
         btn_signUp = findViewById(R.id.txtSignUpSignIn)
         passVisible = findViewById(R.id.passVisible)
+        chkRememberMe = findViewById(R.id.checkbox_remember_me)
+
+        loadLoginDetails()
 
         passVisible.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
@@ -70,9 +74,15 @@ class SignIn : AppCompatActivity() {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập email và mật khẩu", Toast.LENGTH_SHORT).show()
             } else {
+                if (chkRememberMe.isChecked) {
+                    saveLoginDetails(email, password)
+                } else {
+                    clearLoginDetails()
+                }
                 handleLogin(email, password)
             }
         }
+
 
         btn_forgot_pw.setOnClickListener{
             val intent1 = Intent(this, Forgot_password::class.java)
@@ -82,6 +92,35 @@ class SignIn : AppCompatActivity() {
         btn_signUp.setOnClickListener{
             val intent2 = Intent(this, Register::class.java)
             startActivity(intent2)
+        }
+    }
+
+    private fun saveLoginDetails(email: String, password: String) {
+        val sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("email", email)
+        editor.putString("password", password)
+        editor.putBoolean("rememberMe", true)
+        editor.apply()
+    }
+
+    private fun clearLoginDetails() {
+        val sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+    }
+
+    private fun loadLoginDetails() {
+        val sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+        val email = sharedPreferences.getString("email", "")
+        val password = sharedPreferences.getString("password", "")
+        val rememberMe = sharedPreferences.getBoolean("rememberMe", false)
+
+        if (rememberMe) {
+            edtEmail.setText(email)
+            edtPassword.setText(password)
+            chkRememberMe.isChecked = true
         }
     }
 

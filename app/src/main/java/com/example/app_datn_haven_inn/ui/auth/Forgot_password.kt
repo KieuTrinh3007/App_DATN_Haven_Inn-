@@ -6,6 +6,7 @@ import android.os.CountDownTimer
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -16,12 +17,15 @@ import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import kotlinx.coroutines.launch
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.HttpException
 
 class Forgot_password : AppCompatActivity() {
 
     private lateinit var edtEmailForgot: EditText
     private lateinit var btnDangNhapSignIn: TextView
+    private lateinit var id_back_forgot: ImageView
     private lateinit var nguoiDungService: NguoiDungService
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,6 +34,7 @@ class Forgot_password : AppCompatActivity() {
 
         edtEmailForgot = findViewById(R.id.edt_forgot_email)
         btnDangNhapSignIn = findViewById(R.id.btn_dangnhap_sign_in)
+        id_back_forgot = findViewById(R.id.id_back_forgot)
 
         nguoiDungService = CreateService.createService()
 
@@ -42,6 +47,11 @@ class Forgot_password : AppCompatActivity() {
                 Toast.makeText(this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show()
             }
         }
+
+        id_back_forgot.setOnClickListener {
+            val intent = Intent(this, SignIn::class.java)
+            startActivity(intent)
+        }
     }
 
     // Gửi OTP qua email
@@ -53,8 +63,9 @@ class Forgot_password : AppCompatActivity() {
                 if (response.isSuccessful) {
                     showVerificationDialog()
                 } else {
-                    Toast.makeText(this@Forgot_password, response.errorBody()?.string() ?: "Không thể gửi OTP. Vui lòng thử lại!", Toast.LENGTH_SHORT).show()
-                }
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = extractMessageFromErrorBody(errorBody)
+                    Toast.makeText(this@Forgot_password, errorMessage, Toast.LENGTH_SHORT).show()                }
             } catch (e: HttpException) {
                 Toast.makeText(this@Forgot_password, "Lỗi mạng: ${e.message}", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
@@ -128,11 +139,12 @@ class Forgot_password : AppCompatActivity() {
                     val message = response.body()?.get("message")?.toString()
                     Toast.makeText(this@Forgot_password, message, Toast.LENGTH_SHORT).show()
                     val intent = Intent(this@Forgot_password, SetUpPassword::class.java)
-                    intent.putExtra("email", email)  // Truyền email qua Intent
+                    intent.putExtra("email", email)
                     startActivity(intent)
                     dialog?.dismiss()
                 } else {
-                    val errorMessage = response.errorBody()?.string() ?: "OTP không hợp lệ hoặc đã hết hạn"
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = extractMessageFromErrorBody(errorBody)
                     Toast.makeText(this@Forgot_password, errorMessage, Toast.LENGTH_SHORT).show()
                 }
             } catch (e: HttpException) {
@@ -140,6 +152,19 @@ class Forgot_password : AppCompatActivity() {
             } catch (e: Exception) {
                 Toast.makeText(this@Forgot_password, "Lỗi không xác định: ${e.message}", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun extractMessageFromErrorBody(errorBody: String?): String {
+        return try {
+            if (!errorBody.isNullOrEmpty()) {
+                val jsonObject = JSONObject(errorBody)
+                jsonObject.optString("message", "Có lỗi xảy ra") // Lấy giá trị "message" hoặc chuỗi mặc định
+            } else {
+                "Có lỗi xảy ra"
+            }
+        } catch (e: JSONException) {
+            "Lỗi phân tích phản hồi từ server"
         }
     }
 }

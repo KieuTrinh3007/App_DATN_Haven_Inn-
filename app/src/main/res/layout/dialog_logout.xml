@@ -21,7 +21,6 @@
 
         <!-- Tiêu đề -->
         <TextView
-            android:id="@+id/dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -33,7 +32,6 @@
 
         <!-- Nội dung -->
         <TextView
-            android:id="@+id/dialog_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
