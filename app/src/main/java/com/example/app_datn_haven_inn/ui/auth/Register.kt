@@ -14,6 +14,8 @@ import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONException
+import org.json.JSONObject
 import retrofit2.Response
 
 class Register : AppCompatActivity() {
@@ -61,7 +63,9 @@ class Register : AppCompatActivity() {
                         }
                         startActivity(intent)
                     } else {
-                        Toast.makeText(this@Register, "Gửi OTP không thành công: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        val errorBody = response.errorBody()?.string()
+                        val errorMessage = extractMessageFromErrorBody(errorBody)
+                        Toast.makeText(this@Register, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
@@ -69,6 +73,19 @@ class Register : AppCompatActivity() {
                     Toast.makeText(this@Register, "Lỗi khi gửi OTP: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun extractMessageFromErrorBody(errorBody: String?): String {
+        return try {
+            if (!errorBody.isNullOrEmpty()) {
+                val jsonObject = JSONObject(errorBody)
+                jsonObject.optString("message", "Có lỗi xảy ra") // Lấy giá trị "message" hoặc chuỗi mặc định
+            } else {
+                "Có lỗi xảy ra"
+            }
+        } catch (e: JSONException) {
+            "Lỗi phân tích phản hồi từ server"
         }
     }
 }

@@ -81,15 +81,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvLink"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="5dp"
-            android:text="Xem tất cả 418 nhận xét >"
-            android:textColor="#64A89C"
-            android:textSize="10sp" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -400,7 +391,8 @@
             android:paddingBottom="5dp"
             android:text="Xem tất cả tiện nghi, dịch vụ nơi lưu trú >"
             android:textColor="#64A89C"
-            android:textSize="13dp" />
+            android:textSize="13dp"
+            android:gravity="center"/>
         <!-- Location Section -->
         <TextView
             android:id="@+id/locationTitle"
@@ -418,6 +410,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
+                android:id="@+id/xemtrongbando"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -444,7 +437,6 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/xemtrongbando"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -458,7 +450,6 @@
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-
 
         <!-- Nearby Places -->
         <LinearLayout
@@ -632,7 +623,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
 
         <TextView
             android:layout_width="wrap_content"

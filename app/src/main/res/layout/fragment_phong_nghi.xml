@@ -8,6 +8,7 @@
     tools:context=".ui.room.fragment.PhongNghiFragment">
 
     <TextView
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Hệ thống phòng nghỉ"

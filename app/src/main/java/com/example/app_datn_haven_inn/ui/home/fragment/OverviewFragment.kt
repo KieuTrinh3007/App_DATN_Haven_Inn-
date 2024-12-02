@@ -7,8 +7,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -94,7 +96,7 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
         mapFragment?.getMapAsync(this)
 
         // Xử lý sự kiện khi nhấn vào địa chỉ
-        val xemtrongbando = view.findViewById<TextView>(R.id.xemtrongbando) // ID của TextView "Xem trong bản đồ"
+        val xemtrongbando = view.findViewById<LinearLayout>(R.id.xemtrongbando) // ID của TextView "Xem trong bản đồ"
         xemtrongbando.setOnClickListener {
             // Kiểm tra xem thiết bị có ứng dụng Google Maps không
             if (isGoogleMapsAvailable()) {
@@ -103,7 +105,6 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
                 Toast.makeText(requireContext(), "Google Maps không có sẵn trên thiết bị này", Toast.LENGTH_SHORT).show()
             }
         }
-
         return view
     }
 
