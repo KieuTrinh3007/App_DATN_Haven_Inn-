@@ -88,6 +88,7 @@ class SignUp : AppCompatActivity() {
 					hinhAnh = null,
 					hinhAnhID = "",
 					chucVu = 0,
+					xacMinh = false,
 					trangThai = true)
 				// Gọi API từ service
 				val response = userService.registerNguoiDung(newUser)
