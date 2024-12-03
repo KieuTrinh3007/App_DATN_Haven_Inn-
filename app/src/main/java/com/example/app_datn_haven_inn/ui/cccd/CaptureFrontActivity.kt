@@ -79,45 +79,6 @@ class CaptureFrontActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_PERMISSION_CODE) {
-            if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                // Kiểm tra xem người dùng có chọn "Không bao giờ yêu cầu lại" không
-                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                    // Hiển thị dialog hướng dẫn mở cài đặt nếu chọn "Không bao giờ hỏi lại"
-                    showPermissionDeniedDialog()
-                } else {
-                    // Hiển thị thông báo quyền bị từ chối, không điều hướng hoặc quay về màn hình trước
-                    Toast.makeText(this, "Quyền camera bị từ chối. Vui lòng cấp quyền để sử dụng tính năng này.", Toast.LENGTH_LONG).show()
-                }
-            } else {
-                // Nếu quyền được cấp, bắt đầu camera
-                startCamera()
-            }
-        }
-    }
-
-    private fun showPermissionDeniedDialog() {
-        val alertDialog = AlertDialog.Builder(this)
-            .setTitle("Quyền truy cập camera bị từ chối")
-            .setMessage("Để tiếp tục, bạn cần cấp quyền truy cập camera trong cài đặt.")
-            .setPositiveButton("Đi tới cài đặt") { _, _ ->
-                // Mở trang cài đặt ứng dụng
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                val uri = Uri.fromParts("package", packageName, null)
-                intent.data = uri
-                startActivity(intent)
-            }
-            .setNegativeButton("Hủy") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
-
-        alertDialog.show()
-    }
-
-
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
 

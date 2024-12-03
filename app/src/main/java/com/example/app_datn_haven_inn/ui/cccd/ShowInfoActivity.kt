@@ -1,16 +1,18 @@
 package com.example.app_datn_haven_inn.ui.cccd
 
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.service.CccdService
+import com.example.app_datn_haven_inn.ui.main.MainActivity
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,6 +34,7 @@ class ShowInfoActivity : AppCompatActivity() {
     private lateinit var textViewCCCD: TextInputEditText
     private lateinit var textViewDateCap: TextInputEditText
     private lateinit var btnVerify: TextView
+    private lateinit var progressBar: ProgressBar
     private lateinit var img_back_vemt: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,8 +49,10 @@ class ShowInfoActivity : AppCompatActivity() {
         textViewCCCD = findViewById(R.id.textNumberCCCD)
         textViewDateCap = findViewById(R.id.textDateCapCCCD)
         btnVerify = findViewById(R.id.buttonAddCCCD)
+        progressBar = findViewById(R.id.progressBarCCCD)
         img_back_vemt = findViewById(R.id.img_back_vemt)
 
+        // Nhận dữ liệu từ Intent
         val frontImagePath = intent.getStringExtra("frontImagePath")
         val backImagePath = intent.getStringExtra("backImagePath")
         val cccd = intent.getStringExtra("cccd")
@@ -57,8 +62,8 @@ class ShowInfoActivity : AppCompatActivity() {
         val address = intent.getStringExtra("address")
         val issueDate = intent.getStringExtra("issueDate")
         val idNguoiDung = intent.getStringExtra("idNguoiDung")
-        Log.d("idNguoiDung1", "onCreate: " + idNguoiDung)
 
+        // Vô hiệu hóa các TextInputEditText
         disableEditText(textViewName)
         disableEditText(textViewGender)
         disableEditText(textViewBirthDate)
@@ -78,13 +83,10 @@ class ShowInfoActivity : AppCompatActivity() {
             showToast("Không có thông tin CCCD để hiển thị")
         }
 
-        Log.d(
-            "showinfo",
-            "idNguoiDung: $idNguoiDung, frontImagePath: $frontImagePath, backImagePath: $backImagePath"
-        )
-
+        // Nút xác thực
         btnVerify.setOnClickListener {
             if (idNguoiDung != null && frontImagePath != null && backImagePath != null) {
+                showProgress(true)
                 uploadCccdToServer(
                     idNguoiDung,
                     cccd ?: "",
@@ -99,13 +101,11 @@ class ShowInfoActivity : AppCompatActivity() {
             } else {
                 showToast("Dữ liệu không đầy đủ để xác thực")
             }
-
-
         }
 
+        // Nút quay lại
         img_back_vemt.setOnClickListener {
-            val intent = Intent(this, CaptureFrontActivity::class.java)
-            startActivity(intent)
+            finish()
         }
     }
 
@@ -122,7 +122,6 @@ class ShowInfoActivity : AppCompatActivity() {
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // Chuẩn bị dữ liệu
                 val service = CreateService.createService<CccdService>()
                 val idNguoiDung = createRequestBody(userId)
                 val soCCCD = createRequestBody(cccd)
@@ -134,25 +133,42 @@ class ShowInfoActivity : AppCompatActivity() {
                 val matTruocPart = createMultipartBody("matTruoc", File(frontImagePath))
                 val matSauPart = createMultipartBody("matSau", File(backImagePath))
 
-                // Gửi yêu cầu lên server
                 val response = service.addCccd(
                     idNguoiDung, soCCCD, hoTen, ngaySinh, gioiTinh, ngayCap, queQuan,
                     matTruocPart, matSauPart
                 )
 
                 withContext(Dispatchers.Main) {
+                    showProgress(false)
                     if (response.isSuccessful) {
                         showToast("Xác thực thành công!")
+                        navigateToNextScreen(userId)
                     } else {
                         showToast("Lỗi xác thực: ${response.errorBody()?.string()}")
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
+                    showProgress(false)
                     showToast("Lỗi: ${e.message}")
                 }
             }
         }
+    }
+
+    private fun showProgress(show: Boolean) {
+        progressBar.visibility = if (show) View.VISIBLE else View.GONE
+        btnVerify.isEnabled = !show
+        btnVerify.alpha = if (show) 0.5f else 1f
+        img_back_vemt.isEnabled = !show
+        img_back_vemt.alpha = if (show) 0.5f else 1f
+    }
+
+    private fun navigateToNextScreen(idNguoiDung: String) {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("navigateToFragment", 4) // 4 là vị trí của ProfileFragment
+        startActivity(intent)
+        finish()
     }
 
     private fun createRequestBody(value: String): RequestBody {
@@ -188,6 +204,4 @@ class ShowInfoActivity : AppCompatActivity() {
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
-
 }
