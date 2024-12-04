@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.database
 
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -25,8 +26,6 @@ class NetworkModule<T>(
 
     private fun createClient(): OkHttpClient {
         val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
-
-
         return OkHttpClient.Builder()
             .addInterceptor(logger)
             .readTimeout(TIME_OUT, TimeUnit.SECONDS)

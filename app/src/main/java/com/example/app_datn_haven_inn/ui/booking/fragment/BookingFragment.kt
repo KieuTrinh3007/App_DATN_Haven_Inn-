@@ -33,7 +33,6 @@ class BookingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         // Gạch ngang cho TextView
         binding.txtGiaChuaGiam.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 

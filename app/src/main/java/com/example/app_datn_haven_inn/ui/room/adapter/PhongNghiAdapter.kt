@@ -69,12 +69,13 @@ class PhongNghiAdapter(
             tvGiaChinhThuc.text = "${formatCurrency(phong.giaTien.toInt())}đ"
             tvGiaVip.text = "${formatCurrency(phong.giaTien.toInt() + 300000)}đ"
 
-
-            tvTuyChinh.setOnClickListener{
+            tvTuyChinh.setOnClickListener {
                 val context = holder.binding.root.context
                 val intent = Intent(context, TuyChinhDatPhongActivity::class.java)
                 intent.putExtra("id_LoaiPhong", phong.id)
-                intent.putExtra("giaTien", phong.giaTien.toString())
+                intent.putExtra("giaTien", phong.giaTien.toInt())
+                Log.d("YEUTRINH","YEU TRINH${phong.giaTien}")
+                intent.putExtra("soLuongKhach", phong.soLuongKhach)
                 context.startActivity(intent)
             }
 
@@ -129,5 +130,7 @@ class PhongNghiAdapter(
         val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
         return formatter.format(amount)
     }
+
+
 
 }

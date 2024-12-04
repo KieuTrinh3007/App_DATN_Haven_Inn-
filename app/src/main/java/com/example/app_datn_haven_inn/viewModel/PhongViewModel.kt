@@ -34,6 +34,14 @@ class PhongViewModel : BaseViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
+    private val _selectedRooms = MutableLiveData<List<PhongModel>>()
+    val selectedRooms: LiveData<List<PhongModel>> = _selectedRooms
+
+    // Biến lưu tổng tiền
+    private val _totalPrice = MutableLiveData<Int>()
+    val totalPrice: LiveData<Int> = _totalPrice
+
+
     fun getListphong() {
         viewModelScope.launch {
             try {
@@ -101,6 +109,11 @@ class PhongViewModel : BaseViewModel() {
                 _errorMessage.value = "Error deleting phong: ${e.message}"
             }
         }
+    }
+
+    fun saveBookingData(rooms: List<PhongModel>, price: Int) {
+        _selectedRooms.value = rooms
+        _totalPrice.value = price
     }
 
     fun clearErrorMessage() {

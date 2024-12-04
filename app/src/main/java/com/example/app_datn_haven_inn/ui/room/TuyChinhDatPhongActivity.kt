@@ -1,16 +1,12 @@
 package com.example.app_datn_haven_inn.ui.room
 
 import android.app.DatePickerDialog
-import android.content.Intent
 import android.util.Log
 import android.view.View
-import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
 import com.example.app_datn_haven_inn.ui.booking.fragment.BookingFragment
-import com.example.app_datn_haven_inn.ui.review.adapter.ReviewAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
@@ -21,6 +17,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
     private var adapter: TuyChinhDatPhongAdapter? = null
     private var selectedRoomAdapter: SelectedRoomAdapter? = null
+    private var phongViewModel: PhongViewModel? = null
     override fun createBinding() = ActivityTuyChinhDatPhongBinding.inflate(layoutInflater)
     override fun setViewModel() = PhongViewModel()
 
@@ -28,21 +25,29 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
     override fun initView() {
         super.initView()
         val idLoaiPhong = intent.getStringExtra("id_LoaiPhong")
-        val tvGiaPhong = intent.getStringExtra("giaTien").toString()
+        val gia = intent.getIntExtra("giaTien",100000)
+        Log.d("YEUTRINH","$gia")
+        val tvSLKhach = intent.getIntExtra("soLuongKhach",1)
+
         adapter = TuyChinhDatPhongAdapter(emptyList(), onRoomClick = { selectedRoom, isSelected ->
             if (isSelected) {
-                selectedRoomAdapter?.addRoom(selectedRoom, tvGiaPhong)
+                selectedRoomAdapter?.addRoom(selectedRoom)
             } else {
                 selectedRoomAdapter?.removeRoom(selectedRoom)
             }
         })
-        // Adapter cho rv_ChiTietGiaPhong
-        val selectedRoomList = mutableListOf<Pair<String, String>>()
-        selectedRoomAdapter = SelectedRoomAdapter(selectedRoomList)
+
+        selectedRoomAdapter = SelectedRoomAdapter(mutableListOf(), tvSLKhach,gia.toInt())
+        selectedRoomAdapter?.onTotalPriceChanged = {
+            updateTotalPrice()
+        }
+
+
         binding.rvChiTietGiaPhong.adapter = selectedRoomAdapter
         binding.rvChonSoPhong.adapter = adapter
 
 
+        // list chon so phong -> tuy chinh dat phong
         viewModel.getListPhongByIdLoaiPhong(idLoaiPhong.toString())
         viewModel.phongListByIdLoaiPhong.observe(this) { list ->
             if (list != null) {
@@ -52,6 +57,8 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                 }
             }
         }
+
+
 
         val calendar = Calendar.getInstance()
         val formattedDay = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
@@ -64,6 +71,19 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             finish()
         }
         binding.tvDat.setOnClickListener {
+            val totalPrice = selectedRoomAdapter?.calculateTotalPrice() ?: 0
+            val selectedRooms = selectedRoomAdapter?.getSelectedRooms() ?: emptyList()
+
+            viewModel.saveBookingData(selectedRooms, totalPrice)
+
+            Log.d("YEUTRINH","$totalPrice")
+            Log.d("YEUTRINH","$selectedRooms")
+
+            intent.putExtra("totalPrice", totalPrice)
+            intent.putParcelableArrayListExtra("selectedRooms", ArrayList(selectedRooms))
+
+
+            phongViewModel?.saveBookingData(selectedRooms, totalPrice)
             binding.flBooking.visibility = View.VISIBLE
             binding.clAcivity.visibility =  View.GONE
 
@@ -73,7 +93,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
         }
 
-        binding.ivCalendar.setOnClickListener{
+        binding.ivCalendar.setOnClickListener {
 
             // Lấy ngày hiện tại
             val calendar = Calendar.getInstance()
@@ -128,6 +148,10 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
     }
 
+    private fun updateTotalPrice() {
+        val totalPrice = selectedRoomAdapter?.calculateTotalPrice() ?: 0
+        binding.tvTong.text = "$totalPrice"
+    }
 
 
 

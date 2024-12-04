@@ -50,9 +50,12 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         loaiPhongViewModel = ViewModelProvider(this)[LoaiPhongViewModel::class.java]
         tienNghiViewModel = ViewModelProvider(this)[TienNghiPhongViewModel::class.java]
         danhGiaViewModel = ViewModelProvider(this)[DanhGiaViewModel::class.java]
+
+        // list tien nghi phong
         adapter = TienNghiPhongAdapter(listOf())
         binding.rvTiennghiphong.adapter = adapter
 
+        // list binh luan
         adapterReview = ReviewAdapter(listOf())
         binding.rvReview.adapter = adapterReview
 
@@ -152,6 +155,12 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         checkIfFavorite(idLoaiPhong)
 
         binding.btnAddFavorite.setOnClickListener {
+
+            val params = binding.btnTuyChinh.layoutParams as LinearLayout.LayoutParams
+            params.weight = 2f
+            params.marginStart = 0
+            binding.btnTuyChinh.layoutParams = params
+
             val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
             val idUser  = sharedPreferences.getString("idNguoiDung", "")
 
@@ -192,6 +201,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             val intent = Intent(this, TuyChinhDatPhongActivity::class.java)
             intent.putExtra("id_LoaiPhong", idLoaiPhong)
             intent.putExtra("giaTien", tvGiaTien)
+            intent.putExtra("soLuongKhach", tvSLKhach)
             startActivity(intent)
         }
 
