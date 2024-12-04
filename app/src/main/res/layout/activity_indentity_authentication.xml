@@ -71,16 +71,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
-                        android:text="Mã xác minh đã được gửi đến email của"
+                        android:text="Mã xác minh đã được gửi đến email của bạn, vui lòng nhập mã xác minh!"
                         android:textColor="#9CA0A8"
                         android:textSize="16dp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="bạn, vui lòng nhập mã xác minh!"
-                        android:textColor="#9CA0A8"
-                        android:textSize="16dp" />
                 </LinearLayout>
 
                 <!-- Ô nhập mã OTP -->
