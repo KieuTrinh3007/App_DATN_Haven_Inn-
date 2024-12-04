@@ -26,7 +26,6 @@ class NetworkModule<T>(
     private fun createClient(): OkHttpClient {
         val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BASIC }
 
-
         return OkHttpClient.Builder()
             .addInterceptor(logger)
             .readTimeout(TIME_OUT, TimeUnit.SECONDS)

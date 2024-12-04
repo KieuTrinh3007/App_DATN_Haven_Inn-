@@ -81,6 +81,12 @@
 
             </RelativeLayout>
 
+            <CheckBox
+                android:id="@+id/checkbox_remember_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nhớ mật khẩu"
+                android:layout_marginTop="16dp"/>
 
             <!-- Quên mật khẩu -->
             <TextView
@@ -88,9 +94,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="25dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="Quên mật khẩu?"
+                android:layout_marginTop="5dp"
                 android:textColor="#F44336" />
 
             <!-- Nút đăng nhập -->
@@ -101,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/khung_button"
                 android:paddingVertical="10dp"
                 android:text="Đăng nhập"

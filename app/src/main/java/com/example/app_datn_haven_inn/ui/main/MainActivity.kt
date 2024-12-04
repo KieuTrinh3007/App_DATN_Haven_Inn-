@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
@@ -12,6 +13,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
     override fun setViewModel() = BaseViewModel()
 
+    // Hàm này sẽ ẩn hoặc hiển thị Bottom Bar tùy theo tham số
     fun showBottomBar(isVisible: Boolean) {
         binding.viewPager2.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
@@ -29,6 +31,13 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
         binding.viewPager2.offscreenPageLimit = 5
         binding.viewPager2.isUserInputEnabled = false
 
+        // Xử lý điều hướng từ CccdGuide
+        val navigateToFragment = intent.getIntExtra("navigateToFragment", -1)
+        if (navigateToFragment != -1) {
+            binding.viewPager2.currentItem = navigateToFragment
+        }
+
+        // Đăng ký callback để thay đổi màu sắc các biểu tượng khi chuyển trang
         binding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
@@ -42,6 +51,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
             }
         })
 
+        // Xử lý click vào các mục trên bottom navigation
         binding.llHome.setOnClickListener { binding.viewPager2.currentItem = 0 }
         binding.llFavorite.setOnClickListener { binding.viewPager2.currentItem = 1 }
         binding.llDatPhong.setOnClickListener { binding.viewPager2.currentItem = 2 }
@@ -49,6 +59,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
         binding.llProfile.setOnClickListener { binding.viewPager2.currentItem = 4 }
     }
 
+    // Hàm set lại màu sắc các biểu tượng về mặc định
     private fun setDefaultIcons() {
         binding.ivHome.setColorFilter(getColor(R.color.black))
         binding.ivFavorite.setColorFilter(getColor(R.color.black))

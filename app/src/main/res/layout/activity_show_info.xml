@@ -1,182 +1,204 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F9F9F9">
 
-    <LinearLayout
+<!--    <View-->
+<!--        android:id="@+id/overlayView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:background="#80000000"-->
+<!--        android:visibility="gone" />-->
+
+    <ProgressBar
+        android:id="@+id/progressBarCCCD"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginBottom="10dp"
-            android:background="#4CAF50"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <!-- ImageView Back Icon -->
-            <ImageView
-                android:id="@+id/img_back_vemt"
-                android:layout_width="25dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="8dp"
-                android:contentDescription="Back Icon"
-                android:src="@drawable/ic_back_t" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginBottom="10dp"
+                android:background="#4CAF50"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-            <!-- TextView Title -->
-            <TextView
-                android:id="@+id/textViewTitleCCCD"
+                <!-- ImageView Back Icon -->
+                <ImageView
+                    android:id="@+id/img_back_vemt"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:contentDescription="Back Icon"
+                    android:src="@drawable/ic_back_t" />
+
+                <!-- TextView Title -->
+                <TextView
+                    android:id="@+id/textViewTitleCCCD"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Xác thực thông tin"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@drawable/highlight_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="30dp">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/img_7" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="10dp"
+                    android:text="Kiểm tra để đảm bảo thông tin bên dưới của bạn là chính xác" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Xác thực thông tin"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_marginEnd="40dp"/>
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Giới tính">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textViewGenderCCCD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Họ và tên">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textViewNameCCCD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Ngày sinh">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textViewBirthDateCCCD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Số CCCD">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textNumberCCCD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Nơi thường trú">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textViewAddressCCCD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:scrollHorizontally="false" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:hint="Ngày cấp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textDateCapCCCD"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <!-- Nút Trở về -->
+                <TextView
+                    android:id="@+id/buttonAddCCCD"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="25dp"
+                    android:background="@drawable/khung_button"
+                    android:gravity="center"
+                    android:text="Tiếp tục"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="18dp" />
+            </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/highlight_background"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingHorizontal="30dp">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/img_7" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="10dp"
-                android:text="Kiểm tra để đảm bảo thông tin bên dưới của bạn là chính xác" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
-                android:hint="Giới tính">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textViewGenderCCCD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:hint="Họ và tên">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textViewNameCCCD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:hint="Ngày sinh">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textViewBirthDateCCCD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:hint="Số CCCD">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textNumberCCCD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:hint="Nơi thường trú">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textViewAddressCCCD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:scrollHorizontally="false" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:clickable="false"
-                android:focusable="false"
-                android:hint="Ngày cấp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textDateCapCCCD"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-            <!-- Nút Trở về -->
-            <TextView
-                android:id="@+id/buttonAddCCCD"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="25dp"
-                android:background="@drawable/khung_button"
-                android:gravity="center"
-                android:text="Tiếp tục"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="18dp" />
-        </LinearLayout>
-    </LinearLayout>
-
-</ScrollView>
+</FrameLayout>

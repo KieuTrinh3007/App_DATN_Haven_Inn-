@@ -78,17 +78,6 @@ class CCCDDataExtractor {
                 }
             }
 
-            // Kiểm tra thông tin quốc tịch
-            if (text.contains("Quốc tịch", ignoreCase = true)) {
-                val nationality = text.replace("Quốc tịch", "", ignoreCase = true)
-                    .replace("Nationality:", "", ignoreCase = true)
-                    .replace("/", "")
-                    .trim()
-                if (nationality.isNotEmpty()) {
-                    dataMap["nationality"] = removeVietnameseAccents(nationality)
-                }
-            }
-
             // Kiểm tra thông tin ngày cấp
             if (text.contains("Ngày, tháng, năm", ignoreCase = true) || text.contains("Date, month, year", ignoreCase = true)) {
                 val issueDateRegex = Regex("(?<=[:\\s])\\d{2}/\\d{2}/\\d{4}")
@@ -101,7 +90,6 @@ class CCCDDataExtractor {
 
         return dataMap
     }
-
 
     // Hàm loại bỏ dấu tiếng Việt
     private fun removeVietnameseAccents(input: String): String {

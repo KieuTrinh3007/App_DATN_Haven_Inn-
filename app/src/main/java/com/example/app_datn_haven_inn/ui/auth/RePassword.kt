@@ -17,6 +17,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONException
+import org.json.JSONObject
 
 class RePassword : AppCompatActivity() {
     private lateinit var oldPass: EditText
@@ -152,8 +154,9 @@ class RePassword : AppCompatActivity() {
                         startActivity(intent)
                         finish() // Quay lại màn hình trước
                     } else {
-                        val error = response.errorBody()?.string() ?: "Lỗi xảy ra. Vui lòng thử lại!"
-                        Toast.makeText(this@RePassword, error, Toast.LENGTH_SHORT).show()
+                        val errorBody = response.errorBody()?.string()
+                        val errorMessage = extractMessageFromErrorBody(errorBody)
+                        Toast.makeText(this@RePassword, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
@@ -161,6 +164,19 @@ class RePassword : AppCompatActivity() {
                     Toast.makeText(this@RePassword, "Đổi mật khẩu thất bại", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun extractMessageFromErrorBody(errorBody: String?): String {
+        return try {
+            if (!errorBody.isNullOrEmpty()) {
+                val jsonObject = JSONObject(errorBody)
+                jsonObject.optString("message", "Có lỗi xảy ra") // Lấy giá trị "message" hoặc chuỗi mặc định
+            } else {
+                "Có lỗi xảy ra"
+            }
+        } catch (e: JSONException) {
+            "Lỗi phân tích phản hồi từ server"
         }
     }
 }
