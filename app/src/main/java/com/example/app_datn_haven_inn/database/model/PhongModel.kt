@@ -9,6 +9,6 @@ data class PhongModel(
     @field:SerializedName("VIP") var vip: Boolean,
     @field:SerializedName("trangThai") var trangThai: Int,
     // Thêm loaiPhong nếu cần thiết
-    var loaiPhong: LoaiPhongModel? = null
+    var loaiPhong: LoaiPhongModel? = null,
     var isSelected  : Boolean = false
 )

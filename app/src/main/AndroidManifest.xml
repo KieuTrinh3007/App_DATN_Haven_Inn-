@@ -27,7 +27,16 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.coupon.CouponActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.myRoom.MyRoomDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.cccd.CccdGuide"
+            android:exported="false" />
+        <activity
+            android:name=".ui.auth.SignIn"
             android:exported="false" />
         <activity
             android:name=".ui.myRoom.MyRoomActivity"
@@ -40,9 +49,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.cccd.CaptureBackActivity"
             android:exported="false" />
@@ -50,8 +57,11 @@
             android:name=".ui.cccd.CaptureFrontActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.auth.SignIn"
-            android:exported="true" >
+            android:name=".ui.splash.SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.onbording.WelcomeActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -92,15 +102,12 @@
             android:name=".ui.auth.Register"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
-
         <activity
             android:name=".ui.cccd.ShowInfoActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name=".ui.TermsAndPolicies.TermsAndPoliciesActivity"
             android:exported="true" />
     </application>
 

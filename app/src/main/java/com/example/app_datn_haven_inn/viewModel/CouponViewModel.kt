@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.viewModel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,6 +10,7 @@ import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.CouponModel
 import com.example.app_datn_haven_inn.database.repository.CouponRepository
 import com.example.app_datn_haven_inn.database.service.CouponService
+import com.example.app_datn_haven_inn.utils.SharedPrefsHelper
 import kotlinx.coroutines.launch
 
 class CouponViewModel : BaseViewModel()  {
@@ -84,6 +86,25 @@ class CouponViewModel : BaseViewModel()  {
             }
         }
     }
+    fun getCouponListByUser(context: Context) {
+        viewModelScope.launch {
+            try {
+                val userId = SharedPrefsHelper.getIdNguoiDung(context)
+                if (userId != null) {
+                    val apiService: CouponService = CreateService.createService()
+                    val couponRepository = CouponRepository(apiService)
+                    val result = couponRepository.getListCouponByUser(userId)
+                    _couponList.value = result ?: emptyList()
+                } else {
+                    _errorMessage.value = "Không tìm thấy ID người dùng."
+                }
+            } catch (e: Exception) {
+                Log.e("CouponViewModel", "Error fetching coupon list by user", e)
+                _errorMessage.value = "Error fetching coupon list by user: ${e.message}"
+            }
+        }
+    }
+
 
     fun clearErrorMessage() {
         _errorMessage.value = null
