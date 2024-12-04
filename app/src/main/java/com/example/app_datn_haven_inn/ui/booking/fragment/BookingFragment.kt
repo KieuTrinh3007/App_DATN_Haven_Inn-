@@ -1,74 +1,138 @@
-package com.example.app_datn_haven_inn.ui.booking.fragment
+package com.example.app_datn_haven_inn.ui.booking
 
+import android.content.Intent
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.PopupMenu
+import android.widget.RadioButton
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.example.app_datn_haven_inn.Api.CreateOrder
 import com.example.app_datn_haven_inn.R
-import com.example.app_datn_haven_inn.databinding.FragmentBookingBinding
+import com.example.app_datn_haven_inn.ui.booking.fragment.PaymentNotification
+import vn.zalopay.sdk.Environment
+import vn.zalopay.sdk.ZaloPayError
+import vn.zalopay.sdk.ZaloPaySDK
+import vn.zalopay.sdk.listeners.PayOrderListener
 
-class BookingFragment : Fragment() {
+class BookingFragment : AppCompatActivity() {
 
-    private var _binding: FragmentBookingBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var txtGiaChuaGiam: TextView
+    private lateinit var txtGiaDaGiam: TextView
+    private lateinit var rdoTructiep: RadioButton
+    private lateinit var rdoMomo: RadioButton
+    private lateinit var ttTrucTiep: LinearLayout
+    private lateinit var ttQuaMoMo: LinearLayout
+    private lateinit var edtCoupon: EditText
+    private lateinit var btnBooking: TextView
+    private var isThanhToan = false
 
-    var isThanhToan = false
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.fragment_booking)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout using binding
-        _binding = FragmentBookingBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
+        // Ánh xạ View
+        txtGiaChuaGiam = findViewById(R.id.txt_giaChuaGiam)
+        txtGiaDaGiam = findViewById(R.id.txt_giaDaGiam)
+        rdoTructiep = findViewById(R.id.rdo_tructiep)
+        rdoMomo = findViewById(R.id.rdo_momo)
+        ttTrucTiep = findViewById(R.id.ttTrucTiep)
+        ttQuaMoMo = findViewById(R.id.ttQuaMoMo)
+        edtCoupon = findViewById(R.id.edtCoupon)
+        btnBooking = findViewById(R.id.btnBooking)
 
         // Gạch ngang cho TextView
-        binding.txtGiaChuaGiam.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+        txtGiaChuaGiam.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
         // Set click listeners for LinearLayouts
-        binding.ttTrucTiep.setOnClickListener {
-            binding.rdoTructiep.isChecked = true
-            binding.rdoMomo.isChecked = false
+        ttTrucTiep.setOnClickListener {
+            rdoTructiep.isChecked = true
+            rdoMomo.isChecked = false
             isThanhToan = true
         }
 
-        binding.ttQuaMoMo.setOnClickListener {
-            binding.rdoMomo.isChecked = true
-            binding.rdoTructiep.isChecked = false
+        ttQuaMoMo.setOnClickListener {
+            rdoMomo.isChecked = true
+            rdoTructiep.isChecked = false
             isThanhToan = false
-
         }
+
         // Lắng nghe sự kiện click vào ic_drop (drawableEnd)
-        binding.edtCoupon.setOnTouchListener { v, event ->
+        edtCoupon.setOnTouchListener { v, event ->
             if (event.action == MotionEvent.ACTION_UP) {
-//                val drawableEnd = 2
-//                if (event.rawX >= (binding.edtCoupon.right - binding.edtCoupon.compoundDrawables[drawableEnd].bounds.width())) {
-                    showCouponMenu(v)
-                    return@setOnTouchListener true
-//                }
+                showCouponMenu(v)
+                return@setOnTouchListener true
             }
             false
         }
 
+        val policy = ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
 
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(2553, Environment.SANDBOX)
 
+        val intent = intent
+
+        val totalString = String.format("%.0f", 1000000.0)
+
+//        val tongtt = String.format("%.0f", totalString);
+
+        btnBooking.setOnClickListener {
+            val orderApi = CreateOrder()
+            try {
+                val data = orderApi.createOrder(totalString)
+                val code = data.getString("return_code")
+                if (code == "1") {
+                    val token = data.getString("zp_trans_token")
+                    ZaloPaySDK.getInstance().payOrder(
+                        this@BookingFragment,
+                        token,
+                        "demozpdk://app",
+                        object : PayOrderListener {
+                            override fun onPaymentSucceeded(p1: String?, p2: String?, p3: String?) {
+                                val intent =
+                                    Intent(this@BookingFragment, PaymentNotification::class.java)
+                                intent.putExtra("result", "Thanh toán thành công")
+                                startActivity(intent)
+                            }
+
+                            override fun onPaymentCanceled(p1: String?, p2: String?) {
+                                val intent =
+                                    Intent(this@BookingFragment, PaymentNotification::class.java)
+                                intent.putExtra("result", "Hủy thanh toán")
+                                startActivity(intent)
+                            }
+
+                            override fun onPaymentError(
+                                error: ZaloPayError?,
+                                p1: String?,
+                                p2: String?
+                            ) {
+                                val intent =
+                                    Intent(this@BookingFragment, PaymentNotification::class.java)
+                                intent.putExtra("result", "Lỗi thanh toán")
+                                startActivity(intent)
+                            }
+                        })
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun showCouponMenu(view: View) {
         // Tạo PopupMenu để hiển thị danh sách mã giảm giá
-        val popupMenu = PopupMenu(requireContext(), view)
+        val popupMenu = PopupMenu(this, view)
 
         // Thêm các mục vào PopupMenu (Danh sách mã giảm giá)
         val menu = popupMenu.menu
@@ -80,10 +144,10 @@ class BookingFragment : Fragment() {
         // Xử lý sự kiện khi người dùng chọn một mã giảm giá
         popupMenu.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
-                1 -> binding.edtCoupon.setText("Mã giảm giá 1 - 10%")
-                2 -> binding.edtCoupon.setText("Mã giảm giá 2 - 20%")
-                3 -> binding.edtCoupon.setText("Mã giảm giá 3 - 30%")
-                4 -> binding.edtCoupon.setText("Mã giảm giá 4 - 40%")
+                1 -> edtCoupon.setText("Mã giảm giá 1 - 10%")
+                2 -> edtCoupon.setText("Mã giảm giá 2 - 20%")
+                3 -> edtCoupon.setText("Mã giảm giá 3 - 30%")
+                4 -> edtCoupon.setText("Mã giảm giá 4 - 40%")
             }
             true
         }
@@ -91,19 +155,20 @@ class BookingFragment : Fragment() {
         // Hiển thị PopupMenu
         popupMenu.show()
     }
-    fun resize_image(){
-        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.ic_coupon_2)
-        val drawable2 = ContextCompat.getDrawable(requireContext(), R.drawable.ic_drop)
+
+    private fun resizeImage() {
+        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_coupon_2)
+        val drawable2 = ContextCompat.getDrawable(this, R.drawable.ic_drop)
 
         // Thay đổi kích thước Drawable
         drawable?.setBounds(0, 0, 50, 50) // width và height (pixel)
-        drawable?.setBounds(0, 0, 50, 50) // width và height (pixel)
+        drawable2?.setBounds(0, 0, 50, 50) // width và height (pixel)
 
-        binding.edtCoupon.setCompoundDrawablesRelative(drawable, null, null, drawable2 )
+        edtCoupon.setCompoundDrawablesRelative(drawable, null, drawable2, null)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        ZaloPaySDK.getInstance().onResult(intent)
     }
 }
