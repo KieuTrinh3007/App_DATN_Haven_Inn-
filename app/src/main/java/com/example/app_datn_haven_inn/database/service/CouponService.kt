@@ -25,4 +25,7 @@ interface CouponService {
 
     @DELETE("coupons/delete/{id}")
     suspend fun deleteCoupon(@Path("id") id: String): Response<Unit>
+
+    @GET("nguoidungs/mycoupon/{id}")
+    suspend fun getListCouponByUser(@Path("id") userId: String): Response<List<CouponModel>>
 }

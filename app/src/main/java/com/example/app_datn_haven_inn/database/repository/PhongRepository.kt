@@ -63,4 +63,7 @@ class PhongRepository (private val api: PhongService) {
             false
         }
     }
+    data class RoomResponse(
+        val data: List<PhongModel>
+    )
 }

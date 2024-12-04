@@ -52,4 +52,15 @@ class CouponRepository (private val api: CouponService) {
             false
         }
     }
+    suspend fun getListCouponByUser(idNguoiDung: String): List<CouponModel>? = withContext(Dispatchers.IO) {
+        val response = api.getListCouponByUser(idNguoiDung)
+        if (response.isSuccessful) {
+            Log.d("CouponRepository", "getListCouponByUser Success: ${response.body()}")
+            response.body()
+        } else {
+            Log.e("CouponRepository", "getListCouponByUser Error: ${response.errorBody()}")
+            null
+        }
+    }
+
 }

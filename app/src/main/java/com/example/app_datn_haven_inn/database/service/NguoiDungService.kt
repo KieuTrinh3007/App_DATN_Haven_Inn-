@@ -1,15 +1,20 @@
 package com.example.app_datn_haven_inn.database.service
 
+import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.database.model.CccdModel
 import com.example.app_datn_haven_inn.database.model.NguoiDungModel
+import com.example.app_datn_haven_inn.database.model.PhongModel
+import com.example.app_datn_haven_inn.database.repository.ApiResponse
+import com.example.app_datn_haven_inn.database.repository.PhongRepository
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Response
 import retrofit2.http.*
 
 interface NguoiDungService {
+
     @GET("nguoidungs/")
-    suspend fun getListNguoiDung(@Query("id") id: String? = null): Response<List<NguoiDungModel>>
+    suspend fun getListNguoiDung(): Response<List<NguoiDungModel>>
 
     @Multipart
     @PUT("nguoidungs/put/{id}")
@@ -60,4 +65,12 @@ interface NguoiDungService {
     suspend fun setUpPass(
         @Body payload: Map<String, String>
     ): Response<Map<String, String>>
+
+    @GET("loaiphong/{id}")
+    suspend fun getLoaiPhongById(@Path("id") id: String): Response<LoaiPhongModel>
+    @GET("nguoidungs/myroom/{id}")
+    suspend fun myRoom(@Path("id") id: String): Response<ApiResponse> // Thay vì Response<List<PhongModel>>
+
+
+
 }
