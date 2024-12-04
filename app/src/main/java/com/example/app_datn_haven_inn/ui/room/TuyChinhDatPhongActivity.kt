@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
-import com.example.app_datn_haven_inn.ui.booking.fragment.BookingFragment
-import com.example.app_datn_haven_inn.ui.review.adapter.ReviewAdapter
+import com.example.app_datn_haven_inn.ui.booking.BookingFragment
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
@@ -67,10 +66,8 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             binding.flBooking.visibility = View.VISIBLE
             binding.clAcivity.visibility =  View.GONE
 
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fl_booking, BookingFragment())
-                .commit()
-
+            val intent = Intent(this, BookingFragment::class.java)
+            startActivity(intent)
         }
 
         binding.ivCalendar.setOnClickListener{
