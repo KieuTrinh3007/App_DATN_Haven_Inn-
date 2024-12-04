@@ -2,8 +2,10 @@ package com.example.app_datn_haven_inn.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.text.InputType
+import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,7 +26,12 @@ class SignIn : AppCompatActivity() {
     private lateinit var btnSignIn: TextView
     private lateinit var btn_forgot_pw: TextView
     private lateinit var btn_signUp: TextView
+    private lateinit var passVisible: ImageView
+    private lateinit var chkRememberMe: CheckBox
 
+    var isPasswordVisible = false
+
+    // Sử dụng CreateService để tạo NguoiDungService
     private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService<NguoiDungService>()
     }
@@ -39,19 +46,43 @@ class SignIn : AppCompatActivity() {
         btnSignIn = findViewById(R.id.btnSignIn)
         btn_forgot_pw = findViewById(R.id.txt_dangnhap_forgot)
         btn_signUp = findViewById(R.id.txtSignUpSignIn)
+        passVisible = findViewById(R.id.passVisible)
+        chkRememberMe = findViewById(R.id.checkbox_remember_me)
+
+        loadLoginDetails()
+
+        passVisible.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+
+            if (isPasswordVisible) {
+                // Hiển thị mật khẩu
+                edtPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "hide"
+            } else {
+                // Ẩn mật khẩu
+                edtPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "nohide"
+            }
+
+        }
 
         // Xử lý sự kiện nút đăng nhập
         btnSignIn.setOnClickListener {
             val email = edtEmail.text.toString().trim()
-            Log.d("YEUBANTRINH","$email")
             val password = edtPassword.text.toString().trim()
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập email và mật khẩu", Toast.LENGTH_SHORT).show()
             } else {
+                if (chkRememberMe.isChecked) {
+                    saveLoginDetails(email, password)
+                } else {
+                    clearLoginDetails()
+                }
                 handleLogin(email, password)
             }
         }
+
 
         btn_forgot_pw.setOnClickListener{
             val intent1 = Intent(this, Forgot_password::class.java)
@@ -61,6 +92,35 @@ class SignIn : AppCompatActivity() {
         btn_signUp.setOnClickListener{
             val intent2 = Intent(this, Register::class.java)
             startActivity(intent2)
+        }
+    }
+
+    private fun saveLoginDetails(email: String, password: String) {
+        val sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("email", email)
+        editor.putString("password", password)
+        editor.putBoolean("rememberMe", true)
+        editor.apply()
+    }
+
+    private fun clearLoginDetails() {
+        val sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+    }
+
+    private fun loadLoginDetails() {
+        val sharedPreferences = getSharedPreferences("LoginPrefs", MODE_PRIVATE)
+        val email = sharedPreferences.getString("email", "")
+        val password = sharedPreferences.getString("password", "")
+        val rememberMe = sharedPreferences.getBoolean("rememberMe", false)
+
+        if (rememberMe) {
+            edtEmail.setText(email)
+            edtPassword.setText(password)
+            chkRememberMe.isChecked = true
         }
     }
 
@@ -76,15 +136,15 @@ class SignIn : AppCompatActivity() {
                         if ((responseBody["status"] as? Double)?.toInt() == 200 && responseBody["userId"] != null) {
                             val userId = responseBody["userId"] as String
                             saveUserToSharedPreferences(userId)
-                            Toast.makeText(this@SignIn, "Đăng nhập thành công!", Toast.LENGTH_SHORT)
-                                .show()
+//                            Toast.makeText(this@SignIn, "Đăng nhập thành công!", Toast.LENGTH_SHORT)
+//                                .show()
                             navigateToHomeScreen()
                         }
                         else {
                             val errorMessage = responseBody["message"] as? String
                             Toast.makeText(
                                 this@SignIn,
-                                errorMessage ?: "Đăng nhập thất bại",
+                                errorMessage ?: "Tên tài khoản hoặc mật khẩu không chính xác",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -92,7 +152,7 @@ class SignIn : AppCompatActivity() {
                     } else {
                         Toast.makeText(
                             this@SignIn,
-                            "Đăng nhập thất bại. Vui lòng kiểm tra lại!",
+                            "Tên tài khoản hoặc mật khẩu không chính xác",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -124,4 +184,5 @@ class SignIn : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
 }

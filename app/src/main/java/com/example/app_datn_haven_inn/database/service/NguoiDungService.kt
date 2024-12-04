@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.database.service
 
+import com.example.app_datn_haven_inn.database.model.CccdModel
 import com.example.app_datn_haven_inn.database.model.NguoiDungModel
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -7,9 +8,8 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface NguoiDungService {
-
     @GET("nguoidungs/")
-    suspend fun getListNguoiDung(): Response<List<NguoiDungModel>>
+    suspend fun getListNguoiDung(@Query("id") id: String? = null): Response<List<NguoiDungModel>>
 
     @Multipart
     @PUT("nguoidungs/put/{id}")

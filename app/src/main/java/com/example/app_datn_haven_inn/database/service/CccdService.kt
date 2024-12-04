@@ -10,7 +10,7 @@ interface CccdService {
     // Phương thức GET: Lấy thông tin CCCD theo userId
     @GET("cccd/getcccd/{id}")
     suspend fun getCccdByUserId(
-        @Path("userId") userId: String // Tham số userId trong URL
+        @Path("id") userId: String // Tham số userId trong URL
     ): Response<CccdModel>
 
     @Multipart
@@ -26,4 +26,5 @@ interface CccdService {
         @Part matTruoc: MultipartBody.Part?,
         @Part matSau: MultipartBody.Part?
     ): Response<Map<String, Any>>
+
 }

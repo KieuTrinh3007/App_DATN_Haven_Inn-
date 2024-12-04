@@ -2,9 +2,12 @@ package com.example.app_datn_haven_inn.ui.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app_datn_haven_inn.R
@@ -12,13 +15,21 @@ import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.database.CreateService
 import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
+import org.json.JSONException
+import org.json.JSONObject
 
 class SetUpPassword : AppCompatActivity() {
 
     private lateinit var edtNewPassword: EditText
     private lateinit var edtConfirmPassword: EditText
-    private lateinit var btnSubmit: Button
+    private lateinit var btnSubmit: TextView
     private lateinit var email: String
+    private lateinit var passVisible: ImageView
+    private lateinit var passVisible1: ImageView
+    private lateinit var id_back_setup: ImageView
+
+    var isPasswordVisible = false
+    var isPasswordVisible1 = false
 
     private lateinit var nguoiDungService: NguoiDungService
 
@@ -29,6 +40,9 @@ class SetUpPassword : AppCompatActivity() {
         edtNewPassword = findViewById(R.id.edt_new_password)
         edtConfirmPassword = findViewById(R.id.edt_confirm_password)
         btnSubmit = findViewById(R.id.btn_submit_new_password)
+        passVisible = findViewById(R.id.passVisible)
+        passVisible1 = findViewById(R.id.passVisible1)
+        id_back_setup = findViewById(R.id.id_back_setup)
 
         nguoiDungService = CreateService.createService()
 
@@ -49,8 +63,46 @@ class SetUpPassword : AppCompatActivity() {
                 setUpPassword(newPassword)
             }
         }
+
+        id_back_setup.setOnClickListener{
+            val intent = Intent(this, Forgot_password::class.java)
+            startActivity(intent)
+        }
+
+        hidepass()
     }
 
+    private fun hidepass(){
+        passVisible.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+
+            if (isPasswordVisible) {
+                // Hiển thị mật khẩu
+                edtNewPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passVisible.setImageResource(R.drawable.nohide) // Đổi icon thành "hide"
+            } else {
+                // Ẩn mật khẩu
+                edtNewPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passVisible.setImageResource(R.drawable.hide) // Đổi icon thành "nohide"
+            }
+
+        }
+
+        passVisible1.setOnClickListener {
+            isPasswordVisible1 = !isPasswordVisible1
+
+            if (isPasswordVisible1) {
+                // Hiển thị mật khẩu
+                edtConfirmPassword.inputType = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                passVisible1.setImageResource(R.drawable.nohide) // Đổi icon thành "hide"
+            } else {
+                // Ẩn mật khẩu
+                edtConfirmPassword.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                passVisible1.setImageResource(R.drawable.hide) // Đổi icon thành "nohide"
+            }
+
+        }
+    }
     private fun setUpPassword(newPassword: String) {
         lifecycleScope.launch {
             try {
@@ -60,14 +112,27 @@ class SetUpPassword : AppCompatActivity() {
                     // Quay lại Activity trước đó hoặc đóng Activity này
                     val intent = Intent(this@SetUpPassword, SignIn::class.java)
                     startActivity(intent
-
                     )
                 } else {
-                    Toast.makeText(this@SetUpPassword, "Có lỗi xảy ra. Vui lòng thử lại!", Toast.LENGTH_SHORT).show()
-                }
+                    val errorBody = response.errorBody()?.string()
+                    val errorMessage = extractMessageFromErrorBody(errorBody)
+                    Toast.makeText(this@SetUpPassword, errorMessage, Toast.LENGTH_SHORT).show()                }
             } catch (e: Exception) {
                 Toast.makeText(this@SetUpPassword, "Lỗi khi cập nhật mật khẩu: ${e.message}", Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun extractMessageFromErrorBody(errorBody: String?): String {
+        return try {
+            if (!errorBody.isNullOrEmpty()) {
+                val jsonObject = JSONObject(errorBody)
+                jsonObject.optString("message", "Có lỗi xảy ra") // Lấy giá trị "message" hoặc chuỗi mặc định
+            } else {
+                "Có lỗi xảy ra"
+            }
+        } catch (e: JSONException) {
+            "Lỗi phân tích phản hồi từ server"
         }
     }
 }

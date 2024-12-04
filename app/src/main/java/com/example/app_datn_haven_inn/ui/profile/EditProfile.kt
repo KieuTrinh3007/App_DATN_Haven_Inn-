@@ -138,6 +138,11 @@ class EditProfile : AppCompatActivity() {
                 val phoneBody = phone.toRequestBody()
                 val imagePart = prepareImagePart()
 
+                if (!isPhoneValid(phone)) {
+                    Toast.makeText(this@EditProfile, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
                 val response = nguoiDungService.updateNguoiDung(
                     id = id,
                     tenNguoiDung = nameBody,
@@ -227,6 +232,10 @@ class EditProfile : AppCompatActivity() {
         btSaveChanges.isEnabled = !isLoading
     }
 
+    private fun isPhoneValid(phone: String): Boolean {
+        val regex = "^0(3|5|7|8|9)[0-9]{8}$"
+        return phone.matches(regex.toRegex())
+    }
 
     private fun String.toRequestBody(): RequestBody =
         this.toRequestBody("text/plain".toMediaTypeOrNull())

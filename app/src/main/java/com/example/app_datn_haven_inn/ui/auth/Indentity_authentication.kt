@@ -4,6 +4,7 @@
 	import android.os.Bundle
 	import android.os.CountDownTimer
 	import android.widget.EditText
+	import android.widget.ImageView
 	import android.widget.TextView
 	import android.widget.Toast
 	import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,8 @@
 	import kotlinx.coroutines.Dispatchers
 	import kotlinx.coroutines.launch
 	import kotlinx.coroutines.withContext
+	import org.json.JSONException
+	import org.json.JSONObject
 	import retrofit2.Response
 
 	class Indentity_authentication : AppCompatActivity() {
@@ -22,6 +25,7 @@
 		private lateinit var edtOtp: EditText
 		private lateinit var btnXacThuc: TextView
 		private lateinit var btnGuiLai: TextView
+		private lateinit var id_back_indentity: ImageView
 
 		private var countDownTimer: CountDownTimer? = null
 		private val countDownTime = 30 * 1000L
@@ -37,6 +41,7 @@
 			edtOtp = findViewById(R.id.edt_otp)
 			btnXacThuc = findViewById(R.id.edt_xac_thuc)
 			btnGuiLai = findViewById(R.id.edt_gui_lai)
+			id_back_indentity = findViewById(R.id.id_back_indentity)
 
 			// Xử lý sự kiện khi bấm nút "Xác thực"
 			btnXacThuc.setOnClickListener {
@@ -56,6 +61,11 @@
 			btnGuiLai.setOnClickListener {
 				guiLaiOTP(email.toString())
 				startCountDownTimer()
+			}
+
+			id_back_indentity.setOnClickListener{
+				val intent = Intent(this, Register::class.java)
+				startActivity(intent)
 			}
 		}
 
@@ -130,7 +140,9 @@
 						if (response.isSuccessful) {
 							Toast.makeText(this@Indentity_authentication, "OTP đã được gửi tới $email", Toast.LENGTH_SHORT).show()
 						} else {
-							Toast.makeText(this@Indentity_authentication, "Gửi OTP không thành công: ${response.message()}", Toast.LENGTH_SHORT).show()
+							val errorBody = response.errorBody()?.string()
+							val errorMessage = extractMessageFromErrorBody(errorBody)
+							Toast.makeText(this@Indentity_authentication, errorMessage, Toast.LENGTH_SHORT).show()
 						}
 					}
 				} catch (e: Exception) {
@@ -141,10 +153,22 @@
 			}
 		}
 
+		private fun extractMessageFromErrorBody(errorBody: String?): String {
+			return try {
+				if (!errorBody.isNullOrEmpty()) {
+					val jsonObject = JSONObject(errorBody)
+					jsonObject.optString("message", "Có lỗi xảy ra") // Lấy giá trị "message" hoặc chuỗi mặc định
+				} else {
+					"Có lỗi xảy ra"
+				}
+			} catch (e: JSONException) {
+				"Lỗi phân tích phản hồi từ server"
+			}
+		}
+
 		override fun onDestroy() {
 			super.onDestroy()
 			// Hủy bỏ bộ đếm khi Activity bị hủy
 			countDownTimer?.cancel()
 		}
-
 	}

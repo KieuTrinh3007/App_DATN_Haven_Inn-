@@ -21,6 +21,7 @@ import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.DanhGiaModel
 import com.example.app_datn_haven_inn.database.model.NguoiDungModel
+import com.example.app_datn_haven_inn.database.service.CccdService
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.ui.auth.RePassword
 import com.example.app_datn_haven_inn.ui.auth.SignIn
@@ -41,6 +42,7 @@ class ProfileFragment : Fragment() {
     private lateinit var bt_edit_profile: ImageView
     private lateinit var xmcccd: TextView
     private lateinit var doiMK: TextView
+    private lateinit var feedback: TextView
     private lateinit var bt_signout: ImageView
     private val danhGiaService = CreateService.createService<DanhGiaService>()
 
@@ -60,6 +62,7 @@ class ProfileFragment : Fragment() {
         xmcccd = view.findViewById(R.id.xmcccd)
         doiMK = view.findViewById(R.id.changePassword)
         bt_signout = view.findViewById(R.id.signOut)
+        feedback = view.findViewById(R.id.feedback)
 
         val idNguoiDung = arguments?.getString("idNguoiDung")
         idNguoiDung?.let { fetchUserProfile(it) }
@@ -79,19 +82,25 @@ class ProfileFragment : Fragment() {
         Log.e("ProfileFragment", "idNguoiDung is null or empty" + idNguoiDung)
 
         xmcccd.setOnClickListener {
-            val intent = Intent(requireContext(), CccdGuide::class.java)
-            intent.putExtra("idNguoiDung", idNguoiDung)
-            startActivity(intent)
+            // Gọi hàm getUserById trong một coroutine
+            lifecycleScope.launch {
+                val user = getUserById(idNguoiDung) // Hàm lấy thông tin người dùng từ bộ nhớ tạm hoặc server
+                if (user?.xacMinh == true) {
+                    showDialogAccountVerified() // Hiển thị thông báo tài khoản đã xác minh
+                } else {
+                    val intent = Intent(requireContext(), CccdGuide::class.java)
+                    intent.putExtra("idNguoiDung", idNguoiDung)
+                    startActivity(intent) // Chuyển hướng người dùng đến hướng dẫn CCCD
+                }
+            }
         }
 
         bt_signout.setOnClickListener {
             showLogoutDialog()
         }
 
-
         // test danh gia
         val calendar = Calendar.getInstance()
-
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH) + 1 // Tháng bắt đầu từ 0, nên cần +1
         val day = calendar.get(Calendar.DAY_OF_MONTH)
@@ -101,15 +110,18 @@ class ProfileFragment : Fragment() {
 
         val currentTime = "$day/$month/$year $hour:$minute:$second"
         println("Thời gian hiện tại: $currentTime")
-        //
 
+        feedback.setOnClickListener {
+            openDanhGiaDialog(idNguoiDung!!, "6744740f2fc05a4fc789b59b", currentTime)
+        }
+        //////////////////////////////
 
         return view
     }
 
     // Phương thức tải lại thông tin người dùng
     private fun fetchUserProfile(id: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch {
             try {
                 val response = nguoiDungService.getListNguoiDung()
                 if (response.isSuccessful) {
@@ -237,6 +249,19 @@ class ProfileFragment : Fragment() {
         dialog.window?.attributes = layoutParams
 
         dialog.show()
+    }
+
+    private suspend fun getUserById(idNguoiDung: String?): NguoiDungModel? {
+        val response = nguoiDungService.getListNguoiDung()
+        return response.body()?.find { it.id == idNguoiDung }
+    }
+
+    // Hiển thị dialog khi tài khoản đã được xác thực
+    private fun showDialogAccountVerified() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Tài khoản của bạn đã được xác thực!")
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss() }
+        builder.create().show()
     }
 
     private fun showError(message: String) {
