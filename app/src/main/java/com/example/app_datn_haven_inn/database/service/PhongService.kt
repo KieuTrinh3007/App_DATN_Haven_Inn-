@@ -1,6 +1,7 @@
 package com.example.app_datn_haven_inn.database.service
 
 import com.example.app_datn_haven_inn.database.model.PhongModel
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -28,4 +29,7 @@ interface PhongService {
 
     @DELETE("phongs/delete/{id}")
     suspend fun deletePhong(@Path("id") id: String): Response<Unit>
+
+    @GET("api/nguoidungs/myroom/{userId}")
+    fun getUserRooms(@Path("userId") userId: String): Call<List<PhongModel>>
 }
