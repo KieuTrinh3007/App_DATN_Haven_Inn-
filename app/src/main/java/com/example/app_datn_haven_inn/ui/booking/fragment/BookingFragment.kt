@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.app_datn_haven_inn.Api.CreateOrder
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.ui.booking.fragment.PaymentNotification
 import vn.zalopay.sdk.Environment
 import vn.zalopay.sdk.ZaloPayError
@@ -38,6 +39,9 @@ class BookingFragment : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_booking)
+
+        val phong = intent.getParcelableExtra<PhongModel>("selectedRooms")
+        val gia = intent.getStringExtra("totalPrice")
 
         // Ánh xạ View
         txtGiaChuaGiam = findViewById(R.id.txt_giaChuaGiam)

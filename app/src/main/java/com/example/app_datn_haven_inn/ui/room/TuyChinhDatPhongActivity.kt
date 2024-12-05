@@ -1,12 +1,11 @@
 package com.example.app_datn_haven_inn.ui.room
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.util.Log
 import android.view.View
 import com.example.app_datn_haven_inn.BaseActivity
-import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
-import com.example.app_datn_haven_inn.ui.booking.fragment.BookingFragment
 import com.example.app_datn_haven_inn.ui.booking.BookingFragment
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
@@ -76,12 +75,9 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             val selectedRooms = selectedRoomAdapter?.getSelectedRooms() ?: emptyList()
 
             viewModel.saveBookingData(selectedRooms, totalPrice)
-
-            Log.d("YEUTRINH","$totalPrice")
-            Log.d("YEUTRINH","$selectedRooms")
-
             intent.putExtra("totalPrice", totalPrice)
             intent.putParcelableArrayListExtra("selectedRooms", ArrayList(selectedRooms))
+
 
 
             phongViewModel?.saveBookingData(selectedRooms, totalPrice)
