@@ -33,6 +33,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
+import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
+import com.example.app_datn_haven_inn.ui.myRoom.MyRoomActivity
 import java.util.Calendar
 
 class ProfileFragment : Fragment() {
@@ -44,6 +46,8 @@ class ProfileFragment : Fragment() {
     private lateinit var doiMK: TextView
     private lateinit var feedback: TextView
     private lateinit var bt_signout: ImageView
+    private lateinit var discountCode: TextView
+
     private val danhGiaService = CreateService.createService<DanhGiaService>()
 
     private val nguoiDungService: NguoiDungService by lazy {
@@ -63,10 +67,25 @@ class ProfileFragment : Fragment() {
         doiMK = view.findViewById(R.id.changePassword)
         bt_signout = view.findViewById(R.id.signOut)
         feedback = view.findViewById(R.id.feedback)
+        discountCode = view.findViewById(R.id.discountCode)
+
+        val tvMyRoom = view.findViewById<TextView>(R.id.myRoom)
 
         val idNguoiDung = arguments?.getString("idNguoiDung")
         idNguoiDung?.let { fetchUserProfile(it) }
 
+        discountCode.setOnClickListener {
+            val intent = Intent(requireContext(), CouponActivity::class.java)
+            startActivity(intent)
+        }
+
+
+        tvMyRoom.setOnClickListener {
+            // Xử lý chuyển màn hình sang MyRoomActivity
+            val intent = Intent(requireContext(), MyRoomActivity::class.java)
+            intent.putExtra("idNguoiDung", idNguoiDung) // Truyền ID người dùng
+            startActivity(intent)
+        }
         bt_edit_profile.setOnClickListener {
             val intent = Intent(requireContext(), EditProfile::class.java)
             intent.putExtra("idNguoiDung", idNguoiDung)

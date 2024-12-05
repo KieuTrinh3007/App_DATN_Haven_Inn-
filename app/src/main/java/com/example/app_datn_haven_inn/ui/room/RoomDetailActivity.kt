@@ -116,7 +116,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
 
                 // Cập nhật điểm trung bình vào TextView txtRating
                 binding.txtRating.text = String.format("%.1f", averageRating)
-                binding.txtRating1.text = String.format("%.1f", averageRating)
 
                 adapterReview?.let {
                     it.listReview = firstTwoReviews

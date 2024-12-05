@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
-import com.example.app_datn_haven_inn.ui.booking.BookingFragment
+//import com.example.app_datn_haven_inn.ui.booking.BookingFragment
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
@@ -83,9 +83,9 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             phongViewModel?.saveBookingData(selectedRooms, totalPrice)
             binding.flBooking.visibility = View.VISIBLE
             binding.clAcivity.visibility =  View.GONE
-
-            val intent = Intent(this, BookingFragment::class.java)
-            startActivity(intent)
+//
+//            val intent = Intent(this, BookingFragment::class.java)
+//            startActivity(intent)
         }
 
         binding.ivCalendar.setOnClickListener {

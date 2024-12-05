@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.ui.auth.SignIn
 import com.example.app_datn_haven_inn.ui.auth.SignUp
 
 
@@ -61,7 +62,7 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun navigateToSignUp() {
-        val intent = Intent(this, SignUp::class.java)
+        val intent = Intent(this, SignIn::class.java)
         startActivity(intent)
         finish()
     }
