@@ -4,10 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.app_datn_haven_inn.database.model.PhongModel
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.databinding.ItemPhongcuatoiBinding
+import java.text.NumberFormat
+import java.util.*
 
-class MyRoomAdapter(private val roomList: List<PhongModel>) :
+class MyRoomAdapter(private val roomList: List<ChiTietHoaDonModel>) :
     RecyclerView.Adapter<MyRoomAdapter.RoomViewHolder>() {
 
     class RoomViewHolder(val binding: ItemPhongcuatoiBinding) :
@@ -26,18 +30,42 @@ class MyRoomAdapter(private val roomList: List<PhongModel>) :
         val room = roomList[position]
         val binding = holder.binding
 
-        // Kiểm tra null và cung cấp giá trị mặc định
-        binding.roomName.text = room.loaiPhong?.tenLoaiPhong ?: "Tên phòng không có"
-        binding.tvQuangCanhPct.text = room.loaiPhong?.moTa ?: "Mô tả không có"
-        binding.tvSLKhachPct.text = "${room.loaiPhong?.soLuongKhach ?: 0} Khách"
-        binding.tvLoaiGiuongPct.text = room.loaiPhong?.giuong ?: "Không có thông tin giường"
-        binding.tvDienTichPct.text = "${room.loaiPhong?.dienTich ?: 0f} mét vuông"
-        binding.roomPrice.text = "Tổng tiền: ${room.loaiPhong?.giaTien ?: 0f} đ"
+        // Truy cập thông tin phòng từ `id_Phong`
+        val phong = room.id_Phong
 
-        // Load hình ảnh với kiểm tra null
-        Glide.with(binding.root.context)
-            .load(room.loaiPhong?.hinhAnh?.firstOrNull())  // Lấy hình ảnh đầu tiên hoặc null nếu không có
-            .into(binding.imgPct)
+        // Gán giá trị với kiểm tra null và hiển thị thông tin phòng
+
+        binding.roomName.text = phong.id_LoaiPhong?.tenLoaiPhong ?: "Không rõ tên phòng"
+        binding.tvSoPhong.text = "Số phòng: ${phong.soPhong}"
+        binding.tvVIP.text = if (phong.VIP) "VIP" else "Phòng thường"
+        binding.tvSLKhach.text = "Số người: ${room.soLuongKhach ?: 0} "
+
+        // Hiển thị giá phòng
+        val formattedPrice = NumberFormat.getCurrencyInstance(Locale("vi", "VN"))
+            .format(room.giaPhong ?: 0f)
+        binding.roomPrice.text = "Giá phòng: $formattedPrice"
+
+        // Hiển thị bữa sáng
+        binding.tvBuaSang.text = if (room.buaSang == true) "Bữa sáng: Có" else "Bữa sáng: Không"
+
+//        // Tính tổng tiền (giả sử bạn có thông tin tổng tiền ở đâu đó, nếu không, bạn có thể tính toán theo công thức của mình)
+//        val totalPrice = phong.id_LoaiPhong?.giaTien?.let { it * (phong.id_LoaiPhong?.soLuongKhach ?: 1) } ?: 0f
+//        val formattedTotalPrice = NumberFormat.getCurrencyInstance(Locale("vi", "VN")).format(totalPrice)
+//        binding..text = "Tổng tiền: $formattedTotalPrice"
+
+        // Hiển thị ảnh phòng
+        // Giả sử bạn có dữ liệu room đã được lấy
+        val imageUrl = room.id_Phong?.id_LoaiPhong?.hinhAnh?.get(0) // Lấy ảnh đầu tiên từ mảng hình ảnh
+        if (!imageUrl.isNullOrEmpty()) {
+            Glide.with(binding.roomImage.context)
+                .load(imageUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.roomImage)
+        } else {
+            // Nếu không có ảnh, có thể sử dụng ảnh mặc định
+            binding.roomImage.setImageResource(R.drawable.img_load)
+        }
+
     }
 
 

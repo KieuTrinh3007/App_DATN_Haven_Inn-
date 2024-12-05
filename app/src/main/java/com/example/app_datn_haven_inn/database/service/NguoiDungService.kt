@@ -2,6 +2,7 @@ package com.example.app_datn_haven_inn.database.service
 
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.database.model.CccdModel
+import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.database.model.NguoiDungModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.database.repository.ApiResponse
@@ -68,9 +69,9 @@ interface NguoiDungService {
 
     @GET("loaiphong/{id}")
     suspend fun getLoaiPhongById(@Path("id") id: String): Response<LoaiPhongModel>
-    @GET("nguoidungs/myroom/{id}")
-    suspend fun myRoom(@Path("id") id: String): Response<ApiResponse> // Thay vì Response<List<PhongModel>>
 
+    @GET("nguoidungs/myroom/{id}")
+    suspend fun myRoom(@Path("id") id: String): Response<List<ChiTietHoaDonModel>>
 
 
 }
