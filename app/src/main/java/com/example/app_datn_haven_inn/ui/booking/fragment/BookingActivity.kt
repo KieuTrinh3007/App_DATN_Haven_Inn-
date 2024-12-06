@@ -8,13 +8,10 @@ import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
 import android.util.Log
 import android.view.Gravity
-import android.view.MenuItem
 import android.view.MotionEvent
-import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.PopupMenu
 import android.widget.RadioButton
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -25,7 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.app_datn_haven_inn.Api.CreateOrder
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
-import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
+import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel1
 import com.example.app_datn_haven_inn.database.model.HoaDonModel
 import com.example.app_datn_haven_inn.database.model.NguoiDungModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
@@ -78,7 +75,7 @@ class BookingActivity : AppCompatActivity() {
     var ngayThanhToan: String = ""
     var phuongThucThanhToan: String = ""
     var trangThai: Int = 1
-    var chiTiet: ArrayList<ChiTietHoaDonModel> = ArrayList()
+    var chiTiet: ArrayList<ChiTietHoaDonModel1> = ArrayList()
     var tongTien: Double = 0.0
     
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
@@ -105,11 +102,11 @@ class BookingActivity : AppCompatActivity() {
         edtCoupon = findViewById(R.id.edtCoupon)
         btnBooking = findViewById(R.id.btnBooking)
         icBack = findViewById(R.id.ic_back)
-        ngayNhan = findViewById(R.id.txt_ngayNhanPhong)
-        ngayTra = findViewById(R.id.txt_ngayTraPhong)
+        ngayNhan = findViewById(R.id.txt_ngayNhanPhongTT)
+        ngayTra = findViewById(R.id.txt_ngayTraPhongTT)
         soDem = findViewById(R.id.txt_soDem)
-        tenKH = findViewById(R.id.txt_tenKhachHang)
-        sdtKH = findViewById(R.id.txt_SDT_khachHang)
+        tenKH = findViewById(R.id.txt_tenKhachHangTT)
+        sdtKH = findViewById(R.id.txt_SDT_khachHangTT)
 
         // gan du lieu
         ngayNhan.text = startDate
@@ -168,7 +165,6 @@ class BookingActivity : AppCompatActivity() {
 
         hoaDonService = CreateService.createService()
 
-        resizeImage()
         icBack.setOnClickListener {
             finish()
 
@@ -183,105 +179,104 @@ class BookingActivity : AppCompatActivity() {
                 isThanhToan = true
                 phuongThucThanhToan = "ZaloPay" // Gán ZaloPay vào phuongThucThanhToan
             }
-            
-        ttQuaMoMo.setOnClickListener {
-            if (!rdoMomo.isChecked) {
-                rdoMomo.isChecked = true
-                rdo_zalo.isChecked = false
-                isThanhToan = false
-                phuongThucThanhToan = "Momo" // Gán Momo vào phuongThucThanhToan
-            }
-        }
 
-        phongService = CreateService.createService<PhongService>()
-
-        addHoaDon(
-            id_NguoiDung, id_Coupon, ngayNhanPhong, ngayTraPhong, soLuongKhach,
-            soLuongPhong, ngayThanhToan, phuongThucThanhToan, trangThai, tongTien, chiTiet
-        )
-
-        val policy = ThreadPolicy.Builder().permitAll().build()
-        StrictMode.setThreadPolicy(policy)
-
-        // ZaloPay SDK Init
-        ZaloPaySDK.init(2553, Environment.SANDBOX)
-
-        val intent = intent
-
-        val totalString = String.format("%.0f", 1000000.0)
-
-        btnBooking.setOnClickListener {
-            val orderApi = CreateOrder()
-            try {
-                val data = orderApi.createOrder(totalString)
-                val code = data.getString("return_code")
-                if (code == "1") {
-                    val token = data.getString("zp_trans_token")
-                    ZaloPaySDK.getInstance().payOrder(
-                        this@BookingActivity,
-                        token,
-                        "demozpdk://app",
-                        object : PayOrderListener {
-                            override fun onPaymentSucceeded(
-                                p1: String?,
-                                p2: String?,
-                                p3: String?
-                            ) {
-                                // Hiển thị Dialog thông báo thanh toán thành công
-                                showPaymentDialog(
-                                    "Thanh toán thành công",
-                                    "Bạn đã thanh toán thành công!",
-                                    R.drawable.img_16
-                                )
-                            }
-
-                            override fun onPaymentCanceled(p1: String?, p2: String?) {
-                                // Hiển thị Dialog thông báo thanh toán bị hủy
-                                showPaymentDialog(
-                                    "Thanh toán bị hủy",
-                                    "Bạn đã hủy thanh toán!",
-                                    R.drawable.img_18
-                                )
-                            }
-
-                            override fun onPaymentError(
-                                error: ZaloPayError?,
-                                p1: String?,
-                                p2: String?
-                            ) {
-                                // Hiển thị Dialog thông báo lỗi thanh toán
-                                showPaymentDialog(
-                                    "Lỗi thanh toán",
-                                    "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại!",
-                                    R.drawable.img_18
-                                )
-                            }
-                        })
+            ttQuaMoMo.setOnClickListener {
+                if (!rdoMomo.isChecked) {
+                    rdoMomo.isChecked = true
+                    rdo_zalo.isChecked = false
+                    isThanhToan = false
+                    phuongThucThanhToan = "Momo" // Gán Momo vào phuongThucThanhToan
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
-        }
 
-        edtCoupon.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                val intent = Intent(this, CouponActivity::class.java)
-                startActivityForResult(intent, 100)
-                return@setOnTouchListener true
+            phongService = CreateService.createService<PhongService>()
+
+            addHoaDon(
+                id_NguoiDung, id_Coupon, ngayNhanPhong, ngayTraPhong, soLuongKhach,
+                soLuongPhong, ngayThanhToan, phuongThucThanhToan, trangThai, tongTien, chiTiet
+            )
+
+            val policy = ThreadPolicy.Builder().permitAll().build()
+            StrictMode.setThreadPolicy(policy)
+
+            // ZaloPay SDK Init
+            ZaloPaySDK.init(2553, Environment.SANDBOX)
+
+
+            val totalString = String.format("%.0f", 1000000.0)
+
+            btnBooking.setOnClickListener {
+                val orderApi = CreateOrder()
+                try {
+                    val data = orderApi.createOrder(totalString)
+                    val code = data.getString("return_code")
+                    if (code == "1") {
+                        val token = data.getString("zp_trans_token")
+                        ZaloPaySDK.getInstance().payOrder(
+                            this@BookingActivity,
+                            token,
+                            "demozpdk://app",
+                            object : PayOrderListener {
+                                override fun onPaymentSucceeded(
+                                    p1: String?,
+                                    p2: String?,
+                                    p3: String?
+                                ) {
+                                    // Hiển thị Dialog thông báo thanh toán thành công
+                                    showPaymentDialog(
+                                        "Thanh toán thành công",
+                                        "Bạn đã thanh toán thành công!",
+                                        R.drawable.img_16
+                                    )
+                                }
+
+                                override fun onPaymentCanceled(p1: String?, p2: String?) {
+                                    // Hiển thị Dialog thông báo thanh toán bị hủy
+                                    showPaymentDialog(
+                                        "Thanh toán bị hủy",
+                                        "Bạn đã hủy thanh toán!",
+                                        R.drawable.img_18
+                                    )
+                                }
+
+                                override fun onPaymentError(
+                                    error: ZaloPayError?,
+                                    p1: String?,
+                                    p2: String?
+                                ) {
+                                    // Hiển thị Dialog thông báo lỗi thanh toán
+                                    showPaymentDialog(
+                                        "Lỗi thanh toán",
+                                        "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại!",
+                                        R.drawable.img_18
+                                    )
+                                }
+                            })
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
-            false
+
+            edtCoupon.setOnTouchListener { _, event ->
+                if (event.action == MotionEvent.ACTION_UP) {
+                    val intent = Intent(this, CouponActivity::class.java)
+                    startActivityForResult(intent, 100)
+                    return@setOnTouchListener true
+                }
+                false
+            }
+
+            tongTien = 1000000.0
+
+            couponService = CreateService.createService<CouponService>()
+
+            addHoaDon(
+                id_NguoiDung, id_Coupon, ngayNhanPhong, ngayTraPhong, soLuongKhach,
+                soLuongPhong, ngayThanhToan, phuongThucThanhToan, trangThai,tongTien, chiTiet
+            )
         }
-
-        tongTien = 1000000.0
-
-        couponService = CreateService.createService<CouponService>()
-
-        addHoaDon(
-            id_NguoiDung, id_Coupon, ngayNhanPhong, ngayTraPhong, soLuongKhach,
-            soLuongPhong, ngayThanhToan, phuongThucThanhToan, trangThai, tongTien, chiTiet
-        )
     }
-        }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -365,7 +360,7 @@ class BookingActivity : AppCompatActivity() {
         ngayThanhToan: String,
         phuongThucThanhToan: String,
         trangThai: Int, tongTien: Double,
-        chiTiet: ArrayList<ChiTietHoaDonModel>
+        chiTiet: ArrayList<ChiTietHoaDonModel1>
     ) {
         Log.d(
             "BookingFragmentLinh",
@@ -383,6 +378,7 @@ class BookingActivity : AppCompatActivity() {
             ngayThanhToan,
             phuongThucThanhToan,
             trangThai,
+            giamGia = 0.0,
             tongTien,
             chiTiet
         )
@@ -422,57 +418,38 @@ class BookingActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 // Xử lý ngoại lệ nếu có lỗi trong quá trình gửi yêu cầu API
+            }
+        }
     }
 
-    private fun fetchUserProfile(id: String) {
-        lifecycleScope.launch {
-            try {
-                val response = nguoiDungService.getListNguoiDung()
-                if (response.isSuccessful) {
-                    val user = response.body()?.find { it.id == id }
-                    if (user != null) {
-                        updateUI(user)
-                    } else {
-                        tenKH.text = "Không tìm thấy tên"
-                        sdtKH.text = "Không tìm thấy số điện thoại"
+            private fun fetchUserProfile(id: String) {
+                lifecycleScope.launch {
+                    try {
+                        val response = nguoiDungService.getListNguoiDung()
+                        if (response.isSuccessful) {
+                            val user = response.body()?.find { it.id == id }
+                            if (user != null) {
+                                updateUI(user)
+                            } else {
+                                tenKH.text = "Không tìm thấy tên"
+                                sdtKH.text = "Không tìm thấy số điện thoại"
+                            }
+                        } else {
+                            Log.e("BookingActivity", "API thất bại: ${response.code()}")
+                        }
+                    } catch (e: Exception) {
+                        Log.e("BookingActivity", "Lỗi khi gọi API: ${e.message}")
                     }
-                } else {
-                    Log.e("BookingActivity", "API thất bại: ${response.code()}")
                 }
-            } catch (e: Exception) {
-                Log.e("BookingActivity", "Lỗi khi gọi API: ${e.message}")
             }
-        }
-    }
 
-    private fun updateUI(user: NguoiDungModel) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            tenKH.text = user.tenNguoiDung ?: "Không có tên"
-            sdtKH.text = user.soDienThoai ?: "Không có số điện thoại"
-        }
-    }
-
-    private fun showCouponMenu(view: View) {
-        // Tạo PopupMenu để hiển thị danh sách mã giảm giá
-        val popupMenu = PopupMenu(this, view)
-
-        // Thêm các mục vào PopupMenu (Danh sách mã giảm giá)
-        val menu = popupMenu.menu
-        menu.add(0, 1, 0, "Mã giảm giá 1 - 10%")
-        menu.add(0, 2, 0, "Mã giảm giá 2 - 20%")
-        menu.add(0, 3, 0, "Mã giảm giá 3 - 30%")
-        menu.add(0, 4, 0, "Mã giảm giá 4 - 40%")
-
-        // Xử lý sự kiện khi người dùng chọn một mã giảm giá
-        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
-            when (item.itemId) {
-                1 -> edtCoupon.setText("Mã giảm giá 1 - 10%")
-                2 -> edtCoupon.setText("Mã giảm giá 2 - 20%")
-                3 -> edtCoupon.setText("Mã giảm giá 3 - 30%")
-                4 -> edtCoupon.setText("Mã giảm giá 4 - 40%")
+            private fun updateUI(user: NguoiDungModel) {
+                lifecycleScope.launch(Dispatchers.Main) {
+                    tenKH.text = user.tenNguoiDung ?: "Không có tên"
+                    sdtKH.text = user.soDienThoai ?: "Không có số điện thoại"
+                }
             }
-        }
-    }
+
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
