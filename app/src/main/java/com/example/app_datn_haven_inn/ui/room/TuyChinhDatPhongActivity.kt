@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
+import com.example.app_datn_haven_inn.ui.booking.BookingFragment
 //import com.example.app_datn_haven_inn.ui.booking.BookingFragment
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
@@ -65,9 +66,9 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         binding.tvDat.setOnClickListener {
             binding.flBooking.visibility = View.VISIBLE
             binding.clAcivity.visibility =  View.GONE
-//
-//            val intent = Intent(this, BookingFragment::class.java)
-//            startActivity(intent)
+
+            val intent = Intent(this, BookingFragment::class.java)
+            startActivity(intent)
         }
 
         binding.ivCalendar.setOnClickListener{
