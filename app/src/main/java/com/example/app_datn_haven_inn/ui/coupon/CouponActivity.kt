@@ -56,5 +56,10 @@ class CouponActivity : AppCompatActivity() {
 
         // Gọi ViewModel để lấy danh sách mã giảm giá
         couponViewModel.getCouponListByUser(this)
+
+        // Xử lý sự kiện quay lại khi nhấn nút back
+        binding.icBackCp.setOnClickListener {
+            onBackPressed() // Xử lý quay lại màn hình trước
+        }
     }
 }

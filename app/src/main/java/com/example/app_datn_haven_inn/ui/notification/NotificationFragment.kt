@@ -1,5 +1,7 @@
 package com.example.app_datn_haven_inn.ui.notification
 
+import android.media.MediaPlayer
+import android.media.RingtoneManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,9 +9,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.Socket.SocketHandler
+import com.example.app_datn_haven_inn.database.model.ThongBaoModel
 import com.example.app_datn_haven_inn.databinding.FragmentNotificationBinding
 import com.example.app_datn_haven_inn.utils.SharedPrefsHelper
 import com.example.app_datn_haven_inn.viewModel.ThongBaoViewModel
+import org.json.JSONObject
 
 class NotificationFragment : Fragment() {
 
@@ -56,10 +62,35 @@ class NotificationFragment : Fragment() {
         }
 
         thongBaoViewModel.getListthongBao()
+
+        // Kết nối socket
+        SocketHandler.setSocket()
+        SocketHandler.establishConnection()
+
+        // Lắng nghe sự kiện từ Socket.IO
+        SocketHandler.onEvent("new-notification") { data ->
+            val tieuDe = data.getString("tieuDe")
+            val noiDung = data.getString("noiDung")
+            val userId = SharedPrefsHelper.getIdNguoiDung(requireContext())
+            val ngayGui = "2024-12-04"
+            val trangThai = false
+            // Cập nhật giao diện người dùng sau khi nhận thông báo mới
+            requireActivity().runOnUiThread {
+                thongBaoAdapter.updateList(listOf(ThongBaoModel(userId!!,tieuDe, noiDung, ngayGui, trangThai))) // Cập nhật RecyclerView
+                playNotificationSound() // Phát âm thanh thông báo
+            }
+        }
+    }
+
+    private fun playNotificationSound() {
+        val notificationUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val mediaPlayer = MediaPlayer.create(requireContext(), notificationUri)
+        mediaPlayer.start()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        SocketHandler.closeConnection() // Ngắt kết nối socket khi view bị hủy
     }
 }
