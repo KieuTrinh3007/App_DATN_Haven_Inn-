@@ -10,7 +10,7 @@ data class PhongModel(
     @field:SerializedName("trangThai") var trangThai: Int,
     // Thêm loaiPhong nếu cần thiết
     var loaiPhong: LoaiPhongModel? = null,
-    var isSelected  : Boolean = false
+    var isSelected: Boolean = false
 )
 
 // Model cho thông tin phòng

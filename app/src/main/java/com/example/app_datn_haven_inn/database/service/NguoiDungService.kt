@@ -72,6 +72,4 @@ interface NguoiDungService {
 
     @GET("nguoidungs/myroom/{id}")
     suspend fun myRoom(@Path("id") id: String): Response<List<ChiTietHoaDonModel>>
-
-
 }

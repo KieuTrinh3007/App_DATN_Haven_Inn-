@@ -34,6 +34,7 @@ import kotlinx.coroutines.withContext
 import java.util.UUID
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
+import com.example.app_datn_haven_inn.ui.history.LichSuDatPhongActivity
 import com.example.app_datn_haven_inn.ui.myRoom.MyRoomActivity
 import java.util.Calendar
 
@@ -70,6 +71,7 @@ class ProfileFragment : Fragment() {
         discountCode = view.findViewById(R.id.discountCode)
 
         val tvMyRoom = view.findViewById<TextView>(R.id.myRoom)
+        val tvLsDatPhong = view.findViewById<TextView>(R.id.transactionHistory)
 
         val idNguoiDung = arguments?.getString("idNguoiDung")
         idNguoiDung?.let { fetchUserProfile(it) }
@@ -79,6 +81,12 @@ class ProfileFragment : Fragment() {
             startActivity(intent)
         }
 
+        tvLsDatPhong.setOnClickListener {
+            // Xử lý chuyển màn hình sang MyRoomActivity
+            val intent = Intent(requireContext(), LichSuDatPhongActivity::class.java)
+            intent.putExtra("idNguoiDung", idNguoiDung) // Truyền ID người dùng
+            startActivity(intent)
+        }
 
         tvMyRoom.setOnClickListener {
             // Xử lý chuyển màn hình sang MyRoomActivity

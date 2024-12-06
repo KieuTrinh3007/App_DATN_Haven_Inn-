@@ -14,7 +14,8 @@ data class HoaDonModel (
     @field:SerializedName("phuongThucThanhToan") var phuongThucThanhToan: String,
     @field:SerializedName("trangThai") var trangThai: Int,
     @field:SerializedName("ghiChu") var ghiChu: String,
-
+    @field:SerializedName("tongTien") var tongTien: Double,
+    @field:SerializedName("phong") var phong: PhongModel? = null // Đảm bảo có trường phong
 
 
     )
