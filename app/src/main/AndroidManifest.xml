@@ -34,7 +34,7 @@
             android:name=".ui.history.LichSuDatPhongActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.booking.BookingFragment"
+            android:name=".ui.booking.BookingActivity"
             android:exported="true"
             android:label="Merchant Demo"
             android:launchMode="singleTask">

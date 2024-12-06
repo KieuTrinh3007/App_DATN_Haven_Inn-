@@ -18,8 +18,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             R.drawable.img_intro3
         )
 
-    val categories = listOf (
-        "Tổng quan","Tiện nghi, dịch vụ","Phòng","Ẩm thực"
+    val categories = listOf(
+        "Tổng quan", "Tiện nghi, dịch vụ", "Phòng", "Ẩm thực"
 
     )
 
@@ -33,10 +33,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         val slideshowAdapter = SlideshowAdapter(images)
         viewBinding.viewPager.adapter = slideshowAdapter
 
+        if (R.id.fl_category != null) {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fl_category, OverviewFragment())
+                .commit()
+        }
 
-        requireActivity().supportFragmentManager.beginTransaction()
-            .replace(R.id.fl_category, OverviewFragment())
-            .commit()
 
         viewBinding.viewPager.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
@@ -45,7 +47,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                 updateDots(position)
             }
         })
-
 
 
         val runnable = object : Runnable {
@@ -71,7 +72,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             viewBinding.ivDot1,
             viewBinding.ivDot2,
             viewBinding.ivDot3,
-            )
+        )
 
         dotViews.forEachIndexed { index, dotView ->
             dotView.setBackgroundResource(

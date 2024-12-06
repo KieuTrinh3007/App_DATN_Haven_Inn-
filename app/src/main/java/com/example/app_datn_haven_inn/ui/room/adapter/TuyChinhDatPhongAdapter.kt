@@ -11,7 +11,7 @@ import com.example.app_datn_haven_inn.databinding.ItemSoPhongBinding
 
 class TuyChinhDatPhongAdapter(
     var listSoPhong: List<PhongModel>,
-    private val onRoomClick: (String, Boolean) -> Unit
+    private val onRoomClick: (PhongModel, Boolean) -> Unit
 ) : RecyclerView.Adapter<TuyChinhDatPhongAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,11 +52,12 @@ class TuyChinhDatPhongAdapter(
 
         }
 
+
         holder.binding.root.setOnClickListener {
             if (item.trangThai == 0) {
                 item.isSelected = !item.isSelected
                 notifyItemChanged(position)
-                onRoomClick(item.soPhong, item.isSelected)
+                onRoomClick(item, item.isSelected)
             }
         }
 

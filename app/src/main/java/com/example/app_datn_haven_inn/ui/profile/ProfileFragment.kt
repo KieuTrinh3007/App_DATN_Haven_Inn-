@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.profile
 
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
@@ -215,10 +216,21 @@ class ProfileFragment : Fragment() {
         dialog.setContentView(R.layout.dialog_danh_gia)
         dialog.setCancelable(true)
 
+        // Áp dụng nền trong suốt cho dialog
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
         val ratingBar = dialog.findViewById<RatingBar>(R.id.rating_bar)
         val etComment = dialog.findViewById<EditText>(R.id.et_comment)
         val btnSubmit = dialog.findViewById<TextView>(R.id.btn_submit)
         val ivFeedbackIcon = dialog.findViewById<ImageView>(R.id.iv_feedback_icon)
+
+        // Áp dụng hiệu ứng chuyển động mượt cho icon khi thay đổi rating
+        val feedbackAnimation = ObjectAnimator.ofFloat(ivFeedbackIcon, "scaleX", 0.5f, 1f).apply {
+            duration = 300
+        }
+        val feedbackAnimationY = ObjectAnimator.ofFloat(ivFeedbackIcon, "scaleY", 0.5f, 1f).apply {
+            duration = 300
+        }
 
         ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             // Cập nhật biểu tượng cảm xúc dựa trên số sao đã chọn
@@ -227,7 +239,11 @@ class ProfileFragment : Fragment() {
                 rating >= 2 -> R.drawable.face // Từ 2 đến 4 sao -> Cảm xúc trung bình
                 else -> R.drawable.vanh1 // Dưới 2 sao -> Cảm xúc buồn
             }
-            ivFeedbackIcon.setImageResource(feedbackIcon) // Cập nhật icon cảm xúc
+            ivFeedbackIcon.setImageResource(feedbackIcon)
+
+            // Áp dụng hiệu ứng chuyển động
+            feedbackAnimation.start()
+            feedbackAnimationY.start()
         }
 
         btnSubmit.setOnClickListener {
@@ -269,14 +285,11 @@ class ProfileFragment : Fragment() {
             }
         }
 
-        val layoutParams = dialog.window?.attributes
-        layoutParams?.width = ViewGroup.LayoutParams.MATCH_PARENT  // Toàn bộ chiều rộng màn hình
-        layoutParams?.height =
-            ViewGroup.LayoutParams.WRAP_CONTENT  // Chiều cao tự động vừa với nội dung
-        dialog.window?.attributes = layoutParams
-
+        // Tạo hiệu ứng mở dialog mượt mà
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.show()
     }
+
 
     private suspend fun getUserById(idNguoiDung: String?): NguoiDungModel? {
         val response = nguoiDungService.getListNguoiDung()

@@ -78,6 +78,7 @@
 
 
     <TextView
+        android:id="@+id/tv_gia_an"
         android:layout_width="wrap_content"
         android:text=" 150.000đ"
         android:layout_marginTop="10dp"

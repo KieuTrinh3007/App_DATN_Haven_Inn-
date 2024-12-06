@@ -17,8 +17,8 @@
     android:layout_height="match_parent">
  <ImageView
      android:id="@+id/ivBack"
-     android:layout_width="13dp"
-     android:layout_height="13dp"
+     android:layout_width="16dp"
+     android:layout_height="16dp"
      android:src="@drawable/ic_back_t"
      app:layout_constraintStart_toStartOf="parent"
      app:layout_constraintTop_toTopOf="parent"

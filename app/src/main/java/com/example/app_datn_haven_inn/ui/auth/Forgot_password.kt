@@ -85,7 +85,7 @@ class Forgot_password : AppCompatActivity() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_verification_code, null)
         dialog = AlertDialog.Builder(this)
             .setView(dialogView)
-            .setCancelable(false)
+            .setCancelable(true)
             .create()
 
         val btnSubmit = dialogView.findViewById<TextView>(R.id.btn_submit_otp_forgot)
