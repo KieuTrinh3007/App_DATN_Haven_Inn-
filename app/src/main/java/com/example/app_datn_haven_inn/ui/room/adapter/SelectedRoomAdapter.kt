@@ -1,6 +1,7 @@
 package com.example.app_datn_haven_inn.ui.room.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -14,8 +15,11 @@ class SelectedRoomAdapter(
     private val price: Int
 ) : RecyclerView.Adapter<SelectedRoomAdapter.ViewHolder>() {
     var isBreakfast = false
-    private val guestCounts = mutableMapOf<String, Int>()
+    val guestCounts = HashMap<String, Int>()
+
     var onTotalPriceChanged: (() -> Unit)? = null
+    var onGuestCountChanged: ((roomName: String, guestCount: Int) -> Unit)? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemChiTietGiaPhongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -32,12 +36,22 @@ class SelectedRoomAdapter(
         val roomName = room.soPhong
 
         holder.binding.tvTenPhong.text = roomName
-        if (room.vip){
+        if (room.vip) {
             val roomPrice = price + 300000
             holder.binding.tvGia.text = roomPrice.toString()
-        }else{
+
+            // Ẩn rdoBuaSang nếu là phòng VIP
+            holder.binding.tvGiaAn.visibility = View.GONE
+            holder.binding.tvAnSang.visibility = View.GONE
+            holder.binding.rdKhongBuaSang.visibility = View.GONE
+        } else {
             val roomPrice = price
             holder.binding.tvGia.text = roomPrice.toString()
+
+            // Hiển thị lại rdoBuaSang nếu không phải phòng VIP
+            holder.binding.tvGiaAn.visibility = View.VISIBLE
+            holder.binding.tvAnSang.visibility = View.VISIBLE
+            holder.binding.rdKhongBuaSang.visibility = View.VISIBLE
         }
 
 
@@ -49,6 +63,8 @@ class SelectedRoomAdapter(
             room.isBreakfast = !room.isBreakfast
             notifyItemChanged(position)
             onTotalPriceChanged?.invoke()
+            onGuestCountChanged?.invoke(roomName, guestCounts[roomName] ?: 1)
+
         }
         holder.binding.tvSL.text = (guestCounts[roomName] ?: 1).toString()
 
@@ -59,6 +75,8 @@ class SelectedRoomAdapter(
             if (currentCount < maxGuestCount) {
                 guestCounts[roomName] = currentCount + 1
                 holder.binding.tvSL.text = (currentCount + 1).toString()
+                onTotalPriceChanged?.invoke()
+                onGuestCountChanged?.invoke(roomName, guestCounts[roomName] ?: 1)
             } else {
                 Toast.makeText(
                     holder.itemView.context,
@@ -68,12 +86,14 @@ class SelectedRoomAdapter(
             }
         }
 
-        // giam
+// giam
         holder.binding.tvMinusSLKhach.setOnClickListener {
             val currentCount = guestCounts[roomName] ?: 1
             if (currentCount > 1) {
                 guestCounts[roomName] = currentCount - 1
                 holder.binding.tvSL.text = (currentCount - 1).toString()
+                onTotalPriceChanged?.invoke()
+                onGuestCountChanged?.invoke(roomName, guestCounts[roomName] ?: 1)
             } else {
                 Toast.makeText(
                     holder.itemView.context,
@@ -82,6 +102,7 @@ class SelectedRoomAdapter(
                 ).show()
             }
         }
+
     }
 
 
@@ -111,13 +132,14 @@ class SelectedRoomAdapter(
         }
     }
 
+
     fun calculateTotalPrice(): Int {
         var totalPrice = 0
         for (room in selectedRooms) {
             val basePrice = if (room.vip) price + 300000 else price
             totalPrice += basePrice * (guestCounts[room.soPhong] ?: 1)
             if (room.isBreakfast) {
-                totalPrice += 150000 // Thêm chi phí bữa sáng cho phòng này
+                totalPrice += 150000
             }
         }
         return totalPrice
@@ -125,6 +147,12 @@ class SelectedRoomAdapter(
     fun getSelectedRooms(): List<PhongModel> {
         return selectedRooms
     }
+
+    fun getGuestCounts(): Map<String, Int> {
+        return guestCounts
+    }
+
+
 
 
     inner class ViewHolder(val binding: ItemChiTietGiaPhongBinding) :

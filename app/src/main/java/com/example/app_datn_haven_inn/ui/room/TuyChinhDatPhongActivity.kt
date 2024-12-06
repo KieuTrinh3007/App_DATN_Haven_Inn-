@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.View
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
-//import com.example.app_datn_haven_inn.ui.booking.BookingFragment
+import com.example.app_datn_haven_inn.ui.booking.BookingActivity
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
@@ -20,7 +20,8 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
     private var phongViewModel: PhongViewModel? = null
     override fun createBinding() = ActivityTuyChinhDatPhongBinding.inflate(layoutInflater)
     override fun setViewModel() = PhongViewModel()
-
+    private var selectedStartDate: String? = null
+    private var selectedEndDate: String? = null
 
     override fun initView() {
         super.initView()
@@ -66,6 +67,8 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         val currentDate = "$formattedDay/$formattedMonth/${calendar.get(Calendar.YEAR)}"
         binding.tvNgay.text = currentDate
         binding.tvNgay1.text = currentDate
+        selectedStartDate = currentDate
+        selectedEndDate = currentDate
 
         binding.ivBack.setOnClickListener {
             finish()
@@ -73,19 +76,21 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         binding.tvDat.setOnClickListener {
             val totalPrice = selectedRoomAdapter?.calculateTotalPrice() ?: 0
             val selectedRooms = selectedRoomAdapter?.getSelectedRooms() ?: emptyList()
+            val guestCountsMap = HashMap(selectedRoomAdapter?.guestCounts ?: emptyMap())
 
             viewModel.saveBookingData(selectedRooms, totalPrice)
+            phongViewModel?.saveBookingData(selectedRooms, totalPrice)
+
+            val intent = Intent(this, BookingActivity::class.java)
             intent.putExtra("totalPrice", totalPrice)
             intent.putParcelableArrayListExtra("selectedRooms", ArrayList(selectedRooms))
+            intent.putExtra("startDate", selectedStartDate)
+            intent.putExtra("endDate", selectedEndDate)
+            intent.putExtra("guestCountsMap", guestCountsMap)
+            startActivity(intent)
 
-
-
-            phongViewModel?.saveBookingData(selectedRooms, totalPrice)
             binding.flBooking.visibility = View.VISIBLE
             binding.clAcivity.visibility =  View.GONE
-//
-//            val intent = Intent(this, BookingFragment::class.java)
-//            startActivity(intent)
         }
 
         binding.ivCalendar.setOnClickListener {
@@ -104,7 +109,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                     val formattedDay = String.format("%02d", selectedDay)
                     val formattedMonth = String.format("%02d", selectedMonth + 1)
                     val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
-
+                    selectedStartDate = selectedDate
                     binding.tvNgay.text = selectedDate
                 },
                 year, month, day
@@ -129,7 +134,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                     val formattedDay = String.format("%02d", selectedDay)
                     val formattedMonth = String.format("%02d", selectedMonth + 1)
                     val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
-
+                    selectedEndDate = selectedDate
                     binding.tvNgay1.text = selectedDate
                 },
                 year, month, day
@@ -137,18 +142,12 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             datePickerDialog.show()
 
         }
-
-
-
-
     }
 
     private fun updateTotalPrice() {
         val totalPrice = selectedRoomAdapter?.calculateTotalPrice() ?: 0
         binding.tvTong.text = "$totalPrice"
     }
-
-
 
 }
 

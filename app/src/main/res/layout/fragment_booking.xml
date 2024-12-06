@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_booking">
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <!-- Header Layout -->
     <LinearLayout
@@ -25,7 +25,7 @@
             android:id="@+id/txt_tenPhong"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Đặt phòng bảo mật"
+            android:text="Thanh toán"
             android:textSize="20sp"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
-        android:layout_marginTop="68dp">
+        android:layout_marginTop="28dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,43 +57,6 @@
                     android:textStyle="bold"
                     android:textSize="16sp"
                     android:layout_marginTop="20dp"
-                    android:layout_marginHorizontal="20dp"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginTop="6dp">
-
-                    <TextView
-                        android:id="@+id/txt_soluongphong"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="2 phòng : "
-                        android:textStyle="bold"
-                        android:textSize="14sp"/>
-
-                    <TextView
-                        android:id="@+id/txt_tenphong"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="Phòng đơn, ban công hướng ra biển, thoáng mát"
-                        android:textSize="14sp"/>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/txt_buasang"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:text="Thêm bữa sáng"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:layout_marginTop="6dp"
                     android:layout_marginHorizontal="20dp"/>
 
                 <LinearLayout
@@ -155,7 +118,12 @@
                     android:textSize="14sp"
                     android:paddingLeft="20dp"/>
 
-
+                <LinearLayout
+                    android:id="@+id/llPhongContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:orientation="vertical" />
             </LinearLayout>
 
             <LinearLayout
@@ -521,4 +489,4 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-</FrameLayout>
+</LinearLayout>

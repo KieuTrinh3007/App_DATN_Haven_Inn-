@@ -74,7 +74,6 @@ class PhongNghiAdapter(
                 val intent = Intent(context, TuyChinhDatPhongActivity::class.java)
                 intent.putExtra("id_LoaiPhong", phong.id)
                 intent.putExtra("giaTien", phong.giaTien.toInt())
-                Log.d("YEUTRINH","YEU TRINH${phong.giaTien}")
                 intent.putExtra("soLuongKhach", phong.soLuongKhach)
                 context.startActivity(intent)
             }

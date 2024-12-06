@@ -1,31 +1,48 @@
 package com.example.app_datn_haven_inn.ui.booking
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Paint
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
+import android.util.Log
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.RadioButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.Api.CreateOrder
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.CreateService
+import com.example.app_datn_haven_inn.database.model.NguoiDungModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
+import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.ui.booking.fragment.PaymentNotification
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import vn.zalopay.sdk.Environment
 import vn.zalopay.sdk.ZaloPayError
 import vn.zalopay.sdk.ZaloPaySDK
 import vn.zalopay.sdk.listeners.PayOrderListener
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
-class BookingFragment : AppCompatActivity() {
-
+class BookingActivity : AppCompatActivity() {
     private lateinit var txtGiaChuaGiam: TextView
     private lateinit var txtGiaDaGiam: TextView
     private lateinit var rdoTructiep: RadioButton
@@ -34,16 +51,30 @@ class BookingFragment : AppCompatActivity() {
     private lateinit var ttQuaMoMo: LinearLayout
     private lateinit var edtCoupon: EditText
     private lateinit var btnBooking: TextView
+    private lateinit var icBack: ImageView
     private var isThanhToan = false
-
+    private lateinit var ngayNhan: TextView
+    private lateinit var ngayTra: TextView
+    private lateinit var soDem : TextView
+    private lateinit var tenKH : TextView
+    private lateinit var sdtKH : TextView
+    private val nguoiDungService: NguoiDungService by lazy {
+        CreateService.createService()
+    }
+    @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_booking)
 
-        val phong = intent.getParcelableExtra<PhongModel>("selectedRooms")
+        // truyen du lieu
+        val selectedRooms = intent.getParcelableArrayListExtra<PhongModel>("selectedRooms")
         val gia = intent.getStringExtra("totalPrice")
+        val startDate = intent.getStringExtra("startDate")
+        val endDate = intent.getStringExtra("endDate")
+        val llPhongContainer = findViewById<LinearLayout>(R.id.llPhongContainer)
 
-        // Ánh xạ View
+
+        // anh xa
         txtGiaChuaGiam = findViewById(R.id.txt_giaChuaGiam)
         txtGiaDaGiam = findViewById(R.id.txt_giaDaGiam)
         rdoTructiep = findViewById(R.id.rdo_tructiep)
@@ -52,11 +83,76 @@ class BookingFragment : AppCompatActivity() {
         ttQuaMoMo = findViewById(R.id.ttQuaMoMo)
         edtCoupon = findViewById(R.id.edtCoupon)
         btnBooking = findViewById(R.id.btnBooking)
+        icBack = findViewById(R.id.ic_back)
+        ngayNhan = findViewById(R.id.txt_ngayNhanPhong)
+        ngayTra = findViewById(R.id.txt_ngayTraPhong)
+        soDem = findViewById(R.id.txt_soDem)
+        tenKH = findViewById(R.id.txt_tenKhachHang)
+        sdtKH = findViewById(R.id.txt_SDT_khachHang)
 
+        // gan du lieu
+        ngayNhan.text = startDate
+        ngayTra.text = endDate
+
+        val idNguoiDung = intent.getStringExtra("idNguoiDung")
+            ?: getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("idNguoiDung", null)
+
+        idNguoiDung?.let { fetchUserProfile(it) } ?: run {
+            Log.e("BookingActivity", "Không tìm thấy ID người dùng")
+            tenKH.text = "Không tìm thấy tên"
+            sdtKH.text = "Không tìm thấy số điện thoại"
+        }
+
+        if (selectedRooms != null) {
+            val guestCountsMap =
+                intent.getSerializableExtra("guestCountsMap") as? HashMap<String, Int>
+            for (phong in selectedRooms) {
+                val guestCount = guestCountsMap?.get(phong.soPhong) ?: 1
+                val breakfastInfo = if (phong.isBreakfast) "Có bữa sáng" else "Không bữa sáng"
+                val roomInfo = if (phong.vip) {
+                    // Nếu là phòng VIP
+                    "Phòng: ${phong.soPhong} - $guestCount người - Miễn phí bữa sáng"
+                } else {
+                    // Nếu không phải phòng VIP
+                    "Phòng: ${phong.soPhong} - $guestCount người - $breakfastInfo"
+                }
+                val textView = TextView(this).apply {
+                    text = roomInfo
+                    textSize = 14f
+                    setTextColor(ContextCompat.getColor(this@BookingActivity, R.color.black))
+                    setPadding(0, 8, 0, 8)
+                    typeface = ResourcesCompat.getFont(this@BookingActivity, R.font.roboto_regular)
+                    val paddingTop = resources.getDimensionPixelSize(R.dimen.padding_top)
+                    setPadding(0, paddingTop, 0, 8)
+                }
+
+                llPhongContainer.addView(textView)
+            }
+        }
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        try {
+            val checkInDate = dateFormat.parse(startDate) // Ngày nhận phòng
+            val checkOutDate = dateFormat.parse(endDate) // Ngày trả phòng
+
+            if (checkInDate != null && checkOutDate != null) {
+                val diffInMillis = checkOutDate.time - checkInDate.time
+                val numberOfNights = TimeUnit.MILLISECONDS.toDays(diffInMillis).toInt()
+                soDem.text = "$numberOfNights đêm lưu trú"
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("BookingFragment", "Lỗi khi tính số đêm: ${e.message}")
+        }
+
+
+        resizeImage()
+        icBack.setOnClickListener {
+            finish()
+
+        }
         // Gạch ngang cho TextView
         txtGiaChuaGiam.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
 
-        // Set click listeners for LinearLayouts
         ttTrucTiep.setOnClickListener {
             rdoTructiep.isChecked = true
             rdoMomo.isChecked = false
@@ -84,11 +180,7 @@ class BookingFragment : AppCompatActivity() {
         // ZaloPay SDK Init
         ZaloPaySDK.init(2553, Environment.SANDBOX)
 
-        val intent = intent
-
         val totalString = String.format("%.0f", 1000000.0)
-
-//        val tongtt = String.format("%.0f", totalString);
 
         btnBooking.setOnClickListener {
             val orderApi = CreateOrder()
@@ -98,20 +190,20 @@ class BookingFragment : AppCompatActivity() {
                 if (code == "1") {
                     val token = data.getString("zp_trans_token")
                     ZaloPaySDK.getInstance().payOrder(
-                        this@BookingFragment,
+                        this@BookingActivity,
                         token,
                         "demozpdk://app",
                         object : PayOrderListener {
                             override fun onPaymentSucceeded(p1: String?, p2: String?, p3: String?) {
                                 val intent =
-                                    Intent(this@BookingFragment, PaymentNotification::class.java)
+                                    Intent(this@BookingActivity, PaymentNotification::class.java)
                                 intent.putExtra("result", "Thanh toán thành công")
                                 startActivity(intent)
                             }
 
                             override fun onPaymentCanceled(p1: String?, p2: String?) {
                                 val intent =
-                                    Intent(this@BookingFragment, PaymentNotification::class.java)
+                                    Intent(this@BookingActivity, PaymentNotification::class.java)
                                 intent.putExtra("result", "Hủy thanh toán")
                                 startActivity(intent)
                             }
@@ -122,7 +214,7 @@ class BookingFragment : AppCompatActivity() {
                                 p2: String?
                             ) {
                                 val intent =
-                                    Intent(this@BookingFragment, PaymentNotification::class.java)
+                                    Intent(this@BookingActivity, PaymentNotification::class.java)
                                 intent.putExtra("result", "Lỗi thanh toán")
                                 startActivity(intent)
                             }
@@ -131,6 +223,33 @@ class BookingFragment : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
+        }
+    }
+    private fun fetchUserProfile(id: String) {
+        lifecycleScope.launch {
+            try {
+                val response = nguoiDungService.getListNguoiDung()
+                if (response.isSuccessful) {
+                    val user = response.body()?.find { it.id == id }
+                    if (user != null) {
+                        updateUI(user)
+                    } else {
+                        tenKH.text = "Không tìm thấy tên"
+                        sdtKH.text = "Không tìm thấy số điện thoại"
+                    }
+                } else {
+                    Log.e("BookingActivity", "API thất bại: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("BookingActivity", "Lỗi khi gọi API: ${e.message}")
+            }
+        }
+    }
+
+    private fun updateUI(user: NguoiDungModel) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            tenKH.text = user.tenNguoiDung ?: "Không có tên"
+            sdtKH.text = user.soDienThoai ?: "Không có số điện thoại"
         }
     }
 
