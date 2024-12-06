@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.coupon
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +27,7 @@ class CouponAdapter(
         holder.expiryDate.text = "Ngày hết hạn: ${coupon.ngayKetThuc}"
 
         holder.useButton.setOnClickListener {
-            onCouponUsed(coupon) // Gọi callback khi người dùng nhấn nút
+            onCouponUsed(coupon) // Gọi callback khi người dùng nhấn nút "Sử dụng"
         }
     }
 

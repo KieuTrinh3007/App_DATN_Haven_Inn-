@@ -7,6 +7,8 @@ import android.view.View
 import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
 import com.example.app_datn_haven_inn.ui.booking.BookingActivity
+import com.example.app_datn_haven_inn.ui.booking.BookingFragment
+//import com.example.app_datn_haven_inn.ui.booking.BookingFragment
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
@@ -27,7 +29,6 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         super.initView()
         val idLoaiPhong = intent.getStringExtra("id_LoaiPhong")
         val gia = intent.getIntExtra("giaTien",100000)
-        Log.d("YEUTRINH","$gia")
         val tvSLKhach = intent.getIntExtra("soLuongKhach",1)
 
         adapter = TuyChinhDatPhongAdapter(emptyList(), onRoomClick = { selectedRoom, isSelected ->

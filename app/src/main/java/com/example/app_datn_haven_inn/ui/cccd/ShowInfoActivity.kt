@@ -21,6 +21,8 @@ import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -144,7 +146,9 @@ class ShowInfoActivity : AppCompatActivity() {
                         showToast("Xác thực thành công!")
                         navigateToNextScreen(userId)
                     } else {
-                        showToast("Lỗi xác thực: ${response.errorBody()?.string()}")
+                        val errorBody = response.errorBody()?.string()
+                        val errorMessage = extractMessageFromErrorBody(errorBody)
+                        Toast.makeText(this@ShowInfoActivity, errorMessage, Toast.LENGTH_SHORT).show()
                     }
                 }
             } catch (e: Exception) {
@@ -198,6 +202,19 @@ class ShowInfoActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
             dateString
+        }
+    }
+
+    private fun extractMessageFromErrorBody(errorBody: String?): String {
+        return try {
+            if (!errorBody.isNullOrEmpty()) {
+                val jsonObject = JSONObject(errorBody)
+                jsonObject.optString("message", "Có lỗi xảy ra") // Lấy giá trị "message" hoặc chuỗi mặc định
+            } else {
+                "Có lỗi xảy ra"
+            }
+        } catch (e: JSONException) {
+            "Lỗi phân tích phản hồi từ server"
         }
     }
 

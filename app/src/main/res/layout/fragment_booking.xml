@@ -75,7 +75,7 @@
                         android:textSize="14sp"/>
 
                     <TextView
-                        android:id="@+id/txt_ngayNhanPhong"
+                        android:id="@+id/txt_ngayNhanPhongTT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -100,7 +100,7 @@
                         android:textSize="14sp"/>
 
                     <TextView
-                        android:id="@+id/txt_ngayTraPhong"
+                        android:id="@+id/txt_ngayTraPhongTT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -159,7 +159,7 @@
                         android:textSize="14sp"/>
 
                     <TextView
-                        android:id="@+id/txt_tenKhachHang"
+                        android:id="@+id/txt_tenKhachHangTT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -184,7 +184,7 @@
                         android:textSize="14sp"/>
 
                     <TextView
-                        android:id="@+id/txt_SDT_khachHang"
+                        android:id="@+id/txt_SDT_khachHangTT"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/black"
@@ -214,17 +214,18 @@
 
 
                     <LinearLayout
-                        android:id="@+id/ttTrucTiep"
+                        android:id="@+id/ttZaloPay"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp"
-                        android:gravity="center_vertical">
+                        android:gravity="center_vertical"
+                        android:layout_marginLeft="15dp">
 
                         <ImageView
                             android:layout_width="28dp"
                             android:layout_height="28dp"
-                            android:src="@drawable/ic_thanhtoan_tt"
+                            android:src="@drawable/img_15"
                             android:contentDescription="Payment Icon"
                             android:layout_marginEnd="10dp" />
 
@@ -232,13 +233,13 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Thanh toán khi trả phòng"
+                            android:text="ZaloPay"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:layout_gravity="center_vertical" />
 
                         <RadioButton
-                            android:id="@+id/rdo_tructiep"
+                            android:id="@+id/rdo_zalo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -252,6 +253,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:orientation="horizontal"
+                        android:layout_marginLeft="15dp"
                         android:gravity="center_vertical">
 
                         <ImageView
@@ -277,71 +279,6 @@
                             android:buttonTint="@color/radio_button_color" />
                     </LinearLayout>
 
-
-                <LinearLayout
-                    android:id="@+id/txt_themThe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_them_the"
-                        android:layout_marginEnd="10dp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Thẻ tín dụng/Thẻ ghi nợ"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:layout_gravity="center_vertical" />
-
-                    <ImageView
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:src="@drawable/ic_next"
-                        android:layout_marginHorizontal="10dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/txt_xemthem"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginHorizontal="20dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:src="@drawable/ic_vnpay"
-                        android:layout_marginEnd="10dp" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Xem tất cả tùy chọn"
-                        android:textColor="@color/black"
-                        android:textSize="14sp"
-                        android:gravity="end" />
-
-                    <ImageView
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:src="@drawable/ic_next"
-                        android:layout_marginHorizontal="10dp" />
-                </LinearLayout>
-
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -361,21 +298,6 @@
                     android:layout_marginTop="20dp"
                     android:paddingLeft="20dp"/>
 
-                <TextView
-                    android:id="@+id/btnVoucher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_marginVertical="7dp"
-                    android:layout_marginLeft="20dp"
-                    android:gravity="center"
-                    android:background="@drawable/bg_radius_5_yellow"
-                    android:drawableStart="@drawable/promo_code"
-                    android:drawablePadding="10dp"
-                    android:paddingHorizontal="10dp"
-                    android:text="Giảm 20% giá phòng với Giá thành viên"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -413,7 +335,6 @@
                     android:layout_marginLeft="20dp"
                     android:text="Trung bình mỗi đêm 1.500.000 đ"
                     android:textSize="12sp"/>
-
 
                 <EditText
                     android:id="@+id/edtCoupon"
@@ -468,9 +389,6 @@
                         android:textSize="16sp"/>
 
                 </LinearLayout>
-
-
-
             </LinearLayout>
 
             <TextView
