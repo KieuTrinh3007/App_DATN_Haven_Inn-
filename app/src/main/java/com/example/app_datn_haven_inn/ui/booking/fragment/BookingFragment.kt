@@ -25,6 +25,7 @@ import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.database.model.HoaDonModel
+import com.example.app_datn_haven_inn.database.service.CouponService
 import com.example.app_datn_haven_inn.database.service.HoaDonService
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.database.service.PhongService
@@ -52,6 +53,7 @@ class BookingFragment : AppCompatActivity() {
     private var isThanhToan = false
     private lateinit var hoaDonService: HoaDonService
     private lateinit var phongService: PhongService
+    private lateinit var couponService: CouponService
 
     var id_NguoiDung: String = ""
     var id_Coupon: String = ""
@@ -101,43 +103,12 @@ class BookingFragment : AppCompatActivity() {
             }
         }
 
-
-        edtCoupon.setOnClickListener {
-            val intent = Intent(this, CouponActivity::class.java)
-            startActivity(intent)
-        }
-
-        val chiTietList = ArrayList<ChiTietHoaDonModel>()
-        chiTietList.add(ChiTietHoaDonModel(null, "101", 2, 500000.0, true))
-        chiTietList.add(ChiTietHoaDonModel(null, "102", 3, 700000.0, false))
-
-        id_NguoiDung = "674eb513f175cc4f23d58834"
-
-        ngayNhanPhong = "2024-12-05"
-        ngayTraPhong = "2024-12-07"
-        soLuongKhach = chiTietList.sumOf { it.soLuongKhach }
-        soLuongPhong = chiTietList.size
-
-        trangThai = 1
-        chiTiet = chiTietList
-
-        CoroutineScope(Dispatchers.Main).launch {
-            try {
-                tongTien = withContext(Dispatchers.IO) {
-                    calculateTotal(chiTietList)
-                }
-                // Cập nhật UI nếu cần
-                txtGiaDaGiam.text = String.format("%.0f VND", tongTien)
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-
         phongService = CreateService.createService<PhongService>()
 
-        addHoaDon(id_NguoiDung, id_Coupon, ngayNhanPhong, ngayTraPhong, soLuongKhach,
-            soLuongPhong, ngayThanhToan, phuongThucThanhToan, trangThai, tongTien, chiTiet)
+        addHoaDon(
+            id_NguoiDung, id_Coupon, ngayNhanPhong, ngayTraPhong, soLuongKhach,
+            soLuongPhong, ngayThanhToan, phuongThucThanhToan, trangThai, tongTien, chiTiet
+        )
 
         val policy = ThreadPolicy.Builder().permitAll().build()
         StrictMode.setThreadPolicy(policy)
@@ -201,6 +172,40 @@ class BookingFragment : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
+
+        edtCoupon.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val intent = Intent(this, CouponActivity::class.java)
+                startActivityForResult(intent, 100)
+                return@setOnTouchListener true
+            }
+            false
+        }
+
+        tongTien = 1000000.0
+
+        couponService = CreateService.createService<CouponService>()
+
+        addHoaDon(
+            id_NguoiDung, id_Coupon, ngayNhanPhong, ngayTraPhong, soLuongKhach,
+            soLuongPhong, ngayThanhToan, phuongThucThanhToan, trangThai, tongTien, chiTiet
+        )
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            val couponCode = data?.getStringExtra("couponCode") // Lấy mã giảm giá
+            val couponId = data?.getStringExtra("idCoupon") // Lấy idCoupon
+
+            if (couponCode != null) {
+                edtCoupon.setText(couponCode) // Set mã giảm giá lên EditText
+            }
+
+            if (couponId != null) {
+                id_Coupon = couponId // Lưu idCoupon để sử dụng sau này
+            }
+        }
     }
 
     // Tạo phương thức để hiển thị Dialog với hình ảnh và trạng thái
@@ -260,18 +265,21 @@ class BookingFragment : AppCompatActivity() {
     }
 
     private fun addHoaDon(
-        id_NguoiDung : String,
-        id_Coupon:String,
-        ngayNhanPhong:String,
-        ngayTraPhong:String,
-        soLuongKhach:Int,
-        soLuongPhong:Int,
+        id_NguoiDung: String,
+        id_Coupon: String,
+        ngayNhanPhong: String,
+        ngayTraPhong: String,
+        soLuongKhach: Int,
+        soLuongPhong: Int,
         ngayThanhToan: String,
         phuongThucThanhToan: String,
         trangThai: Int, tongTien: Double,
         chiTiet: ArrayList<ChiTietHoaDonModel>
     ) {
-        Log.d("BookingFragmentLinh", "addHoaDon: Đang thêm hóa đơn, phương thức thanh toán: $phuongThucThanhToan")
+        Log.d(
+            "BookingFragmentLinh",
+            "addHoaDon: Đang thêm hóa đơn, phương thức thanh toán: $phuongThucThanhToan"
+        )
 
         val hoaDon = HoaDonModel(
             id = null,
@@ -299,14 +307,25 @@ class BookingFragment : AppCompatActivity() {
                         // Xử lý kết quả thành công (update UI, thông báo)
                         // Ví dụ: Hiển thị thông báo hóa đơn đã được thêm thành công
                         Log.d("BookingFragmentLinh", "addHoaDon: Hóa đơn được tạo thành công.")
-                        showPaymentDialog("Thanh toán thành công", "Hóa đơn đã được tạo thành công!", R.drawable.img_16)
+                        showPaymentDialog(
+                            "Thanh toán thành công",
+                            "Hóa đơn đã được tạo thành công!",
+                            R.drawable.img_16
+                        )
                     }
                 } else {
                     // Xử lý khi phản hồi không thành công
                     // Ví dụ: Hiển thị thông báo lỗi
                     withContext(Dispatchers.Main) {
-                        Log.e("BookingFragmentLinh", "addHoaDon: Lỗi khi tạo hóa đơn, mã lỗi: ${response.code()}")
-                        showPaymentDialog("Lỗi", "Có lỗi khi tạo hóa đơn. Vui lòng thử lại!", R.drawable.img_18)
+                        Log.e(
+                            "BookingFragmentLinh",
+                            "addHoaDon: Lỗi khi tạo hóa đơn, mã lỗi: ${response.code()}"
+                        )
+                        showPaymentDialog(
+                            "Lỗi",
+                            "Có lỗi khi tạo hóa đơn. Vui lòng thử lại!",
+                            R.drawable.img_18
+                        )
                     }
                 }
             } catch (e: Exception) {
@@ -314,60 +333,6 @@ class BookingFragment : AppCompatActivity() {
                 // Xử lý ngoại lệ nếu có lỗi trong quá trình gửi yêu cầu API
             }
         }
-
-    }
-
-    suspend fun calculateTotal(chiTietList: List<ChiTietHoaDonModel>): Double {
-        // Lấy danh sách phòng từ server
-        val phongListResponse = phongService.getListPhong()
-
-        // Kiểm tra xem API có trả về thành công không
-        if (!phongListResponse.isSuccessful) {
-            // Xử lý khi không lấy được danh sách phòng (ví dụ: thông báo lỗi)
-            throw Exception("Không thể lấy danh sách phòng từ server")
-        }
-
-        // Lấy dữ liệu phòng từ phản hồi API
-        val phongList = phongListResponse.body() ?: emptyList()
-
-        // Khởi tạo tổng tiền
-        var tongTien = 0.0
-
-        // Duyệt qua từng chi tiết hóa đơn để tính tổng tiền
-        for (chiTiet in chiTietList) {
-            // Tìm phòng tương ứng với chi tiết hóa đơn (sử dụng id_Phong)
-            val phong = phongList.find { it.id == chiTiet.id_Phong }
-
-            // Nếu không tìm thấy phòng, bỏ qua
-            if (phong == null) continue
-
-            // Kiểm tra phòng VIP
-            val isVIP = phong.vip
-
-            // Nếu phòng là VIP thì không tính ăn sáng
-            val buaSang = if (isVIP) false else chiTiet.buaSang
-
-            // Tính tổng tiền cơ bản của phòng
-            val giaPhong = chiTiet.giaPhong
-
-            // Nếu có ăn sáng, cộng thêm tiền ăn sáng
-            val giaBuaSang =
-                if (buaSang) 50000.0 else 0.0 // Giả sử ăn sáng có giá 50,000 VND mỗi người
-
-            // Tính tổng tiền cho phòng này (tính theo số khách)
-            var tongTienPhong = (giaPhong + giaBuaSang) * chiTiet.soLuongKhach
-
-            // Nếu là phòng VIP, cộng thêm 500,000 VND
-            if (isVIP) {
-                tongTienPhong += 500000.0
-            }
-
-            // Cộng vào tổng tiền
-            tongTien += tongTienPhong
-        }
-
-        // Trả lại tổng tiền tính được
-        return tongTien
     }
 
     override fun onNewIntent(intent: Intent) {

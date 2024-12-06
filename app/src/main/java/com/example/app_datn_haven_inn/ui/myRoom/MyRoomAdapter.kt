@@ -7,11 +7,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
+import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel1
 import com.example.app_datn_haven_inn.databinding.ItemPhongcuatoiBinding
 import java.text.NumberFormat
 import java.util.*
 
-class MyRoomAdapter(private val roomList: List<ChiTietHoaDonModel>) :
+class MyRoomAdapter(private val roomList: List<ChiTietHoaDonModel1>) :
     RecyclerView.Adapter<MyRoomAdapter.RoomViewHolder>() {
 
     class RoomViewHolder(val binding: ItemPhongcuatoiBinding) :
