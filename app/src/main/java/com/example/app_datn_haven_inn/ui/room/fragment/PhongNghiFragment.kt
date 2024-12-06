@@ -51,8 +51,8 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
     override fun onResume() {
         super.onResume()
         sharedPreferences = requireActivity().getSharedPreferences("UserPrefs", MODE_PRIVATE)
-        val idUser  = sharedPreferences.getString("idNguoiDung", "")
-        yeuThichViewModel.getFavoritesByUserId(idUser .toString())
+        val idUser = sharedPreferences.getString("idNguoiDung", "")
+        yeuThichViewModel.getFavoritesByUserId(idUser.toString())
         yeuThichViewModel.yeuThichList1.observe(viewLifecycleOwner) { updatedList ->
             if (updatedList != null) {
                 adapter?.listPhong?.forEach { phong ->
@@ -67,7 +67,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         super.initView()
 
         viewBinding.rcvDanhSachPhong.layoutManager = LinearLayoutManager(requireContext())
-        adapter = PhongNghiAdapter(emptyList(),requireContext())
+        adapter = PhongNghiAdapter(emptyList(), requireContext())
         viewBinding.rcvDanhSachPhong.adapter = adapter
 
         loaiPhongViewModel = ViewModelProvider(requireActivity())[LoaiPhongViewModel::class.java]
@@ -126,9 +126,9 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                 loaiPhong.giuong.contains("Một")
             }
             adapter?.let {
-               if (filteredList != null){
-                   it.updateList(filteredList)
-               }
+                if (filteredList != null) {
+                    it.updateList(filteredList)
+                }
             }
             viewBinding.txt1Giuong.setTextColor(
                 ContextCompat.getColor(
@@ -148,7 +148,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                     R.color.black
                 )
             )
-            
+
         }
 
         viewBinding.txt2Giuong.setOnClickListener {
@@ -157,7 +157,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                 loaiPhong.giuong.contains("Hai")
             }
             adapter?.let {
-                if (filteredList != null){
+                if (filteredList != null) {
                     it.updateList(filteredList)
                 }
             }
@@ -198,7 +198,7 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
             }
 
             if (phong.isFavorite) {
-                    val yeuThich = FavoriteRequest(idNguoiDung, phong.id)
+                val yeuThich = FavoriteRequest(idNguoiDung, phong.id)
                 yeuThichViewModel.addyeuThich(yeuThich)
 
                 yeuThichViewModel.isyeuThichAdded.observe(viewLifecycleOwner) { success ->
@@ -227,176 +227,5 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
         }
 
 
-
-        viewBinding.tvTuKhoang.setOnClickListener {
-            showDialogLoaiPhong("TuKhoang")
-        }
-
-        viewBinding.tvDenKhoang.setOnClickListener {
-            showDialogLoaiPhong("DenKhoang")
-        }
-
-        viewBinding.llSoNguoi.setOnClickListener {
-            showDialogLoaiPhong("SoNguoi")
-        }
-
-
-
     }
-
-    private fun showDialogLoaiPhong(dataType: String) {
-        val dialog = Dialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_loc_loai_phong)
-        val window = dialog.window
-        window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
-        window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.setCanceledOnTouchOutside(false)
-        dialog.show()
-
-        val ivClose = dialog.findViewById<ImageView>(R.id.iv_close)
-        val ivMinus = dialog.findViewById<ImageView>(R.id.iv_minus)
-        val ivPlus = dialog.findViewById<ImageView>(R.id.iv_plus)
-        val tvSoLuongNguoiLon = dialog.findViewById<TextView>(R.id.tvSoLuongNguoiLon)
-        val ivMinus1 = dialog.findViewById<ImageView>(R.id.iv_minus1)
-        val ivPlus1 = dialog.findViewById<ImageView>(R.id.iv_plus1)
-        val tvSoLuongTreEm = dialog.findViewById<TextView>(R.id.tvSoLuongTreEm)
-        val edGiaToiThieu = dialog.findViewById<EditText>(R.id.etGiaToiThieu)
-        val edGiaToiDa = dialog.findViewById<EditText>(R.id.etGiaToiDa)
-        val tvXong = dialog.findViewById<TextView>(R.id.tvXong)
-
-        ivClose.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        // Lấy giá trị hiện tại từ layout chính
-        val soLuongNguoiLon = viewBinding.tvSoKhach.text.toString().split(" ")[0].toIntOrNull() ?: 0
-        val soLuongTreEm = 0
-        val giaToiThieu = viewBinding.tvTuKhoang.text.toString().replace(" VNĐ", "0")
-        val giaToiDa = viewBinding.tvDenKhoang.text.toString().replace(" VNĐ", "0")
-
-        // Đặt các giá trị lấy được vào trong dialog
-        tvSoLuongNguoiLon.text = soLuongNguoiLon.toString()
-        tvSoLuongTreEm.text = soLuongTreEm.toString()
-        edGiaToiThieu.setText(giaToiThieu)
-        edGiaToiDa.setText(giaToiDa)
-
-        var currentSoLuongNguoiLon = soLuongNguoiLon
-        var currentSoLuongTreEm = soLuongTreEm
-
-        // Hàm cập nhật trạng thái của nút giảm (ivMinus)
-        fun updateMinusButtonState(button: ImageView, value: Int, minValue: Int) {
-            if (value <= minValue) {
-                button.isEnabled = false
-                button.alpha = 0.3f
-            } else {
-                button.isEnabled = true
-                button.alpha = 1.0f
-            }
-        }
-
-        // Cập nhật trạng thái nút ivMinus ban đầu
-        updateMinusButtonState(ivMinus, currentSoLuongNguoiLon, 1)
-
-        ivPlus.setOnClickListener {
-            currentSoLuongNguoiLon++
-            tvSoLuongNguoiLon.text = currentSoLuongNguoiLon.toString()
-            updateMinusButtonState(ivMinus, currentSoLuongNguoiLon, 1)
-        }
-
-        ivMinus.setOnClickListener {
-            if (currentSoLuongNguoiLon > 1) {
-                currentSoLuongNguoiLon--
-                tvSoLuongNguoiLon.text = currentSoLuongNguoiLon.toString()
-                updateMinusButtonState(ivMinus, currentSoLuongNguoiLon, 1)
-            }
-        }
-
-        // Cập nhật trạng thái nút ivMinus1 ban đầu
-        updateMinusButtonState(ivMinus1, currentSoLuongTreEm, 0)
-
-        ivPlus1.setOnClickListener {
-            currentSoLuongTreEm++
-            tvSoLuongTreEm.text = currentSoLuongTreEm.toString()
-            updateMinusButtonState(ivMinus1, currentSoLuongTreEm, 0)
-        }
-
-        ivMinus1.setOnClickListener {
-            if (currentSoLuongTreEm > 0) {
-                currentSoLuongTreEm--
-                tvSoLuongTreEm.text = currentSoLuongTreEm.toString()
-                updateMinusButtonState(ivMinus1, currentSoLuongTreEm, 0)
-            }
-        }
-
-
-        tvXong.setOnClickListener {
-            val giaToiThieu = edGiaToiThieu.text.toString().trim()
-            val giaToiDa = edGiaToiDa.text.toString().trim()
-
-            if (giaToiThieu.isEmpty() || giaToiDa.isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Vui lòng nhập đủ thông tin giá",
-                    Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
-            }
-            // Tính tổng số khách
-            val soNguoiLon = tvSoLuongNguoiLon.text.toString().toInt()
-            val soTreEm = tvSoLuongTreEm.text.toString().toInt()
-            val tongSoNguoi = soNguoiLon + soTreEm
-
-            val formattedGiaToiThieu = formatCurrency(giaToiThieu)
-            val formattedGiaToiDa = formatCurrency(giaToiDa)
-
-            // Cập nhật vào các TextView tương ứng
-            viewBinding.tvSoKhach.text = "$tongSoNguoi khách"
-            viewBinding.tvTuKhoang.text = "$formattedGiaToiThieu"
-            viewBinding.tvDenKhoang.text = "$formattedGiaToiDa"
-
-            if (tongSoNguoi <= 0) {
-                Toast.makeText(requireContext(), "Số khách phải lớn hơn 0", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
-            }
-
-            val giaMin = giaToiThieu.toIntOrNull()
-            val giaMax = giaToiDa.toIntOrNull()
-            val giaMinFormatted = formatCurrency(giaMin.toString())
-            val giaMaxFormatted = formatCurrency(giaMax.toString())
-
-            if (giaMinFormatted == null || giaMaxFormatted == null || giaMinFormatted > giaMaxFormatted) {
-                Toast.makeText(requireContext(), "Khoảng giá không hợp lệ", Toast.LENGTH_SHORT)
-                    .show()
-                return@setOnClickListener
-            }
-
-            val loaiPhongList = loaiPhongViewModel.loaiPhongList.value
-            val filteredList = loaiPhongList?.filter { loaiPhong ->
-                loaiPhong.soLuongKhach >= tongSoNguoi &&
-                        loaiPhong.giaTien >= giaMin!! && loaiPhong.giaTien <= giaMax!!
-            }
-            adapter?.let {
-                if (filteredList != null){
-                    it.updateList(filteredList)
-                }
-            }
-            dialog.dismiss()
-
-        }
-    }
-    fun formatCurrency(amount: String): String {
-        return try {
-            val number = amount.toLong()
-            val decimalFormat = DecimalFormat("#,###")
-            decimalFormat.format(number)
-        } catch (e: Exception) {
-            "0"
-        }
-    }
-
 }

@@ -17,4 +17,6 @@ data class ChiTietHoaDonModel1 (
     @field:SerializedName("soLuongKhach") var soLuongKhach: Int,
     @field:SerializedName("giaPhong") var giaPhong: Double,
     @field:SerializedName("buaSang") var buaSang: Boolean,
+    @field:SerializedName("tongTien") var tongTien: Double
+
     )
