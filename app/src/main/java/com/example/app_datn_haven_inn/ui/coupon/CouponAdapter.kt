@@ -37,7 +37,7 @@ class CouponAdapter(
         val discountCode: TextView = itemView.findViewById(R.id.discount_code)
         val discountDescription: TextView = itemView.findViewById(R.id.discount_description)
         val expiryDate: TextView = itemView.findViewById(R.id.expiry_date)
-        val useButton: Button = itemView.findViewById(R.id.use_button)
+        val useButton: TextView = itemView.findViewById(R.id.use_button)
     }
 
     fun updateCoupons(newCoupons: List<CouponModel>) {

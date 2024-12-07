@@ -7,6 +7,4 @@ data class TienNghiModel (
     @field:SerializedName("tenTienNghi") var tenTienNghi: String,
     @field:SerializedName("image") var image: String,
     @field:SerializedName("imageId") var imageId: String,
-
-
     )

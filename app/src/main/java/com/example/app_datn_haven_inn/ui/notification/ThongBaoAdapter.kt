@@ -8,7 +8,7 @@ import com.example.app_datn_haven_inn.database.model.ThongBaoModel
 import com.example.app_datn_haven_inn.databinding.ItemThongbaoBinding
 
 class ThongBaoAdapter(
-    private var thongBaoList: List<ThongBaoModel>,
+    var thongBaoList: MutableList<ThongBaoModel>,
     val onItemClick: (Int) -> Unit
 ) : RecyclerView.Adapter<ThongBaoAdapter.ThongBaoViewHolder>() {
 
@@ -27,14 +27,15 @@ class ThongBaoAdapter(
             tvNoiDung.text = thongBao.noiDung
             tvNgayGui.text = thongBao.ngayGui
 
-            if (!thongBao.trangThai) {
-                root.setBackgroundResource(R.drawable.item_border_active) // Đảm bảo item_border_active có màu nền xanh
-            } else {
-                root.setBackgroundResource(R.drawable.item_border_inactive)
-            }
+            // Đổi màu nền dựa trên trạng thái của thông báo
+            root.setBackgroundResource(
+                if (!thongBao.trangThai) R.drawable.item_border_active
+                else R.drawable.item_border_inactive
+            )
 
             root.setOnClickListener {
-                thongBao.trangThai = true
+                thongBao.trangThai = true // Đánh dấu thông báo là đã đọc
+                notifyItemChanged(position) // Cập nhật chỉ mục trong RecyclerView
                 onItemClick(position)
             }
         }
@@ -42,8 +43,17 @@ class ThongBaoAdapter(
 
     override fun getItemCount(): Int = thongBaoList.size
 
+    /**
+     * Cập nhật danh sách thông báo mới
+     */
     fun updateList(newList: List<ThongBaoModel>) {
-        thongBaoList = newList
+        thongBaoList.clear()
+        thongBaoList.addAll(newList)
         notifyDataSetChanged()
     }
+
+    fun getCurrentList(): List<ThongBaoModel> {
+        return thongBaoList
+    }
+
 }

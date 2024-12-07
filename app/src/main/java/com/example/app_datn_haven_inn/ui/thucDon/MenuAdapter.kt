@@ -9,18 +9,21 @@ import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ItemMenuBinding
 
-class MenuAdapter(private val menuList: List<String>) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
+class MenuAdapter(private val menuList: List<String>, private val onItemClick: (String) -> Unit) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
 
     inner class MenuViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val imageView: ImageView = itemView.findViewById(R.id.imageViewMenuItem)
 
         fun bind(menuItem: String) {
-            // Sử dụng Glide để tải hình ảnh từ URL hoặc đường dẫn vào ImageView
             Glide.with(itemView.context)
-                .load(menuItem) // URL hoặc đường dẫn của hình ảnh
-                .placeholder(R.drawable.avat2) // Hình ảnh mặc định khi đang tải
-                .error(R.drawable.bg_radius_5_yellow) // Hình ảnh lỗi khi không tải được
+                .load(menuItem)
+                .placeholder(R.drawable.avat2)
+                .error(R.drawable.bg_radius_5_yellow)
                 .into(imageView)
+
+            itemView.setOnClickListener {
+                onItemClick(menuItem)
+            }
         }
     }
 

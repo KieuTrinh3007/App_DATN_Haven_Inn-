@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/khung_tb"
+    android:radius="8dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imgPhong"
+            android:layout_width="110dp"
+            android:layout_height="120dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/avat2"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Tên và số phòng -->
+            <TextView
+                android:id="@+id/txtTenPhong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tên phòng: "
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtSoPhong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Số phòng: "
+                android:textSize="14sp" />
+
+            <!-- Ngày nhận phòng -->
+            <TextView
+                android:id="@+id/txtNgayNhanPhong"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ngày nhận phòng: "
+                android:textSize="14sp" />
+
+
+            <!-- Tổng tiền -->
+            <TextView
+                android:id="@+id/txtTongTien"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tổng tiền: "
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <!-- Các nút hành động -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Nút hành động: Đặt lại / Đánh giá -->
+        <TextView
+            android:id="@+id/btnAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đặt lại"
+            android:padding="5dp"
+            android:background="@drawable/khung_tb"
+            />
+    </LinearLayout>
+</LinearLayout>
+</androidx.cardview.widget.CardView>
