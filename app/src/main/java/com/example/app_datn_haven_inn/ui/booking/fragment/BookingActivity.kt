@@ -9,6 +9,7 @@ import android.os.StrictMode.ThreadPolicy
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -31,8 +32,8 @@ import com.example.app_datn_haven_inn.database.service.HoaDonService
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.database.service.PhongService
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
-import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import com.example.app_datn_haven_inn.ui.room.TuyChinhDatPhongActivity
+import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -58,10 +59,12 @@ class BookingActivity : AppCompatActivity() {
     private var isThanhToan = false
     private lateinit var ngayNhan: TextView
     private lateinit var ngayTra: TextView
-    private lateinit var soDem: TextView
-    private lateinit var tenKH: TextView
-    private lateinit var sdtKH: TextView
-    private val nguoiDungService: NguoiDungService by lazy {
+    private lateinit var soDem : TextView
+    private lateinit var tenKH : TextView
+    private lateinit var sdtKH : TextView
+    private lateinit var tong: TextView
+    var guestCountsMap: HashMap<String, Int>? = null
+     private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService()
     }
     private lateinit var hoaDonService: HoaDonService
@@ -79,7 +82,7 @@ class BookingActivity : AppCompatActivity() {
     var trangThai: Int = 1
     var chiTiet: ArrayList<ChiTietHoaDonModel1> = ArrayList()
     var tongTien: Double = 0.0
-
+    
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,10 +91,12 @@ class BookingActivity : AppCompatActivity() {
 
         // truyen du lieu
         val selectedRooms = intent.getParcelableArrayListExtra<PhongModel>("selectedRooms")
-        val gia = intent.getStringExtra("totalPrice")
+        val gia = intent.getDoubleExtra("totalPrice", 0.0)
+
         val startDate = intent.getStringExtra("startDate")
         val endDate = intent.getStringExtra("endDate")
         val llPhongContainer = findViewById<LinearLayout>(R.id.llPhongContainer)
+
 
         // anh xa
         txtGiaChuaGiam = findViewById(R.id.txt_giaChuaGiam)
@@ -101,17 +106,19 @@ class BookingActivity : AppCompatActivity() {
         ttZaloPay = findViewById(R.id.ttZaloPay)
         ttQuaMoMo = findViewById(R.id.ttQuaMoMo)
         edtCoupon = findViewById(R.id.edtCoupon)
-        btnBooking = findViewById(R.id.btnBooking)
+        btnBooking = findViewById<TextView>(R.id.btnBooking)
         icBack = findViewById(R.id.ic_back)
         ngayNhan = findViewById(R.id.txt_ngayNhanPhongTT)
         ngayTra = findViewById(R.id.txt_ngayTraPhongTT)
         soDem = findViewById(R.id.txt_soDem)
         tenKH = findViewById(R.id.txt_tenKhachHangTT)
         sdtKH = findViewById(R.id.txt_SDT_khachHangTT)
-
+        tong = findViewById(R.id.txt_tongGia)
         // gan du lieu
         ngayNhan.text = startDate
         ngayTra.text = endDate
+
+        tong.text = gia.toString()
 
         val idNguoiDung = intent.getStringExtra("idNguoiDung")
             ?: getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("idNguoiDung", null)
@@ -123,7 +130,7 @@ class BookingActivity : AppCompatActivity() {
         }
 
         if (selectedRooms != null) {
-            val guestCountsMap =
+            guestCountsMap =
                 intent.getSerializableExtra("guestCountsMap") as? HashMap<String, Int>
             for (phong in selectedRooms) {
                 val guestCount = guestCountsMap?.get(phong.soPhong) ?: 1
