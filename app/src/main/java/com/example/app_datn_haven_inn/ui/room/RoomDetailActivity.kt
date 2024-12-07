@@ -64,7 +64,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         val tvSLKhach = intent.getStringExtra("soLuongKhach").toString() + " Khách"
         val tvDienTich = intent.getStringExtra("dienTich").toString() + " mét vuông"
         val hinhAnh = intent.getStringArrayExtra("hinhAnh")
-        val tvGiaTien = intent.getStringExtra("giaTien").toString()
+        val tvGiaTien = intent.getIntExtra("giaTien", 0)
         val moTa = intent.getStringExtra("moTa")
          isFavorite = intent.getBooleanExtra("isFavorite", false)
 

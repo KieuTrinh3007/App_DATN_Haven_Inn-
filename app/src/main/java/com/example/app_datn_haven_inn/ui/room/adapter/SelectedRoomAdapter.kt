@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.databinding.ItemChiTietGiaPhongBinding
+import java.text.NumberFormat
+import java.util.Locale
 
 class SelectedRoomAdapter(
     private var selectedRooms: MutableList<PhongModel>,
@@ -45,8 +47,9 @@ class SelectedRoomAdapter(
             holder.binding.tvAnSang.visibility = View.GONE
             holder.binding.rdKhongBuaSang.visibility = View.GONE
         } else {
+
             val roomPrice = price
-            holder.binding.tvGia.text = roomPrice.toString()
+            holder.binding.tvGia.text = formatCurrency(roomPrice)
 
             // Hiển thị lại rdoBuaSang nếu không phải phòng VIP
             holder.binding.tvGiaAn.visibility = View.VISIBLE
@@ -78,6 +81,7 @@ class SelectedRoomAdapter(
                 onTotalPriceChanged?.invoke()
                 onGuestCountChanged?.invoke(roomName, guestCounts[roomName] ?: 1)
             } else {
+                holder.binding.tvPlusSLKhach.alpha = 0.3f
                 Toast.makeText(
                     holder.itemView.context,
                     "Số khách tối đa là $maxGuestCount",
@@ -95,6 +99,7 @@ class SelectedRoomAdapter(
                 onTotalPriceChanged?.invoke()
                 onGuestCountChanged?.invoke(roomName, guestCounts[roomName] ?: 1)
             } else {
+                holder.binding.tvMinusSLKhach.alpha = 0.3f
                 Toast.makeText(
                     holder.itemView.context,
                     "Số khách tối thiểu là 1",
@@ -158,8 +163,10 @@ class SelectedRoomAdapter(
         return guestCounts
     }
 
-
-
+    private fun formatCurrency(amount: Int): String {
+        val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
+        return formatter.format(amount) + " đ"
+    }
 
     inner class ViewHolder(val binding: ItemChiTietGiaPhongBinding) :
         RecyclerView.ViewHolder(binding.root)
