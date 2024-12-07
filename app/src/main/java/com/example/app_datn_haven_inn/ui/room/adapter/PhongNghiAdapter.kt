@@ -89,7 +89,7 @@ class PhongNghiAdapter(
                 intent.putExtra("dienTich", phong.dienTich.toString())
                 intent.putExtra("hinhAnh", phong.hinhAnh.toTypedArray())
                 intent.putExtra("moTa", phong.moTa)
-                intent.putExtra("giaTien", phong.giaTien.toString())
+                intent.putExtra("giaTien", phong.giaTien.toInt())
                 intent.putExtra("isFavorite", phong.isFavorite)
                 context.startActivity(intent)
             }

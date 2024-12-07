@@ -103,89 +103,16 @@
 
             </RelativeLayout>
 
-            <LinearLayout
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <TextView
-                    android:id="@+id/txt_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="9.0"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:background="@drawable/bg_radius_5_danh_gia"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="5dp"/>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="10dp">
-
-                    <TextView
-                        android:id="@+id/txt_camxuc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tuyệt vời"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
-
-                    <TextView
-                        android:id="@+id/txt_number_review"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0 nhận xét"
-                        android:textSize="10sp"
-                        android:textColor="@color/black"/>
-
-                </LinearLayout>
-            </LinearLayout>
+                android:text="Tổng quan phòng"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/boder_img_radius"
-                android:backgroundTint="#F1F5F9"
-                android:orientation="vertical"
                 android:layout_marginTop="10dp"
-                android:padding="12dp">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_bling"
-                        android:layout_marginRight="12dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Đặc điểm nổi bật"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"/>
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/tvMoTa"
-                    android:fontFamily="@font/roboto_regular"
-                    android:layout_width="match_parent"
-                    android:text="ahjgfhdgfh"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:weightSum="2"
@@ -337,112 +264,10 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/top_boder">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:paddingVertical="12dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Nhận xét và đánh giá"
-                        android:textSize="16sp"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_danhgiadetail"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="9.0"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/black"
-                        android:background="@drawable/bg_radius_5_danh_gia"
-                        android:paddingHorizontal="8dp"
-                        android:paddingVertical="5dp"
-                        android:layout_marginLeft="90dp"/>
-
-                    <TextView
-                        android:id="@+id/txt_number_review1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="10 nhận xét"
-                        android:textColor="@color/black"
-                        android:layout_marginStart="9dp"
-                        android:textSize="10sp"
-                        />
-                </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_review"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    android:orientation="vertical"
-                    app:spanCount="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
-
-                <TextView
-                    android:id="@+id/txtSeeAllReviews"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Xem tất cả bình luận  >"
-                    android:textColor="#64A89C"
-                    android:visibility="gone"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="33dp"
-                android:weightSum="2">
 
-                <TextView
-                    android:id="@+id/btnAddFavorite"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_radius_15_tt_phong"
-                    android:paddingVertical="10dp"
-                    android:fontFamily="@font/roboto_bold"
-                    android:textAlignment="center"
-                    android:text="Thêm vào yêu thích"
-                    android:textAllCaps="false"
-                    android:layout_marginRight="20dp"
-                    android:textColor="@color/white"
-                    android:textSize="13sp" />
 
-                <TextView
-                    android:id="@+id/btnTuyChinh"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_gravity="center"
-                    android:paddingVertical="10dp"
-                    android:textAlignment="center"
-                    android:fontFamily="@font/roboto_bold"
-                    android:background="@drawable/bg_radius_15_tt_phong"
-                    android:text="Tuỳ chỉnh và đặt"
-                    android:textAllCaps="false"
-                    android:layout_marginLeft="20dp"
-                    android:textColor="@color/white"
-                    android:textSize="13sp" />
-            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
