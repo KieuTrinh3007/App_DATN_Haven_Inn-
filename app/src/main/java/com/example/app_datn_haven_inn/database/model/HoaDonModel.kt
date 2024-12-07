@@ -15,7 +15,6 @@ data class HoaDonModel(
     @field:SerializedName("trangThai") var trangThai: Int,
     @field:SerializedName("giamGia") var giamGia: Double,
     @field:SerializedName("tongTien") var tongTien: Double,
-    @field:SerializedName("chiTiet") var chiTiet: ArrayList<ChiTietHoaDonModel1>
-
-
+    @field:SerializedName("chitiet") var chiTiet: ArrayList<ChiTietHoaDonModel1>
     )
+

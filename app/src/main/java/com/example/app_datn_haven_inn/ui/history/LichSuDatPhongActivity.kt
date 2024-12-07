@@ -40,10 +40,10 @@ class LichSuDatPhongActivity : AppCompatActivity() {
 //        }
 
         // Fetch booking history data
-        fetchBookingHistory()
+        fetchHistory()
     }
 
-    private fun fetchBookingHistory() {
+    private fun fetchHistory() {
         val retrofit = Retrofit.Builder()
             .baseUrl(Constans.DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())
@@ -59,36 +59,37 @@ class LichSuDatPhongActivity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {
-                val response = service.getListHoaDon()
+                val response = service.getHistory(userId)
                 if (response.isSuccessful) {
-                    val hoaDonList = response.body()
+                    val historyList = response.body()
 
-                    if (hoaDonList.isNullOrEmpty()) {
+                    if (historyList.isNullOrEmpty()) {
                         withContext(Dispatchers.Main) {
-                            showMessage("Không có lịch sử đặt phòng nào")
+                            showMessage("Không có lịch sử đặt phòng")
                         }
                     } else {
                         withContext(Dispatchers.Main) {
-                            // Set the adapter with the booking history list
-                            adapter = LichSuAdapter(hoaDonList)
+                            // Set the adapter with the history list
+                            adapter = LichSuAdapter(historyList)
                             binding.recyclerViewLs.adapter = adapter
                         }
                     }
                 } else {
                     val errorResponse = response.errorBody()?.string()
-                    Log.e("LichSuDatPhongActivity", "API Error: $errorResponse")
+                    Log.e("HistoryActivity", "API Error: $errorResponse")
                     withContext(Dispatchers.Main) {
-                        showMessage("Lỗi khi tải danh sách lịch sử: $errorResponse")
+                        showMessage("Lỗi khi tải lịch sử: $errorResponse")
                     }
                 }
             } catch (e: Exception) {
-                Log.e("LichSuDatPhongActivity", "Exception: ${e.message}", e)
+                Log.e("HistoryActivity", "Exception: ${e.message}", e)
                 withContext(Dispatchers.Main) {
-                    showMessage("Có lỗi xảy ra khi tải danh sách lịch sử. Vui lòng thử lại!")
+                    showMessage("Có lỗi xảy ra khi tải lịch sử. Vui lòng thử lại!")
                 }
             }
         }
     }
+
 
     private fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

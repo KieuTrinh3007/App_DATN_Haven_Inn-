@@ -16,11 +16,10 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <!-- Ảnh phòng -->
         <ImageView
             android:id="@+id/imgPhong"
-            android:layout_width="120dp"
-            android:layout_height="100dp"
+            android:layout_width="110dp"
+            android:layout_height="120dp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/avat2"
             android:scaleType="centerCrop" />
@@ -55,13 +54,6 @@
                 android:text="Ngày nhận phòng: "
                 android:textSize="14sp" />
 
-            <!-- Số lượng khách -->
-            <TextView
-                android:id="@+id/txtSoLuongKhach"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Số lượng khách: "
-                android:textSize="14sp" />
 
             <!-- Tổng tiền -->
             <TextView
