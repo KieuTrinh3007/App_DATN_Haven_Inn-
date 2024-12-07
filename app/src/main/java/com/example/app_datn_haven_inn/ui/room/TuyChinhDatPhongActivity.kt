@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.app_datn_haven_inn.BaseActivity
@@ -15,8 +16,10 @@ import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, PhongViewModel>() {
 
@@ -31,7 +34,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
     private var totalPrice: Double = 0.0
     private var selectedRooms: List<PhongModel> = emptyList()
     private var guestCountsMap: HashMap<String, Double>? = null
-
+    var numberOfNights: Int = 0
 
     override fun initView() {
         super.initView()
@@ -45,6 +48,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             } else {
                 selectedRoomAdapter?.removeRoom(selectedRoom)
             }
+            updateTotalPrice()
         })
 
         selectedRoomAdapter = SelectedRoomAdapter(mutableListOf(), tvSLKhach, gia.toInt())
@@ -70,20 +74,40 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
 
         val calendar = Calendar.getInstance()
+
+        // Lấy ngày hiện tại và định dạng
         val formattedDay = String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH))
         val formattedMonth = String.format("%02d", calendar.get(Calendar.MONTH) + 1)
         val currentDate = "$formattedDay/$formattedMonth/${calendar.get(Calendar.YEAR)}"
+
+        // Hiển thị ngày hiện tại lên UI
         binding.tvNgay.text = currentDate
         binding.tvNgay1.text = currentDate
+
+        // Gán ngày nhận phòng và trả phòng
         selectedStartDate = currentDate
         selectedEndDate = currentDate
+
+        // Đảm bảo ngày trả phòng luôn lớn hơn ngày nhận phòng 1 ngày
+        calendar.add(Calendar.DAY_OF_MONTH, 1)  // Tăng thêm 1 ngày
+        val nextDay = calendar.time
+
+        // Định dạng lại ngày trả phòng (ngày tiếp theo của ngày hiện tại)
+        val formattedEndDay = String.format("%02d", nextDay.date)
+        val formattedEndMonth = String.format("%02d", nextDay.month + 1)
+        val nextDate =
+            "$formattedEndDay/$formattedEndMonth/${nextDay.year + 1900}"  // Thêm 1900 vì year trả về từ Calendar bắt đầu từ 1900
+
+        binding.tvNgay1.text = nextDate
+        selectedEndDate = nextDate
+
 
         binding.ivBack.setOnClickListener {
             finish()
         }
 
         binding.tvDat.setOnClickListener {
-            totalPrice = (selectedRoomAdapter?.calculateTotalPrice() ?: 0).toDouble()
+            totalPrice = (selectedRoomAdapter?.calculateTotalPrice(1) ?: 0).toDouble()
             selectedRooms = selectedRoomAdapter?.getSelectedRooms() ?: emptyList()
             guestCountsMap = HashMap(
                 selectedRoomAdapter?.guestCounts ?: emptyMap()
@@ -100,10 +124,13 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             intent.putExtra("startDate", selectedStartDate)
             intent.putExtra("endDate", selectedEndDate)
             intent.putExtra("guestCountsMap", guestCountsMap)
+            val tongTien = binding.tvTong.text.toString()
+            intent.putExtra("tongTien", tongTien)
             startActivity(intent)
-
-
         }
+
+        numberOfNights = 1
+        binding.tvSoDem.text = "$numberOfNights" + " đêm"
 
         binding.ivCalendar.setOnClickListener {
 
@@ -113,7 +140,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             val month = calendar.get(Calendar.MONTH)
             val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-            // Hiển thị DatePickerDialog
+            // Hiển thị DatePickerDialog cho ngày bắt đầu
             val datePickerDialog = DatePickerDialog(
                 this,
                 { _, selectedYear, selectedMonth, selectedDay ->
@@ -123,48 +150,106 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                     val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
                     selectedStartDate = selectedDate
                     binding.tvNgay.text = selectedDate
+                    updateTotalPrice()
+                    binding.tvSoDem.text = numberOfNights.toString() + " đêm"
                 },
                 year, month, day
             )
+            datePickerDialog.datePicker.minDate = calendar.timeInMillis
             datePickerDialog.show()
 
         }
 
         binding.ivCalendar1.setOnClickListener {
 
+            // Kiểm tra xem selectedStartDate có được chọn chưa
+            if (selectedStartDate == null) {
+                // Nếu chưa chọn ngày nhận phòng, không cho phép chọn ngày trả phòng
+                Toast.makeText(this, "Vui lòng chọn ngày nhận phòng trước", Toast.LENGTH_SHORT)
+                    .show()
+                return@setOnClickListener
+            }
 
-            val calendar = Calendar.getInstance()
-            val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH)
-            val day = calendar.get(Calendar.DAY_OF_MONTH)
+            // Lấy ngày nhận phòng đã chọn (selectedStartDate) và cộng thêm 1 ngày để làm ngày trả phòng
+            val startCalendar = Calendar.getInstance()
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+            val startDate = dateFormat.parse(selectedStartDate)
 
+            if (startDate != null) {
+                startCalendar.time = startDate
+                startCalendar.add(Calendar.DAY_OF_MONTH, 1)  // Tăng thêm 1 ngày
 
-            val datePickerDialog = DatePickerDialog(
-                this,
-                { _, selectedYear, selectedMonth, selectedDay ->
+                val year = startCalendar.get(Calendar.YEAR)
+                val month = startCalendar.get(Calendar.MONTH)
+                val day = startCalendar.get(Calendar.DAY_OF_MONTH)
 
-                    val formattedDay = String.format("%02d", selectedDay)
-                    val formattedMonth = String.format("%02d", selectedMonth + 1)
-                    val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
-                    selectedEndDate = selectedDate
-                    binding.tvNgay1.text = selectedDate
-                },
-                year, month, day
-            )
-            datePickerDialog.show()
+                // Hiển thị DatePickerDialog cho ngày trả phòng (ngày sau ngày nhận phòng)
+                val datePickerDialog = DatePickerDialog(
+                    this,
+                    { _, selectedYear, selectedMonth, selectedDay ->
 
+                        val formattedDay = String.format("%02d", selectedDay)
+                        val formattedMonth = String.format("%02d", selectedMonth + 1)
+                        val selectedDate = "$formattedDay/$formattedMonth/$selectedYear"
+                        selectedEndDate = selectedDate
+                        binding.tvNgay1.text = selectedDate
+                        updateTotalPrice()
+                        binding.tvSoDem.text = numberOfNights.toString() + " đêm"
+                    },
+                    year, month, day
+                )
+                datePickerDialog.datePicker.minDate = calendar.timeInMillis
+                datePickerDialog.show()
+            }
         }
     }
+
+
     private fun updateTotalPrice() {
-        val totalPrice = selectedRoomAdapter?.calculateTotalPrice() ?: 0
-        binding.tvTong.text = formatCurrency(totalPrice)
-    }
+        // Tính số đêm nếu đã chọn ngày
+        if (selectedStartDate != null && selectedEndDate != null) {
+            numberOfNights = calculateNumberOfNights(selectedStartDate, selectedEndDate) ?: 0
+        } else {
+            numberOfNights = 1  // Nếu chưa chọn ngày, mặc định là 1 đêm
+        }
+
+        // Cập nhật số đêm lên UI
+        binding.tvSoDem.text = "$numberOfNights đêm"
+
+        // Cập nhật tổng giá tiền
+        if (numberOfNights > 0) {
+            val totalPrice = selectedRoomAdapter?.calculateTotalPrice(numberOfNights) ?: 0
+            binding.tvTong.text = formatCurrency(totalPrice)
+        } else {
+            binding.tvTong.text = "0 đ"
+        }
+
+
+}
 
     private fun formatCurrency(amount: Int): String {
         val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
         return formatter.format(amount) + " đ"
     }
 
+    private fun calculateNumberOfNights(startDate: String?, endDate: String?): Int? {
+        if (startDate.isNullOrEmpty() || endDate.isNullOrEmpty()) return 0
+
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        return try {
+            val start = dateFormat.parse(startDate)
+            val end = dateFormat.parse(endDate)
+            if (start != null && end != null && !end.before(start)) {
+                val diffInMillis = end.time - start.time
+                TimeUnit.MILLISECONDS.toDays(diffInMillis).toInt()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 
 }
 
