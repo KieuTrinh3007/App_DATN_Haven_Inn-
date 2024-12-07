@@ -9,6 +9,7 @@ import android.os.StrictMode.ThreadPolicy
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -35,6 +36,7 @@ import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
 import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import com.example.app_datn_haven_inn.ui.room.TuyChinhDatPhongActivity
 import com.google.gson.Gson
+import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -60,10 +62,12 @@ class BookingActivity : AppCompatActivity() {
     private var isThanhToan = false
     private lateinit var ngayNhan: TextView
     private lateinit var ngayTra: TextView
-    private lateinit var soDem: TextView
-    private lateinit var tenKH: TextView
-    private lateinit var sdtKH: TextView
-    private val nguoiDungService: NguoiDungService by lazy {
+    private lateinit var soDem : TextView
+    private lateinit var tenKH : TextView
+    private lateinit var sdtKH : TextView
+    private lateinit var tong: TextView
+    var guestCountsMap: HashMap<String, Int>? = null
+     private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService()
     }
     private lateinit var hoaDonService: HoaDonService
@@ -92,10 +96,12 @@ class BookingActivity : AppCompatActivity() {
 
         // truyen du lieu
         val selectedRooms = intent.getParcelableArrayListExtra<PhongModel>("selectedRooms")
-        val gia = intent.getStringExtra("totalPrice")
+        val gia = intent.getDoubleExtra("totalPrice", 0.0)
+
         val startDate = intent.getStringExtra("startDate")
         val endDate = intent.getStringExtra("endDate")
         val llPhongContainer = findViewById<LinearLayout>(R.id.llPhongContainer)
+
 
         // anh xa
         txtGiaChuaGiam = findViewById(R.id.txt_giaChuaGiam)
@@ -105,7 +111,7 @@ class BookingActivity : AppCompatActivity() {
         ttZaloPay = findViewById(R.id.ttZaloPay)
         ttQuaMoMo = findViewById(R.id.ttQuaMoMo)
         edtCoupon = findViewById(R.id.edtCoupon)
-        btnBooking = findViewById(R.id.btnBooking)
+        btnBooking = findViewById<TextView>(R.id.btnBooking)
         icBack = findViewById(R.id.ic_back)
         ngayNhan = findViewById(R.id.txt_ngayNhanPhongTT)
         ngayTra = findViewById(R.id.txt_ngayTraPhongTT)
@@ -118,6 +124,9 @@ class BookingActivity : AppCompatActivity() {
         ngayTra.text = endDate
 
         idNguoiDung = intent.getStringExtra("idNguoiDung")
+        tong.text = gia.toString()
+
+        val idNguoiDung = intent.getStringExtra("idNguoiDung")
             ?: getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("idNguoiDung", null)
 
         idNguoiDung?.let { fetchUserProfile(it) } ?: run {
@@ -127,7 +136,7 @@ class BookingActivity : AppCompatActivity() {
         }
 
         if (selectedRooms != null) {
-            val guestCountsMap =
+            guestCountsMap =
                 intent.getSerializableExtra("guestCountsMap") as? HashMap<String, Int>
             for (phong in selectedRooms) {
                 val guestCount = guestCountsMap?.get(phong.soPhong) ?: 1
@@ -372,7 +381,7 @@ class BookingActivity : AppCompatActivity() {
         )
 
         chiTiet.add(ChiTietHoaDonModel("67458eb205f65d34c273f847", 2, 20000.0, false))
-        
+
         val hoaDon = HoaDonModel(
             "67383ffd4bd6355e37a1d253",
             "674dea63dd8162fb5938cd22",
