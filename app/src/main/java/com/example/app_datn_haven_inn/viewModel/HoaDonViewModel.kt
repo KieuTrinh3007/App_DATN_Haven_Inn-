@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.HoaDonModel
+import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.database.repository.HoaDonRepository
 import com.example.app_datn_haven_inn.database.service.HoaDonService
 
@@ -31,6 +32,12 @@ class HoaDonViewModel : BaseViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
+    fun getPhongList(): LiveData<List<PhongModel>> {
+        val phongList = MutableLiveData<List<PhongModel>>()
+        // Fetch phòng list từ repository của bạn, tương tự như cách bạn lấy dữ liệu hóa đơn
+        // phongList.value = phongRepository.getPhongList()
+        return phongList
+    }
     fun getListhoaDon() {
         viewModelScope.launch {
             try {
