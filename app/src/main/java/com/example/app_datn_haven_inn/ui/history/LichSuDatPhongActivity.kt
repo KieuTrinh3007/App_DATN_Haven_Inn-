@@ -63,11 +63,7 @@ class LichSuDatPhongActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val historyList = response.body()
 
-                    if (historyList.isNullOrEmpty()) {
-                        withContext(Dispatchers.Main) {
-                            showMessage("Không có lịch sử đặt phòng")
-                        }
-                    } else {
+                    if (!historyList.isNullOrEmpty()){
                         withContext(Dispatchers.Main) {
                             // Set the adapter with the history list
                             adapter = LichSuAdapter(historyList)
@@ -78,7 +74,7 @@ class LichSuDatPhongActivity : AppCompatActivity() {
                     val errorResponse = response.errorBody()?.string()
                     Log.e("HistoryActivity", "API Error: $errorResponse")
                     withContext(Dispatchers.Main) {
-                        showMessage("Lỗi khi tải lịch sử: $errorResponse")
+                        showMessage("Không tìm thấy hóa đơn.")
                     }
                 }
             } catch (e: Exception) {

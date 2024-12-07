@@ -34,23 +34,19 @@ import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.database.service.PhongService
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
 import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
-import com.example.app_datn_haven_inn.ui.room.TuyChinhDatPhongActivity
 import com.google.gson.Gson
-import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import vn.zalopay.sdk.Environment
-import vn.zalopay.sdk.ZaloPayError
 import vn.zalopay.sdk.ZaloPaySDK
-import vn.zalopay.sdk.listeners.PayOrderListener
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 class BookingActivity : AppCompatActivity() {
-    private lateinit var txtGiaChuaGiam: TextView
     private lateinit var txtGiaDaGiam: TextView
     private lateinit var rdo_zalo: RadioButton
     private lateinit var rdoMomo: RadioButton
@@ -197,8 +193,6 @@ class BookingActivity : AppCompatActivity() {
             startActivity(intent)
         }
         // Gạch ngang cho TextView
-        txtGiaChuaGiam.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-
         ttZaloPay.setOnClickListener {
             if (!rdo_zalo.isChecked) {
                 rdo_zalo.isChecked = true
