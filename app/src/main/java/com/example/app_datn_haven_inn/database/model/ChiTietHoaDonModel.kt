@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class ChiTietHoaDonModel(
     @field:SerializedName("id_Phong") var id_Phong: String,
-    @field:SerializedName("id_HoaDon") var id_HoaDon: String? = null,
     @field:SerializedName("soLuongKhach") var soLuongKhach: Int,
     @field:SerializedName("giaPhong") var giaPhong: Double,
     @field:SerializedName("buaSang") var buaSang: Boolean,
