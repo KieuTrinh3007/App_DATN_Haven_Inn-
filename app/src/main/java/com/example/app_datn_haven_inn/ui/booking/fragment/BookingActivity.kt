@@ -98,11 +98,11 @@ class BookingActivity : AppCompatActivity() {
 
         val startDate = intent.getStringExtra("startDate")
         val endDate = intent.getStringExtra("endDate")
+        val tongTT = intent.getStringExtra("tongTien")
         val llPhongContainer = findViewById<LinearLayout>(R.id.llPhongContainer)
 
 
         // anh xa
-        txtGiaChuaGiam = findViewById(R.id.txt_giaChuaGiam)
         txtGiaDaGiam = findViewById(R.id.txt_giaDaGiam)
         rdo_zalo = findViewById(R.id.rdo_zalo)
         rdoMomo = findViewById(R.id.rdo_momo)
@@ -122,7 +122,11 @@ class BookingActivity : AppCompatActivity() {
         ngayNhan.text = startDate
         ngayTra.text = endDate
 
-        tong.text = formatCurrency(gia.toInt())
+        Log.d("TAG123", tongTT.toString())
+        tongTT?.let {
+            tong.text = it
+        }
+
 
         val idNguoiDung = intent.getStringExtra("idNguoiDung")
             ?: getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("idNguoiDung", null)
