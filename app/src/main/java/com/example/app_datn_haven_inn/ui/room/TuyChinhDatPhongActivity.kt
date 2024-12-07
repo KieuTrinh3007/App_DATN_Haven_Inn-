@@ -14,7 +14,9 @@ import com.example.app_datn_haven_inn.ui.booking.BookingActivity
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
+import java.text.NumberFormat
 import java.util.Calendar
+import java.util.Locale
 
 class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, PhongViewModel>() {
 
@@ -34,8 +36,8 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
     override fun initView() {
         super.initView()
         val idLoaiPhong = intent.getStringExtra("id_LoaiPhong")
-        val gia = intent.getIntExtra("giaTien",100000)
-        val tvSLKhach = intent.getIntExtra("soLuongKhach",1)
+        val gia = intent.getIntExtra("giaTien", 100000)
+        val tvSLKhach = intent.getIntExtra("soLuongKhach", 1)
 
         adapter = TuyChinhDatPhongAdapter(emptyList(), onRoomClick = { selectedRoom, isSelected ->
             if (isSelected) {
@@ -45,7 +47,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             }
         })
 
-        selectedRoomAdapter = SelectedRoomAdapter(mutableListOf(), tvSLKhach,gia.toInt())
+        selectedRoomAdapter = SelectedRoomAdapter(mutableListOf(), tvSLKhach, gia.toInt())
         selectedRoomAdapter?.onTotalPriceChanged = {
             updateTotalPrice()
         }
@@ -72,7 +74,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         val formattedMonth = String.format("%02d", calendar.get(Calendar.MONTH) + 1)
         val currentDate = "$formattedDay/$formattedMonth/${calendar.get(Calendar.YEAR)}"
         binding.tvNgay.text = currentDate
-        binding.tvNgay1.text =  currentDate
+        binding.tvNgay1.text = currentDate
         selectedStartDate = currentDate
         selectedEndDate = currentDate
 
@@ -81,14 +83,16 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         }
 
         binding.tvDat.setOnClickListener {
-             totalPrice = (selectedRoomAdapter?.calculateTotalPrice() ?: 0).toDouble()
+            totalPrice = (selectedRoomAdapter?.calculateTotalPrice() ?: 0).toDouble()
             selectedRooms = selectedRoomAdapter?.getSelectedRooms() ?: emptyList()
-             guestCountsMap = HashMap(selectedRoomAdapter?.guestCounts ?: emptyMap())?.filterValues { it > 0 } as HashMap<String, Double>?
+            guestCountsMap = HashMap(
+                selectedRoomAdapter?.guestCounts ?: emptyMap()
+            )?.filterValues { it > 0 } as HashMap<String, Double>?
 
             viewModel.saveBookingData(selectedRooms, totalPrice.toInt())
             phongViewModel?.saveBookingData(selectedRooms, totalPrice.toInt())
             binding.flBooking.visibility = View.VISIBLE
-            binding.clAcivity.visibility =  View.GONE
+            binding.clAcivity.visibility = View.GONE
 
             val intent = Intent(this, BookingActivity::class.java)
             intent.putExtra("totalPrice", totalPrice)
@@ -126,7 +130,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
         }
 
-        binding.ivCalendar1.setOnClickListener{
+        binding.ivCalendar1.setOnClickListener {
 
 
             val calendar = Calendar.getInstance()
@@ -153,10 +157,13 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
     }
     private fun updateTotalPrice() {
         val totalPrice = selectedRoomAdapter?.calculateTotalPrice() ?: 0
-        binding.tvTong.text = "$totalPrice"
+        binding.tvTong.text = formatCurrency(totalPrice)
     }
 
-
+    private fun formatCurrency(amount: Int): String {
+        val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
+        return formatter.format(amount) + " đ"
+    }
 
 
 }

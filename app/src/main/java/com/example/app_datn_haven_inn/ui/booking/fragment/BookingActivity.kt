@@ -42,6 +42,7 @@ import vn.zalopay.sdk.Environment
 import vn.zalopay.sdk.ZaloPayError
 import vn.zalopay.sdk.ZaloPaySDK
 import vn.zalopay.sdk.listeners.PayOrderListener
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -63,7 +64,9 @@ class BookingActivity : AppCompatActivity() {
     private lateinit var tenKH : TextView
     private lateinit var sdtKH : TextView
     private lateinit var tong: TextView
+    private lateinit var soPhongDem : TextView
     var guestCountsMap: HashMap<String, Int>? = null
+    var numberOfNights: Int = 0
      private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService()
     }
@@ -114,11 +117,12 @@ class BookingActivity : AppCompatActivity() {
         tenKH = findViewById(R.id.txt_tenKhachHangTT)
         sdtKH = findViewById(R.id.txt_SDT_khachHangTT)
         tong = findViewById(R.id.txt_tongGia)
+        soPhongDem = findViewById(R.id.txt_soPhong_soDem)
         // gan du lieu
         ngayNhan.text = startDate
         ngayTra.text = endDate
 
-        tong.text = gia.toString()
+        tong.text = formatCurrency(gia.toInt())
 
         val idNguoiDung = intent.getStringExtra("idNguoiDung")
             ?: getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("idNguoiDung", null)
@@ -162,13 +166,17 @@ class BookingActivity : AppCompatActivity() {
 
             if (checkInDate != null && checkOutDate != null) {
                 val diffInMillis = checkOutDate.time - checkInDate.time
-                val numberOfNights = TimeUnit.MILLISECONDS.toDays(diffInMillis).toInt()
+                numberOfNights = TimeUnit.MILLISECONDS.toDays(diffInMillis).toInt()
                 soDem.text = "$numberOfNights đêm lưu trú"
             }
         } catch (e: Exception) {
             e.printStackTrace()
             Log.e("BookingFragment", "Lỗi khi tính số đêm: ${e.message}")
         }
+
+        // tong phong va tong de
+        val soPhongDem = "${selectedRooms?.size ?: 0} phòng, $numberOfNights đêm"
+        soPhongDem.also { this.soPhongDem.text = it }
 
         hoaDonService = CreateService.createService()
 
@@ -449,6 +457,11 @@ class BookingActivity : AppCompatActivity() {
             tenKH.text = user.tenNguoiDung ?: "Không có tên"
             sdtKH.text = user.soDienThoai ?: "Không có số điện thoại"
         }
+    }
+
+    private fun formatCurrency(amount: Int): String {
+        val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
+        return formatter.format(amount) + " đ"
     }
 
     override fun onNewIntent(intent: Intent) {
