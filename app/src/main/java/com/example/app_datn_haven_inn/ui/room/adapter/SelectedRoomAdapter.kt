@@ -138,22 +138,26 @@ class SelectedRoomAdapter(
     }
 
 
-    fun calculateTotalPrice(): Int {
+    fun calculateTotalPrice(numberOfNights: Int): Int {
         var totalPrice = 0
         for (room in selectedRooms) {
             // Tính giá cơ bản cho phòng (VIP hoặc không VIP)
             val basePrice = if (room.vip) price + 300000 else price
 
-            // Cộng giá phòng vào tổng giá
-            totalPrice += basePrice
+            // Tính giá cho từng phòng và nhân với số đêm
+            var roomPrice = basePrice * numberOfNights
 
             // Thêm chi phí bữa sáng nếu có
             if (room.isBreakfast) {
-                totalPrice += 150000
+                roomPrice += 150000
             }
+
+            // Cộng giá của từng phòng vào tổng giá
+            totalPrice += roomPrice
         }
         return totalPrice
     }
+
 
     fun getSelectedRooms(): List<PhongModel> {
         return selectedRooms
