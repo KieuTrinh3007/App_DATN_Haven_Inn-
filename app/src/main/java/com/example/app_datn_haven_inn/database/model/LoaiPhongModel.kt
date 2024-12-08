@@ -1,7 +1,10 @@
 package com.example.app_datn_haven_inn.database.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class LoaiPhongModel (
     @field:SerializedName("_id") var id: String,
     @field:SerializedName("tenLoaiPhong") var tenLoaiPhong: String,
@@ -14,4 +17,4 @@ data class LoaiPhongModel (
     @field:SerializedName("moTa") var moTa: String,
     @field:SerializedName("trangThai") var trangThai: Boolean,
     var isFavorite : Boolean = false
-    )
+    ) : Parcelable
