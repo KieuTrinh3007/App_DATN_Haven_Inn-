@@ -42,7 +42,7 @@ class SelectedRoomAdapter(
         holder.binding.tvTenPhong.text = roomName
         if (room.vip) {
             val roomPrice = price + 300000
-            holder.binding.tvGia.text = roomPrice.toString()
+            holder.binding.tvGia.text = formatCurrency(roomPrice)
 
             // Ẩn rdoBuaSang nếu là phòng VIP
             holder.binding.tvGiaAn.visibility = View.GONE
