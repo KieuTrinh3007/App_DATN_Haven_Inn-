@@ -3,6 +3,7 @@ package com.example.app_datn_haven_inn.ui.coupon
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -32,10 +33,14 @@ class CouponActivity : AppCompatActivity() {
             Toast.makeText(this, "Đã chọn mã: ${coupon.maGiamGia}", Toast.LENGTH_SHORT).show()
 
             // Tạo Intent để trả lại mã giảm giá cho màn hình trước
+            Log.d("CouponActivity", "Mã giảm giá: ${coupon.maGiamGia}, ID: ${coupon.id}, Giảm: ${coupon.giamGia}, Tối đa: ${coupon.giamGiaToiDa}")
             val resultIntent = Intent()
-            resultIntent.putExtra("couponCode", coupon.maGiamGia) // Truyền mã giảm giá
-            resultIntent.putExtra("idCoupon", coupon.id)
-            setResult(Activity.RESULT_OK, resultIntent) // Đặt kết quả và trả lại
+            resultIntent.putExtra("couponCode", coupon.maGiamGia)
+            resultIntent.putExtra("couponId", coupon.id_cp)
+            resultIntent.putExtra("giamGia", coupon.giamGia.toString())
+            resultIntent.putExtra("giamGiaToiDa", coupon.giamGiaToiDa.toString())
+            setResult(Activity.RESULT_OK, resultIntent)
+
             finish() // Đóng màn hình CouponActivity
         }
 

@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.app_datn_haven_inn.BaseActivity
-import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
 import com.example.app_datn_haven_inn.ui.booking.BookingActivity
@@ -104,7 +103,6 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
         binding.tvNgay1.text = nextDate
         selectedEndDate = nextDate
-
 
         binding.ivBack.setOnClickListener {
             finish()

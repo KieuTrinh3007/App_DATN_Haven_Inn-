@@ -14,12 +14,16 @@ import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 class RoomTopAdapter(
     private val context: Context,
     private val roomList: List<LoaiPhongModel>,
+    private val danhGiaMap: Map<String, Pair<Double, Int>>, // Thêm map lưu số điểm và số lượng
     private val onItemClick: (LoaiPhongModel) -> Unit
 ) : RecyclerView.Adapter<RoomTopAdapter.RoomViewHolder>() {
 
     class RoomViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgRoom: ImageView = itemView.findViewById(R.id.imgImageRoomTop)
         val txtTitle: TextView = itemView.findViewById(R.id.txtTitleRoomTop)
+        val txtDanhGia: TextView = itemView.findViewById(R.id.txt_soDiem_nhanXet)
+        val txtTrangThai: TextView = itemView.findViewById(R.id.txt_danhGia_trangthai)
+        val txtSoNhanXet: TextView = itemView.findViewById(R.id.txt_soLuongNhanXet)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomViewHolder {
@@ -38,6 +42,13 @@ class RoomTopAdapter(
                 .into(holder.imgRoom)
         }
 
+        // Lấy thông tin đánh giá từ map
+        val (soDiem, soLuongDanhGia) = danhGiaMap[room.id] ?: Pair(0.0, 0)
+
+        // Hiển thị số điểm và số lượng đánh giá
+        holder.txtDanhGia.text = "$soDiem"
+        holder.txtSoNhanXet.text = "$soLuongDanhGia nhận xét"
+
         // Xử lý sự kiện click
         holder.itemView.setOnClickListener {
             onItemClick(room)
@@ -48,4 +59,5 @@ class RoomTopAdapter(
         return roomList.size.coerceAtMost(4)
     }
 }
+
 
