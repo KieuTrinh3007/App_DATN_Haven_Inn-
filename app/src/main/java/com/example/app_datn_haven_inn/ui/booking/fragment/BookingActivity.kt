@@ -40,7 +40,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import vn.zalopay.sdk.Environment
+import vn.zalopay.sdk.ZaloPayError
 import vn.zalopay.sdk.ZaloPaySDK
+import vn.zalopay.sdk.listeners.PayOrderListener
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -58,14 +60,14 @@ class BookingActivity : AppCompatActivity() {
     private var isThanhToan = false
     private lateinit var ngayNhan: TextView
     private lateinit var ngayTra: TextView
-    private lateinit var soDem : TextView
-    private lateinit var tenKH : TextView
-    private lateinit var sdtKH : TextView
+    private lateinit var soDem: TextView
+    private lateinit var tenKH: TextView
+    private lateinit var sdtKH: TextView
     private lateinit var tong: TextView
-    private lateinit var soPhongDem : TextView
+    private lateinit var soPhongDem: TextView
     var guestCountsMap: HashMap<String, Int>? = null
     var numberOfNights: Int = 0
-     private val nguoiDungService: NguoiDungService by lazy {
+    private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService()
     }
     private lateinit var hoaDonService: HoaDonService
@@ -76,11 +78,6 @@ class BookingActivity : AppCompatActivity() {
 
     var id_NguoiDung: String = ""
     var id_Coupon: String = ""
-    var ngayNhanPhong: String = ""
-    var ngayTraPhong: String = ""
-    var tongKhach: Int = 0
-    var tongPhong: Int = 0
-    var ngayThanhToan: String = ""
     var phuongThucThanhToan: String = ""
     var trangThai: Int = 1
     var chiTiet: ArrayList<ChiTietHoaDonModel> = ArrayList()
@@ -100,7 +97,6 @@ class BookingActivity : AppCompatActivity() {
         val endDate = intent.getStringExtra("endDate")
         val tongTT = intent.getStringExtra("tongTien")
         val llPhongContainer = findViewById<LinearLayout>(R.id.llPhongContainer)
-
 
         // anh xa
         txtGiaDaGiam = findViewById(R.id.txt_giaDaGiam)
@@ -220,62 +216,62 @@ class BookingActivity : AppCompatActivity() {
 
         val totalString = String.format("%.0f", 10000.0)
 
-//        btnBooking.setOnClickListener {
-//            val orderApi = CreateOrder()
-//            try {
-//                val data = orderApi.createOrder(totalString)
-//                val code = data.getString("return_code")
-//                if (code == "1") {
-//                    val token = data.getString("zp_trans_token")
-//                    ZaloPaySDK.getInstance().payOrder(
-//                        this@BookingActivity,
-//                        token,
-//                        "demozpdk://app",
-//                        object : PayOrderListener {
-//                            override fun onPaymentSucceeded(
-//                                p1: String?,
-//                                p2: String?,
-//                                p3: String?
-//                            ) {
-//                                // Hiển thị Dialog thông báo thanh toán thành công
-//                                showPaymentDialog(
-//                                    "Thanh toán thành công",
-//                                    "Bạn đã thanh toán thành công!",
-//                                    R.drawable.img_16
-//                                )
-//                            }
-//
-//                            override fun onPaymentCanceled(p1: String?, p2: String?) {
-//                                // Hiển thị Dialog thông báo thanh toán bị hủy
-//                                showPaymentDialog(
-//                                    "Thanh toán bị hủy",
-//                                    "Bạn đã hủy thanh toán!",
-//                                    R.drawable.img_18
-//                                )
-//                            }
-//
-//                            override fun onPaymentError(
-//                                error: ZaloPayError?,
-//                                p1: String?,
-//                                p2: String?
-//                            ) {
-//                                // Hiển thị Dialog thông báo lỗi thanh toán
-//                                showPaymentDialog(
-//                                    "Lỗi thanh toán",
-//                                    "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại!",
-//                                    R.drawable.img_18
-//                                )
-//                            }
-//                        })
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-
         btnBooking.setOnClickListener {
-            addHoaDon()
+            val orderApi = CreateOrder()
+            try {
+                val data = orderApi.createOrder(totalString)
+                val code = data.getString("return_code")
+                if (code == "1") {
+                    val token = data.getString("zp_trans_token")
+                    ZaloPaySDK.getInstance().payOrder(
+                        this@BookingActivity,
+                        token,
+                        "demozpdk://app",
+                        object : PayOrderListener {
+                            override fun onPaymentSucceeded(
+                                p1: String?,
+                                p2: String?,
+                                p3: String?
+                            ) {
+                                // Hiển thị Dialog thông báo thanh toán thành công
+                                showPaymentDialog(
+                                    "Thanh toán thành công",
+                                    "Bạn đã thanh toán thành công!",
+                                    R.drawable.img_16
+                                )
+                            }
+
+                            override fun onPaymentCanceled(p1: String?, p2: String?) {
+                                // Hiển thị Dialog thông báo thanh toán bị hủy
+                                showPaymentDialog(
+                                    "Thanh toán bị hủy",
+                                    "Bạn đã hủy thanh toán!",
+                                    R.drawable.img_18
+                                )
+                            }
+
+                            override fun onPaymentError(
+                                error: ZaloPayError?,
+                                p1: String?,
+                                p2: String?
+                            ) {
+                                // Hiển thị Dialog thông báo lỗi thanh toán
+                                showPaymentDialog(
+                                    "Lỗi thanh toán",
+                                    "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại!",
+                                    R.drawable.img_18
+                                )
+                            }
+                        })
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
+
+//        btnBooking.setOnClickListener {
+//            addHoaDon()
+//        }
 
         edtCoupon.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -289,7 +285,6 @@ class BookingActivity : AppCompatActivity() {
         tongTien = 1000000.0
 
         couponService = CreateService.createService<CouponService>()
-
 
 
 //        addHoaDon(

@@ -58,8 +58,6 @@ class SelectedRoomAdapter(
         }
 
 
-
-
         updateBreakfastIcon(holder, room.isBreakfast)
 
         holder.binding.rdKhongBuaSang.setOnClickListener {
