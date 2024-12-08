@@ -1,11 +1,13 @@
 package com.example.app_datn_haven_inn.ui.room.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.databinding.ItemChiTietGiaPhongBinding
 import java.text.NumberFormat
@@ -21,7 +23,7 @@ class SelectedRoomAdapter(
 
     var onTotalPriceChanged: (() -> Unit)? = null
     var onGuestCountChanged: ((roomName: String, guestCount: Int) -> Unit)? = null
-
+    private val hoaDonList = mutableListOf<ChiTietHoaDonModel>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemChiTietGiaPhongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -63,6 +65,7 @@ class SelectedRoomAdapter(
         holder.binding.rdKhongBuaSang.setOnClickListener {
             room.isBreakfast = !room.isBreakfast
             notifyItemChanged(position)
+            hoaDonList.find { it.id_Phong == room.id }?.buaSang = room.isBreakfast
             onTotalPriceChanged?.invoke()
             onGuestCountChanged?.invoke(roomName, guestCounts[roomName] ?: 1)
 
@@ -76,6 +79,8 @@ class SelectedRoomAdapter(
             if (currentCount < maxGuestCount) {
                 guestCounts[roomName] = currentCount + 1
                 holder.binding.tvSL.text = (currentCount + 1).toString()
+                hoaDonList.find { it.id_Phong == room.id }?.soLuongKhach = currentCount + 1
+
                 onTotalPriceChanged?.invoke()
                 onGuestCountChanged?.invoke(roomName, guestCounts[roomName] ?: 1)
             } else {
@@ -123,6 +128,17 @@ class SelectedRoomAdapter(
         guestCounts[room.soPhong] = 1
         notifyItemInserted(selectedRooms.size - 1)
         onTotalPriceChanged?.invoke()
+
+        val hoaDon = ChiTietHoaDonModel(
+            id_Phong = room.id,
+            soLuongKhach = guestCounts.getOrDefault(room.soPhong, 1),
+            giaPhong = if (room.vip) price + 300000.0 else price.toDouble(),
+            buaSang = room.isBreakfast
+        )
+
+        Log.d("SelectedRoomAdapter", "Thêm phòng mới: $hoaDon")
+        hoaDonList.add(hoaDon) // Thêm vào danh sách
+        notifyItemInserted(selectedRooms.size - 1)
     }
 
     fun removeRoom(room: PhongModel) {
@@ -130,6 +146,10 @@ class SelectedRoomAdapter(
         if (index != -1) {
             selectedRooms.removeAt(index)
             guestCounts.remove(room.soPhong)
+            notifyItemRemoved(index)
+            onTotalPriceChanged?.invoke()
+
+            hoaDonList.removeIf { it.id_Phong == room.soPhong }
             notifyItemRemoved(index)
             onTotalPriceChanged?.invoke()
         }
@@ -154,6 +174,10 @@ class SelectedRoomAdapter(
             totalPrice += roomPrice
         }
         return totalPrice
+    }
+
+    fun getHoaDonList(): List<ChiTietHoaDonModel> {
+        return hoaDonList
     }
 
 

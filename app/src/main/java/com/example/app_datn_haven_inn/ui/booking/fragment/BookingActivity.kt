@@ -98,6 +98,9 @@ class BookingActivity : AppCompatActivity() {
         val tongTT = intent.getStringExtra("tongTien")
         val llPhongContainer = findViewById<LinearLayout>(R.id.llPhongContainer)
 
+        val chiTietHoaDon = intent.getParcelableArrayListExtra<ChiTietHoaDonModel1>("chiTiet")
+        Log.d("BookingActivity", "Thông tin hóa đơn: $chiTietHoaDon")
+
         // anh xa
         txtGiaDaGiam = findViewById(R.id.txt_giaDaGiam)
         rdo_zalo = findViewById(R.id.rdo_zalo)

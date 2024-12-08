@@ -4,11 +4,13 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import com.example.app_datn_haven_inn.BaseActivity
+import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
 import com.example.app_datn_haven_inn.ui.booking.BookingActivity
@@ -34,6 +36,8 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
     private var totalPrice: Double = 0.0
     private var selectedRooms: List<PhongModel> = emptyList()
     private var guestCountsMap: HashMap<String, Double>? = null
+
+
     var numberOfNights: Int = 0
 
     override fun initView() {
@@ -126,6 +130,10 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             intent.putExtra("guestCountsMap", guestCountsMap)
             val tongTien = binding.tvTong.text.toString()
             intent.putExtra("tongTien", tongTien)
+
+            val hoaDonList = selectedRoomAdapter?.getHoaDonList() ?: emptyList()
+            Log.d("SelectedRoomAdapter", "Thông tin hóa đơn: $hoaDonList")
+            intent.putParcelableArrayListExtra("chiTiet", ArrayList(hoaDonList))
             startActivity(intent)
         }
 
