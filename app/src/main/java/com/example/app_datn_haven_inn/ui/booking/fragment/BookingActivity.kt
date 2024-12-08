@@ -1,6 +1,7 @@
 package com.example.app_datn_haven_inn.ui.booking
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
@@ -194,10 +195,18 @@ class BookingActivity : AppCompatActivity() {
         soPhongDem.also { this.soPhongDem.text = it }
 
         hoaDonService = CreateService.createService()
-
         icBack.setOnClickListener {
+            val returnIntent = Intent()
+            returnIntent.putParcelableArrayListExtra("selectedRooms", selectedRooms)
+            returnIntent.putExtra("totalPrice", gia)
+            returnIntent.putExtra("startDate", startDate)
+            returnIntent.putExtra("endDate", endDate)
+            returnIntent.putExtra("tongTien", tongTT)
+            returnIntent.putParcelableArrayListExtra("chiTietHoaDon", chiTietHoaDon)
+            setResult(Activity.RESULT_OK, returnIntent)
             finish()
         }
+
         // Gạch ngang cho TextView
         val paymentMethodsGroup = findViewById<RadioGroup>(R.id.paymentMethodsGroup)
 
@@ -226,7 +235,7 @@ class BookingActivity : AppCompatActivity() {
         // ZaloPay SDK Init
         ZaloPaySDK.init(2553, Environment.SANDBOX)
 
-        var total = String.format("%.0f", tongTanhToan/1000)
+        var total = String.format("%.0f", tongTanhToan / 1000)
 
         btnBooking.setOnClickListener {
             val orderApi = CreateOrder()
@@ -250,8 +259,17 @@ class BookingActivity : AppCompatActivity() {
                                 val ngayThanhToan = dateFormat.format(calendar.time)
 
                                 addHoaDon(
-                                    idNguoiDung!!, id_Coupon!!, startDate!!, endDate!!, tongKhach, tongPhong,
-                                    ngayThanhToan, phuongThucThanhToan, trangThai, tongTanhToan, chiTietHoaDon
+                                    idNguoiDung!!,
+                                    id_Coupon!!,
+                                    startDate!!,
+                                    endDate!!,
+                                    tongKhach,
+                                    tongPhong,
+                                    ngayThanhToan,
+                                    phuongThucThanhToan,
+                                    trangThai,
+                                    tongTanhToan,
+                                    chiTietHoaDon
                                 )
 
                                 showPaymentDialog(

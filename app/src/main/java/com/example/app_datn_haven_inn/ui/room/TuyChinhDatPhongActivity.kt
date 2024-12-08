@@ -1,11 +1,16 @@
 package com.example.app_datn_haven_inn.ui.room
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import com.example.app_datn_haven_inn.BaseActivity
+import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
 import com.example.app_datn_haven_inn.ui.booking.BookingActivity
@@ -117,8 +122,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
             viewModel.saveBookingData(selectedRooms, totalPrice.toInt())
             viewModel?.saveBookingData(selectedRooms, totalPrice.toInt())
-            binding.flBooking.visibility = View.VISIBLE
-            binding.clAcivity.visibility = View.GONE
+
 
             val intent = Intent(this, BookingActivity::class.java)
             intent.putExtra("totalPrice", totalPrice)

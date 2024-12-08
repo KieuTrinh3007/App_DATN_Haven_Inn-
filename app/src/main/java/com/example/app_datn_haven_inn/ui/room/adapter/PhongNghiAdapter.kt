@@ -24,7 +24,7 @@ class PhongNghiAdapter(
 ) : RecyclerView.Adapter<PhongNghiAdapter.PhongNghiViewHolder>() {
     private var onItemClick: ((LoaiPhongModel, Int) -> Unit)? = null
     private var onFavotiteSelected: ((LoaiPhongModel) -> Unit)? = null
-    private val ratingsMap = mutableMapOf<String, Float>()
+    var danhGiaMap: Map<String, Pair<Double, Int>> = emptyMap()
 
     fun setonFavotiteSelected(onFavotiteSelected: (LoaiPhongModel) -> Unit) {
         this.onFavotiteSelected = onFavotiteSelected
@@ -51,7 +51,7 @@ class PhongNghiAdapter(
     override fun onBindViewHolder(holder: PhongNghiViewHolder, position: Int) {
 
         val phong = listPhong[position]
-        val rating = ratingsMap[phong.id] ?: 0f
+
         phong.isFavorite = loadFavoriteState(context, phong)
         holder.binding.apply {
             val imageUrl = phong.hinhAnh[0]
@@ -64,14 +64,16 @@ class PhongNghiAdapter(
             } else {
                 ivPhong.setImageResource(R.drawable.img_room1)
             }
-
+            val (soDiem, soLuongDanhGia) = danhGiaMap[phong.id] ?: Pair(0.0, 0)
             tvTieuDe.text = phong.tenLoaiPhong
             tvDienTich.text = phong.dienTich.toString() + " mét vuông"
             tvSLKhach.text = phong.soLuongKhach.toString() + " khách"
             tvLoaiGiuong.text = phong.giuong
             tvGiaChinhThuc.text = "${formatCurrency(phong.giaTien.toInt())}đ"
             tvGiaVip.text = "${formatCurrency(phong.giaTien.toInt() + 300000)}đ"
-
+            tvTBDanhGia.text = String.format("%.1f", soDiem)
+            tvSLNhanXet.text = "$soLuongDanhGia nhận xét"
+            tvTraiNghiem.text
             tvTuyChinh.setOnClickListener {
                 val context = holder.binding.root.context
                 val intent = Intent(context, TuyChinhDatPhongActivity::class.java)

@@ -66,6 +66,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         val hinhAnh = intent.getStringArrayExtra("hinhAnh")
         val tvGiaTien = intent.getIntExtra("giaTien", 0)
         val moTa = intent.getStringExtra("moTa")
+        val danhGiaMap = mutableMapOf<String, Pair<Double, Int>>()
          isFavorite = intent.getBooleanExtra("isFavorite", false)
 
         binding.txtTenPhong.text = tvTenPhong
@@ -116,6 +117,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
 
                 // Cập nhật điểm trung bình vào TextView txtRating
                 binding.txtRating.text = String.format("%.1f", averageRating)
+                binding.txtRating1.text = String.format("%.1f", averageRating)
 
                 val emotion = when {
                     averageRating >= 9 -> "Tuyệt vời"
@@ -125,6 +127,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                     else -> "Rất tệ"
                 }
                 binding.txtCamxuc.text = emotion
+                danhGiaMap[idLoaiPhong.toString()] = Pair(averageRating.toDouble(), soDanhGia)
 
                 adapterReview?.let {
                     it.listReview = firstTwoReviews
