@@ -2,15 +2,10 @@ package com.example.app_datn_haven_inn.ui.room
 
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.content.SharedPreferences
-import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import com.example.app_datn_haven_inn.BaseActivity
-import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
 import com.example.app_datn_haven_inn.ui.booking.BookingActivity
@@ -28,7 +23,6 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
     private var adapter: TuyChinhDatPhongAdapter? = null
     private var selectedRoomAdapter: SelectedRoomAdapter? = null
-    private var phongViewModel: PhongViewModel? = null
     override fun createBinding() = ActivityTuyChinhDatPhongBinding.inflate(layoutInflater)
     override fun setViewModel() = PhongViewModel()
     private var selectedStartDate: String? = null
@@ -36,16 +30,18 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
     private var totalPrice: Double = 0.0
     private var selectedRooms: List<PhongModel> = emptyList()
     private var guestCountsMap: HashMap<String, Double>? = null
-
-
+    private var ngayNhanPhong: String = ""
+    private var ngayTraPhong: String = ""
+    var idLoaiPhong = ""
+    var gia = 0
+    var tvSLKhach = 1
     var numberOfNights: Int = 0
 
     override fun initView() {
         super.initView()
-        val idLoaiPhong = intent.getStringExtra("id_LoaiPhong")
-        val gia = intent.getIntExtra("giaTien", 100000)
-        val tvSLKhach = intent.getIntExtra("soLuongKhach", 1)
-
+        idLoaiPhong = intent.getStringExtra("id_LoaiPhong").toString()
+        gia = intent.getIntExtra("giaTien", 100000)
+        tvSLKhach = intent.getIntExtra("soLuongKhach", 1)
         adapter = TuyChinhDatPhongAdapter(emptyList(), onRoomClick = { selectedRoom, isSelected ->
             if (isSelected) {
                 selectedRoomAdapter?.addRoom(selectedRoom)
@@ -53,18 +49,20 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                 selectedRoomAdapter?.removeRoom(selectedRoom)
             }
             updateTotalPrice()
+            updateTvDatButtonState()
         })
 
         selectedRoomAdapter = SelectedRoomAdapter(mutableListOf(), tvSLKhach, gia.toInt())
         selectedRoomAdapter?.onTotalPriceChanged = {
             updateTotalPrice()
+
         }
 
 
         binding.rvChiTietGiaPhong.adapter = selectedRoomAdapter
         binding.rvChonSoPhong.adapter = adapter
 
-
+        updateTvDatButtonState()
         // list chon so phong -> tuy chinh dat phong
         viewModel.getListPhongByIdLoaiPhong(idLoaiPhong.toString())
         viewModel.phongListByIdLoaiPhong.observe(this) { list ->
@@ -111,6 +109,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         }
 
         binding.tvDat.setOnClickListener {
+
             totalPrice = (selectedRoomAdapter?.calculateTotalPrice(1) ?: 0).toDouble()
             selectedRooms = selectedRoomAdapter?.getSelectedRooms() ?: emptyList()
             guestCountsMap = HashMap(
@@ -118,7 +117,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             )?.filterValues { it > 0 } as HashMap<String, Double>?
 
             viewModel.saveBookingData(selectedRooms, totalPrice.toInt())
-            phongViewModel?.saveBookingData(selectedRooms, totalPrice.toInt())
+            viewModel?.saveBookingData(selectedRooms, totalPrice.toInt())
             binding.flBooking.visibility = View.VISIBLE
             binding.clAcivity.visibility = View.GONE
 
@@ -159,7 +158,25 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                     selectedStartDate = selectedDate
                     binding.tvNgay.text = selectedDate
                     updateTotalPrice()
+                    ngayNhanPhong = "$selectedYear-$formattedMonth-$formattedDay"
                     binding.tvSoDem.text = numberOfNights.toString() + " đêm"
+                    viewModel.getListPhongByDate(
+                        idLoaiPhong.toString(),
+                        ngayNhanPhong,
+                        ngayTraPhong
+                    )
+                    viewModel.phongListByDate.observe(this) { list ->
+
+                        Log.d("PhongViewModel", "List phong by date: $list")
+                        if (list != null) {
+                            val filteredList =
+                                list.filter { it.trangThai == 0 || it.trangThai == 1 }
+                            adapter?.let {
+                                it.listSoPhong = filteredList
+                                it.notifyDataSetChanged()
+                            }
+                        }
+                    }
                 },
                 year, month, day
             )
@@ -202,7 +219,25 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                         selectedEndDate = selectedDate
                         binding.tvNgay1.text = selectedDate
                         updateTotalPrice()
+                        ngayTraPhong = "$selectedYear-$formattedMonth-$formattedDay"
                         binding.tvSoDem.text = numberOfNights.toString() + " đêm"
+                        viewModel.getListPhongByDate(
+                            idLoaiPhong.toString(),
+                            ngayNhanPhong,
+                            ngayTraPhong
+                        )
+                        viewModel.phongListByDate.observe(this) { list ->
+                            Log.d("PhongViewModel", "List phong by date: $list")
+                            if (list != null) {
+                                val filteredList =
+                                    list.filter { it.trangThai == 0 || it.trangThai == 1 }
+                                adapter?.let {
+                                    it.listSoPhong = filteredList
+                                    it.notifyDataSetChanged()
+                                }
+                            }
+
+                        }
                     },
                     year, month, day
                 )
@@ -212,6 +247,11 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         }
     }
 
+    private fun updateTvDatButtonState() {
+        val isEnabled = selectedRoomAdapter?.getSelectedRooms()?.isNotEmpty() == true
+        binding.tvDat.isEnabled = isEnabled
+        binding.tvDat.alpha = if (isEnabled) 1.0f else 0.5f
+    }
 
     private fun updateTotalPrice() {
         // Tính số đêm nếu đã chọn ngày
@@ -231,9 +271,9 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         } else {
             binding.tvTong.text = "0 đ"
         }
+        updateTvDatButtonState()
 
-
-}
+    }
 
     private fun formatCurrency(amount: Int): String {
         val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))

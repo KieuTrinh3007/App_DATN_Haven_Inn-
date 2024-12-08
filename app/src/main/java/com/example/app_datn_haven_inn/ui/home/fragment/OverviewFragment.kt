@@ -174,6 +174,7 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
                         intent.putExtra("dienTich", room.dienTich.toString())
                         intent.putExtra("hinhAnh", room.hinhAnh.toTypedArray())
                         intent.putExtra("moTa", room.moTa)
+                        intent.putExtra("giaTien", room.giaTien.toInt())
 
                         Log.d("modelRoomTop", "loadRoomTopData: " + room.id + room.tenLoaiPhong +
                         room.giuong + room.dienTich + room.hinhAnh + room.moTa + room.soLuongKhach)

@@ -24,6 +24,7 @@ class PhongNghiAdapter(
 ) : RecyclerView.Adapter<PhongNghiAdapter.PhongNghiViewHolder>() {
     private var onItemClick: ((LoaiPhongModel, Int) -> Unit)? = null
     private var onFavotiteSelected: ((LoaiPhongModel) -> Unit)? = null
+    private val ratingsMap = mutableMapOf<String, Float>()
 
     fun setonFavotiteSelected(onFavotiteSelected: (LoaiPhongModel) -> Unit) {
         this.onFavotiteSelected = onFavotiteSelected
@@ -33,6 +34,7 @@ class PhongNghiAdapter(
         this.onItemClick = onItemClick
 
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhongNghiViewHolder {
         val binding = ItemTtPhongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -49,6 +51,7 @@ class PhongNghiAdapter(
     override fun onBindViewHolder(holder: PhongNghiViewHolder, position: Int) {
 
         val phong = listPhong[position]
+        val rating = ratingsMap[phong.id] ?: 0f
         phong.isFavorite = loadFavoriteState(context, phong)
         holder.binding.apply {
             val imageUrl = phong.hinhAnh[0]
@@ -77,7 +80,6 @@ class PhongNghiAdapter(
                 intent.putExtra("soLuongKhach", phong.soLuongKhach)
                 context.startActivity(intent)
             }
-
 
             holder.itemView.setOnClickListener {
                 Log.d("hinhAnh",phong.hinhAnh.toString())

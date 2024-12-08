@@ -29,6 +29,17 @@ class PhongRepository (private val api: PhongService) {
         }
     }
 
+    suspend fun getListPhongByDate(idLoaiPhong: String, ngayNhanPhong: String, ngayTraPhong: String): List<PhongModel>? = withContext(Dispatchers.IO) {
+        val response = api.getListPhongByDate(idLoaiPhong, ngayNhanPhong, ngayTraPhong)
+        if (response.isSuccessful) {
+            Log.d("PhongRepository", "getListPhong Success: ${response.body()}")
+            response.body()
+        } else {
+            Log.e("PhongRepository", "getListPhong Error: ${response.errorBody()}")
+            null
+        }
+    }
+
     suspend fun addPhong(carrier: PhongModel): PhongModel? = withContext(Dispatchers.IO) {
         val response = api.addPhong(carrier)
         if (response.isSuccessful) {

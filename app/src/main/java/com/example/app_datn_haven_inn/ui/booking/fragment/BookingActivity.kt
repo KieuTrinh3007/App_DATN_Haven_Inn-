@@ -101,7 +101,7 @@ class BookingActivity : AppCompatActivity() {
         val tongTT = intent.getStringExtra("tongTien")
         val llPhongContainer = findViewById<LinearLayout>(R.id.llPhongContainer)
 
-        val chiTietHoaDon = intent.getParcelableArrayListExtra<ChiTietHoaDonModel1>("chiTiet")
+        val chiTietHoaDon = intent.getParcelableArrayListExtra<ChiTietHoaDonModel>("chiTiet")
         Log.d("BookingActivity", "Thông tin hóa đơn: $chiTietHoaDon")
 
         // anh xa
@@ -191,8 +191,7 @@ class BookingActivity : AppCompatActivity() {
         hoaDonService = CreateService.createService()
 
         icBack.setOnClickListener {
-            val intent = Intent(this@BookingActivity, RoomDetailActivity::class.java)
-            startActivity(intent)
+            finish()
         }
         // Gạch ngang cho TextView
         ttZaloPay.setOnClickListener {
