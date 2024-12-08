@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.database.service
 
+import com.example.app_datn_haven_inn.database.model.Phong1Model
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import retrofit2.Call
 import retrofit2.Response
@@ -15,7 +16,7 @@ interface PhongService {
     @GET("phongs/")
     suspend fun getListPhong(): Response<List<PhongModel>>
 
-    @GET("phongs/")
+       @GET("phongs/")
     suspend fun getListPhongByIdLoaiPhong(@Query("id_LoaiPhong") idLoaiPhong: String): Response<List<PhongModel>>
 
     @POST("phongs/post")
@@ -32,4 +33,7 @@ interface PhongService {
 
     @GET("api/nguoidungs/myroom/{userId}")
     fun getUserRooms(@Path("userId") userId: String): Call<List<PhongModel>>
+
+    @GET("phongs/check/")
+    suspend fun getListPhongByDate(@Query("id_LoaiPhong") idLoaiPhong: String, @Query("ngayNhanPhong") ngayNhanPhong: String, @Query("ngayTraPhong") ngayTraPhong: String): Response<List<PhongModel>>
 }

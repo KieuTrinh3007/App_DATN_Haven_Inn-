@@ -2,6 +2,7 @@ package com.example.app_datn_haven_inn.database.service
 
 import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.database.model.HoaDonModel
+import com.example.app_datn_haven_inn.database.model.HoaDonModel1
 import com.example.app_datn_haven_inn.database.model.Phong1Model
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import retrofit2.Response
@@ -26,7 +27,7 @@ interface HoaDonService {
     suspend fun getListChiTietHoaDon(): Response<List<ChiTietHoaDonModel>>
 
     @POST("hoadons/post")
-    @Headers("Content-Type: application/json")
+//    @Headers("Content-Type: application/json")
     suspend fun addHoaDon(@Body HoaDon: HoaDonModel): Response<HoaDonModel>
 
     @PUT("hoadons/put/{id}")
@@ -42,6 +43,6 @@ interface HoaDonService {
     suspend fun getPhongDetails(@Path("id") id: String): Response<Phong1Model>
 
     @GET("hoadons/history")
-    suspend fun getHistory(@Query("id_NguoiDung") idNguoiDung: String): Response<List<HoaDonModel>>
+    suspend fun getHistory(@Query("id_NguoiDung") idNguoiDung: String): Response<List<HoaDonModel1>>
 
 }
