@@ -18,8 +18,10 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.AmThucModel
+import com.example.app_datn_haven_inn.database.model.DanhGiaNguoiDungModel
 import com.example.app_datn_haven_inn.database.repository.LoaiPhongRepository
 import com.example.app_datn_haven_inn.database.service.AmThucService
+import com.example.app_datn_haven_inn.database.service.DanhGiaService
 import com.example.app_datn_haven_inn.database.service.LoaiPhongService
 import com.example.app_datn_haven_inn.ui.home.adapter.AmThucAdapter
 import com.example.app_datn_haven_inn.ui.home.adpter.RoomTopAdapter
@@ -36,7 +38,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
-import kotlin.math.log
 
 class OverviewFragment : Fragment(), OnMapReadyCallback {
 
@@ -69,12 +70,12 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
             viewPager.currentItem = 2 // Chỉ mục của PhongNghiFragment trong adapter
         }
 
-        xemmonan.setOnClickListener{
+        xemmonan.setOnClickListener {
             val intent1 = Intent(requireContext(), ThucDonFragment::class.java)
             startActivity(intent1)
         }
 
-        xemtiennghi.setOnClickListener{
+        xemtiennghi.setOnClickListener {
             val intent = Intent(requireContext(), ServiceFragment::class.java)
             startActivity(intent)
         }
@@ -162,9 +163,26 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
         CoroutineScope(Dispatchers.IO).launch {
             val repository = LoaiPhongRepository(CreateService.createService<LoaiPhongService>())
             val roomList = repository.getListLoaiPhong()
+
+            val danhGiaMap = mutableMapOf<String, Pair<Double, Int>>()
+
+            roomList?.forEach { room ->
+                val response: Response<List<DanhGiaNguoiDungModel>> = CreateService.createService<DanhGiaService>()
+                    .getListDanhGiaByIdLoaiPhong(room.id)
+
+                if (response.isSuccessful) {
+                    val danhGiaList = response.body() ?: emptyList()
+                    val soDiem = danhGiaList.sumOf { it.soDiem }
+                    val soLuongDanhGia = danhGiaList.size
+                    // Tính điểm trung bình
+                    val diemTrungBinh = if (soLuongDanhGia > 0) soDiem / soLuongDanhGia else 0.0
+                    danhGiaMap[room.id] = Pair(diemTrungBinh, soLuongDanhGia)
+                }
+            }
+
             withContext(Dispatchers.Main) {
                 if (!roomList.isNullOrEmpty()) {
-                    roomTopAdapter = RoomTopAdapter(requireContext(), roomList) { room ->
+                    roomTopAdapter = RoomTopAdapter(requireContext(), roomList, danhGiaMap) { room ->
                         // Khởi động Activity mới với idLoaiPhong
                         val intent = Intent(requireContext(), RoomDetailActivity::class.java)
                         intent.putExtra("id_LoaiPhong", room.id)
@@ -177,15 +195,13 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
                         intent.putExtra("giaTien", room.giaTien.toInt())
 
                         Log.d("modelRoomTop", "loadRoomTopData: " + room.id + room.tenLoaiPhong +
-                        room.giuong + room.dienTich + room.hinhAnh + room.moTa + room.soLuongKhach)
+                                room.giuong + room.dienTich + room.hinhAnh + room.moTa)
+
                         startActivity(intent)
                     }
                     recyclerViewRoomTop.adapter = roomTopAdapter
-                } else {
-                    // Xử lý lỗi nếu không có dữ liệu
                 }
             }
         }
     }
-
 }

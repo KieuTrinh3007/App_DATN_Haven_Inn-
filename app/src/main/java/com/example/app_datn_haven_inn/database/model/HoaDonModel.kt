@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class HoaDonModel(
     @field:SerializedName("id_NguoiDung") var id_NguoiDung: String,
-    @field:SerializedName("id_Coupon") var id_Coupon: String,
+    @field:SerializedName("id_Coupon") var id_Coupon: String? = null,
     @field:SerializedName("ngayNhanPhong") var ngayNhanPhong: String,
     @field:SerializedName("ngayTraPhong") var ngayTraPhong: String,
     @field:SerializedName("tongKhach") var soLuongKhach: Int,
@@ -19,7 +19,7 @@ data class HoaDonModel(
 data class HoaDonModel1(
     @field:SerializedName("_id") var id: String? = null,
     @field:SerializedName("id_NguoiDung") var id_NguoiDung: String,
-    @field:SerializedName("id_Coupon") var id_Coupon: String,
+    @field:SerializedName("id_Coupon") var id_Coupon: String? = null,
     @field:SerializedName("ngayNhanPhong") var ngayNhanPhong: String,
     @field:SerializedName("ngayTraPhong") var ngayTraPhong: String,
     @field:SerializedName("tongKhach") var soLuongKhach: Int,

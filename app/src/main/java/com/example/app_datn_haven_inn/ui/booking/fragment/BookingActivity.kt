@@ -14,7 +14,9 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -34,15 +36,21 @@ import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.database.service.PhongService
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
 import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
+import com.example.app_datn_haven_inn.utils.SharedPrefsHelper
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import vn.zalopay.sdk.Environment
+import vn.zalopay.sdk.ZaloPayError
 import vn.zalopay.sdk.ZaloPaySDK
+import vn.zalopay.sdk.listeners.PayOrderListener
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
@@ -58,33 +66,25 @@ class BookingActivity : AppCompatActivity() {
     private var isThanhToan = false
     private lateinit var ngayNhan: TextView
     private lateinit var ngayTra: TextView
-    private lateinit var soDem : TextView
-    private lateinit var tenKH : TextView
-    private lateinit var sdtKH : TextView
+    private lateinit var soDem: TextView
+    private lateinit var tenKH: TextView
+    private lateinit var sdtKH: TextView
     private lateinit var tong: TextView
-    private lateinit var soPhongDem : TextView
+    private lateinit var soPhongDem: TextView
     var guestCountsMap: HashMap<String, Int>? = null
     var numberOfNights: Int = 0
-     private val nguoiDungService: NguoiDungService by lazy {
+    private val nguoiDungService: NguoiDungService by lazy {
         CreateService.createService()
     }
     private lateinit var hoaDonService: HoaDonService
     private lateinit var phongService: PhongService
     private lateinit var couponService: CouponService
 
-    var idNguoiDung: String? = ""
-
-    var id_NguoiDung: String = ""
-    var id_Coupon: String = ""
-    var ngayNhanPhong: String = ""
-    var ngayTraPhong: String = ""
-    var tongKhach: Int = 0
-    var tongPhong: Int = 0
-    var ngayThanhToan: String = ""
+    var id_Coupon: String? = ""
     var phuongThucThanhToan: String = ""
     var trangThai: Int = 1
-    var chiTiet: ArrayList<ChiTietHoaDonModel> = ArrayList()
-    var tongTien: Double = 0.0
+    var idNguoiDung: String? = ""
+    var tongTanhToan: Double = 0.0
 
     @SuppressLint("MissingInflatedId", "ClickableViewAccessibility")
 
@@ -104,6 +104,8 @@ class BookingActivity : AppCompatActivity() {
         val chiTietHoaDon = intent.getParcelableArrayListExtra<ChiTietHoaDonModel>("chiTiet")
         Log.d("BookingActivity", "Thông tin hóa đơn: $chiTietHoaDon")
 
+        val tongPhong = chiTietHoaDon!!.size
+        val tongKhach = chiTietHoaDon!!.sumOf { it.soLuongKhach }
         // anh xa
         txtGiaDaGiam = findViewById(R.id.txt_giaDaGiam)
         rdo_zalo = findViewById(R.id.rdo_zalo)
@@ -111,7 +113,7 @@ class BookingActivity : AppCompatActivity() {
         ttZaloPay = findViewById(R.id.ttZaloPay)
         ttQuaMoMo = findViewById(R.id.ttQuaMoMo)
         edtCoupon = findViewById(R.id.edtCoupon)
-        btnBooking = findViewById<TextView>(R.id.btnBooking)
+        btnBooking = findViewById(R.id.btnBooking)
         icBack = findViewById(R.id.ic_back)
         ngayNhan = findViewById(R.id.txt_ngayNhanPhongTT)
         ngayTra = findViewById(R.id.txt_ngayTraPhongTT)
@@ -125,7 +127,6 @@ class BookingActivity : AppCompatActivity() {
         ngayNhan.text = startDate
         ngayTra.text = endDate
 
-        idNguoiDung = intent.getStringExtra("idNguoiDung")
         tong.text = gia.toString()
         tong.text = formatCurrency(gia.toInt())
         Log.d("TAG123", tongTT.toString())
@@ -133,9 +134,13 @@ class BookingActivity : AppCompatActivity() {
             tong.text = it
         }
 
+        txtGiaDaGiam.text = gia.toString()
+        tongTanhToan = gia.toString().toDouble()
 
-        val idNguoiDung = intent.getStringExtra("idNguoiDung")
-            ?: getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("idNguoiDung", null)
+        idNguoiDung = SharedPrefsHelper.getIdNguoiDung(this)
+
+//        idNguoiDung = intent.getStringExtra("idNguoiDung")
+//            ?: getSharedPreferences("UserPrefs", MODE_PRIVATE).getString("idNguoiDung", null)
 
         idNguoiDung?.let { fetchUserProfile(it) } ?: run {
             Log.e("BookingActivity", "Không tìm thấy ID người dùng")
@@ -194,22 +199,24 @@ class BookingActivity : AppCompatActivity() {
             finish()
         }
         // Gạch ngang cho TextView
-        ttZaloPay.setOnClickListener {
-            if (!rdo_zalo.isChecked) {
-                rdo_zalo.isChecked = true
-                rdoMomo.isChecked = false
-                isThanhToan = true
-                phuongThucThanhToan = "ZaloPay" // Gán ZaloPay vào phuongThucThanhToan
+        val paymentMethodsGroup = findViewById<RadioGroup>(R.id.paymentMethodsGroup)
+
+        paymentMethodsGroup.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.rdo_zalo -> {
+                    // ZaloPay được chọn
+                    Toast.makeText(this, "ZaloPay is selected", Toast.LENGTH_SHORT).show()
+                    phuongThucThanhToan = "ZaloPay"
+                }
+
+                R.id.rdo_momo -> {
+                    // Momo được chọn
+                    Toast.makeText(this, "Momo is selected", Toast.LENGTH_SHORT).show()
+                    phuongThucThanhToan = "Momo"
+                }
             }
         }
-        ttQuaMoMo.setOnClickListener {
-            if (!rdoMomo.isChecked) {
-                rdoMomo.isChecked = true
-                rdo_zalo.isChecked = false
-                isThanhToan = false
-                phuongThucThanhToan = "Momo" // Gán Momo vào phuongThucThanhToan
-            }
-        }
+
 
         phongService = CreateService.createService<PhongService>()
 
@@ -219,63 +226,67 @@ class BookingActivity : AppCompatActivity() {
         // ZaloPay SDK Init
         ZaloPaySDK.init(2553, Environment.SANDBOX)
 
-        val totalString = String.format("%.0f", 10000.0)
-
-//        btnBooking.setOnClickListener {
-//            val orderApi = CreateOrder()
-//            try {
-//                val data = orderApi.createOrder(totalString)
-//                val code = data.getString("return_code")
-//                if (code == "1") {
-//                    val token = data.getString("zp_trans_token")
-//                    ZaloPaySDK.getInstance().payOrder(
-//                        this@BookingActivity,
-//                        token,
-//                        "demozpdk://app",
-//                        object : PayOrderListener {
-//                            override fun onPaymentSucceeded(
-//                                p1: String?,
-//                                p2: String?,
-//                                p3: String?
-//                            ) {
-//                                // Hiển thị Dialog thông báo thanh toán thành công
-//                                showPaymentDialog(
-//                                    "Thanh toán thành công",
-//                                    "Bạn đã thanh toán thành công!",
-//                                    R.drawable.img_16
-//                                )
-//                            }
-//
-//                            override fun onPaymentCanceled(p1: String?, p2: String?) {
-//                                // Hiển thị Dialog thông báo thanh toán bị hủy
-//                                showPaymentDialog(
-//                                    "Thanh toán bị hủy",
-//                                    "Bạn đã hủy thanh toán!",
-//                                    R.drawable.img_18
-//                                )
-//                            }
-//
-//                            override fun onPaymentError(
-//                                error: ZaloPayError?,
-//                                p1: String?,
-//                                p2: String?
-//                            ) {
-//                                // Hiển thị Dialog thông báo lỗi thanh toán
-//                                showPaymentDialog(
-//                                    "Lỗi thanh toán",
-//                                    "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại!",
-//                                    R.drawable.img_18
-//                                )
-//                            }
-//                        })
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
+        var total = String.format("%.0f", tongTanhToan/1000)
 
         btnBooking.setOnClickListener {
-            addHoaDon()
+            val orderApi = CreateOrder()
+            try {
+                val data = orderApi.createOrder(total)
+                val code = data.getString("return_code")
+                if (code == "1") {
+                    val token = data.getString("zp_trans_token")
+                    ZaloPaySDK.getInstance().payOrder(
+                        this@BookingActivity,
+                        token,
+                        "demozpdk://app",
+                        object : PayOrderListener {
+                            override fun onPaymentSucceeded(
+                                p1: String?,
+                                p2: String?,
+                                p3: String?
+                            ) {
+                                val calendar = Calendar.getInstance()
+                                val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+                                val ngayThanhToan = dateFormat.format(calendar.time)
+
+                                addHoaDon(
+                                    idNguoiDung!!, id_Coupon!!, startDate!!, endDate!!, tongKhach, tongPhong,
+                                    ngayThanhToan, phuongThucThanhToan, trangThai, tongTanhToan, chiTietHoaDon
+                                )
+
+                                showPaymentDialog(
+                                    "Thanh toán thành công",
+                                    "Bạn đã thanh toán thành công!",
+                                    R.drawable.img_16
+                                )
+                            }
+
+                            override fun onPaymentCanceled(p1: String?, p2: String?) {
+                                // Hiển thị Dialog thông báo thanh toán bị hủy
+                                showPaymentDialog(
+                                    "Thanh toán bị hủy",
+                                    "Bạn đã hủy thanh toán!",
+                                    R.drawable.img_18
+                                )
+                            }
+
+                            override fun onPaymentError(
+                                error: ZaloPayError?,
+                                p1: String?,
+                                p2: String?
+                            ) {
+                                // Hiển thị Dialog thông báo lỗi thanh toán
+                                showPaymentDialog(
+                                    "Lỗi thanh toán",
+                                    "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại!",
+                                    R.drawable.img_18
+                                )
+                            }
+                        })
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
 
         edtCoupon.setOnTouchListener { _, event ->
@@ -287,51 +298,60 @@ class BookingActivity : AppCompatActivity() {
             false
         }
 
-        tongTien = 1000000.0
-
         couponService = CreateService.createService<CouponService>()
-
-
-
-//        addHoaDon(
-////            id_NguoiDung, id_Coupon, ngayNhanPhong, ngayTraPhong, tongKhach,
-////            tongPhong, ngayThanhToan, phuongThucThanhToan, trangThai, tongTien, chiTiet
-//        )
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == RESULT_OK) {
-            val couponCode = data?.getStringExtra("couponCode") // Lấy mã giảm giá
-            val couponId = data?.getStringExtra("idCoupon") // Lấy idCoupon
+            // Lấy dữ liệu từ Intent trả về
+            val couponCode = data?.getStringExtra("couponCode")
+            id_Coupon = data?.getStringExtra("couponId")
+            val couponGiamGia = data?.getStringExtra("giamGia")
+            val couponToiDa = data?.getStringExtra("giamGiaToiDa")
 
-            if (couponCode != null) {
-                edtCoupon.setText(couponCode) // Set mã giảm giá lên EditText
+            Log.d(
+                "BookingActivity",
+                "Thông tin mã giảm giá: code=$couponCode, id=$id_Coupon, giảm=$couponGiamGia, tối đa=$couponToiDa"
+            )
+
+            couponCode?.let { edtCoupon.setText(it) }
+
+            id_Coupon?.let { id_Coupon = it }
+
+            val gia = intent.getDoubleExtra("totalPrice", 0.0)
+
+            // Kiểm tra giá trị couponGiamGia và couponToiDa trước khi sử dụng
+            val giamGia = couponGiamGia?.toDoubleOrNull() ?: 0.0
+            val toiDa = couponToiDa?.toDoubleOrNull()
+                ?: Double.MAX_VALUE  // Giá trị tối đa giảm giá là vô cùng lớn nếu không có giá trị
+
+            // Tính toán giá trị giảm giá
+            var giamGiaTT = gia * giamGia
+
+            // Kiểm tra xem giảm giá có vượt quá mức tối đa không
+            if (giamGiaTT > toiDa) {
+                giamGiaTT = toiDa
             }
 
-            if (couponId != null) {
-                id_Coupon = couponId // Lưu idCoupon để sử dụng sau này
-            }
+            tongTanhToan = gia - giamGiaTT
+
+            txtGiaDaGiam.text = formatCurrency(tongTanhToan.toInt())
         }
     }
 
-    // Tạo phương thức để hiển thị Dialog với hình ảnh và trạng thái
     private fun showPaymentDialog(title: String, message: String, imageResId: Int) {
         // Tạo layout cho dialog với ImageView và TextView
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
         layout.setPadding(50, 50, 50, 50)
         layout.gravity = Gravity.CENTER // Căn giữa nội dung trong layout
-
-        // Tạo ImageView để hiển thị hình ảnh
         val imageView = ImageView(this)
         val textView = TextView(this)
 
         // Thiết lập hình ảnh từ drawable bằng imageResId
         imageView.setImageResource(imageResId)
-
-        // Set kích thước cho ImageView
         val layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.WRAP_CONTENT, // Chiều rộng tự động theo nội dung
             LinearLayout.LayoutParams.WRAP_CONTENT  // Chiều cao tự động theo nội dung
@@ -339,8 +359,6 @@ class BookingActivity : AppCompatActivity() {
         layoutParams.width = 170  // Chiều rộng của ảnh, ví dụ 150px
         layoutParams.height = 170 // Chiều cao của ảnh, ví dụ 150px
         imageView.layoutParams = layoutParams
-
-        // Thiết lập nội dung cho TextView (trạng thái thanh toán)
         textView.text = message
         textView.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
         textView.setPadding(0, 35, 0, 0)
@@ -348,61 +366,43 @@ class BookingActivity : AppCompatActivity() {
         // Thêm ImageView và TextView vào layout
         layout.addView(imageView)
         layout.addView(textView)
-
-        // Tạo và hiển thị AlertDialog
         val builder = AlertDialog.Builder(this)
         builder.setTitle(title)
         builder.setView(layout) // Đặt layout vào AlertDialog
         builder.setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
         }
-
-        // Tạo Dialog
         val dialog = builder.create()
-
-        // Căn giữa Dialog và thiết lập kích thước
         val window = dialog.window
         window?.setLayout(
             LinearLayout.LayoutParams.WRAP_CONTENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         ) // Kích thước nhỏ
-        window?.setGravity(Gravity.CENTER) // Căn giữa Dialog
-
-        // Hiển thị Dialog
+        window?.setGravity(Gravity.CENTER)
         dialog.show()
     }
 
     private fun addHoaDon(
-//        id_NguoiDung: String,
-//        id_Coupon: String,
-//        ngayNhanPhong: String,
-//        ngayTraPhong: String,
-//        tongKhach: Int,
-//        tongPhong: Int,
-//        ngayThanhToan: String,
-//        phuongThucThanhToan: String,
-//        trangThai: Int, tongTien: Double,
-//        chiTiet: ArrayList<ChiTietHoaDonModel>
+        id_NguoiDung: String,
+        id_Coupon: String,
+        ngayNhanPhong: String,
+        ngayTraPhong: String,
+        tongKhach: Int,
+        tongPhong: Int,
+        ngayThanhToan: String,
+        phuongThucThanhToan: String,
+        trangThai: Int,
+        tongTienTT: Double,
+        chiTiet: ArrayList<ChiTietHoaDonModel>
     ) {
         Log.d(
             "BookingFragmentLinh",
             "addHoaDon: Đang thêm hóa đơn, phương thức thanh toán: $phuongThucThanhToan"
         )
 
-        chiTiet.add(ChiTietHoaDonModel("67458eb205f65d34c273f847", 2, 20000.0, false))
-
         val hoaDon = HoaDonModel(
-            "67383ffd4bd6355e37a1d253",
-            "674dea63dd8162fb5938cd22",
-            "2024-12-06",
-            "2024-12-08",
-            2,
-            2,
-            "2024-12-07",
-            "zaloPay",
-            1,
-            200000.0,
-            chiTiet
+            id_NguoiDung, id_Coupon, ngayNhanPhong, ngayTraPhong,
+            tongKhach, tongPhong, ngayThanhToan, phuongThucThanhToan, trangThai, tongTienTT, chiTiet
         )
 
         val hoaDonJson = Gson().toJson(hoaDon)

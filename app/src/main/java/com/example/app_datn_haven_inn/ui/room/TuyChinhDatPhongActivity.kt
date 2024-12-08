@@ -103,7 +103,6 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         binding.tvNgay1.text = nextDate
         selectedEndDate = nextDate
 
-
         binding.ivBack.setOnClickListener {
             finish()
         }
