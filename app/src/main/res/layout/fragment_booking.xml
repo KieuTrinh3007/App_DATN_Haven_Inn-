@@ -252,6 +252,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:focusable="false"
+                            android:clickable="false"
                             android:buttonTint="@color/radio_button_color" />
                     </LinearLayout>
 
@@ -285,6 +287,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:focusable="false"
+                            android:clickable="false"
                             android:buttonTint="@color/radio_button_color" />
                     </LinearLayout>
 

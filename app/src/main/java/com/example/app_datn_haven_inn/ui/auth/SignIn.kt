@@ -13,6 +13,7 @@ import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.ui.main.MainActivity
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,6 +51,7 @@ class SignIn : AppCompatActivity() {
         chkRememberMe = findViewById(R.id.checkbox_remember_me)
 
         loadLoginDetails()
+        fetchDeviceToken()
 
         passVisible.setOnClickListener {
             isPasswordVisible = !isPasswordVisible
@@ -127,7 +129,8 @@ class SignIn : AppCompatActivity() {
     private fun handleLogin(email: String, password: String) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val response: Response<Map<String, Any>> = nguoiDungService.login(email, password)
+                val deviceToken = getDeviceToken() ?: ""
+                val response: Response<Map<String, Any>> = nguoiDungService.login(email, password, deviceToken)
 
                 withContext(Dispatchers.Main) {
                     if (response.isSuccessful && response.body() != null) {
@@ -136,11 +139,8 @@ class SignIn : AppCompatActivity() {
                         if ((responseBody["status"] as? Double)?.toInt() == 200 && responseBody["userId"] != null) {
                             val userId = responseBody["userId"] as String
                             saveUserToSharedPreferences(userId)
-//                            Toast.makeText(this@SignIn, "Đăng nhập thành công!", Toast.LENGTH_SHORT)
-//                                .show()
                             navigateToHomeScreen()
-                        }
-                        else {
+                        } else {
                             val errorMessage = responseBody["message"] as? String
                             Toast.makeText(
                                 this@SignIn,
@@ -148,7 +148,6 @@ class SignIn : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-
                     } else {
                         Toast.makeText(
                             this@SignIn,
@@ -184,5 +183,31 @@ class SignIn : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
+    private fun fetchDeviceToken() {
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val token = task.result
+                    saveDeviceToken(token)
+                    println("Device Token: $token") // Debug log token
+                } else {
+                    println("Failed to fetch device token: ${task.exception?.message}")
+                }
+            }
+    }
+
+    private fun saveDeviceToken(token: String?) {
+        val sharedPreferences = getSharedPreferences("DevicePrefs", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("deviceToken", token)
+        editor.apply()
+    }
+
+    private fun getDeviceToken(): String? {
+        val sharedPreferences = getSharedPreferences("DevicePrefs", MODE_PRIVATE)
+        return sharedPreferences.getString("deviceToken", null)
+    }
+
 
 }

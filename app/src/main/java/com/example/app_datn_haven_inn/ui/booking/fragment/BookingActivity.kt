@@ -102,7 +102,7 @@ class BookingActivity : AppCompatActivity() {
         val llPhongContainer = findViewById<LinearLayout>(R.id.llPhongContainer)
 
         val chiTietHoaDon = intent.getParcelableArrayListExtra<ChiTietHoaDonModel>("chiTiet")
-        Log.d("BookingActivity", "Thông tin hóa đơn: $chiTietHoaDon")
+        Log.d("BookingActivity", "Thông tin hóa đơn: $chiTietHoaDon , ngay nhan : $startDate, ngay tra : $endDate")
 
         val tongPhong = chiTietHoaDon!!.size
         val tongKhach = chiTietHoaDon!!.sumOf { it.soLuongKhach }
@@ -146,6 +146,16 @@ class BookingActivity : AppCompatActivity() {
             Log.e("BookingActivity", "Không tìm thấy ID người dùng")
             tenKH.text = "Không tìm thấy tên"
             sdtKH.text = "Không tìm thấy số điện thoại"
+        }
+
+        ttZaloPay.setOnClickListener {
+            rdo_zalo.isChecked = true;
+            rdoMomo.isChecked = false
+        }
+
+        ttQuaMoMo.setOnClickListener {
+            rdo_zalo.isChecked = false;
+            rdoMomo.isChecked = true
         }
 
         if (selectedRooms != null) {

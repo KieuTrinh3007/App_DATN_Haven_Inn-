@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "636977258398",
+    "project_id": "toilasang123-6c7ba",
+    "storage_bucket": "toilasang123-6c7ba.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:636977258398:android:9c04e9cc2964f607bb408f",
+        "android_client_info": {
+          "package_name": "com.example.app_datn_haven_inn"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAMQ_QLbOYBOY5CoXk5BQ_kqHnNk5NNBg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
