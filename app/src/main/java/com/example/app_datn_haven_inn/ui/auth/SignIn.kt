@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
@@ -40,6 +41,7 @@ class SignIn : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        enableEdgeToEdge()
 
         // Ánh xạ view
         edtEmail = findViewById(R.id.edt_dangnhap_email)

@@ -50,7 +50,7 @@ dependencies {
     implementation libs.androidx.annotation
     implementation libs.androidx.lifecycle.livedata.ktx
     implementation libs.androidx.lifecycle.viewmodel.ktx
-    implementation fileTree(dir: 'C:\\Users\\LAPTOP360\\Desktop\\zalopaylib', include: ['*.aar', '*.jar'], exclude: [])
+    implementation fileTree(dir: 'C:\\Users\\HOA QUANG LINH\\Desktop\\zalopaylib', include: ['*.aar', '*.jar'], exclude: [])
     implementation libs.firebase.messaging.ktx
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit

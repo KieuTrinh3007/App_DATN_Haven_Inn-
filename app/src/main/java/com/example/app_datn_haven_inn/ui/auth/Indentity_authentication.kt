@@ -7,6 +7,7 @@
 	import android.widget.ImageView
 	import android.widget.TextView
 	import android.widget.Toast
+	import androidx.activity.enableEdgeToEdge
 	import androidx.appcompat.app.AppCompatActivity
 	import androidx.lifecycle.lifecycleScope
 	import com.example.app_datn_haven_inn.R
@@ -33,6 +34,7 @@
 		override fun onCreate(savedInstanceState: Bundle?) {
 			super.onCreate(savedInstanceState)
 			setContentView(R.layout.activity_indentity_authentication)
+			enableEdgeToEdge()
 
 			// Nhận email từ Intent
 			email = intent.getStringExtra("email")
