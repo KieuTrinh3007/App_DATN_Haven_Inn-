@@ -21,6 +21,7 @@ adapterRxjava3 = "2.9.0"
 visionCommon = "17.3.0"
 playServicesMlkitTextRecognitionCommon = "19.1.0"
 playServicesMlkitTextRecognition = "19.0.1"
+firebaseMessagingKtx = "24.1.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -44,6 +45,7 @@ logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", ver
 vision-common = { group = "com.google.mlkit", name = "vision-common", version.ref = "visionCommon" }
 play-services-mlkit-text-recognition-common = { group = "com.google.android.gms", name = "play-services-mlkit-text-recognition-common", version.ref = "playServicesMlkitTextRecognitionCommon" }
 play-services-mlkit-text-recognition = { group = "com.google.android.gms", name = "play-services-mlkit-text-recognition", version.ref = "playServicesMlkitTextRecognition" }
+firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

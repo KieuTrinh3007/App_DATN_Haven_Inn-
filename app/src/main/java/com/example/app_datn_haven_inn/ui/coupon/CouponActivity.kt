@@ -33,7 +33,7 @@ class CouponActivity : AppCompatActivity() {
             Toast.makeText(this, "Đã chọn mã: ${coupon.maGiamGia}", Toast.LENGTH_SHORT).show()
 
             // Tạo Intent để trả lại mã giảm giá cho màn hình trước
-            Log.d("CouponActivity", "Mã giảm giá: ${coupon.maGiamGia}, ID: ${coupon.id}, Giảm: ${coupon.giamGia}, Tối đa: ${coupon.giamGiaToiDa}")
+            Log.d("CouponActivity", "Mã giảm giá: ${coupon.maGiamGia}, ID: ${coupon.id_cp}, Giảm: ${coupon.giamGia}, Tối đa: ${coupon.giamGiaToiDa}")
             val resultIntent = Intent()
             resultIntent.putExtra("couponCode", coupon.maGiamGia)
             resultIntent.putExtra("couponId", coupon.id_cp)
