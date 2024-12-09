@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6BCBA"
+    android:background="@drawable/image_27"
     android:orientation="vertical">
 
     <ImageView
@@ -12,7 +12,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="44dp"
         android:background="@drawable/circle"
         android:backgroundTint="@color/white"
         android:paddingVertical="7dp"
@@ -22,13 +22,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="25dp"
-            android:layout_marginTop="110dp"
+            android:layout_marginTop="40dp"
             android:text="Đăng ký"
             android:textColor="@color/white"
             android:textSize="32dp"
@@ -39,7 +40,6 @@
             android:layout_height="450dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="20dp"
             app:cardBackgroundColor="@android:color/white"
             app:cardCornerRadius="16dp"
             app:cardElevation="8dp">

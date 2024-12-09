@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -31,6 +32,7 @@ class Forgot_password : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_password)
+        enableEdgeToEdge()
 
         edtEmailForgot = findViewById(R.id.edt_forgot_email)
         btnDangNhapSignIn = findViewById(R.id.btn_dangnhap_sign_in)

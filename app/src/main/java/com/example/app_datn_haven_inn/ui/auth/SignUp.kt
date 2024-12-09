@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
@@ -31,6 +32,7 @@ class SignUp : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_sign_up)
+		enableEdgeToEdge()
 
 		// Ánh xạ view
 		edtName = findViewById(R.id.edt_dk_name)

@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.app_datn_haven_inn.R
@@ -22,6 +23,7 @@ class Register : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        enableEdgeToEdge()
 
         val btnDangKy = findViewById<TextView>(R.id.btn_tieptheo)
         val edtEmail = findViewById<EditText>(R.id.edt_dkk_email)
