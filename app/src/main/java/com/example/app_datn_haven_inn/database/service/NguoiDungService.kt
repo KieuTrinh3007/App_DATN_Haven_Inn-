@@ -34,7 +34,8 @@ interface NguoiDungService {
     @POST("auth/login")
     suspend fun login(
         @Query("email") email: String,
-        @Query("matKhau") matKhau: String
+        @Query("matKhau") matKhau: String,
+        @Query("deviceToken") deviceToken: String
     ): Response<Map<String, Any>>
 
     // API gửi OTP

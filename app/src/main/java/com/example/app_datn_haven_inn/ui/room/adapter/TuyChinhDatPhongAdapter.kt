@@ -22,7 +22,10 @@ class TuyChinhDatPhongAdapter(
     override fun getItemCount(): Int {
         return listSoPhong.size
     }
-
+    fun clearSelectedRoom(){
+        listSoPhong.forEach { it.isSelected = false }
+        notifyDataSetChanged()
+    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.binding.tvSoPhong.text = listSoPhong.get(position).soPhong
         val item = listSoPhong[position]
@@ -31,6 +34,7 @@ class TuyChinhDatPhongAdapter(
             holder.binding.tvSoPhong.text = "VIP\n" + listSoPhong.get(position).soPhong
             holder.binding.tvSoPhong.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
         }
+
 
         holder.binding.tvSoPhong.setBackgroundResource(
             if (item.isSelected) R.drawable.bg_room_select else R.drawable.bg_room_unselect

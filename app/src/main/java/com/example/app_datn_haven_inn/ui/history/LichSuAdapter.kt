@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel1
 import com.example.app_datn_haven_inn.database.model.HoaDonModel
+import com.example.app_datn_haven_inn.database.model.HoaDonModel1
 import com.example.app_datn_haven_inn.databinding.ItemLichsuBinding
 import com.squareup.picasso.Picasso
 import java.text.DecimalFormat
@@ -17,7 +18,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
-class LichSuAdapter(private val historyList: List<HoaDonModel>) :
+class LichSuAdapter(private val historyList: List<HoaDonModel1>) :
     RecyclerView.Adapter<LichSuAdapter.LichSuViewHolder>() {
 
     class LichSuViewHolder(val binding: ItemLichsuBinding) :

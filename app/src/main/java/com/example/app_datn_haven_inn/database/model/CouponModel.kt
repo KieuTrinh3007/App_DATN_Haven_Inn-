@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class CouponModel (
     @field:SerializedName("_id") var id: String?= null,
+    @field:SerializedName("id_Coupon") var id_cp: String?= null,
     @field:SerializedName("maGiamGia") var maGiamGia: String,
     @field:SerializedName("giamGia") var giamGia: Double,
     @field:SerializedName("giamGiaToiDa") var giamGiaToiDa: Double,

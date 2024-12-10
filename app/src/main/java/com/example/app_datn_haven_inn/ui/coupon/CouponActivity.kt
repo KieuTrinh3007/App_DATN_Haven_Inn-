@@ -3,6 +3,7 @@ package com.example.app_datn_haven_inn.ui.coupon
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -26,17 +27,30 @@ class CouponActivity : AppCompatActivity() {
         binding = ActivityCouponBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var bookingPrice = intent.getDoubleExtra("giaGoc", 0.0)
+
         // Thiết lập RecyclerView
         couponAdapter = CouponAdapter(emptyList()) { coupon ->
             // Thao tác khi người dùng nhấn nút "Sử dụng ngay"
             Toast.makeText(this, "Đã chọn mã: ${coupon.maGiamGia}", Toast.LENGTH_SHORT).show()
 
             // Tạo Intent để trả lại mã giảm giá cho màn hình trước
-            val resultIntent = Intent()
-            resultIntent.putExtra("couponCode", coupon.maGiamGia) // Truyền mã giảm giá
-            resultIntent.putExtra("idCoupon", coupon.id)
-            setResult(Activity.RESULT_OK, resultIntent) // Đặt kết quả và trả lại
-            finish() // Đóng màn hình CouponActivity
+            if (bookingPrice >= coupon.dieuKienToiThieu) {
+                // Nếu giá tiền thỏa mãn, thực hiện áp dụng mã giảm giá
+                Toast.makeText(this, "Đã chọn mã: ${coupon.maGiamGia}", Toast.LENGTH_SHORT).show()
+
+                val resultIntent = Intent()
+                resultIntent.putExtra("couponCode", coupon.maGiamGia)
+                resultIntent.putExtra("couponId", coupon.id_cp)
+                resultIntent.putExtra("giamGia", coupon.giamGia.toString())
+                resultIntent.putExtra("giamGiaToiDa", coupon.giamGiaToiDa.toString())
+                setResult(Activity.RESULT_OK, resultIntent)
+
+                finish() // Đóng màn hình CouponActivity
+            } else {
+                // Nếu không thỏa mãn, hiển thị thông báo
+                Toast.makeText(this, "Coupon không áp dụng cho hóa đơn này", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.recyclerView.apply {

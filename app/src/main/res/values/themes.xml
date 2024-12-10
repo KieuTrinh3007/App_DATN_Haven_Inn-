@@ -3,6 +3,9 @@
     <style name="Base.Theme.App_DATN_Haven_Inn" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="statusBarBackground">@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.App_DATN_Haven_Inn" parent="Base.Theme.App_DATN_Haven_Inn" />
