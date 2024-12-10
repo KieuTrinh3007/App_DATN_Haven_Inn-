@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
@@ -35,7 +36,8 @@ class SetUpPassword : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_set_up_password)  // Đảm bảo bạn đã tạo layout cho Activity này
+        setContentView(R.layout.activity_set_up_password)
+        enableEdgeToEdge()// Đảm bảo bạn đã tạo layout cho Activity này
 
         edtNewPassword = findViewById(R.id.edt_new_password)
         edtConfirmPassword = findViewById(R.id.edt_confirm_password)

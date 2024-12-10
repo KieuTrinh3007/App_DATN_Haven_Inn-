@@ -20,21 +20,6 @@
             android:textSize="25sp"
             android:textStyle="bold" />
 
-        <RatingBar
-            android:id="@+id/ratingBar"
-            style="@style/Widget.AppCompat.RatingBar.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:isIndicator="false"
-            android:numStars="5"
-            android:progressBackgroundTint="@android:color/darker_gray"
-            android:progressTint="@android:color/holo_orange_light"
-            android:rating="4.5"
-            android:scaleX="1.0"
-            android:scaleY="1.1"
-            android:secondaryProgressTint="@android:color/holo_orange_light"
-            android:stepSize="0.5" />
-
         <!-- Hotel Description -->
         <TextView
             android:id="@+id/hotelDescription"
