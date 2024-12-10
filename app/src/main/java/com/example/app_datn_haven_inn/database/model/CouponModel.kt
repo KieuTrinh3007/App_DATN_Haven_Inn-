@@ -11,4 +11,5 @@ data class CouponModel (
     @field:SerializedName("ngayBatDau") var ngayBatDau: String,
     @field:SerializedName("ngayHetHan") var ngayKetThuc: String,
     @field:SerializedName("trangThai") var soLanSuDung: Int,
+    @field:SerializedName("id_Coupon") var id_cp: String?= null,
     )

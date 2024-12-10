@@ -9,6 +9,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.ui.auth.SignIn
 import com.example.app_datn_haven_inn.ui.auth.SignUp
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 
 
 class WelcomeActivity : AppCompatActivity() {
@@ -34,11 +35,15 @@ class WelcomeActivity : AppCompatActivity() {
         btnNext = findViewById(R.id.btnNext)
         tvTitle = findViewById(R.id.tvTitle)
         tvDescription = findViewById(R.id.tvDescription)
+        val dotsIndicator = findViewById<DotsIndicator>(R.id.dotOnbd)
 
+        // Gán adapter trước
         val adapter = SlideAdapter(slides)
         viewPager.adapter = adapter
 
-        // Hiển thị nội dung tương ứng với slide
+        // Sau đó gọi setViewPager2
+        dotsIndicator.setViewPager2(viewPager)
+
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
                 val slide = slides[position]
@@ -60,6 +65,7 @@ class WelcomeActivity : AppCompatActivity() {
             }
         }
     }
+
 
     private fun navigateToSignUp() {
         val intent = Intent(this, SignIn::class.java)

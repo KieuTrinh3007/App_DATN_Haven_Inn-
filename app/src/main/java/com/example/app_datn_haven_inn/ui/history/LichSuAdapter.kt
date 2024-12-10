@@ -12,6 +12,10 @@ import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel1
 import com.example.app_datn_haven_inn.database.model.HoaDonModel
 import com.example.app_datn_haven_inn.databinding.ItemLichsuBinding
 import com.squareup.picasso.Picasso
+import java.text.DecimalFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 class LichSuAdapter(private val historyList: List<HoaDonModel>) :
     RecyclerView.Adapter<LichSuAdapter.LichSuViewHolder>() {
@@ -41,11 +45,10 @@ class LichSuAdapter(private val historyList: List<HoaDonModel>) :
 
         val soPhongList = chitiet.joinToString { it.soPhong ?: "Không có số phòng" }
         binding.txtSoPhong.text = "Phòng: $soPhongList"
-        binding.txtNgayNhanPhong.text = "Ngày nhận phòng: ${hoaDon.ngayNhanPhong}"
+        binding.txtNgayNhanPhong.text =  "Ngày nhận phòng: ${formatDateTime(hoaDon.ngayNhanPhong)}"
 
-        // Hiển thị tổng tiền
-        val tongTien = chitiet.sumOf { it.tongTien }
-        binding.txtTongTien.text = "Tổng tiền: $tongTien"
+        // Hiển thị tổng tiền, sử dụng định dạng số
+        binding.txtTongTien.text = "Tổng tiền: ${formatMoney(hoaDon.tongTien)} VND"
 
         // Hiển thị ảnh phòng (chỉ lấy ảnh của phòng đầu tiên trong danh sách chi tiết)
         val firstRoom = chitiet.firstOrNull()
@@ -58,6 +61,32 @@ class LichSuAdapter(private val historyList: List<HoaDonModel>) :
             // Xử lý hành động đặt lại, đánh giá, v.v.
             // Ví dụ: chuyển hướng đến một màn hình khác
         }
+    }
+
+    private fun formatDateTime(dateString: String): String {
+        return try {
+            // Định dạng dữ liệu đầu vào từ server
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            inputFormat.timeZone = TimeZone.getTimeZone("UTC") // Dữ liệu từ server là UTC
+
+            // Parse dữ liệu đầu vào thành đối tượng Date
+            val date = inputFormat.parse(dateString)
+
+            // Định dạng dữ liệu đầu ra (giờ phút và ngày tháng năm)
+            val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault()) // Định dạng giờ phút
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()) // Định dạng ngày tháng năm
+
+            // Ghép kết quả đầu ra
+            "${timeFormat.format(date)} ${dateFormat.format(date)}"
+        } catch (e: Exception) {
+            e.printStackTrace()
+            "N/A"
+        }
+    }
+
+    private fun formatMoney(amount: Double): String {
+        val formatter = DecimalFormat("#,###.##")  // Định dạng số với dấu phân cách hàng nghìn
+        return formatter.format(amount)
     }
 
     override fun getItemCount(): Int = historyList.size
