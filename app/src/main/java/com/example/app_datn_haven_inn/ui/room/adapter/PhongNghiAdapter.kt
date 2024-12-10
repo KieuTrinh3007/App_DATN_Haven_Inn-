@@ -36,11 +36,6 @@ class PhongNghiAdapter(
 
     }
 
-    fun updateDanhGiaMap(newDanhGiaMap: Map<String, Pair<Double, Int>>) {
-        danhGiaMap = newDanhGiaMap
-        notifyDataSetChanged()
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhongNghiViewHolder {
         val binding = ItemTtPhongBinding.inflate(LayoutInflater.from(parent.context), parent, false)

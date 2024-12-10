@@ -83,8 +83,6 @@ Log.d("FavoriteFragment", "idLoaiPhong: ${listLoaiPhongModel.size}")
 
                     }
                 }
-//                adapter?.updateList(yeuThichList.toMutableList())
-//                viewBinding.rvFavorite.adapter = adapter
 
             }
         }
