@@ -1,6 +1,5 @@
 package com.example.app_datn_haven_inn.database.service
 
-import com.example.app_datn_haven_inn.database.model.AmThucModel
 import com.example.app_datn_haven_inn.database.model.DanhGiaModel
 import com.example.app_datn_haven_inn.database.model.DanhGiaNguoiDungModel
 import retrofit2.Response
@@ -25,7 +24,7 @@ interface DanhGiaService {
     @PUT("danhgias/put/{id}")
     suspend fun updateDanhGia(
         @Path("id") id: String,
-        @Body DanhGia: DanhGiaModel
+        @Body DanhGia: Double
     ): Response<DanhGiaModel>
 
     @DELETE("danhgias/delete/{id}")

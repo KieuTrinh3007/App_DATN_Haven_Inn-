@@ -93,7 +93,7 @@ class SelectedRoomAdapter(
             }
         }
 
-// giam
+        // giam
         holder.binding.tvMinusSLKhach.setOnClickListener {
             val currentCount = guestCounts[roomName] ?: 1
             if (currentCount > 1) {
@@ -153,6 +153,13 @@ class SelectedRoomAdapter(
             notifyItemRemoved(index)
             onTotalPriceChanged?.invoke()
         }
+    }
+    fun resetSelectedRooms() {
+        selectedRooms.clear()
+        guestCounts.clear()
+        hoaDonList.clear()
+        notifyDataSetChanged()
+        onTotalPriceChanged?.invoke()
     }
 
 

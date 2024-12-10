@@ -1,7 +1,6 @@
 package com.example.app_datn_haven_inn.ui.room
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.View
@@ -14,7 +13,6 @@ import com.example.app_datn_haven_inn.database.model.FavoriteRequest
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.databinding.ActivityRoomDetailBinding
 import com.example.app_datn_haven_inn.ui.review.adapter.ReviewAdapter
-import com.example.app_datn_haven_inn.ui.room.adapter.PhongNghiAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.PhotoAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TienNghiPhongAdapter
 import com.example.app_datn_haven_inn.utils.SharePrefUtils.saveFavoriteState
@@ -22,6 +20,7 @@ import com.example.app_datn_haven_inn.viewModel.DanhGiaViewModel
 import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
 import com.example.app_datn_haven_inn.viewModel.TienNghiPhongViewModel
 import com.example.app_datn_haven_inn.viewModel.YeuThichViewModel
+import java.util.Locale
 import java.util.Timer
 
 class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel>() {
@@ -35,6 +34,8 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
     private var danhGiaViewModel: DanhGiaViewModel? = null
     private lateinit var yeuThichViewModel: YeuThichViewModel
     private var isFavorite = false
+    private var averageRating: Double = 0.0
+    private var soDanhGia: Int = 0
     override fun createBinding(): ActivityRoomDetailBinding {
         return ActivityRoomDetailBinding.inflate(layoutInflater)
     }
@@ -99,7 +100,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         danhGiaViewModel?.danhGiaListByIdLoaiPhong?.observe(this) { review ->
             if (review != null) {
 
-                val soDanhGia = review.size
+                soDanhGia = review.size
                 val firstTwoReviews = review.take(2)
 
                 binding.txtNumberReview1.text = "$soDanhGia nhận xét"
@@ -112,12 +113,13 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                 }
 
                 val totalPoints = review.sumOf { it.soDiem }
-                val averageRating =
-                    if (review.isNotEmpty()) totalPoints.toFloat() / review.size else 0f
+                averageRating =
+                    if (review.isNotEmpty()) totalPoints.toDouble() / review.size else 0.0
 
                 // Cập nhật điểm trung bình vào TextView txtRating
-                binding.txtRating.text = String.format("%.1f", averageRating)
-                binding.txtRating1.text = String.format("%.1f", averageRating)
+                binding.txtRating.text = String.format(Locale.US, "%.1f", averageRating)
+                binding.txtRating1.text = String.format(Locale.US, "%.1f", averageRating)
+
 
                 val emotion = when {
                     averageRating >= 9 -> "Tuyệt vời"
@@ -127,8 +129,8 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                     else -> "Rất tệ"
                 }
                 binding.txtCamxuc.text = emotion
-                danhGiaMap[idLoaiPhong.toString()] = Pair(averageRating.toDouble(), soDanhGia)
-
+                danhGiaMap[idLoaiPhong.toString()] = Pair(averageRating, soDanhGia)
+             
                 adapterReview?.let {
                     it.listReview = firstTwoReviews
                     it.notifyDataSetChanged()
@@ -149,6 +151,8 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             val resultIntent = Intent()
             resultIntent.putExtra("itemId", intent.getStringExtra("id_LoaiPhong"))
             resultIntent.putExtra("isFavorite", isFavorite)
+            resultIntent.putExtra("diem", averageRating)
+            resultIntent.putExtra("soDanhGia", soDanhGia)
             setResult(Activity.RESULT_OK, resultIntent)
             finish()
 
