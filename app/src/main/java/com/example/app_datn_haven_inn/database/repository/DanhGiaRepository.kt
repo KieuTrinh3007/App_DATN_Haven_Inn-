@@ -42,7 +42,7 @@ class DanhGiaRepository (private val api: DanhGiaService) {
     }
 
 
-    suspend fun updateDanhGia(id: String, carrier: DanhGiaModel): DanhGiaModel? = withContext(
+    suspend fun updateDanhGia(id: String, carrier: Double): DanhGiaModel? = withContext(
         Dispatchers.IO) {
         val response = api.updateDanhGia(id, carrier)
         if (response.isSuccessful) {

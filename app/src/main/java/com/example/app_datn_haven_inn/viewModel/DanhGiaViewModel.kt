@@ -77,7 +77,7 @@ class DanhGiaViewModel : BaseViewModel() {
     }
 
 
-    fun updatedanhGia(id: String, danhGia: DanhGiaModel) {
+    fun updatedanhGia(id: String, danhGia: Double, soDanhGia: Int) {
         viewModelScope.launch {
             try {
                 val apiService : DanhGiaService = CreateService.createService()
@@ -103,7 +103,10 @@ class DanhGiaViewModel : BaseViewModel() {
         }
     }
 
+
     fun clearErrorMessage() {
         _errorMessage.value = null
     }
+
+
 }
