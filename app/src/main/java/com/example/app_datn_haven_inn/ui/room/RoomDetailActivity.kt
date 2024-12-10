@@ -122,10 +122,10 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
 
 
                 val emotion = when {
-                    averageRating >= 9 -> "Tuyệt vời"
-                    averageRating >= 7 -> "Tốt"
-                    averageRating >= 5 -> "Bình thường"
-                    averageRating >= 3 -> "Tệ"
+                    averageRating >= 9.0 -> "Tuyệt vời"
+                    averageRating >= 7.0 -> "Tốt"
+                    averageRating >= 5.0 -> "Bình thường"
+                    averageRating >= 3.0 -> "Tệ"
                     else -> "Rất tệ"
                 }
                 binding.txtCamxuc.text = emotion

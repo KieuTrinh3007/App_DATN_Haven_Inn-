@@ -147,13 +147,13 @@ class SelectedRoomAdapter(
             selectedRooms.removeAt(index)
             guestCounts.remove(room.soPhong)
             notifyItemRemoved(index)
-            onTotalPriceChanged?.invoke()
+            val removedInvoice = hoaDonList.removeIf { it.id_Phong == room.id }
 
-            hoaDonList.removeIf { it.id_Phong == room.soPhong }
-            notifyItemRemoved(index)
             onTotalPriceChanged?.invoke()
+            Log.d("SelectedRoomAdapter", "Removed room: $room, Invoice removed: $removedInvoice")
         }
     }
+
     fun resetSelectedRooms() {
         selectedRooms.clear()
         guestCounts.clear()
