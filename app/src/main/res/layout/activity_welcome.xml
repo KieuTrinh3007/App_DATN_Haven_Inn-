@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#F8FAFB"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -19,17 +19,17 @@
         android:paddingEnd="16dp" />
 
     <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-        android:id="@+id/dotIndicator"
+        android:id="@+id/dotOnbd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:padding="3dp"
         android:visibility="visible"
         app:dotsCornerRadius="8dp"
-        app:dotsSize="6dp"
+        app:dotsSize="7dp"
         app:dotsSpacing="2dp"
         app:dotsWidthFactor="2.5"
-        app:selectedDotColor="@color/green" />
+        app:selectedDotColor="#808080" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -52,9 +52,9 @@
 
         <TextView
             android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_width="370dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center"
             android:text="Thư giãn trong không gian thanh lịch của Haven Inn, nơi mọi chi tiết đều mang lại cảm giác ấm cúng và riêng tư."
@@ -74,8 +74,7 @@
             android:layout_width="110dp"
             android:layout_height="60dp"
             android:layout_marginRight="85dp"
-            android:background="@null"
-            android:backgroundTint="#C3C2C2"
+            android:backgroundTint="#F4F4F4"
             android:text="SKIP"
             android:textColor="@color/black"
             android:textSize="18sp" />
