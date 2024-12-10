@@ -22,7 +22,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     private val slides = listOf(
         SlideItem(R.drawable.onbording1, "Chào Mừng Đến Với Haven Inn!", "Thư giãn trong không gian thanh lịch của Haven Inn, nơi mọi chi tiết đều mang lại cảm giác ấm cúng và riêng tư."),
-        SlideItem(R.drawable.onbording2, "Tận Hưởng Những Khoảnh Khắc Trọn Vẹn", "Trải nghiệm lưu trú tinh tế với dịch vụ tận tâm và tiện ích hiện đại, được thiết kế dành riêng cho bạn tại Haven Inn."),
+        SlideItem(R.drawable.onbording2, "Tận Hưởng Những Khoảnh Khắc Trọn Vẹn", "Trải nghiệm lưu trú tinh tế với dịch vụ tận tâm và tiện ích hiện đại, được thiết kế dành riêng cho bạn tại Haven Inn. "),
         SlideItem(R.drawable.onbording3, "Hành Trình Bắt Đầu Tại Haven Inn", "Bắt đầu kỳ nghỉ đẳng cấp, nơi phong cách và sự thoải mái hòa quyện trong từng chi tiết, chỉ có tại Haven Inn.")
     )
 
