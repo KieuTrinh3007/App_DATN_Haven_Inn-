@@ -63,7 +63,9 @@
                 android:paddingStart="20dp"
                 android:textColor="@color/black"
                 android:textColorHint="#9CA0A8"
-                android:textSize="18dp" />
+                android:textSize="18dp"
+                android:maxLines="1"
+                android:singleLine="true"/>
 
             <TextView
                 android:id="@+id/btn_tieptheo"
