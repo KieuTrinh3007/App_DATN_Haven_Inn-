@@ -59,32 +59,46 @@ class LichSuDatPhongActivity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             try {
+                // Gọi API
                 val response = service.getHistory(userId)
-                if (response.isSuccessful) {
-                    val historyList = response.body()
 
-                    if (!historyList.isNullOrEmpty()){
-                        withContext(Dispatchers.Main) {
-                            // Set the adapter with the history list
+                // Chuyển về luồng chính để xử lý giao diện
+                withContext(Dispatchers.Main) {
+                    if (response.isSuccessful) {
+                        // Lấy dữ liệu từ API
+                        val historyList = response.body()
+
+                        if (historyList.isNullOrEmpty()) {
+                            // Không có dữ liệu, hiển thị TextView thông báo
+                            binding.recyclerViewLs.visibility = View.GONE
+                            binding.tvEmptyHistory.visibility = View.VISIBLE
+                            showMessage("Không có lịch sử đặt phòng")
+                        } else {
+                            // Có dữ liệu, hiển thị danh sách
                             adapter = LichSuAdapter(historyList)
                             binding.recyclerViewLs.adapter = adapter
+                            binding.recyclerViewLs.visibility = View.VISIBLE
+                            binding.tvEmptyHistory.visibility = View.GONE
                         }
-                    }
-                } else {
-                    val errorResponse = response.errorBody()?.string()
-                    Log.e("HistoryActivity", "API Error: $errorResponse")
-                    withContext(Dispatchers.Main) {
-                        showMessage("Không tìm thấy hóa đơn.")
+                    } else {
+                        // Lỗi từ API (response.isSuccessful == false)
+                        Log.e("HistoryActivity", "API Error: ${response.errorBody()?.string()}")
+                        showMessage("Lỗi khi tải lịch sử")
                     }
                 }
             } catch (e: Exception) {
-                Log.e("HistoryActivity", "Exception: ${e.message}", e)
+                // Lỗi khi gọi API hoặc ngoại lệ
                 withContext(Dispatchers.Main) {
+                    Log.e("HistoryActivity", "Exception: ${e.message}", e)
                     showMessage("Có lỗi xảy ra khi tải lịch sử. Vui lòng thử lại!")
                 }
             }
         }
     }
+
+
+
+
 
 
     private fun showMessage(message: String) {
