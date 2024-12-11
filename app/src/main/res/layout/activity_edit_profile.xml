@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/small_user"
             android:drawablePadding="8dp"
-            android:hint="Vũ Thị Vân Anh"
+            android:hint="Nhập họ tên"
             android:padding="12dp" />
 
         <TextView
@@ -87,7 +87,7 @@
             android:drawableStart="@drawable/small_mail"
             android:drawablePadding="8dp"
             android:focusable="false"
-            android:hint="avan81837@gmail.com"
+            android:hint="Nhập email"
             android:padding="12dp" />
 
         <TextView
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/small_phone"
             android:drawablePadding="13dp"
-            android:hint="Số điện thoại"
+            android:hint="Nhập số điện thoại"
             android:padding="12dp" />
     </LinearLayout>
 

@@ -34,9 +34,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
+import com.example.app_datn_haven_inn.dialog.DialogSignIn
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
 import com.example.app_datn_haven_inn.ui.history.LichSuDatPhongActivity
 import com.example.app_datn_haven_inn.ui.myRoom.MyRoomActivity
+import com.example.app_datn_haven_inn.utils.SharePrefUtils
 import java.util.Calendar
 
 class ProfileFragment : Fragment() {
@@ -60,6 +62,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater.inflate(R.layout.fragment_profile, container, false)
         ivAvatar = view.findViewById(R.id.profileImage)
         tvemail = view.findViewById(R.id.tvemailprofile)

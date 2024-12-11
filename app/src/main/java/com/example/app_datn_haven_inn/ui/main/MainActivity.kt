@@ -8,6 +8,8 @@ import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityMainBinding
+import com.example.app_datn_haven_inn.dialog.DialogSignIn
+import com.example.app_datn_haven_inn.utils.SharePrefUtils
 
 class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
     override fun createBinding() = ActivityMainBinding.inflate(layoutInflater)
@@ -46,7 +48,9 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
                     1 -> setDefaultIcons().also { binding.ivFavorite.setColorFilter(getColor(R.color.white)) }
                     2 -> setDefaultIcons().also { binding.ivDatPhong.setColorFilter(getColor(R.color.white)) }
                     3 -> setDefaultIcons().also { binding.ivNotification.setColorFilter(getColor(R.color.white)) }
-                    4 -> setDefaultIcons().also { binding.ivProfile.setColorFilter(getColor(R.color.white)) }
+                    4 -> setDefaultIcons().also {
+                        binding.ivProfile.setColorFilter(getColor(R.color.white))
+                    }
                 }
             }
         })
@@ -56,7 +60,16 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
         binding.llFavorite.setOnClickListener { binding.viewPager2.currentItem = 1 }
         binding.llDatPhong.setOnClickListener { binding.viewPager2.currentItem = 2 }
         binding.llNotification.setOnClickListener { binding.viewPager2.currentItem = 3 }
-        binding.llProfile.setOnClickListener { binding.viewPager2.currentItem = 4 }
+        binding.llProfile.setOnClickListener {
+            if (SharePrefUtils.getId(this).isNullOrEmpty()) {
+                val dialog = DialogSignIn(this)
+                dialog.show()
+        }else{
+                binding.viewPager2.currentItem = 4
+            }
+
+
+    }
     }
 
     // Hàm set lại màu sắc các biểu tượng về mặc định
