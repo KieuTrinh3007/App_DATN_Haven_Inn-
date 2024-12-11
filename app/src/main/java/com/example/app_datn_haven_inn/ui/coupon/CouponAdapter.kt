@@ -24,7 +24,7 @@ class CouponAdapter(
     override fun onBindViewHolder(holder: CouponViewHolder, position: Int) {
         val coupon = couponList[position]
         holder.discountCode.text = "Mã: ${coupon.maGiamGia}"
-        holder.discountDescription.text = "Giảm ${coupon.giamGia}% tối đa ${coupon.giamGiaToiDa}đ cho các đơn hàng từ ${coupon.dieuKienToiThieu}đ"
+        holder.discountDescription.text = "Giảm ${coupon.giamGia*100}% tối đa ${coupon.giamGiaToiDa}đ cho các đơn hàng từ ${coupon.dieuKienToiThieu}đ"
         holder.expiryDate.text = "Ngày hết hạn: ${coupon.ngayKetThuc}"
 
         holder.useButton.setOnClickListener {
