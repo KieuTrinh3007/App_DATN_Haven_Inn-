@@ -317,7 +317,7 @@ class BookingActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-
+//
 //        btnBooking.setOnClickListener {
 //            val calendar = Calendar.getInstance()
 //            val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
