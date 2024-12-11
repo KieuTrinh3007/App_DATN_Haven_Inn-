@@ -12,9 +12,12 @@ import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.database.model.FavoriteRequest
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.databinding.ActivityRoomDetailBinding
+import com.example.app_datn_haven_inn.dialog.DialogSignIn
+import com.example.app_datn_haven_inn.ui.auth.SignIn
 import com.example.app_datn_haven_inn.ui.review.adapter.ReviewAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.PhotoAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TienNghiPhongAdapter
+import com.example.app_datn_haven_inn.utils.SharePrefUtils
 import com.example.app_datn_haven_inn.utils.SharePrefUtils.saveFavoriteState
 import com.example.app_datn_haven_inn.viewModel.DanhGiaViewModel
 import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
@@ -170,6 +173,11 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         checkIfFavorite(idLoaiPhong)
 
         binding.btnAddFavorite.setOnClickListener {
+            if (SharePrefUtils.getId(this@RoomDetailActivity).isNullOrEmpty()) {
+                val dialog = DialogSignIn(this)
+                dialog.show()
+                return@setOnClickListener
+            }
 
             val params = binding.btnTuyChinh.layoutParams as LinearLayout.LayoutParams
             params.weight = 2f
@@ -179,7 +187,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
             val idUser  = sharedPreferences.getString("idNguoiDung", "")
 
-            if (idUser .isNullOrEmpty()) {
+            if (idUser.isNullOrEmpty()) {
                 Toast.makeText(this, "Vui lòng đăng nhập để thêm yêu thích", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -213,6 +221,12 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
 
 
         binding.btnTuyChinh.setOnClickListener {
+            if (SharePrefUtils.getId(this@RoomDetailActivity).isNullOrEmpty()) {
+                val dialog = DialogSignIn(this)
+                dialog.show()
+
+                return@setOnClickListener
+            }
             val intent = Intent(this, TuyChinhDatPhongActivity::class.java)
             intent.putExtra("id_LoaiPhong", idLoaiPhong)
             intent.putExtra("giaTien", tvGiaTien)

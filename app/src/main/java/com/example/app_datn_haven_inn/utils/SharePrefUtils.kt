@@ -23,4 +23,17 @@ object SharePrefUtils {
         val sharedPref = context.getSharedPreferences("YeuThichPref", Context.MODE_PRIVATE)
         return sharedPref.getBoolean(phong.id.toString(), false)  // Lấy trạng thái yêu thích từ SharedPreferences
     }
+
+    fun getId(context: Context) :String {
+        val sharedPref = context.getSharedPreferences("Login", Context.MODE_PRIVATE)
+        return sharedPref.getString("id", "") ?: ""
+    }
+
+    fun setId(context: Context, id: String) {
+        val sharedPref = context.getSharedPreferences("Login", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putString("id", id)
+        editor.apply()
+
+    }
 }

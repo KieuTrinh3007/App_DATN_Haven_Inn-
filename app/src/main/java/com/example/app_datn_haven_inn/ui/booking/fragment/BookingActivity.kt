@@ -36,6 +36,7 @@ import com.example.app_datn_haven_inn.database.service.HoaDonService
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.database.service.PhongService
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
+import com.example.app_datn_haven_inn.ui.main.MainActivity
 import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import com.example.app_datn_haven_inn.utils.SharedPrefsHelper
 import com.google.gson.Gson
@@ -244,95 +245,105 @@ class BookingActivity : AppCompatActivity() {
         // ZaloPay SDK Init
         ZaloPaySDK.init(2553, Environment.SANDBOX)
 
-//        btnBooking.setOnClickListener {
-//            val orderApi = CreateOrder()
-//            try {
-//                val data = orderApi.createOrder(String.format("%.0f", tongTanhToan / 1000))
-//                val code = data.getString("return_code")
-//                if (code == "1") {
-//                    val token = data.getString("zp_trans_token")
-//                    ZaloPaySDK.getInstance().payOrder(
-//                        this@BookingActivity,
-//                        token,
-//                        "demozpdk://app",
-//                        object : PayOrderListener {
-//                            override fun onPaymentSucceeded(
-//                                p1: String?,
-//                                p2: String?,
-//                                p3: String?
-//                            ) {
-//                                val calendar = Calendar.getInstance()
-//                                val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-//                                val ngayThanhToan = dateFormat.format(calendar.time)
-//
-//                                addHoaDon(
-//                                    idNguoiDung!!,
-//                                    id_Coupon!!,
-//                                    startDate!!,
-//                                    endDate!!,
-//                                    tongKhach,
-//                                    tongPhong,
-//                                    ngayThanhToan,
-//                                    phuongThucThanhToan,
-//                                    trangThai,
-//                                    tongTanhToan,
-//                                    chiTietHoaDon
-//                                )
-//
-//                                showPaymentDialog(
-//                                    "Thanh toán thành công",
-//                                    "Bạn đã thanh toán thành công!",
-//                                    R.drawable.img_16
-//                                )
-//                            }
-//
-//                            override fun onPaymentCanceled(p1: String?, p2: String?) {
-//                                // Hiển thị Dialog thông báo thanh toán bị hủy
-//                                showPaymentDialog(
-//                                    "Thanh toán bị hủy",
-//                                    "Bạn đã hủy thanh toán!",
-//                                    R.drawable.img_18
-//                                )
-//                            }
-//
-//                            override fun onPaymentError(
-//                                error: ZaloPayError?,
-//                                p1: String?,
-//                                p2: String?
-//                            ) {
-//                                // Hiển thị Dialog thông báo lỗi thanh toán
-//                                showPaymentDialog(
-//                                    "Lỗi thanh toán",
-//                                    "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại!",
-//                                    R.drawable.img_18
-//                                )
-//                            }
-//                        })
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//        }
-
         btnBooking.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-            val ngayThanhToan = dateFormat.format(calendar.time)
+            val orderApi = CreateOrder()
+            try {
+                val data = orderApi.createOrder(String.format("%.0f", tongTanhToan / 1000))
+                val code = data.getString("return_code")
+                if (code == "1") {
+                    val token = data.getString("zp_trans_token")
+                    ZaloPaySDK.getInstance().payOrder(
+                        this@BookingActivity,
+                        token,
+                        "demozpdk://app",
+                        object : PayOrderListener {
+                            override fun onPaymentSucceeded(
+                                p1: String?,
+                                p2: String?,
+                                p3: String?
+                            ) {
+                                val calendar = Calendar.getInstance()
+                                val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+                                val ngayThanhToan = dateFormat.format(calendar.time)
 
-            addHoaDon(
-                idNguoiDung!!,
-                id_Coupon!!,
-                startDate!!,
-                endDate!!,
-                tongKhach,
-                tongPhong,
-                ngayThanhToan,
-                phuongThucThanhToan,
-                trangThai,
-                tongTanhToan,
-                chiTietHoaDon
-            )
+                                addHoaDon(
+                                    idNguoiDung!!,
+                                    id_Coupon!!,
+                                    startDate!!,
+                                    endDate!!,
+                                    tongKhach,
+                                    tongPhong,
+                                    ngayThanhToan,
+                                    phuongThucThanhToan,
+                                    trangThai,
+                                    tongTanhToan,
+                                    chiTietHoaDon
+                                )
+
+                                showPaymentDialog(
+                                    "Thanh toán thành công",
+                                    "Bạn đã thanh toán thành công!",
+                                    R.drawable.img_16,
+                                    1
+                                )
+                            }
+
+                            override fun onPaymentCanceled(p1: String?, p2: String?) {
+                                // Hiển thị Dialog thông báo thanh toán bị hủy
+                                showPaymentDialog(
+                                    "Thanh toán bị hủy",
+                                    "Bạn đã hủy thanh toán!",
+                                    R.drawable.img_18,
+                                    0
+                                )
+                            }
+
+                            override fun onPaymentError(
+                                error: ZaloPayError?,
+                                p1: String?,
+                                p2: String?
+                            ) {
+                                // Hiển thị Dialog thông báo lỗi thanh toán
+                                showPaymentDialog(
+                                    "Lỗi thanh toán",
+                                    "Đã xảy ra lỗi khi thanh toán. Vui lòng thử lại!",
+                                    R.drawable.img_18,
+                                    2
+                                )
+                            }
+                        })
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
+//
+//        btnBooking.setOnClickListener {
+//            val calendar = Calendar.getInstance()
+//            val dateFormat = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+//            val ngayThanhToan = dateFormat.format(calendar.time)
+//
+//            addHoaDon(
+//                idNguoiDung!!,
+//                id_Coupon!!,
+//                startDate!!,
+//                endDate!!,
+//                tongKhach,
+//                tongPhong,
+//                ngayThanhToan,
+//                phuongThucThanhToan,
+//                trangThai,
+//                tongTanhToan,
+//                chiTietHoaDon
+//            )
+//
+//            showPaymentDialog(
+//                "Thanh toán thành công",
+//                "Bạn đã thanh toán thành công!",
+//                R.drawable.img_16,
+//                1
+//            )
+//        }
 
         edtCoupon.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
@@ -388,7 +399,7 @@ class BookingActivity : AppCompatActivity() {
         }
     }
 
-    private fun showPaymentDialog(title: String, message: String, imageResId: Int) {
+    private fun showPaymentDialog(title: String, message: String, imageResId: Int, ketQua: Int) {
         // Tạo layout cho dialog với ImageView và TextView
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.VERTICAL
@@ -417,9 +428,17 @@ class BookingActivity : AppCompatActivity() {
         builder.setTitle(title)
         builder.setView(layout) // Đặt layout vào AlertDialog
         builder.setPositiveButton("OK") { dialog, _ ->
+            if (ketQua == 1){
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("navigateToFragment", 2)
+                startActivity(intent)
+                finish()
+            }
+
             dialog.dismiss()
         }
         val dialog = builder.create()
+        dialog.setCanceledOnTouchOutside(false)
         val window = dialog.window
         window?.setLayout(
             LinearLayout.LayoutParams.WRAP_CONTENT,

@@ -15,7 +15,6 @@ data class PhongModel (
     var isSelected  : Boolean = false,
     var isBreakfast: Boolean = false,
     var loaiPhong:  @RawValue LoaiPhongModel? = null
-
 ): Parcelable
 
 // Model cho thông tin phòng

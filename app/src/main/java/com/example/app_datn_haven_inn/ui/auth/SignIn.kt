@@ -14,6 +14,7 @@ import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.ui.main.MainActivity
+import com.example.app_datn_haven_inn.utils.SharePrefUtils
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +43,12 @@ class SignIn : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         enableEdgeToEdge()
+
+
+        val sharedPreferences = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("isLoggedIn", true)
+        editor.apply()
 
         // Ánh xạ view
         edtEmail = findViewById(R.id.edt_dangnhap_email)
@@ -141,6 +148,7 @@ class SignIn : AppCompatActivity() {
                         if ((responseBody["status"] as? Double)?.toInt() == 200 && responseBody["userId"] != null) {
                             val userId = responseBody["userId"] as String
                             saveUserToSharedPreferences(userId)
+                            SharePrefUtils.setId(this@SignIn,userId)
                             navigateToHomeScreen()
                         } else {
                             val errorMessage = responseBody["message"] as? String

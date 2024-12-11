@@ -2,17 +2,20 @@ package com.example.app_datn_haven_inn.ui.room.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Paint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.databinding.ItemTtPhongBinding
+import com.example.app_datn_haven_inn.dialog.DialogSignIn
+import com.example.app_datn_haven_inn.ui.auth.SignIn
 import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import com.example.app_datn_haven_inn.ui.room.TuyChinhDatPhongActivity
+import com.example.app_datn_haven_inn.utils.SharePrefUtils
 import com.example.app_datn_haven_inn.utils.SharePrefUtils.loadFavoriteState
 import com.example.app_datn_haven_inn.utils.SharePrefUtils.saveFavoriteState
 import java.text.NumberFormat
@@ -75,6 +78,11 @@ class PhongNghiAdapter(
             tvSLNhanXet.text = "$soLuongDanhGia nhận xét"
             tvTraiNghiem.text = updateEmotion(soDiem)
             tvTuyChinh.setOnClickListener {
+                if (SharePrefUtils.getId(context).isNullOrEmpty()) {
+                    val dialog = DialogSignIn(context)
+                    dialog.show()
+                    return@setOnClickListener
+                }
                 val context = holder.binding.root.context
                 val intent = Intent(context, TuyChinhDatPhongActivity::class.java)
                 intent.putExtra("id_LoaiPhong", phong.id)
@@ -103,6 +111,11 @@ class PhongNghiAdapter(
             updateFavoriteIcon(this, phong)
 
             ivFavorite.setOnClickListener {
+                if (SharePrefUtils.getId(context).isNullOrEmpty()) {
+                    val dialog = DialogSignIn(context)
+                    dialog.show()
+                    return@setOnClickListener
+                }
                 phong.isFavorite = !(phong.isFavorite ?: false)
                 onFavotiteSelected?.invoke(phong)
                 saveFavoriteState(context, phong)
