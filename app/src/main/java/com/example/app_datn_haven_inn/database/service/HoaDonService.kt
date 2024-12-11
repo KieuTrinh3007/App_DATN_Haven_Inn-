@@ -9,12 +9,10 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
-
 
 interface HoaDonService {
     @GET("hoadons/")
@@ -27,7 +25,6 @@ interface HoaDonService {
     suspend fun getListChiTietHoaDon(): Response<List<ChiTietHoaDonModel>>
 
     @POST("hoadons/post")
-//    @Headers("Content-Type: application/json")
     suspend fun addHoaDon(@Body HoaDon: HoaDonModel): Response<HoaDonModel>
 
     @PUT("hoadons/put/{id}")
@@ -43,6 +40,8 @@ interface HoaDonService {
     suspend fun getPhongDetails(@Path("id") id: String): Response<Phong1Model>
 
     @GET("hoadons/history")
-    suspend fun getHistory(@Query("id_NguoiDung") idNguoiDung: String): Response<List<HoaDonModel1>>
-
+    suspend fun getHistory(
+        @Query("id_NguoiDung") idNguoiDung: String,
+        @Query("trangThai") trangThai: Int?
+    ): Response<List<HoaDonModel1>>
 }
