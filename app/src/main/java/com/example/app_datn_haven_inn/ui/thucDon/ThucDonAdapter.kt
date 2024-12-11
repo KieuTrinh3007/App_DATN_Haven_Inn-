@@ -46,12 +46,6 @@ class AmThucAdapter(
                 .into(binding.imgThucDon)
 
             binding.btnThucDon.setOnClickListener {
-                if (SharePrefUtils.getId(binding.root.context).isNullOrEmpty()) {
-                    val dialog = DialogSignIn(this.binding.root.context)
-                    dialog.show()
-                    return@setOnClickListener
-                }
-
                 val context = binding.root.context
                 val intent = Intent(context, KhamPhaThucDon::class.java)
                 intent.putExtra("amThuc", item)
