@@ -54,7 +54,9 @@
                     android:hint="Nhập email của bạn"
                     android:paddingVertical="10dp"
                     android:textColor="@color/black"
-                    android:textColorHint="#9CA0A8" />
+                    android:textColorHint="#9CA0A8"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
