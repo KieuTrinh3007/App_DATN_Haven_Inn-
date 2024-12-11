@@ -43,13 +43,15 @@ abstract class BaseActivity<VB : ViewBinding, V: ViewModel> : AppCompatActivity(
 
 
     fun hideNavigationBar() {
+
         val decorView = window.decorView
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             // Android 11 (API level 30) and above
             decorView.windowInsetsController?.let { controller ->
                 controller.hide(WindowInsets.Type.navigationBars())
-                controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                controller.systemBarsBehavior =
+                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
         } else {
             // Below Android 11
@@ -58,7 +60,7 @@ abstract class BaseActivity<VB : ViewBinding, V: ViewModel> : AppCompatActivity(
                             or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                     )
 
-//             Listener để ẩn lại thanh điều hướng khi người dùng tương tác
+            // Listener để ẩn lại thanh điều hướng khi người dùng tương tác
             decorView.setOnSystemUiVisibilityChangeListener { visibility ->
                 if (visibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0) {
                     Handler().postDelayed({

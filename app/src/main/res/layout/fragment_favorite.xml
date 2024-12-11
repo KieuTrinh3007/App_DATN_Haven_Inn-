@@ -8,14 +8,15 @@
     tools:context=".ui.favorite.FavoriteFragment">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:text="Danh sách  các phòng yêu thích của bạn" />
+        android:textAlignment="center"
+        android:text="Danh sách yêu thích" />
 
     <ImageView
         android:id="@+id/iv_no_data"

@@ -1,24 +1,19 @@
 package com.example.app_datn_haven_inn.ui.room
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.util.Log
-import android.view.View
-import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import com.example.app_datn_haven_inn.BaseActivity
-import com.example.app_datn_haven_inn.R
-import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel
 import com.example.app_datn_haven_inn.database.model.PhongModel
 import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBinding
 import com.example.app_datn_haven_inn.ui.booking.BookingActivity
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
+import com.example.app_datn_haven_inn.utils.SharePrefUtils
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
+import org.checkerframework.common.returnsreceiver.qual.This
 import java.text.NumberFormat
-import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -114,7 +109,6 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         }
 
         binding.tvDat.setOnClickListener {
-
             totalPrice = (selectedRoomAdapter?.calculateTotalPrice(1) ?: 0).toDouble()
             selectedRooms = selectedRoomAdapter?.getSelectedRooms() ?: emptyList()
             guestCountsMap = HashMap(

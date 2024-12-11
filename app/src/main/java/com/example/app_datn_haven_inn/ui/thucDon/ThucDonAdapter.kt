@@ -8,7 +8,9 @@ import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.AmThucModel
 import com.example.app_datn_haven_inn.databinding.ItemThucdonBinding
+import com.example.app_datn_haven_inn.dialog.DialogSignIn
 import com.example.app_datn_haven_inn.ui.thucDon.KhamPhaThucDon
+import com.example.app_datn_haven_inn.utils.SharePrefUtils
 
 class AmThucAdapter(
     private val listAmThuc: List<AmThucModel>,
@@ -44,6 +46,12 @@ class AmThucAdapter(
                 .into(binding.imgThucDon)
 
             binding.btnThucDon.setOnClickListener {
+                if (SharePrefUtils.getId(binding.root.context).isNullOrEmpty()) {
+                    val dialog = DialogSignIn(this.binding.root.context)
+                    dialog.show()
+                    return@setOnClickListener
+                }
+
                 val context = binding.root.context
                 val intent = Intent(context, KhamPhaThucDon::class.java)
                 intent.putExtra("amThuc", item)

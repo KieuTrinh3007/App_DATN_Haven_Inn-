@@ -1,44 +1,22 @@
 package com.example.app_datn_haven_inn.ui.room.fragment
 
-import android.app.Activity
-import android.app.DatePickerDialog
-import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.util.Log
-import android.view.Window
-import android.view.WindowManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.BaseFragment
 import com.example.app_datn_haven_inn.R
-import com.example.app_datn_haven_inn.database.model.DanhGiaNguoiDungModel
 import com.example.app_datn_haven_inn.database.model.FavoriteRequest
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
-import com.example.app_datn_haven_inn.database.model.YeuThichModel
 import com.example.app_datn_haven_inn.databinding.FragmentPhongNghiBinding
-import com.example.app_datn_haven_inn.ui.home.adpter.RoomTopAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.PhongNghiAdapter
 import com.example.app_datn_haven_inn.viewModel.DanhGiaViewModel
 import com.example.app_datn_haven_inn.viewModel.LoaiPhongViewModel
 import com.example.app_datn_haven_inn.viewModel.YeuThichViewModel
-import java.text.DecimalFormat
-import java.text.NumberFormat
-import java.util.Calendar
-import java.util.Locale
 
 
 class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
