@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.dieuKhoan.dieuKhoan">
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="39dp"
+            android:text="Điều Khoản &amp; Chính Sách"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/ic_back_cp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="20dp"
+            android:textAlignment="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="408dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="317dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:text="Điều Khoản và Điều Kiện Sử Dụng Ứng Dụng Đặt Phòng Khách Sạn"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="317dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Chào mừng bạn đến với Haven Inn!"
+                android:textSize="13sp"
+                android:textStyle="bold|italic"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Khi bạn sử dụng ứng dụng của chúng tôi để đặt phòng khách sạn, bạn đồng ý với các điều khoản và điều kiện dưới đây. Để tránh những hiểu lầm, vui lòng đọc kỹ các điều khoản trước khi sử dụng dịch vụ của chúng tôi."
+                android:textSize="13sp"
+                android:textStyle="normal|italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="317dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Giới Thiệu Dịch Vụ"
+                android:textSize="13sp"
+                android:textStyle="bold|italic"
+                android:textColor="@color/black"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Ứng dụng Haven Inn cung cấp dịch vụ đặt phòng khách sạn trực tuyến, giúp bạn dễ dàng tìm kiếm và đặt phòng ở khách sạn chúng tôi. Bạn có thể lựa chọn từ nhiều mức giá, loại phòng và tiện ích cũng như dịch vụ đi kèm. Chúng tôi làm việc với khách sạn để cung cấp thông tin chi tiết và dịch vụ tốt nhất cho bạn."
+                android:textSize="13sp"
+                android:textStyle="normal|italic" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        app:layout_constraintVertical_bias="0.069">
+
+        <TextView
+            android:id="@+id/txtdieuKhoan1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Đăng Ký và Sử Dụng Tài Khoản"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+
+            />
+
+        <TextView
+            android:id="@+id/txtdieuKhoan2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Chính Sách Hủy Phòng và Hoàn Tiền"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/txtdieuKhoan3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Quyền và Nghĩa Vụ Của Người Dùng"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+        />
+
+        <TextView
+            android:id="@+id/txtdieuKhoan4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quyền và Trách Nhiệm Của Haven Inn"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4"
+        app:layout_constraintVertical_bias="0.333"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cảm ơn bạn đã chọn Haven Inn!"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:textStyle="bold|italic"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chúng tôi cam kết mang lại cho bạn trải nghiệm đặt phòng khách sạn tuyệt vời và thuận tiện. Nếu bạn có bất kỳ câu hỏi nào về các điều khoản và điều kiện, vui lòng liên hệ với chúng tôi qua các kênh hỗ trợ."
+            android:textSize="13sp"
+            android:textStyle="italic"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"/>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
