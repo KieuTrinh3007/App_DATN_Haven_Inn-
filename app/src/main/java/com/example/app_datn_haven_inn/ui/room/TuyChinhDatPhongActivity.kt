@@ -38,16 +38,25 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
     override fun onResume() {
         super.onResume()
+        // Tải lại danh sách phòng từ ViewModel
         viewModel.getListPhongByIdLoaiPhong(idLoaiPhong.toString())
         viewModel.phongListByIdLoaiPhong.observe(this) { list ->
             if (list != null) {
+                // Đặt trạng thái `isSelected` về false khi tải lại danh sách phòng
+                list.forEach { it.isSelected = false }
                 adapter?.let {
                     it.listSoPhong = list
                     it.notifyDataSetChanged()
                 }
+                // Xóa danh sách phòng đã chọn
+                selectedRoomAdapter?.resetSelectedRooms()
+                updateTotalPrice()
+                updateTvDatButtonState()
             }
         }
+
     }
+
     override fun initView() {
         super.initView()
         idLoaiPhong = intent.getStringExtra("id_LoaiPhong").toString()
@@ -84,6 +93,21 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                 }
             }
         }
+        // Lấy ngày hiện tại
+        val calendar1 = Calendar.getInstance()
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+        // Đặt ngày nhận phòng là ngày hiện tại
+        ngayNhanPhong = dateFormat.format(calendar1.time)
+        binding.tvNgay.text = ngayNhanPhong
+        selectedStartDate = ngayNhanPhong
+
+        // Tăng ngày hiện tại thêm 1 để làm ngày trả phòng
+        calendar1.add(Calendar.DAY_OF_MONTH, 1)
+        ngayTraPhong = dateFormat.format(calendar1.time)
+        binding.tvNgay1.text = ngayTraPhong
+        selectedEndDate = ngayTraPhong
+
 
 
         val calendar = Calendar.getInstance()
@@ -93,9 +117,8 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         val formattedMonth = String.format("%02d", calendar.get(Calendar.MONTH) + 1)
         val currentDate = "$formattedDay/$formattedMonth/${calendar.get(Calendar.YEAR)}"
 
-        // Hiển thị ngày hiện tại lên UI
-        binding.tvNgay.text = currentDate
-        binding.tvNgay1.text = currentDate
+//        // Hiển thị ngày hiện tại lên UI
+//        binding.tvNgay.text = currentDate
 
         // Gán ngày nhận phòng và trả phòng
         selectedStartDate = currentDate
@@ -111,7 +134,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
         val nextDate =
             "$formattedEndDay/$formattedEndMonth/${nextDay.year + 1900}"  // Thêm 1900 vì year trả về từ Calendar bắt đầu từ 1900
 
-        binding.tvNgay1.text = nextDate
+//        binding.tvNgay1.text = nextDate
         selectedEndDate = nextDate
 
         binding.ivBack.setOnClickListener {

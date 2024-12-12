@@ -5,14 +5,12 @@ import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.databinding.ItemTtPhongBinding
 import com.example.app_datn_haven_inn.dialog.DialogSignIn
-import com.example.app_datn_haven_inn.ui.auth.SignIn
 import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import com.example.app_datn_haven_inn.ui.room.TuyChinhDatPhongActivity
 import com.example.app_datn_haven_inn.utils.SharePrefUtils
