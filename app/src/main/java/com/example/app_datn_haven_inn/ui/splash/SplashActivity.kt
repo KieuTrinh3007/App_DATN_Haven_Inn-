@@ -10,6 +10,7 @@ import com.example.app_datn_haven_inn.BaseActivity
 import com.example.app_datn_haven_inn.BaseViewModel
 import com.example.app_datn_haven_inn.databinding.ActivitySplashBinding
 import com.example.app_datn_haven_inn.ui.main.MainActivity
+import com.example.app_datn_haven_inn.ui.onbording.WelcomeActivity
 import com.example.app_datn_haven_inn.viewModel.AmThucViewModel
 import com.example.app_datn_haven_inn.viewModel.ChiTietHoaDonViewModel
 import com.example.app_datn_haven_inn.viewModel.CouponViewModel
@@ -47,7 +48,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding, BaseViewModel>() {
                 }
                 if (progress == 100) {
 
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, WelcomeActivity::class.java))
                     finish()
 
                 }
