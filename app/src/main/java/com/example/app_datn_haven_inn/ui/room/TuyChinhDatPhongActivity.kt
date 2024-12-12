@@ -10,9 +10,7 @@ import com.example.app_datn_haven_inn.databinding.ActivityTuyChinhDatPhongBindin
 import com.example.app_datn_haven_inn.ui.booking.BookingActivity
 import com.example.app_datn_haven_inn.ui.room.adapter.SelectedRoomAdapter
 import com.example.app_datn_haven_inn.ui.room.adapter.TuyChinhDatPhongAdapter
-import com.example.app_datn_haven_inn.utils.SharePrefUtils
 import com.example.app_datn_haven_inn.viewModel.PhongViewModel
-import org.checkerframework.common.returnsreceiver.qual.This
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -38,6 +36,18 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
     var tvSLKhach = 1
     var numberOfNights: Int = 0
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getListPhongByIdLoaiPhong(idLoaiPhong.toString())
+        viewModel.phongListByIdLoaiPhong.observe(this) { list ->
+            if (list != null) {
+                adapter?.let {
+                    it.listSoPhong = list
+                    it.notifyDataSetChanged()
+                }
+            }
+        }
+    }
     override fun initView() {
         super.initView()
         idLoaiPhong = intent.getStringExtra("id_LoaiPhong").toString()
@@ -116,7 +126,6 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
             )?.filterValues { it > 0 } as HashMap<String, Double>?
 
             viewModel.saveBookingData(selectedRooms, totalPrice.toInt())
-            viewModel?.saveBookingData(selectedRooms, totalPrice.toInt())
 
 
             val intent = Intent(this, BookingActivity::class.java)
