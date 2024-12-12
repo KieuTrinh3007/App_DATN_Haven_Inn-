@@ -2,12 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ImageView
         android:id="@+id/imgLogoSplash"
         android:layout_width="195dp"
         android:layout_height="195dp"
+        android:src="@drawable/img_19"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/tvPersent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -30,10 +32,10 @@
         android:layout_height="8dp"
         android:padding="2dp"
         android:layout_marginBottom="12dp"
-        app:zpb_bg_color="@color/black"
+        app:zpb_bg_color="#867979"
         app:zpb_max="100"
         android:layout_marginHorizontal="16dp"
-        app:zpb_pb_color="#F86229"
+        app:zpb_pb_color="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/tvContentSplash"/>
 
     <TextView
@@ -45,6 +47,6 @@
         android:textAlignment="center"
         android:layout_marginBottom="12dp"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="16sp"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

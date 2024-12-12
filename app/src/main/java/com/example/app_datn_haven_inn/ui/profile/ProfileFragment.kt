@@ -190,6 +190,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showLogoutDialog() {
+
         // Inflate layout từ XML để tạo dialog
         val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
 

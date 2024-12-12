@@ -38,18 +38,17 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
     override fun onResume() {
         super.onResume()
-        // Tải lại danh sách phòng từ ViewModel
+
         viewModel.getListPhongByIdLoaiPhong(idLoaiPhong.toString())
         viewModel.phongListByIdLoaiPhong.observe(this) { list ->
             if (list != null) {
-                // Đặt trạng thái `isSelected` về false khi tải lại danh sách phòng
-                list.forEach { it.isSelected = false }
+                list.forEach { room ->
+                    room.isSelected = selectedRooms.any { it.id == room.id }
+                }
                 adapter?.let {
                     it.listSoPhong = list
                     it.notifyDataSetChanged()
                 }
-                // Xóa danh sách phòng đã chọn
-                selectedRoomAdapter?.resetSelectedRooms()
                 updateTotalPrice()
                 updateTvDatButtonState()
             }
