@@ -3,13 +3,9 @@ package com.example.app_datn_haven_inn.ui.history
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel1
-import com.example.app_datn_haven_inn.database.model.HoaDonModel
 import com.example.app_datn_haven_inn.database.model.HoaDonModel1
 import com.example.app_datn_haven_inn.databinding.ItemLichsuBinding
 import com.squareup.picasso.Picasso
@@ -18,18 +14,13 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
-class LichSuAdapter(private val historyList: List<HoaDonModel1>) :
+class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onActionClick: (HoaDonModel1) -> Unit) :
     RecyclerView.Adapter<LichSuAdapter.LichSuViewHolder>() {
 
-    class LichSuViewHolder(val binding: ItemLichsuBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    class LichSuViewHolder(val binding: ItemLichsuBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LichSuViewHolder {
-        val binding = ItemLichsuBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = ItemLichsuBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return LichSuViewHolder(binding)
     }
 
@@ -37,47 +28,68 @@ class LichSuAdapter(private val historyList: List<HoaDonModel1>) :
         val hoaDon = historyList[position]
         val binding = holder.binding
 
-        // Kiểm tra chiTiet không phải null và không rỗng
+        // Thiết lập dữ liệu
         val chitiet = hoaDon.chiTiet.takeIf { it.isNotEmpty() } ?: ArrayList<ChiTietHoaDonModel1>()
-
-        // Hiển thị thông tin từng chi tiết
         val tenloaiList = chitiet.joinToString { it.tenLoaiPhong ?: "Không có tên phòng" }
         binding.txtTenPhong.text = "Tên loại phòng: $tenloaiList"
 
         val soPhongList = chitiet.joinToString { it.soPhong ?: "Không có số phòng" }
         binding.txtSoPhong.text = "Phòng: $soPhongList"
-        binding.txtNgayNhanPhong.text =  "Ngày nhận phòng: ${formatDateTime(hoaDon.ngayNhanPhong)}"
-
-        // Hiển thị tổng tiền, sử dụng định dạng số
+        binding.txtNgayNhanPhong.text = "Ngày nhận phòng: ${formatDateTime(hoaDon.ngayNhanPhong)}"
         binding.txtTongTien.text = "Tổng tiền: ${formatMoney(hoaDon.tongTien)} VND"
 
-        // Hiển thị ảnh phòng (chỉ lấy ảnh của phòng đầu tiên trong danh sách chi tiết)
+        // Thiết lập hình ảnh
         val firstRoom = chitiet.firstOrNull()
-        if (firstRoom != null && firstRoom.hinhAnh.isNotEmpty()) {
+        if (firstRoom != null && !firstRoom.hinhAnh.isNullOrEmpty()) {
             Picasso.get().load(firstRoom.hinhAnh.first()).into(binding.imgPhong)
+        } else {
+            binding.imgPhong.setImageResource(R.drawable.img_13) // Thay thế bằng ảnh mặc định
         }
 
-        // Xử lý nút hành động
-        binding.btnAction.setOnClickListener {
-            // Xử lý hành động đặt lại, đánh giá, v.v.
-            // Ví dụ: chuyển hướng đến một màn hình khác
+        // Hiển thị/ẩn các nút theo trạng thái
+        when (hoaDon.trangThai) {
+            0 -> { // Da nhan phong
+                binding.btnAction.visibility = View.VISIBLE
+                binding.btnDanhGia.visibility = View.VISIBLE
+                binding.btnHuy.visibility = View.GONE
+            }
+            1 -> { // Đã thanh toán
+                binding.btnAction.visibility = View.GONE
+                binding.btnDanhGia.visibility = View.GONE
+                binding.btnHuy.visibility = View.VISIBLE
+            }
+            2 -> { // Đã hủy
+                binding.btnAction.visibility = View.VISIBLE
+                binding.btnDanhGia.visibility = View.GONE
+                binding.btnHuy.visibility = View.GONE
+            }
+            else -> {
+                binding.btnAction.visibility = View.GONE
+                binding.btnDanhGia.visibility = View.GONE
+                binding.btnHuy.visibility = View.GONE
+            }
         }
+
+        // Thiết lập sự kiện nhấn nút
+        binding.btnAction.setOnClickListener {
+            onActionClick(hoaDon) // Gọi hàm callback
+        }
+    }
+
+    fun updateData(newHistoryList: List<HoaDonModel1>) {
+        historyList = newHistoryList
+        notifyDataSetChanged()
     }
 
     private fun formatDateTime(dateString: String): String {
         return try {
-            // Định dạng dữ liệu đầu vào từ server
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-            inputFormat.timeZone = TimeZone.getTimeZone("UTC") // Dữ liệu từ server là UTC
-
-            // Parse dữ liệu đầu vào thành đối tượng Date
+            inputFormat.timeZone = TimeZone.getTimeZone("UTC")
             val date = inputFormat.parse(dateString)
 
-            // Định dạng dữ liệu đầu ra (giờ phút và ngày tháng năm)
-            val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault()) // Định dạng giờ phút
-            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()) // Định dạng ngày tháng năm
+            val timeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+            val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
 
-            // Ghép kết quả đầu ra
             "${timeFormat.format(date)} ${dateFormat.format(date)}"
         } catch (e: Exception) {
             e.printStackTrace()
@@ -86,7 +98,7 @@ class LichSuAdapter(private val historyList: List<HoaDonModel1>) :
     }
 
     private fun formatMoney(amount: Double): String {
-        val formatter = DecimalFormat("#,###.##")  // Định dạng số với dấu phân cách hàng nghìn
+        val formatter = DecimalFormat("#,###.##")
         return formatter.format(amount)
     }
 
