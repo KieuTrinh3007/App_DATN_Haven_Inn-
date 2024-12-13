@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
@@ -49,6 +50,7 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
     private lateinit var amThucAdapter: AmThucAdapter
     private lateinit var roomTopAdapter: RoomTopAdapter
     private lateinit var mMap: GoogleMap
+    private lateinit var progressBar: ProgressBar
 
     // Vị trí mặc định để hiển thị trên bản đồ
     private val location = "113 Hàng Buồm, Phố Cổ, Hà Nội, 10000"
@@ -64,6 +66,7 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
         xemloaiphong = view.findViewById(R.id.xemloaiphong)
         xemmonan = view.findViewById(R.id.xemmonan)
         xemtiennghi = view.findViewById(R.id.xemtiennghi)
+        progressBar = view.findViewById(R.id.progressBarOver)
 
         xemloaiphong.setOnClickListener {
             val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager2)
@@ -160,6 +163,9 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
 
     // Tải dữ liệu phòng
     private fun loadRoomTopData() {
+        progressBar.visibility = View.VISIBLE
+        recyclerViewRoomTop.visibility = View.GONE
+
         CoroutineScope(Dispatchers.IO).launch {
             val repository = LoaiPhongRepository(CreateService.createService<LoaiPhongService>())
             val roomList = repository.getListLoaiPhong()
@@ -201,7 +207,10 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
                     }
                     recyclerViewRoomTop.adapter = roomTopAdapter
                 }
+                progressBar.visibility = View.GONE
+                recyclerViewRoomTop.visibility = View.VISIBLE
             }
+
         }
     }
 }

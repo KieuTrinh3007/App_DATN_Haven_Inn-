@@ -23,7 +23,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Lấy idNguoiDung từ SharedPreferences
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
         val idNguoiDung = sharedPreferences.getString("idNguoiDung", null)
 
@@ -60,16 +59,15 @@ class MainActivity : BaseActivity<ActivityMainBinding, BaseViewModel>() {
         binding.llFavorite.setOnClickListener { binding.viewPager2.currentItem = 1 }
         binding.llDatPhong.setOnClickListener { binding.viewPager2.currentItem = 2 }
         binding.llNotification.setOnClickListener { binding.viewPager2.currentItem = 3 }
+
         binding.llProfile.setOnClickListener {
-            if (SharePrefUtils.getId(this).isNullOrEmpty()) {
+            if (idNguoiDung.isNullOrEmpty()) {
                 val dialog = DialogSignIn(this)
                 dialog.show()
-        }else{
+            } else {
                 binding.viewPager2.currentItem = 4
             }
-
-
-    }
+        }
     }
 
     // Hàm set lại màu sắc các biểu tượng về mặc định

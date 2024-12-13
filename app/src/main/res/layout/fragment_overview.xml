@@ -43,10 +43,27 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewRoomTop"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <!-- ProgressBar khi chưa tải dữ liệu -->
+            <ProgressBar
+                android:id="@+id/progressBarOver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"/>
+
+            <!-- Danh sách roomtop -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewRoomTop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+        </LinearLayout>
 
         <TextView
             android:id="@+id/xemloaiphong"
@@ -339,12 +356,12 @@
             android:id="@+id/xemtiennghi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:text="Xem tất cả tiện nghi, dịch vụ nơi lưu trú >"
             android:textColor="#64A89C"
-            android:textSize="13dp"
-            android:gravity="center"/>
+            android:textSize="13dp" />
         <!-- Location Section -->
         <TextView
             android:id="@+id/locationTitle"

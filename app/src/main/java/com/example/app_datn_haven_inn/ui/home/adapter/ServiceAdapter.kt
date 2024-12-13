@@ -36,8 +36,8 @@ class ServiceAdapter : RecyclerView.Adapter<ServiceAdapter.ServiceViewHolder>() 
             binding.textServiceName.text = service.tenTienNghi
             Glide.with(binding.root.context)
                 .load(service.image) // Load image from URL
-                .placeholder(R.drawable.vanh) // Optional: Placeholder while loading
-                .error(R.drawable.vanh) // Optional: Error image if URL fails
+                .placeholder(R.drawable.img_20) // Optional: Placeholder while loading
+                .error(R.drawable.img_20) // Optional: Error image if URL fails
                 .into(binding.imageService)
         }
     }
