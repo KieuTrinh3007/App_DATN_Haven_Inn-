@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.dieuKhoan.dieuKhoan1">
 
     <LinearLayout
@@ -19,15 +20,30 @@
         app:layout_constraintVertical_bias="0.0"
         android:layout_marginTop="20dp">
 
-        <TextView
-            android:layout_width="317dp"
+        <LinearLayout
+            android:id="@+id/img_back"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
-            android:text="Quyền và Nghĩa Vụ Của Người Dùng"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/back"/>
+
+            <TextView
+                android:layout_width="317dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Quyền và Nghĩa Vụ Của Người Dùng"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="317dp"
