@@ -36,6 +36,7 @@ import kotlinx.coroutines.withContext
 import java.util.UUID
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
+import com.example.app_datn_haven_inn.ui.dieuKhoan.GioiThieuActivity
 import com.example.app_datn_haven_inn.ui.dieuKhoan.dieuKhoan
 import com.example.app_datn_haven_inn.ui.history.LichSuDatPhongActivity
 import com.example.app_datn_haven_inn.ui.myRoom.MyRoomActivity
@@ -53,6 +54,7 @@ class ProfileFragment : Fragment() {
     private lateinit var bt_signout: ImageView
     private lateinit var discountCode: TextView
     private lateinit var Policy: TextView
+    private lateinit var about: TextView
 
     private val danhGiaService = CreateService.createService<DanhGiaService>()
 
@@ -76,6 +78,7 @@ class ProfileFragment : Fragment() {
         feedback = view.findViewById(R.id.feedback)
         discountCode = view.findViewById(R.id.discountCode)
         Policy = view.findViewById(R.id.Policy)
+        about = view.findViewById(R.id.about)
 
         val tvMyRoom = view.findViewById<TextView>(R.id.myRoom)
         val tvLsDatPhong = view.findViewById<TextView>(R.id.transactionHistory)
@@ -97,6 +100,11 @@ class ProfileFragment : Fragment() {
         
         Policy.setOnClickListener {
             val intent = Intent(requireContext(), dieuKhoan::class.java)
+            startActivity(intent)
+        }
+        
+        about.setOnClickListener {
+            val intent = Intent(requireContext(), GioiThieuActivity::class.java)
             startActivity(intent)
         }
 

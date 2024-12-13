@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/img_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="15dp">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/back"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Giới thiệu"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/ic_back_cp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textAlignment="center"/>
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="30dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thông tin về nơi lưu trú này:"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Khách sạn Haven Inn"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Khách sạn Haven Inn là lựa chọn lý tưởng cho gia đình và du khách muốn tận hưởng không gian sang trọng ngay giữa lòng Hà Nội. Nằm gần Hồ Hoàn Kiếm, khách sạn mang đến sự kết hợp hoàn hảo giữa sự tiện nghi hiện đại và vẻ đẹp lịch sử của thành phố."
+                android:textColor="@color/black"
+                android:textSize="13sp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Điểm nổi bật:"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   -  "
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vị trí thuận lợi: Vị trí thuận lợi: Chỉ cách Hồ Tây một khoảng cách ngắn, khách sạn cho phép bạn dễ dàng tiếp cận các điểm tham quan nổi tiếng như phố cổ Hà Nội, nhà hát lớn, và chợ Đồng Xuân."
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   -  "
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tiện nghi đa dạng:
+Sòng bạc với không gian giải trí đẳng cấp.
+Sân hiên thoáng mát, lý tưởng để thư giãn hoặc thưởng thức cà phê.
+Tiệm cà phê/quán cà phê với các món ăn nhẹ và đồ uống "
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   -  "
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Trải nghiệm thể thao: Khu vực tập golf hiện đại, các lớp hướng dẫn chuyên nghiệp và cửa hàng dụng cụ golf đáp ứng nhu cầu của người yêu thích bộ môn này."
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   -  "
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dịch vụ thư giãn: Spa cao cấp trong khuôn viên giúp bạn xua tan căng thẳng sau một ngày dài khám phá."
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phòng nghỉ:"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Các phòng tại Haven Inn được thiết kế tinh tế, trang bị đầy đủ tiện nghi hiện đại như Wi-Fi tốc độ cao, TV màn hình phẳng, điều hòa không khí và minibar. Một số phòng còn có tầm nhìn ra Hồ Hoàn Kiếm hoặc Hồ Tây, mang lại cảm giác thư thái và gần gũi với thiên nhiên."
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_marginTop="6dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phù hợp cho mọi đối tượng:"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Khách sạn Haven Inn không chỉ lý tưởng cho các gia đình mà còn là sự lựa chọn hoàn hảo cho các cặp đôi, doanh nhân và nhóm bạn. Với không gian sang trọng, dịch vụ tận tâm và vị trí đắc địa, Haven Inn là điểm dừng chân hoàn hảo để trải nghiệm Hà Nội một cách trọn vẹn."
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_marginTop="6dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Giới thiệu về ứng dụng:"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ứng dụng đặt phòng của chúng tôi được thiết kế để mang đến cho khách hàng trải nghiệm thuận tiện, nhanh chóng và an toàn khi tìm kiếm nơi lưu trú lý tưởng. Với giao diện thân thiện, dễ sử dụng và tích hợp nhiều tính năng thông minh, ứng dụng giúp bạn dễ dàng đặt phòng khách sạn, khám phá các ưu đãi hấp dẫn và quản lý chuyến đi chỉ bằng vài thao tác."
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_marginTop="6dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tính năng nổi bật::"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:textStyle="bold"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   -  "
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bộ lọc chi tiết giúp bạn lựa chọn nơi lưu trú phù hợp với nhu cầu (ví dụ: vị trí, mức giá, tiện nghi)."
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   -  "
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chương trình tích điểm và ưu đãi dành cho khách hàng thân thiết."
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   -  "
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hỗ trợ đa ngôn ngữ và thanh toán an toàn với nhiều phương thức."
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="   -  "
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hỗ trợ khách hàng 24/7 để đảm bảo mọi vấn đề được giải quyết kịp thời."
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ứng dụng không chỉ giúp bạn đặt phòng một cách nhanh chóng mà còn tối ưu hóa trải nghiệm du lịch với các dịch vụ bổ sung như đặt vé máy bay, tour tham quan và thuê xe."
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_marginTop="6dp"/>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
