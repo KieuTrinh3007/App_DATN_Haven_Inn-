@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
@@ -88,18 +89,22 @@ class ShowInfoActivity : AppCompatActivity() {
         // Nút xác thực
         btnVerify.setOnClickListener {
             if (idNguoiDung != null && frontImagePath != null && backImagePath != null) {
-                showProgress(true)
-                uploadCccdToServer(
-                    idNguoiDung,
-                    cccd ?: "",
-                    name ?: "",
-                    gender ?: "",
-                    formatDate("$birthDate") ?: "",
-                    address ?: "",
-                    formatDate("$issueDate") ?: "",
-                    frontImagePath,
-                    backImagePath,
-                )
+                if (birthDate != null && !isUserAdult(birthDate)) {
+                    showUnderageDialog()
+                } else {
+                    showProgress(true)
+                    uploadCccdToServer(
+                        idNguoiDung,
+                        cccd ?: "",
+                        name ?: "",
+                        gender ?: "",
+                        formatDate("$birthDate") ?: "",
+                        address ?: "",
+                        formatDate("$issueDate") ?: "",
+                        frontImagePath,
+                        backImagePath,
+                    )
+                }
             } else {
                 showToast("Dữ liệu không đầy đủ để xác thực")
             }
@@ -148,7 +153,8 @@ class ShowInfoActivity : AppCompatActivity() {
                     } else {
                         val errorBody = response.errorBody()?.string()
                         val errorMessage = extractMessageFromErrorBody(errorBody)
-                        Toast.makeText(this@ShowInfoActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@ShowInfoActivity, errorMessage, Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             } catch (e: Exception) {
@@ -209,13 +215,35 @@ class ShowInfoActivity : AppCompatActivity() {
         return try {
             if (!errorBody.isNullOrEmpty()) {
                 val jsonObject = JSONObject(errorBody)
-                jsonObject.optString("message", "Có lỗi xảy ra") // Lấy giá trị "message" hoặc chuỗi mặc định
+                jsonObject.optString(
+                    "message",
+                    "Có lỗi xảy ra"
+                ) // Lấy giá trị "message" hoặc chuỗi mặc định
             } else {
                 "Có lỗi xảy ra"
             }
         } catch (e: JSONException) {
             "Lỗi phân tích phản hồi từ server"
         }
+    }
+
+    private fun showUnderageDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Cảnh báo")
+            .setMessage("Bạn phải đủ 18 tuổi để thực hiện xác thực.")
+            .setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun isUserAdult(birthDate: String): Boolean {
+        val inputFormat = SimpleDateFormat("ddMMyyyy", Locale.getDefault())
+        val dateOfBirth = inputFormat.parse(birthDate)
+        val currentDate = System.currentTimeMillis()
+        val age = (currentDate - dateOfBirth!!.time) / (1000L * 60 * 60 * 24 * 365)
+
+        return age >= 18
     }
 
     private fun showToast(message: String) {

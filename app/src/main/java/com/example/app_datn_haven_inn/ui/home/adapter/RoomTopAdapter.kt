@@ -49,6 +49,22 @@ class RoomTopAdapter(
         holder.txtDanhGia.text = "$soDiem"
         holder.txtSoNhanXet.text = "$soLuongDanhGia nhận xét"
 
+        val ratingStatus = when {
+            soDiem >= 9.0 -> "Tuyệt vời"
+            soDiem >= 7.0 -> "Tốt"
+            soDiem >= 5.0 -> "Bình thường"
+            soDiem >= 3.0 -> "Tệ"
+            else -> "Rất tệ"
+        }
+
+        // Hiển thị trạng thái nếu có điểm đánh giá
+        if (soDiem > 0) {
+            holder.txtTrangThai.text = ratingStatus
+            holder.txtTrangThai.visibility = View.VISIBLE
+        } else {
+            holder.txtTrangThai.visibility = View.GONE
+        }
+
         // Xử lý sự kiện click
         holder.itemView.setOnClickListener {
             onItemClick(room)
