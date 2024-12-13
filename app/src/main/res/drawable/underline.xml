@@ -5,7 +5,7 @@
         </shape>
     </item>
     <item
-        android:top="20dp"> <!-- Đặt khoảng cách để đường kẻ nằm dưới văn bản -->
+        android:top="30dp"> <!-- Đặt khoảng cách để đường kẻ nằm dưới văn bản -->
         <shape android:shape="rectangle">
             <solid android:color="@color/black"/> <!-- Màu của đường kẻ dưới -->
             <size android:height="1dp"/> <!-- Độ dày của đường kẻ -->
