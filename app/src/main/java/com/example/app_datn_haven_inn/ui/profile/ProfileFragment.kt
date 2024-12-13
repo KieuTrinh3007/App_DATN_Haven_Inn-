@@ -36,6 +36,7 @@ import java.util.UUID
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
 import com.example.app_datn_haven_inn.dialog.DialogSignIn
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
+import com.example.app_datn_haven_inn.ui.dieuKhoan.dieuKhoan
 import com.example.app_datn_haven_inn.ui.history.LichSuDatPhongActivity
 import com.example.app_datn_haven_inn.ui.myRoom.MyRoomActivity
 import com.example.app_datn_haven_inn.utils.SharePrefUtils
@@ -51,6 +52,7 @@ class ProfileFragment : Fragment() {
     private lateinit var feedback: TextView
     private lateinit var bt_signout: ImageView
     private lateinit var discountCode: TextView
+    private lateinit var Policy: TextView
 
     private val danhGiaService = CreateService.createService<DanhGiaService>()
 
@@ -73,6 +75,7 @@ class ProfileFragment : Fragment() {
         bt_signout = view.findViewById(R.id.signOut)
         feedback = view.findViewById(R.id.feedback)
         discountCode = view.findViewById(R.id.discountCode)
+        Policy = view.findViewById(R.id.Policy)
 
         val tvMyRoom = view.findViewById<TextView>(R.id.myRoom)
         val tvLsDatPhong = view.findViewById<TextView>(R.id.transactionHistory)
@@ -89,6 +92,11 @@ class ProfileFragment : Fragment() {
             // Xử lý chuyển màn hình sang MyRoomActivity
             val intent = Intent(requireContext(), LichSuDatPhongActivity::class.java)
             intent.putExtra("idNguoiDung", idNguoiDung) // Truyền ID người dùng
+            startActivity(intent)
+        }
+        
+        Policy.setOnClickListener {
+            val intent = Intent(requireContext(), dieuKhoan::class.java)
             startActivity(intent)
         }
 
