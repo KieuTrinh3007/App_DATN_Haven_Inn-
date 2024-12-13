@@ -21,6 +21,7 @@ class TuyChinhDatPhongAdapter(
     override fun getItemCount(): Int {
         return listSoPhong.size
     }
+
     fun clearSelectedRoom(){
         listSoPhong.forEach { it.isSelected = false }
         notifyDataSetChanged()
@@ -65,6 +66,8 @@ class TuyChinhDatPhongAdapter(
         }
 
     }
+
+
     class ViewHolder(val binding: ItemSoPhongBinding) : RecyclerView.ViewHolder(binding.root)
 
 }

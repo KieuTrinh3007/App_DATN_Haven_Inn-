@@ -56,8 +56,17 @@ class NotificationFragment : Fragment() {
                 if (userId != null) {
                     val filteredList = it.filter { thongBao -> thongBao.id_NguoiDung == userId }
                     thongBaoAdapter.updateList(filteredList.toMutableList())
+                    if (filteredList.isEmpty()) {
+                        binding.tvNoData.visibility = View.VISIBLE
+                        binding.recyclerViewThongBao.visibility = View.GONE
+                    } else {
+                        binding.tvNoData.visibility = View.GONE
+                        binding.recyclerViewThongBao.visibility = View.VISIBLE
+                    }
                 } else {
                     thongBaoAdapter.updateList(mutableListOf())
+                    binding.tvNoData.visibility = View.VISIBLE
+                    binding.recyclerViewThongBao.visibility = View.GONE
                 }
             }
         }

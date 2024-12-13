@@ -114,7 +114,6 @@ class SelectedRoomAdapter(
     }
 
 
-
     private fun updateBreakfastIcon(holder: ViewHolder,isBreakfast: Boolean) {
         if (isBreakfast) {
             holder.binding.rdKhongBuaSang.setBackgroundResource(R.drawable.iv_breakfast)

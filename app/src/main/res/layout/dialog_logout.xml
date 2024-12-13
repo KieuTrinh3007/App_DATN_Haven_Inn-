@@ -72,7 +72,7 @@
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/background_edit_text"
-                android:backgroundTint="@color/colorPrimary"
+                android:backgroundTint="#4CAF50"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="Đăng xuất"
