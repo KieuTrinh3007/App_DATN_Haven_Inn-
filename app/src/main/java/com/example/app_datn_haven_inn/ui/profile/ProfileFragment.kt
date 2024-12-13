@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
@@ -26,7 +28,6 @@ import com.example.app_datn_haven_inn.database.service.CccdService
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.ui.auth.RePassword
 import com.example.app_datn_haven_inn.ui.auth.SignIn
-import com.example.app_datn_haven_inn.ui.cccd.CaptureFrontActivity
 import com.example.app_datn_haven_inn.ui.cccd.CccdGuide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,7 +35,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
-import com.example.app_datn_haven_inn.dialog.DialogSignIn
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
 import com.example.app_datn_haven_inn.ui.dieuKhoan.dieuKhoan
 import com.example.app_datn_haven_inn.ui.history.LichSuDatPhongActivity
@@ -215,6 +215,9 @@ class ProfileFragment : Fragment() {
         }
 
         btnLogout.setOnClickListener {
+            val sharedPreferences = requireContext().getSharedPreferences("UserPrefs", MODE_PRIVATE)
+            sharedPreferences.edit().clear().apply()
+
             val intent = Intent(requireContext(), SignIn::class.java)
             startActivity(intent)
             activity?.finish()
