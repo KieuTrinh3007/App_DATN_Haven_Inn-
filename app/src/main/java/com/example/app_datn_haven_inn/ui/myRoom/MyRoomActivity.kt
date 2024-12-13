@@ -1,5 +1,6 @@
 package com.example.app_datn_haven_inn.ui.myRoom
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,8 +11,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityMyRoomBinding
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
+import com.example.app_datn_haven_inn.ui.support.SupportDialog
 import com.example.app_datn_haven_inn.utils.Constans
 import com.example.app_datn_haven_inn.utils.SharedPrefsHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,12 +22,17 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MyRoomActivity : AppCompatActivity() {
-
+    private lateinit var fab_support : FloatingActionButton
     private lateinit var binding: ActivityMyRoomBinding
     private lateinit var adapter: MyRoomAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        fab_support = findViewById(R.id.fab_support)
+        fab_support.setOnClickListener {
+            val intent = Intent(this, SupportDialog::class.java)
+            startActivity(intent)
+        }
 
         // Inflate the layout using ViewBinding
         binding = ActivityMyRoomBinding.inflate(layoutInflater)
