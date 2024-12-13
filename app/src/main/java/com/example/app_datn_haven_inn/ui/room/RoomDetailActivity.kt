@@ -133,7 +133,14 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                     averageRating >= 3.0 -> "Tệ"
                     else -> "Rất tệ"
                 }
-                binding.txtCamxuc.text = emotion
+                // Hiển thị trạng thái nếu có điểm đánh giá
+                if (averageRating > 0) {
+                    binding.txtCamxuc.text = emotion
+                    binding.txtCamxuc.visibility = View.VISIBLE
+                } else {
+                    binding.txtCamxuc.visibility = View.GONE
+                }
+//                binding.txtCamxuc.text = emotion
                 danhGiaMap[idLoaiPhong.toString()] = Pair(averageRating, soDanhGia)
 
                 adapterReview?.let {
@@ -185,12 +192,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             params.weight = 2f
             params.marginStart = 0
             binding.btnTuyChinh.layoutParams = params
-
-//            if (idUser.isNullOrEmpty()) {
-//                Toast.makeText(this, "Vui lòng đăng nhập để thêm yêu thích", Toast.LENGTH_SHORT)
-//                    .show()
-//                return@setOnClickListener
-//            }
 
             val yeuThich = FavoriteRequest(idUser, idLoaiPhong.toString())
             yeuThichViewModel.addyeuThich(yeuThich)

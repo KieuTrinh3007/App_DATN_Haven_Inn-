@@ -17,7 +17,7 @@ class MenuAdapter(private val menuList: List<String>, private val onItemClick: (
         fun bind(menuItem: String) {
             Glide.with(itemView.context)
                 .load(menuItem)
-                .placeholder(R.drawable.avat2)
+                .placeholder(R.drawable.img_20)
                 .error(R.drawable.bg_radius_5_yellow)
                 .into(imageView)
 

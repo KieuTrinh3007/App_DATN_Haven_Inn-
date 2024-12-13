@@ -41,7 +41,7 @@ class AmThucAdapter(
 
             Glide.with(binding.imgThucDon.context)
                 .load(item.hinhAnh)
-                .placeholder(R.drawable.avat2)
+                .placeholder(R.drawable.img_20)
                 .error(R.drawable.iv_dot_off)
                 .into(binding.imgThucDon)
 
