@@ -40,7 +40,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
 
         viewModel = ViewModelProvider(this)[YeuThichViewModel::class.java]
         viewModel.getFavoritesByUserId(idUser.toString())
-        adapter = PhongNghiAdapter(mutableListOf(),requireContext(),danhGiaMap)
+        adapter = PhongNghiAdapter(mutableListOf(), requireContext(), danhGiaMap)
 
         viewModel.yeuThichList1.observe(viewLifecycleOwner) { yeuThichList ->
             if (yeuThichList.isNullOrEmpty()) {
@@ -50,7 +50,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
             } else {
                 viewBinding.rvFavorite.visibility = View.VISIBLE
                 viewBinding.ivNoData.visibility = View.GONE
-                Log.d("FavoriteFragment","yeuThichList: $yeuThichList")
+                Log.d("FavoriteFragment", "yeuThichList: $yeuThichList")
                 if (yeuThichList != null) {
                     listLoaiPhongModel.clear()  // Đảm bảo làm sạch trước khi thêm mới
                     listLoaiPhongModel.addAll(yeuThichList)
@@ -58,7 +58,7 @@ class FavoriteFragment : BaseFragment<FragmentFavoriteBinding>() {
                     // Lặp qua tất cả các phòng và lấy đánh giá
                     val remainingRooms = listLoaiPhongModel.size
                     var processedRooms = 0
-Log.d("FavoriteFragment", "idLoaiPhong: ${listLoaiPhongModel.size}")
+                    Log.d("FavoriteFragment", "idLoaiPhong: ${listLoaiPhongModel.size}")
                     listLoaiPhongModel.forEach { phong ->
                         danhGiaViewModel.getListdanhGiaByIdLoaiPhong(phong.id)
                         Log.d("FavoriteFragment", "idLoaiPhong: ${phong.id}")
@@ -71,7 +71,8 @@ Log.d("FavoriteFragment", "idLoaiPhong: ${listLoaiPhongModel.size}")
                             val phongId = danhGia.id_LoaiPhong
                             val soDiem = danhGiaList.sumOf { it.soDiem }
                             val soLuongDanhGia = danhGiaList.size
-                            val diemTrungBinh = if (soLuongDanhGia > 0) soDiem / soLuongDanhGia.toDouble() else 0.0
+                            val diemTrungBinh =
+                                if (soLuongDanhGia > 0) soDiem / soLuongDanhGia.toDouble() else 0.0
 
                             danhGiaMap[phongId] = Pair(diemTrungBinh, soLuongDanhGia)
                         }
@@ -105,7 +106,6 @@ Log.d("FavoriteFragment", "idLoaiPhong: ${listLoaiPhongModel.size}")
         }
 
 
-
     }
 
     override fun onResume() {
@@ -122,7 +122,7 @@ Log.d("FavoriteFragment", "idLoaiPhong: ${listLoaiPhongModel.size}")
                 viewBinding.ivNoData.visibility = View.GONE
                 adapter?.updateList(yeuThichList.toMutableList())
                 yeuThichList.forEach { phong ->
-                    adapter?.updateFavoriteState(itemId = phong.id,phong.isFavorite)
+                    adapter?.updateFavoriteState(itemId = phong.id, phong.isFavorite)
 //
                 }
 
@@ -131,7 +131,6 @@ Log.d("FavoriteFragment", "idLoaiPhong: ${listLoaiPhongModel.size}")
         }
 
     }
-
 
 
 }

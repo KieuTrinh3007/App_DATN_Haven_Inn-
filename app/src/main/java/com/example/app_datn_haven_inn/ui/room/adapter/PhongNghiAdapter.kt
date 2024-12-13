@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
@@ -75,8 +76,14 @@ class PhongNghiAdapter(
             tvGiaVip.text = "${formatCurrency(phong.giaTien.toInt() + 300000)}đ"
             tvTBDanhGia.text = soDiem.toString()
             tvSLNhanXet.text = "$soLuongDanhGia nhận xét"
-            tvTraiNghiem.text = updateEmotion(soDiem)
+//            tvTraiNghiem.text = updateEmotion(soDiem)
 
+            if (soDiem > 0) {
+                tvTraiNghiem.text = updateEmotion(soDiem)
+                tvTraiNghiem.visibility = View.VISIBLE
+            } else {
+                tvTraiNghiem.visibility = View.GONE
+            }
             val sharedPreferences = context.getSharedPreferences("UserPrefs", MODE_PRIVATE)
             val idUser = sharedPreferences.getString("idNguoiDung", null)
 
@@ -125,6 +132,7 @@ class PhongNghiAdapter(
                 updateFavoriteIcon(this, phong)
             }
         }
+
     }
 
     fun updateEmotion(rating: Double): String {
