@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.dieuKhoan.dieuKhoan1">
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.0"
+      android:layout_marginTop="20dp">
+
+    <LinearLayout
+        android:id="@+id/img_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="15dp">
+
+      <ImageView
+          android:layout_width="16dp"
+          android:layout_height="16dp"
+          android:src="@drawable/back"/>
+
+      <TextView
+          android:layout_width="317dp"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="10dp"
+          android:text="Quyền và Trách Nhiệm Của Haven Inn"
+          android:textColor="@color/black"
+          android:textSize="16sp"
+          android:textStyle="bold" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text="4.1 Quyền của Haven Inn"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="- Sửa đổi, cập nhật ứng dụng và các điều khoản sử dụng."
+        android:textSize="13sp"
+        android:textStyle="normal|italic" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="- Tạm ngưng dịch vụ trong trường hợp cần bảo trì hoặc nâng cấp."
+        android:textSize="13sp"
+        android:textStyle="normal|italic" />
+
+    <TextView
+        android:layout_width="317dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:text="4.2 Trách nhiệm của Haven Inn"
+        android:textColor="@color/black"
+        android:textSize="13sp"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="- Cung cấp thông tin khách sạn chính xác và minh bạch."
+        android:textSize="13sp"
+        android:textStyle="normal|italic" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="- Bảo mật dữ liệu cá nhân và thanh toán của người dùng."
+        android:textSize="13sp"
+        android:textStyle="normal|italic" />
+
+
+  </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,13 +6,17 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.databinding.ActivityMyRoomBinding
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
+import com.example.app_datn_haven_inn.ui.support.SupportDialog
 import com.example.app_datn_haven_inn.utils.Constans
 import com.example.app_datn_haven_inn.utils.SharedPrefsHelper
+import com.example.app_datn_haven_inn.viewModel.HoTroViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -20,9 +24,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class MyRoomActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMyRoomBinding
     private lateinit var adapter: MyRoomAdapter
+    private lateinit var hotroViewModel: HoTroViewModel;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +41,19 @@ class MyRoomActivity : AppCompatActivity() {
         // Set up Back Button
         binding.icBackMr.setOnClickListener {
             onBackPressed() // Handles the back navigation
+        }
+        
+        hotroViewModel = ViewModelProvider(this).get(HoTroViewModel::class.java)
+        
+        val userId = SharedPrefsHelper.getIdNguoiDung(this)
+        
+        // Xử lý khi bấm FAB
+        binding.fabSupport.setOnClickListener {
+            if (userId != null) {
+                SupportDialog(this, hotroViewModel, userId) // Tạo và hiển thị dialog
+            } else {
+                Toast.makeText(this, "Vui lòng đăng nhập để gửi hỗ trợ!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Fetch Room Data

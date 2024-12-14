@@ -27,8 +27,8 @@ class AmThucAdapter(private val context: Context, private val amThucList: List<A
         // Load image using Glide
         Glide.with(context)
             .load(amThuc.hinhAnh)  // Image URL from AmThucModel
-            .placeholder(R.drawable.img_3) // Default image while loading
-            .error(R.drawable.vanh) // Image to show if loading fails
+            .placeholder(R.drawable.img_20) // Default image while loading
+            .error(R.drawable.img_20) // Image to show if loading fails
             .into(holder.imgFood)
     }
 

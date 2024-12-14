@@ -11,6 +11,7 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -29,7 +30,24 @@
         android:theme="@style/Theme.App_DATN_Haven_Inn"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ui.dieuKhoan.GioiThieuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dieuKhoan.dieuKhoan4"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dieuKhoan.dieuKhoan3"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dieuKhoan.dieuKhoan2"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dieuKhoan.dieuKhoan1"
+            android:exported="false" />
+        <activity
+            android:name=".ui.dieuKhoan.dieuKhoan"
+            android:exported="false" />
         <activity
             android:name=".ui.history.LichSuDatPhongActivity"
             android:exported="false" />
@@ -81,9 +99,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.onbording.WelcomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -91,6 +106,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.onbording.WelcomeActivity"
+            android:exported="true"></activity>
         <activity
             android:name=".ui.home.fragment.ServiceFragment"
             android:exported="false" />

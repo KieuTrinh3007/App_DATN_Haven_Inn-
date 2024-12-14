@@ -4,15 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
 import com.example.app_datn_haven_inn.databinding.ItemTtPhongBinding
 import com.example.app_datn_haven_inn.dialog.DialogSignIn
-import com.example.app_datn_haven_inn.ui.auth.SignIn
 import com.example.app_datn_haven_inn.ui.room.RoomDetailActivity
 import com.example.app_datn_haven_inn.ui.room.TuyChinhDatPhongActivity
 import com.example.app_datn_haven_inn.utils.SharePrefUtils
@@ -38,7 +39,6 @@ class PhongNghiAdapter(
         this.onItemClick = onItemClick
 
     }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhongNghiViewHolder {
         val binding = ItemTtPhongBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -76,9 +76,19 @@ class PhongNghiAdapter(
             tvGiaVip.text = "${formatCurrency(phong.giaTien.toInt() + 300000)}đ"
             tvTBDanhGia.text = soDiem.toString()
             tvSLNhanXet.text = "$soLuongDanhGia nhận xét"
-            tvTraiNghiem.text = updateEmotion(soDiem)
+//            tvTraiNghiem.text = updateEmotion(soDiem)
+
+            if (soDiem > 0) {
+                tvTraiNghiem.text = updateEmotion(soDiem)
+                tvTraiNghiem.visibility = View.VISIBLE
+            } else {
+                tvTraiNghiem.visibility = View.GONE
+            }
+            val sharedPreferences = context.getSharedPreferences("UserPrefs", MODE_PRIVATE)
+            val idUser = sharedPreferences.getString("idNguoiDung", null)
+
             tvTuyChinh.setOnClickListener {
-                if (SharePrefUtils.getId(context).isNullOrEmpty()) {
+                if (idUser.isNullOrEmpty()) {
                     val dialog = DialogSignIn(context)
                     dialog.show()
                     return@setOnClickListener
@@ -111,7 +121,7 @@ class PhongNghiAdapter(
             updateFavoriteIcon(this, phong)
 
             ivFavorite.setOnClickListener {
-                if (SharePrefUtils.getId(context).isNullOrEmpty()) {
+                if (idUser.isNullOrEmpty()) {
                     val dialog = DialogSignIn(context)
                     dialog.show()
                     return@setOnClickListener
@@ -121,7 +131,6 @@ class PhongNghiAdapter(
                 saveFavoriteState(context, phong)
                 updateFavoriteIcon(this, phong)
             }
-
         }
 
     }
@@ -160,6 +169,4 @@ class PhongNghiAdapter(
         val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
         return formatter.format(amount)
     }
-
-
 }

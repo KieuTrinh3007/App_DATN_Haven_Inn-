@@ -63,6 +63,9 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         adapterReview = ReviewAdapter(listOf())
         binding.rvReview.adapter = adapterReview
 
+        val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
+        val idUser = sharedPreferences.getString("idNguoiDung", null)
+
         val tvTenPhong = intent.getStringExtra("tenLoaiPhong").toString()
         val tvSLGiuong = intent.getStringExtra("giuong").toString()
         val tvSLKhach = intent.getStringExtra("soLuongKhach").toString() + " Khách"
@@ -71,7 +74,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         val tvGiaTien = intent.getIntExtra("giaTien", 0)
         val moTa = intent.getStringExtra("moTa")
         val danhGiaMap = mutableMapOf<String, Pair<Double, Int>>()
-         isFavorite = intent.getBooleanExtra("isFavorite", false)
+        isFavorite = intent.getBooleanExtra("isFavorite", false)
 
         binding.txtTenPhong.text = tvTenPhong
         binding.tvSLGiuong.text = tvSLGiuong
@@ -123,7 +126,6 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                 binding.txtRating.text = String.format(Locale.US, "%.1f", averageRating)
                 binding.txtRating1.text = String.format(Locale.US, "%.1f", averageRating)
 
-
                 val emotion = when {
                     averageRating >= 9.0 -> "Tuyệt vời"
                     averageRating >= 7.0 -> "Tốt"
@@ -131,9 +133,16 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                     averageRating >= 3.0 -> "Tệ"
                     else -> "Rất tệ"
                 }
-                binding.txtCamxuc.text = emotion
+                // Hiển thị trạng thái nếu có điểm đánh giá
+                if (averageRating > 0) {
+                    binding.txtCamxuc.text = emotion
+                    binding.txtCamxuc.visibility = View.VISIBLE
+                } else {
+                    binding.txtCamxuc.visibility = View.GONE
+                }
+//                binding.txtCamxuc.text = emotion
                 danhGiaMap[idLoaiPhong.toString()] = Pair(averageRating, soDanhGia)
-             
+
                 adapterReview?.let {
                     it.listReview = firstTwoReviews
                     it.notifyDataSetChanged()
@@ -173,7 +182,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
         checkIfFavorite(idLoaiPhong)
 
         binding.btnAddFavorite.setOnClickListener {
-            if (SharePrefUtils.getId(this@RoomDetailActivity).isNullOrEmpty()) {
+            if (idUser.isNullOrEmpty()) {
                 val dialog = DialogSignIn(this)
                 dialog.show()
                 return@setOnClickListener
@@ -184,15 +193,7 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
             params.marginStart = 0
             binding.btnTuyChinh.layoutParams = params
 
-            val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-            val idUser  = sharedPreferences.getString("idNguoiDung", "")
-
-            if (idUser.isNullOrEmpty()) {
-                Toast.makeText(this, "Vui lòng đăng nhập để thêm yêu thích", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val yeuThich = FavoriteRequest(idUser , idLoaiPhong.toString())
+            val yeuThich = FavoriteRequest(idUser, idLoaiPhong.toString())
             yeuThichViewModel.addyeuThich(yeuThich)
             yeuThichViewModel.isyeuThichAdded.observe(this) { success ->
                 if (success) {
@@ -214,14 +215,15 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
                     saveFavoriteState(this, currentRoom)
                     // Cập nhật lại giao diện
                     binding.btnAddFavorite.visibility = View.GONE
-                    Toast.makeText(this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Đã thêm vào danh sách yêu thích", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
 
 
         binding.btnTuyChinh.setOnClickListener {
-            if (SharePrefUtils.getId(this@RoomDetailActivity).isNullOrEmpty()) {
+            if (idUser.isNullOrEmpty()) {
                 val dialog = DialogSignIn(this)
                 dialog.show()
 
@@ -268,9 +270,9 @@ class RoomDetailActivity : BaseActivity<ActivityRoomDetailBinding, BaseViewModel
 
     private fun checkIfFavorite(idLoaiPhong: String?) {
         val sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE)
-        val idUser  = sharedPreferences.getString("idNguoiDung", "")
+        val idUser = sharedPreferences.getString("idNguoiDung", "")
 
-        yeuThichViewModel.getFavoritesByUserId(idUser .toString())
+        yeuThichViewModel.getFavoritesByUserId(idUser.toString())
         yeuThichViewModel.yeuThichList1.observe(this) { yeuThichList ->
             if (yeuThichList != null) {
 

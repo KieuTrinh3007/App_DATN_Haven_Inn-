@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
@@ -26,7 +28,6 @@ import com.example.app_datn_haven_inn.database.service.CccdService
 import com.example.app_datn_haven_inn.database.service.NguoiDungService
 import com.example.app_datn_haven_inn.ui.auth.RePassword
 import com.example.app_datn_haven_inn.ui.auth.SignIn
-import com.example.app_datn_haven_inn.ui.cccd.CaptureFrontActivity
 import com.example.app_datn_haven_inn.ui.cccd.CccdGuide
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,8 +35,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.UUID
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
-import com.example.app_datn_haven_inn.dialog.DialogSignIn
 import com.example.app_datn_haven_inn.ui.coupon.CouponActivity
+import com.example.app_datn_haven_inn.ui.dieuKhoan.GioiThieuActivity
+import com.example.app_datn_haven_inn.ui.dieuKhoan.dieuKhoan
 import com.example.app_datn_haven_inn.ui.history.LichSuDatPhongActivity
 import com.example.app_datn_haven_inn.ui.myRoom.MyRoomActivity
 import com.example.app_datn_haven_inn.utils.SharePrefUtils
@@ -51,6 +53,8 @@ class ProfileFragment : Fragment() {
     private lateinit var feedback: TextView
     private lateinit var bt_signout: ImageView
     private lateinit var discountCode: TextView
+    private lateinit var Policy: TextView
+    private lateinit var about: TextView
 
     private val danhGiaService = CreateService.createService<DanhGiaService>()
 
@@ -73,6 +77,8 @@ class ProfileFragment : Fragment() {
         bt_signout = view.findViewById(R.id.signOut)
         feedback = view.findViewById(R.id.feedback)
         discountCode = view.findViewById(R.id.discountCode)
+        Policy = view.findViewById(R.id.Policy)
+        about = view.findViewById(R.id.about)
 
         val tvMyRoom = view.findViewById<TextView>(R.id.myRoom)
         val tvLsDatPhong = view.findViewById<TextView>(R.id.transactionHistory)
@@ -89,6 +95,16 @@ class ProfileFragment : Fragment() {
             // Xử lý chuyển màn hình sang MyRoomActivity
             val intent = Intent(requireContext(), LichSuDatPhongActivity::class.java)
             intent.putExtra("idNguoiDung", idNguoiDung) // Truyền ID người dùng
+            startActivity(intent)
+        }
+        
+        Policy.setOnClickListener {
+            val intent = Intent(requireContext(), dieuKhoan::class.java)
+            startActivity(intent)
+        }
+        
+        about.setOnClickListener {
+            val intent = Intent(requireContext(), GioiThieuActivity::class.java)
             startActivity(intent)
         }
 
@@ -190,6 +206,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showLogoutDialog() {
+
         // Inflate layout từ XML để tạo dialog
         val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
 
@@ -206,6 +223,9 @@ class ProfileFragment : Fragment() {
         }
 
         btnLogout.setOnClickListener {
+            val sharedPreferences = requireContext().getSharedPreferences("UserPrefs", MODE_PRIVATE)
+            sharedPreferences.edit().clear().apply()
+
             val intent = Intent(requireContext(), SignIn::class.java)
             startActivity(intent)
             activity?.finish()
