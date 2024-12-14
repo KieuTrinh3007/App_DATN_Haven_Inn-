@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -45,27 +47,6 @@
             android:layout_marginTop="8dp"
             tools:listitem="@layout/item_phongcuatoi" />
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewMyrRoom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        tools:listitem="@layout/item_phongcuatoi" />
-
-    <!-- Thêm TextView khi không có dữ liệu -->
-    <TextView
-        android:id="@+id/noDataTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center"
-        android:text="Hiện tại bạn không có phòng nào."
-        android:textSize="18sp"
-        android:textColor="@android:color/darker_gray"
-        android:visibility="gone" /> <!-- Mặc định ẩn đi -->
-
-</LinearLayout>
 
     <!-- FloatingActionButton -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -73,6 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
         android:layout_marginBottom="30dp"
         android:layout_marginRight="30dp"
         android:contentDescription="Add"
