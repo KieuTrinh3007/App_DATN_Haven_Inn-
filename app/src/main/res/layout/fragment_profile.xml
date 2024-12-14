@@ -92,7 +92,7 @@
                 android:drawableStart="@drawable/small_history"
                 android:drawablePadding="8dp"
                 android:padding="12dp"
-                android:text="Lịch sử giao dịch" />
+                android:text="Lịch sử đặt phòng" />
 
             <TextView
                 android:id="@+id/discountCode"

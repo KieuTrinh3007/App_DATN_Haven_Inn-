@@ -100,20 +100,22 @@ class LichSuDatPhongActivity : AppCompatActivity() {
                         if (filteredList.isEmpty()) {
                             binding.recyclerViewLs.visibility = View.GONE
                             binding.tvEmptyHistory.visibility = View.VISIBLE
-                            showMessage("Không có dữ liệu.")
+                            showMessage("không có lịch sử đặt phòng.")
                         } else {
                             binding.recyclerViewLs.visibility = View.VISIBLE
                             binding.tvEmptyHistory.visibility = View.GONE
                         }
                     } else {
                         Log.e("HistoryActivity", "API Error: ${response.errorBody()?.string()}")
-                        showMessage("Lỗi khi tải lịch sử")
+                        showMessage("không có lịch sử đặt phòng.")
+                        binding.recyclerViewLs.visibility = View.GONE
+                        binding.tvEmptyHistory.visibility = View.VISIBLE
                     }
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
                     Log.e("HistoryActivity", "Exception: ${e.message}", e)
-                    showMessage("Có lỗi xảy ra khi tải lịch sử. Vui lòng thử lại!")
+                    showMessage("không có lịch sử đặt phòng!")
                 }
             }
         }

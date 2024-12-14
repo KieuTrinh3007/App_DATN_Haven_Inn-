@@ -30,7 +30,6 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMyrRoom"
         android:layout_width="match_parent"
@@ -38,5 +37,17 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         tools:listitem="@layout/item_phongcuatoi" />
+
+    <!-- Thêm TextView khi không có dữ liệu -->
+    <TextView
+        android:id="@+id/noDataTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
+        android:text="Hiện tại bạn không có phòng nào."
+        android:textSize="18sp"
+        android:textColor="@android:color/darker_gray"
+        android:visibility="gone" /> <!-- Mặc định ẩn đi -->
 
 </LinearLayout>

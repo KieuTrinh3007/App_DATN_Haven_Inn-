@@ -12,19 +12,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="25dp"
+        android:padding="10dp"
+        android:layout_marginHorizontal="10dp"
         tools:ignore="MissingConstraints">
 
         <ImageView
-            android:id="@+id/ic_back"
+            android:id="@+id/ic_backMr"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_back"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="15dp" />
 
         <TextView
-            android:id="@+id/txt_tenPhong"
+            android:id="@+id/txt_tenPhongMr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Phòng đơn, ban công hướng ra biển, thoáng mát"
@@ -49,27 +50,27 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_marginTop="10dp">
+             >
 
                 <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewpager"
+                    android:id="@+id/viewpagerMr"
                     android:layout_width="match_parent"
                     android:layout_height="236dp"
                     android:background="@drawable/boder_img_radius" />
 
                 <me.relex.circleindicator.CircleIndicator
-                    android:id="@+id/circle_indicator"
+                    android:id="@+id/circle_indicatorMr"
                     android:layout_width="100dp"
                     android:layout_height="10dp"
                     app:ci_drawable="@drawable/bg"
                     android:layout_marginVertical="4dp"
-                    android:layout_alignBottom="@id/viewpager"
+                    android:layout_alignBottom="@id/viewpagerMr"
                     android:layout_centerHorizontal="true"
                     android:background="@drawable/bg_trong_suot"/>
 
                 <!-- Back Button -->
                 <LinearLayout
-                    android:id="@+id/btn_back"
+                    android:id="@+id/btn_backMr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
@@ -86,7 +87,7 @@
 
                 <!-- Next Button -->
                 <LinearLayout
-                    android:id="@+id/btn_next"
+                    android:id="@+id/btn_nextMr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -160,7 +161,7 @@
                             android:layout_marginRight="12dp"/>
 
                         <TextView
-                            android:id="@+id/txt_number_guest"
+                            android:id="@+id/txt_number_guestMr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="2 Khách"
@@ -182,7 +183,7 @@
                             android:layout_marginRight="12dp"/>
 
                         <TextView
-                            android:id="@+id/tv_SLGiuong"
+                            android:id="@+id/tv_SLGiuongMr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Một giường cỡ king"
@@ -233,7 +234,7 @@
                             android:layout_marginRight="12dp"/>
 
                         <TextView
-                            android:id="@+id/tv_dienTich"
+                            android:id="@+id/tv_dienTichMr"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="30 mét vuông"
@@ -255,7 +256,7 @@
                 android:layout_marginVertical="18dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_tiennghiphong"
+                android:id="@+id/rv_tiennghiphongMr"
                 tools:listitem="@layout/item_tiennghiphong"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 android:orientation="vertical"
