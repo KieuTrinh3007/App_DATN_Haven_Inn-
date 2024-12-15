@@ -3,6 +3,7 @@ package com.example.app_datn_haven_inn.ui.dieuKhoan
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -15,30 +16,40 @@ import com.example.app_datn_haven_inn.databinding.ActivityDieuKhoan3Binding
 import com.example.app_datn_haven_inn.databinding.ActivityDieuKhoan4Binding
 
 class dieuKhoan : AppCompatActivity() {
+    private lateinit var img_back : LinearLayout;
+    private lateinit var txtDieuKhoan1 : TextView;
+    private lateinit var txtDieuKhoan2 : TextView
+    private lateinit var txtdieuKhoan3 : TextView
+    private lateinit var txtDieuKhoan4 : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_dieu_khoan)
-        val txtDieuKhoan1: TextView = findViewById(R.id.txtdieuKhoan1)
-        val txtDieuKhoan2: TextView = findViewById(R.id.txtdieuKhoan2)
-        val txtdieuKhoan3: TextView = findViewById(R.id.txtdieuKhoan3)
-        val txtdieuKhoan4: TextView = findViewById(R.id.txtdieuKhoan4)
+        txtDieuKhoan1 = findViewById(R.id.txtdieuKhoan1)
+        txtDieuKhoan2 = findViewById(R.id.txtdieuKhoan2)
+        txtdieuKhoan3 = findViewById(R.id.txtdieuKhoan3)
+        txtDieuKhoan4 = findViewById(R.id.txtdieuKhoan4)
+        img_back = findViewById(R.id.img_back);
+        
+        img_back.setOnClickListener {
+            onBackPressed()
+        }
 
 
         txtDieuKhoan1.setOnClickListener {
-            val intent = Intent(this, ActivityDieuKhoan1Binding::class.java)
+            val intent = Intent(this, dieuKhoan1::class.java)
             startActivity(intent)
         }
         txtDieuKhoan2.setOnClickListener {
-            val intent = Intent(this, ActivityDieuKhoan2Binding::class.java)
+            val intent = Intent(this, dieuKhoan2::class.java)
             startActivity(intent)
         }
         txtdieuKhoan3.setOnClickListener {
-            val intent = Intent(this, ActivityDieuKhoan3Binding::class.java)
+            val intent = Intent(this, dieuKhoan3::class.java)
             startActivity(intent)
         }
-        txtdieuKhoan4.setOnClickListener {
-            val intent = Intent(this, ActivityDieuKhoan4Binding::class.java)
+        txtDieuKhoan4.setOnClickListener {
+            val intent = Intent(this, dieuKhoan4::class.java)
             startActivity(intent)
         }
 

@@ -75,6 +75,7 @@
                     android:text="Đặt lại"
                     android:padding="5dp"
                     android:background="@drawable/khung_tb"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginLeft="10dp"
                     />
 

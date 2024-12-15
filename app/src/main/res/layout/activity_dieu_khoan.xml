@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.dieuKhoan.dieuKhoan">
 
     <LinearLayout
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -19,21 +21,36 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0">
 
-
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/img_back"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="39dp"
-            android:text="Điều Khoản &amp; Chính Sách"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/ic_back_cp"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="20dp"
-            android:textAlignment="center"/>
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/back"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Điều Khoản &amp; Chính Sách"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/ic_back_cp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_margin="20dp"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -131,11 +148,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:text="Đăng Ký và Sử Dụng Tài Khoản"
-            android:textColor="@color/black"
+            android:text="Đăng Ký và Sử Dụng Tài Khoản >"
+            android:textColor="#66A8DA"
             android:textSize="13sp"
-            android:textStyle="bold"
-
+            android:textStyle="italic"
             />
 
         <TextView
@@ -143,10 +159,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:text="Chính Sách Hủy Phòng và Hoàn Tiền"
-            android:textColor="@color/black"
+            android:text="Chính Sách Hủy Phòng và Hoàn Tiền >"
+            android:textColor="#66A8DA"
             android:textSize="13sp"
-            android:textStyle="bold"
+            android:textStyle="italic"
             />
 
         <TextView
@@ -154,20 +170,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:text="Quyền và Nghĩa Vụ Của Người Dùng"
-            android:textColor="@color/black"
+            android:text="Quyền và Nghĩa Vụ Của Người Dùng >"
+            android:textColor="#66A8DA"
             android:textSize="13sp"
-            android:textStyle="bold" />
+            android:textStyle="italic" />
         />
 
         <TextView
             android:id="@+id/txtdieuKhoan4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quyền và Trách Nhiệm Của Haven Inn"
-            android:textColor="@color/black"
+            android:text="Quyền và Trách Nhiệm Của Haven Inn >"
+            android:textColor="#66A8DA"
             android:textSize="13sp"
-            android:textStyle="bold" />
+            android:textStyle="italic" />
 
     </LinearLayout>
 

@@ -32,7 +32,7 @@ class KhamPhaThucDon : AppCompatActivity() {
 
             Glide.with(this)
                 .load(it.hinhAnh)
-                .placeholder(R.drawable.avat2)
+                .placeholder(R.drawable.img_20)
                 .error(R.drawable.iv_dot_off)
                 .into(binding.imgKhamPhaThucDon)
 
@@ -58,7 +58,7 @@ class KhamPhaThucDon : AppCompatActivity() {
         // Sử dụng Glide để tải hình ảnh vào PhotoView
         Glide.with(this)
             .load(imageUrl)
-            .placeholder(R.drawable.avat2)
+            .placeholder(R.drawable.img_20)
             .error(R.drawable.bg_radius_5_yellow)
             .into(photoView)
 

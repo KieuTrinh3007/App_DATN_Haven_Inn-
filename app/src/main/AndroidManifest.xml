@@ -34,6 +34,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.dieuKhoan.GioiThieuActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.dieuKhoan.dieuKhoan4"
             android:exported="false" />
         <activity

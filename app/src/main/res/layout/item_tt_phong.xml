@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
+                android:layout_gravity="center"
                 android:orientation="vertical">
 
                 <TextView
@@ -85,6 +85,7 @@
                     android:textColor="@color/black"
                     android:fontFamily="@font/roboto_regular"
                     android:textSize="10sp"
+                    android:visibility="gone"
                     android:textStyle="bold" />
 
                 <TextView
