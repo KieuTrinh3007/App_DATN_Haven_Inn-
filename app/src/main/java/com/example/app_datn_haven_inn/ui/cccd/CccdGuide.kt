@@ -51,11 +51,13 @@ class CccdGuide : AppCompatActivity() {
             }
         }
     }
+
     private fun checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
         }
     }
+
     private fun showPermissionDeniedDialog() {
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("Quyền truy cập camera bị từ chối")
@@ -72,11 +74,4 @@ class CccdGuide : AppCompatActivity() {
             .create()
         alertDialog.show()
     }
-
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == CAMERA_PERMISSION_CODE && grantResults.isNotEmpty() && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-//            Toast.makeText(this, "Quyền camera bị từ chối. Vui lòng cấp quyền để sử dụng tính năng này.", Toast.LENGTH_LONG).show()
-//        }
-//    }
 }

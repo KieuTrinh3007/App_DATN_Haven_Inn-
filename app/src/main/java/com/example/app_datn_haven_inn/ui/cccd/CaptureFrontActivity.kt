@@ -121,7 +121,7 @@ class CaptureFrontActivity : AppCompatActivity() {
                     progressBar.visibility = View.GONE
                     captureButton.isEnabled = true
                     scanQRCode(bitmap, idNguoiDung)
-                }, 1000) // Độ trễ 1 giây
+                }, 500) // Độ trễ 1 giây
             }
 
             override fun onError(exception: ImageCaptureException) {
@@ -167,27 +167,42 @@ class CaptureFrontActivity : AppCompatActivity() {
     }
 
     private fun parseQRCodeData(data: String) {
-        val sections = data.split("||")
-        if (sections.size == 2) {
-            val cccd = sections[0] // Số CCCD
-            val remainingData = sections[1]
+        if (data.contains("||")) {
+            // Trường hợp không có CMND
+            val sections = data.split("||")
+            if (sections.size == 2) {
+                val cccd = sections[0].trim() // CCCD 12 số
+                val remainingData = sections[1].trim() // Thông tin còn lại
 
-            val fields = remainingData.split("|")
-            if (fields.size == 5) {
-                extractedInfo["cccd"] = cccd
-                extractedInfo["name"] = fields[0]
-                extractedInfo["birthDate"] = fields[1]
-                extractedInfo["gender"] = fields[2]
-                extractedInfo["address"] = fields[3]
-                extractedInfo["issueDate"] = fields[4]
+                val fields = remainingData.split("|")
+                if (fields.size == 5) {
+                    extractedInfo["cccd"] = cccd
+                    extractedInfo["name"] = fields[0].trim()
+                    extractedInfo["birthDate"] = fields[1].trim()
+                    extractedInfo["gender"] = fields[2].trim()
+                    extractedInfo["address"] = fields[3].trim()
+                    extractedInfo["issueDate"] = fields[4].trim()
 
-                Log.d(TAG, "Extracted Data: $extractedInfo")
-            } else {
-                Toast.makeText(this, "Dữ liệu mã QR không hợp lệ.", Toast.LENGTH_SHORT).show()
-                Log.e(TAG, "Invalid QR data format: $data")
+                    Log.d(TAG, "Extracted Data (without CMND): $extractedInfo")
+                    return
+                }
             }
+        } else if (data.split("|").size == 7) {
+            // Trường hợp có CMND
+            val fields = data.split("|")
+            extractedInfo["cccd"] = fields[0].trim() // CCCD 12 số
+            extractedInfo["cmnd"] = fields[1].trim() // CMND 9 số
+            extractedInfo["name"] = fields[2].trim() // Tên
+            extractedInfo["birthDate"] = fields[3].trim() // Ngày sinh
+            extractedInfo["gender"] = fields[4].trim() // Giới tính
+            extractedInfo["address"] = fields[5].trim() // Nơi thường trú
+            extractedInfo["issueDate"] = fields[6].trim() // Ngày cấp
+
+            Log.d(TAG, "Extracted Data (with CMND): $extractedInfo")
+            return
         } else {
-            Toast.makeText(this, "Định dạng mã QR không đúng.", Toast.LENGTH_SHORT).show()
+            // Báo lỗi nếu không khớp định dạng nào
+            Toast.makeText(this, "Dữ liệu mã QR không hợp lệ.", Toast.LENGTH_SHORT).show()
             Log.e(TAG, "Invalid QR data format: $data")
         }
     }

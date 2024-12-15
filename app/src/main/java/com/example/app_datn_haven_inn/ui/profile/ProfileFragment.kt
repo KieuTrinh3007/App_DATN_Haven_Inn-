@@ -190,7 +190,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showLogoutDialog() {
-
         // Inflate layout từ XML để tạo dialog
         val dialogView = layoutInflater.inflate(R.layout.dialog_logout, null)
 
@@ -231,7 +230,6 @@ class ProfileFragment : Fragment() {
         val btnSubmit = dialog.findViewById<TextView>(R.id.btn_submit)
         val ivFeedbackIcon = dialog.findViewById<ImageView>(R.id.iv_feedback_icon)
 
-        // Áp dụng hiệu ứng chuyển động mượt cho icon khi thay đổi rating
         val feedbackAnimation = ObjectAnimator.ofFloat(ivFeedbackIcon, "scaleX", 0.5f, 1f).apply {
             duration = 300
         }
@@ -296,7 +294,6 @@ class ProfileFragment : Fragment() {
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.show()
     }
-
 
     private suspend fun getUserById(idNguoiDung: String?): NguoiDungModel? {
         val response = nguoiDungService.getListNguoiDung()
