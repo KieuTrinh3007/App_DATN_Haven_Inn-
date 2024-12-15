@@ -31,9 +31,6 @@ class CouponActivity : AppCompatActivity() {
 
         // Thiết lập RecyclerView
         couponAdapter = CouponAdapter(emptyList()) { coupon ->
-            // Thao tác khi người dùng nhấn nút "Sử dụng ngay"
-            Toast.makeText(this, "Đã chọn mã: ${coupon.maGiamGia}", Toast.LENGTH_SHORT).show()
-
             // Tạo Intent để trả lại mã giảm giá cho màn hình trước
             if (bookingPrice >= coupon.dieuKienToiThieu) {
                 // Nếu giá tiền thỏa mãn, thực hiện áp dụng mã giảm giá

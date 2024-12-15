@@ -1,21 +1,44 @@
 package com.example.app_datn_haven_inn.ui.history
 
+import android.animation.ObjectAnimator
+import android.app.Dialog
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.RatingBar
+import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
+import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.ChiTietHoaDonModel1
+import com.example.app_datn_haven_inn.database.model.DanhGiaModel
 import com.example.app_datn_haven_inn.database.model.HoaDonModel1
+import com.example.app_datn_haven_inn.database.service.DanhGiaService
 import com.example.app_datn_haven_inn.databinding.ItemLichsuBinding
+import com.example.app_datn_haven_inn.utils.SharedPrefsHelper
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
+import java.util.UUID
 
-class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onActionClick: (HoaDonModel1) -> Unit) :
-    RecyclerView.Adapter<LichSuAdapter.LichSuViewHolder>() {
+class LichSuAdapter(
+    private var historyList: List<HoaDonModel1>,
+    private val onActionClick: (HoaDonModel1) -> Unit,
+    private val context: Context,
+    private val onDanhGiaClick: (String, String, String) -> Unit
+) : RecyclerView.Adapter<LichSuAdapter.LichSuViewHolder>() {
 
     class LichSuViewHolder(val binding: ItemLichsuBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -53,16 +76,19 @@ class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onA
                 binding.btnDanhGia.visibility = View.VISIBLE
                 binding.btnHuy.visibility = View.GONE
             }
+
             1 -> { // Đã thanh toán
                 binding.btnAction.visibility = View.GONE
                 binding.btnDanhGia.visibility = View.GONE
                 binding.btnHuy.visibility = View.VISIBLE
             }
+
             2 -> { // Đã hủy
                 binding.btnAction.visibility = View.VISIBLE
                 binding.btnDanhGia.visibility = View.GONE
                 binding.btnHuy.visibility = View.GONE
             }
+
             else -> {
                 binding.btnAction.visibility = View.GONE
                 binding.btnDanhGia.visibility = View.GONE
@@ -73,6 +99,25 @@ class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onA
         // Thiết lập sự kiện nhấn nút
         binding.btnAction.setOnClickListener {
             onActionClick(hoaDon) // Gọi hàm callback
+        }
+
+        Log.d("LichSuAdapter", "id_LoaiPhong All: " + hoaDon.id_LoaiPhong)
+
+        binding.btnDanhGia.setOnClickListener {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH) + 1 // Tháng bắt đầu từ 0, nên cần +1
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+            val hour = calendar.get(Calendar.HOUR_OF_DAY) // 24h format
+            val minute = calendar.get(Calendar.MINUTE)
+            val second = calendar.get(Calendar.SECOND)
+
+            val currentTime = "$day/$month/$year $hour:$minute:$second"
+            println("Thời gian hiện tại: $currentTime")
+
+            Log.d("LichSuAdapter", "id_LoaiPhong: " + hoaDon.id_LoaiPhong)
+
+            onDanhGiaClick(hoaDon.id_NguoiDung, hoaDon.id_LoaiPhong, currentTime)
         }
     }
 

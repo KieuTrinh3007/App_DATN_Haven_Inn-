@@ -116,7 +116,7 @@ class CaptureBackActivity : AppCompatActivity() {
                         progressBar.visibility = View.GONE
                         captureButtonBack.isEnabled = true
                         extractCCCDData(bitmap, idNguoiDung, frontImagePath)
-                    }, 1000) // Độ trễ 1 giây
+                    }, 500) // Độ trễ 1 giây
 
                 }
 
