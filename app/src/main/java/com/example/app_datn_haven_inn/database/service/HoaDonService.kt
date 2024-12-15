@@ -21,16 +21,21 @@ interface HoaDonService {
     @GET("phongs/")
     suspend fun getListPhong(): Response<List<PhongModel>>
 
+    @PUT("hoadons/{id}")
+    suspend fun updateHoaDon(
+        @Path("id") id: String,
+        @Body hoaDon: HoaDonModel
+    ): Response<HoaDonModel>
+
     @GET("chitiethoadons/")
     suspend fun getListChiTietHoaDon(): Response<List<ChiTietHoaDonModel>>
 
     @POST("hoadons/post")
     suspend fun addHoaDon(@Body HoaDon: HoaDonModel): Response<HoaDonModel>
 
-    @PUT("hoadons/put/{id}")
-    suspend fun updateHoaDon(
-        @Path("id") id: String,
-        @Body HoaDon: HoaDonModel
+    @PUT("hoadons/huy/{id}")
+    suspend fun huyHoaDon(
+        @Path("id") id: String
     ): Response<HoaDonModel>
 
     @DELETE("hoadons/delete/{id}")

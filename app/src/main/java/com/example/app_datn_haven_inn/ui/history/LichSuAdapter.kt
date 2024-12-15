@@ -13,8 +13,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
-
-class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onActionClick: (HoaDonModel1) -> Unit) :
+class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onActionClick: (HoaDonModel1) -> Unit, private val onCancelClick: (HoaDonModel1) -> Unit) :
     RecyclerView.Adapter<LichSuAdapter.LichSuViewHolder>() {
 
     class LichSuViewHolder(val binding: ItemLichsuBinding) : RecyclerView.ViewHolder(binding.root)
@@ -46,11 +45,13 @@ class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onA
             binding.imgPhong.setImageResource(R.drawable.img_13) // Thay thế bằng ảnh mặc định
         }
 
+
+
         // Hiển thị/ẩn các nút theo trạng thái
         when (hoaDon.trangThai) {
-            0 -> { // Da nhan phong
-                binding.btnAction.visibility = View.VISIBLE
-                binding.btnDanhGia.visibility = View.VISIBLE
+            0 -> { // Đã nhận phòng
+                binding.btnAction.visibility = View.GONE
+                binding.btnDanhGia.visibility = View.GONE
                 binding.btnHuy.visibility = View.GONE
             }
             1 -> { // Đã thanh toán
@@ -63,6 +64,11 @@ class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onA
                 binding.btnDanhGia.visibility = View.GONE
                 binding.btnHuy.visibility = View.GONE
             }
+            3 -> { // Đã trả phòng
+                binding.btnAction.visibility = View.VISIBLE
+                binding.btnDanhGia.visibility = View.VISIBLE
+                binding.btnHuy.visibility = View.GONE
+            }
             else -> {
                 binding.btnAction.visibility = View.GONE
                 binding.btnDanhGia.visibility = View.GONE
@@ -70,9 +76,14 @@ class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onA
             }
         }
 
-        // Thiết lập sự kiện nhấn nút
+        // Sự kiện khi nhấn nút Hủy
+        binding.btnHuy.setOnClickListener {
+            onCancelClick(hoaDon) // Gọi callback để hủy hóa đơn
+        }
+
+        // Các sự kiện khác...
         binding.btnAction.setOnClickListener {
-            onActionClick(hoaDon) // Gọi hàm callback
+            onActionClick(hoaDon) // Gọi callback khi nhấn nút Action
         }
     }
 
@@ -80,7 +91,6 @@ class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onA
         historyList = newHistoryList
         notifyDataSetChanged()
     }
-
     private fun formatDateTime(dateString: String): String {
         return try {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
@@ -101,6 +111,5 @@ class LichSuAdapter(private var historyList: List<HoaDonModel1>, private val onA
         val formatter = DecimalFormat("#,###.##")
         return formatter.format(amount)
     }
-
     override fun getItemCount(): Int = historyList.size
 }
