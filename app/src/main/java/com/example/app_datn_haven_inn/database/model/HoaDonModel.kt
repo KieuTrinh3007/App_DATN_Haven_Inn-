@@ -19,6 +19,7 @@ data class HoaDonModel(
 data class HoaDonModel1(
     @field:SerializedName("_id") var id: String? = null,
     @field:SerializedName("id_NguoiDung") var id_NguoiDung: String,
+    @field:SerializedName("id_LoaiPhong") var id_LoaiPhong: String,
     @field:SerializedName("id_Coupon") var id_Coupon: String? = null,
     @field:SerializedName("ngayNhanPhong") var ngayNhanPhong: String,
     @field:SerializedName("ngayTraPhong") var ngayTraPhong: String,
@@ -28,6 +29,7 @@ data class HoaDonModel1(
     @field:SerializedName("phuongThucThanhToan") var phuongThucThanhToan: String,
     @field:SerializedName("trangThai") var trangThai: Int,
     @field:SerializedName("giamGia") var giamGia: Double,
+    @field:SerializedName("checkDanhGia") var checkDanhGia: Boolean,
     @field:SerializedName("tongTien") var tongTien: Double,
     @field:SerializedName("chitiet") var chiTiet: ArrayList<ChiTietHoaDonModel1>
 )

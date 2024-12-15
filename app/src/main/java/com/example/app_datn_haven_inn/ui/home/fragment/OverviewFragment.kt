@@ -56,6 +56,10 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
     private val location = "113 Hàng Buồm, Phố Cổ, Hà Nội, 10000"
     private val latLng = LatLng(21.033333, 105.85) // Tọa độ địa chỉ (Hà Nội)
 
+    override fun onResume() {
+        super.onResume()
+        loadRoomTopData()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -206,6 +210,7 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
                         startActivity(intent)
                     }
                     recyclerViewRoomTop.adapter = roomTopAdapter
+                    roomTopAdapter.notifyDataSetChanged()
                 }
                 progressBar.visibility = View.GONE
                 recyclerViewRoomTop.visibility = View.VISIBLE

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.LoaiPhongModel
+import java.util.Locale
 
 class RoomTopAdapter(
     private val context: Context,
@@ -46,7 +47,7 @@ class RoomTopAdapter(
         val (soDiem, soLuongDanhGia) = danhGiaMap[room.id] ?: Pair(0.0, 0)
 
         // Hiển thị số điểm và số lượng đánh giá
-        holder.txtDanhGia.text = "$soDiem"
+        holder.txtDanhGia.text = String.format(Locale.US, "%.1f", soDiem)
         holder.txtSoNhanXet.text = "$soLuongDanhGia nhận xét"
 
         val ratingStatus = when {
