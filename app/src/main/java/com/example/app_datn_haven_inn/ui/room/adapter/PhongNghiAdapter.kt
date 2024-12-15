@@ -76,10 +76,20 @@ class PhongNghiAdapter(
             tvGiaVip.text = "${formatCurrency(phong.giaTien.toInt() + 300000)}đ"
             tvTBDanhGia.text = soDiem.toString()
             tvSLNhanXet.text = "$soLuongDanhGia nhận xét"
-//            tvTraiNghiem.text = updateEmotion(soDiem)
 
+            val emotion = when {
+                soDiem >= 9.0 -> "Tuyệt vời"
+                soDiem >= 7.0 -> "Tốt"
+                soDiem >= 5.0 -> "Bình thường"
+                soDiem >= 3.0 -> "Tệ"
+                else -> "Rất tệ"
+            }
+            
+            Log.d("soDiem", soDiem.toString())
+            Log.d("emotion", emotion.toString())
+            tvTraiNghiem.text = emotion
             if (soDiem > 0) {
-                tvTraiNghiem.text = updateEmotion(soDiem)
+                tvTraiNghiem.text = emotion
                 tvTraiNghiem.visibility = View.VISIBLE
             } else {
                 tvTraiNghiem.visibility = View.GONE
@@ -133,16 +143,6 @@ class PhongNghiAdapter(
             }
         }
 
-    }
-
-    fun updateEmotion(rating: Double): String {
-        return when (rating) {
-            9.0 -> "Tuyệt vời"
-            7.0 -> "Tốt"
-            5.0 -> "Bình thường"
-            3.0 -> "Tệ"
-            else -> "Rất tệ"
-        }
     }
 
     fun updateList(newList: List<LoaiPhongModel>) {

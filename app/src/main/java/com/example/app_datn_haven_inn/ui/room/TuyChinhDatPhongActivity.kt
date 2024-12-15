@@ -192,7 +192,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                     selectedRoomAdapter?.resetSelectedRooms()
                     adapter?.clearSelectedRoom()
                     updateTotalPrice()
-
+                    updateTvDatButtonState()
                     binding.tvSoDem.text = numberOfNights.toString() + " đêm"
                     viewModel.getListPhongByDate(
                         idLoaiPhong.toString(),
@@ -262,6 +262,7 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
                         selectedRoomAdapter!!.resetSelectedRooms()
                         adapter?.clearSelectedRoom()
                         updateTotalPrice()
+                        updateTvDatButtonState()
                         ngayTraPhong = "$selectedYear-$formattedMonth-$formattedDay"
                         binding.tvSoDem.text = numberOfNights.toString() + " đêm"
                         viewModel.getListPhongByDate(
@@ -292,10 +293,15 @@ class TuyChinhDatPhongActivity : BaseActivity<ActivityTuyChinhDatPhongBinding, P
 
 
     private fun updateTvDatButtonState() {
-        val isEnabled = selectedRoomAdapter?.getSelectedRooms()?.isNotEmpty() == true
+        val isDateValid = selectedStartDate != selectedEndDate // Kiểm tra nếu ngày nhận và ngày trả khác nhau
+        val isRoomSelected = selectedRoomAdapter?.getSelectedRooms()?.isNotEmpty() == true // Kiểm tra nếu có phòng được chọn
+        val isEnabled = isDateValid && isRoomSelected // Chỉ bật khi cả ngày hợp lệ và có phòng
+
         binding.tvDat.isEnabled = isEnabled
-        binding.tvDat.alpha = if (isEnabled) 1.0f else 0.5f
+        binding.tvDat.alpha = if (isEnabled) 1.0f else 0.5f // Thay đổi alpha để thể hiện trạng thái
     }
+
+
 
     private fun updateTotalPrice() {
         // Tính số đêm nếu đã chọn ngày
