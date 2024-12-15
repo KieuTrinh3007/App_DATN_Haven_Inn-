@@ -15,7 +15,6 @@ import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.Toast
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.CreateService
 import com.example.app_datn_haven_inn.database.model.DanhGiaModel
+import com.example.app_datn_haven_inn.database.model.HoaDonModel1
 import com.example.app_datn_haven_inn.database.service.DanhGiaService
 import com.example.app_datn_haven_inn.database.service.HoaDonService
 import com.example.app_datn_haven_inn.databinding.ActivityLichSuDatPhongBinding
@@ -57,18 +57,23 @@ class LichSuDatPhongActivity : AppCompatActivity() {
             onBackPressed()
         }
         binding.recyclerViewLs.layoutManager = LinearLayoutManager(this)
-        adapter = LichSuAdapter(mutableListOf(), onActionClick = { hoaDon ->
-            // Xử lý khi nhấn vào hành động
-        }, onCancelClick = { hoaDon ->
-            cancelOrder(hoaDon) // Xử lý khi nhấn nút Hủy
-        })
 
-        adapter = LichSuAdapter(mutableListOf(), { hoaDon ->
-            // Xử lý khi nhấn vào lịch sử, nếu cần
-        }, this, ::openDanhGiaDialog)
+        adapter = LichSuAdapter(mutableListOf(),
+            onActionClick = { hoaDon ->
+                // Xử lý khi nhấn vào hành động
+            },
+            onCancelClick = { hoaDon ->
+                cancelOrder(hoaDon) // Xử lý khi nhấn nút Hủy
+            },
+            onDanhGiaClick = { idNguoiDung, idLoaiPhong, time ->
+                openDanhGiaDialog(idNguoiDung,idLoaiPhong, time)
+            }
+        )
+
         binding.recyclerViewLs.adapter = adapter
         setupTabLayout()
         fetchHistory()
+
     }
 
     private fun cancelOrder(hoaDon: HoaDonModel1) {
