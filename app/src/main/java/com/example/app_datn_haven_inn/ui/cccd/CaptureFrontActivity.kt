@@ -71,7 +71,7 @@ class CaptureFrontActivity : AppCompatActivity() {
 
         val idNguoiDung = intent.getStringExtra("idNguoiDung")
 
-        captureButton.setOnClickListener { takePhoto(idNguoiDung!!) }
+        captureButton.setOnClickListener { takePhoto(idNguoiDung?: "") }
 
         img_back_mt.setOnClickListener{
             val intent1 = Intent(this, CccdGuide::class.java)

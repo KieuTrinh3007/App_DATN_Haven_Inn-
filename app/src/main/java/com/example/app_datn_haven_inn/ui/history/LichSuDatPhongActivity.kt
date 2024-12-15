@@ -51,6 +51,10 @@ class LichSuDatPhongActivity : AppCompatActivity() {
         }, this, ::openDanhGiaDialog)
         binding.recyclerViewLs.adapter = adapter
 
+        binding.btnBack.setOnClickListener{
+            finish()
+        }
+
         setupTabLayout()
         fetchHistory()
     }

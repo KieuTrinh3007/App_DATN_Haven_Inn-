@@ -74,7 +74,7 @@ class PhongNghiAdapter(
             tvLoaiGiuong.text = phong.giuong
             tvGiaChinhThuc.text = "${formatCurrency(phong.giaTien.toInt())}đ"
             tvGiaVip.text = "${formatCurrency(phong.giaTien.toInt() + 300000)}đ"
-            tvTBDanhGia.text = soDiem.toString()
+            tvTBDanhGia.text = String.format(Locale.US, "%.1f", soDiem)
             tvSLNhanXet.text = "$soLuongDanhGia nhận xét"
 
             val emotion = when {
@@ -164,6 +164,9 @@ class PhongNghiAdapter(
             notifyItemChanged(index)
         }
     }
+
+
+
 
     private fun formatCurrency(amount: Int): String {
         val formatter = NumberFormat.getNumberInstance(Locale("vi", "VN"))
