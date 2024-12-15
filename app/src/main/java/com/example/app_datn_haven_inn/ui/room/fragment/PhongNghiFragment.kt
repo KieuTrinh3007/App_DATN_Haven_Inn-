@@ -45,6 +45,48 @@ class PhongNghiFragment : BaseFragment<FragmentPhongNghiBinding>() {
                 adapter?.notifyDataSetChanged()
             }
         }
+
+        loaiPhongViewModel.getListloaiPhong()
+        val danhGiaMap = mutableMapOf<String, Pair<Double, Int>>()
+        loaiPhongViewModel.loaiPhongList.observe(viewLifecycleOwner) { list ->
+            Log.d("PhongNghiFragment", "List size: ${list?.size}")
+
+            if (list != null) {
+                listLoaiPhongModel.clear()  // Đảm bảo làm sạch trước khi thêm mới
+                listLoaiPhongModel.addAll(list)
+
+                // Lặp qua tất cả các phòng và lấy đánh giá
+                val remainingRooms = listLoaiPhongModel.size
+                var processedRooms = 0
+
+                listLoaiPhongModel.forEach { phong ->
+                    danhGiaViewModel.getListdanhGiaByIdLoaiPhong(phong.id)
+                    Log.d("PhongNghiFragment", "idLoaiPhong: ${phong.id}")
+                }
+
+                // Quan sát danh sách đánh giá từ ViewModel
+                danhGiaViewModel.danhGiaListByIdLoaiPhong.observe(viewLifecycleOwner) { danhGiaList ->
+
+                    danhGiaList?.forEach { danhGia ->
+                        val phongId = danhGia.id_LoaiPhong
+                        val soDiem = danhGiaList.sumOf { it.soDiem }
+                        val soLuongDanhGia = danhGiaList.size
+                        val diemTrungBinh = if (soLuongDanhGia > 0) soDiem / soLuongDanhGia.toDouble() else 0.0
+
+                        danhGiaMap[phongId] = Pair(diemTrungBinh, soLuongDanhGia)
+                    }
+
+                    processedRooms++
+
+                    adapter?.let {
+                        it.listPhong = list
+                        it.notifyDataSetChanged()
+                    }
+
+
+                }
+            }
+        }
     }
 
     override fun initView() {
