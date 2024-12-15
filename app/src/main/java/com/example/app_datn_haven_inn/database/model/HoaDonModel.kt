@@ -19,6 +19,7 @@ data class HoaDonModel(
 data class HoaDonModel1(
     @field:SerializedName("_id") var id: String? = null,
     @field:SerializedName("id_NguoiDung") var id_NguoiDung: String,
+    @field:SerializedName("id_LoaiPhong") var id_LoaiPhong: String,
     @field:SerializedName("id_Coupon") var id_Coupon: String? = null,
     @field:SerializedName("ngayNhanPhong") var ngayNhanPhong: String,
     @field:SerializedName("ngayTraPhong") var ngayTraPhong: String,

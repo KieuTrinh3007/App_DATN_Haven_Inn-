@@ -206,6 +206,7 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
                         startActivity(intent)
                     }
                     recyclerViewRoomTop.adapter = roomTopAdapter
+                    roomTopAdapter.notifyDataSetChanged()
                 }
                 progressBar.visibility = View.GONE
                 recyclerViewRoomTop.visibility = View.VISIBLE
