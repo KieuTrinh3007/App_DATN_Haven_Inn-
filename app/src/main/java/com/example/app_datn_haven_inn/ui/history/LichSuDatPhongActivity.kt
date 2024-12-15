@@ -140,6 +140,7 @@ class LichSuDatPhongActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         Toast.makeText(this@LichSuDatPhongActivity, "Cảm ơn bạn đã đánh giá.", Toast.LENGTH_SHORT)
                             .show()
+                        fetchHistory()
                         dialog.dismiss()
                     } else {
                         showError("Gửi đánh giá thất bại!")
