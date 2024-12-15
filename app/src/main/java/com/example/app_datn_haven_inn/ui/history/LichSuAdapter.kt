@@ -51,7 +51,6 @@ class LichSuAdapter(
         val hoaDon = historyList[position]
         val binding = holder.binding
 
-        // Thiết lập dữ liệu
         val chitiet = hoaDon.chiTiet.takeIf { it.isNotEmpty() } ?: ArrayList<ChiTietHoaDonModel1>()
         val tenloaiList = chitiet.joinToString { it.tenLoaiPhong ?: "Không có tên phòng" }
         binding.txtTenPhong.text = "Tên loại phòng: $tenloaiList"
@@ -64,17 +63,26 @@ class LichSuAdapter(
         // Thiết lập hình ảnh
         val firstRoom = chitiet.firstOrNull()
         if (firstRoom != null && !firstRoom.hinhAnh.isNullOrEmpty()) {
-            Picasso.get().load(firstRoom.hinhAnh.first()).into(binding.imgPhong)
+            Picasso.get()
+                .load(firstRoom.hinhAnh.first())
+                .resize(1024, 1024)   // Resize to a smaller size (can adjust the size as needed)
+                .centerInside()        // Make sure the image fits the ImageView
+                .into(binding.imgPhong)
         } else {
             binding.imgPhong.setImageResource(R.drawable.img_13) // Thay thế bằng ảnh mặc định
         }
 
-        // Hiển thị/ẩn các nút theo trạng thái
         when (hoaDon.trangThai) {
             0 -> { // Da nhan phong
-                binding.btnAction.visibility = View.VISIBLE
-                binding.btnDanhGia.visibility = View.VISIBLE
-                binding.btnHuy.visibility = View.GONE
+                if (hoaDon.checkDanhGia) {
+                    binding.btnDanhGia.visibility = View.GONE
+                    binding.btnHuy.visibility = View.GONE
+                    binding.btnAction.visibility = View.VISIBLE
+                } else {
+                    binding.btnHuy.visibility = View.GONE
+                    binding.btnAction.visibility = View.VISIBLE
+                    binding.btnDanhGia.visibility = View.VISIBLE
+                }
             }
 
             1 -> { // Đã thanh toán
@@ -96,7 +104,6 @@ class LichSuAdapter(
             }
         }
 
-        // Thiết lập sự kiện nhấn nút
         binding.btnAction.setOnClickListener {
             onActionClick(hoaDon) // Gọi hàm callback
         }
@@ -106,9 +113,9 @@ class LichSuAdapter(
         binding.btnDanhGia.setOnClickListener {
             val calendar = Calendar.getInstance()
             val year = calendar.get(Calendar.YEAR)
-            val month = calendar.get(Calendar.MONTH) + 1 // Tháng bắt đầu từ 0, nên cần +1
+            val month = calendar.get(Calendar.MONTH) + 1
             val day = calendar.get(Calendar.DAY_OF_MONTH)
-            val hour = calendar.get(Calendar.HOUR_OF_DAY) // 24h format
+            val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
             val second = calendar.get(Calendar.SECOND)
 
@@ -118,6 +125,7 @@ class LichSuAdapter(
             Log.d("LichSuAdapter", "id_LoaiPhong: " + hoaDon.id_LoaiPhong)
 
             onDanhGiaClick(hoaDon.id_NguoiDung, hoaDon.id_LoaiPhong, currentTime)
+
         }
     }
 
