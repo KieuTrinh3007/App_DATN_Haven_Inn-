@@ -16,9 +16,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.Socket.SocketHandler
+import com.example.app_datn_haven_inn.databinding.FragmentNotificationBinding
 import com.example.app_datn_haven_inn.utils.SharedPrefsHelper
 import com.example.app_datn_haven_inn.viewModel.ThongBaoViewModel
-import com.example.app_datn_haven_inn.databinding.FragmentNotificationBinding
 
 class NotificationFragment : Fragment() {
 
@@ -39,17 +39,21 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Khởi tạo ViewModel
         thongBaoViewModel = ViewModelProvider(this)[ThongBaoViewModel::class.java]
 
-        thongBaoAdapter = ThongBaoAdapter(mutableListOf()) { position ->
-            // Xử lý sự kiện click vào item
-        }
+        // Cấu hình adapter cho RecyclerView
+        thongBaoAdapter = ThongBaoAdapter(mutableListOf(), { position ->
+            val thongBao = thongBaoAdapter.thongBaoList[position]
+            thongBaoViewModel.updatethongBao(thongBao.id) // Cập nhật trạng thái từ server
+        }, thongBaoViewModel)
+
         binding.recyclerViewThongBao.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = thongBaoAdapter
         }
 
-        // Cập nhật danh sách khi có thay đổi
+        // Quan sát danh sách thông báo
         thongBaoViewModel.thongBaoList.observe(viewLifecycleOwner) { thongBaoList ->
             thongBaoList?.let {
                 val userId = SharedPrefsHelper.getIdNguoiDung(requireContext())
@@ -71,6 +75,12 @@ class NotificationFragment : Fragment() {
             }
         }
 
+        // Quan sát trạng thái loading
+        thongBaoViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        // Lấy danh sách thông báo
         thongBaoViewModel.getListthongBao()
 
         // Kết nối socket
@@ -78,12 +88,11 @@ class NotificationFragment : Fragment() {
         SocketHandler.setSocket(userId)
         SocketHandler.establishConnection()
 
-        // Lắng nghe sự kiện từ Socket.IO
+        // Lắng nghe sự kiện từ socket
         SocketHandler.onEvent("new-notification") { data ->
             val idNguoiDungFromSocket = data.getString("id_NguoiDung")
             val message = data.getString("message")
 
-            // Kiểm tra nếu thông báo dành cho người dùng hiện tại
             if (idNguoiDungFromSocket == userId) {
                 requireActivity().runOnUiThread {
                     showNotification("Thông báo mới", message)
@@ -98,9 +107,7 @@ class NotificationFragment : Fragment() {
     private fun playNotificationSound() {
         val notificationUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val mediaPlayer = MediaPlayer.create(requireContext(), notificationUri)
-        mediaPlayer.setOnCompletionListener { mp ->
-            mp.release() // Giải phóng MediaPlayer sau khi phát xong
-        }
+        mediaPlayer.setOnCompletionListener { mp -> mp.release() }
         mediaPlayer.start()
     }
 
@@ -108,7 +115,6 @@ class NotificationFragment : Fragment() {
         NotificationUtils.createNotificationChannel(requireContext())
 
         val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
         val notification = NotificationCompat.Builder(requireContext(), "notification_channel_id")
             .setContentTitle(tieuDe)
             .setContentText(noiDung)
@@ -123,6 +129,7 @@ class NotificationFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        SocketHandler.closeConnection() // Ngắt kết nối socket khi view bị hủy
+        SocketHandler.closeConnection()
     }
 }
+

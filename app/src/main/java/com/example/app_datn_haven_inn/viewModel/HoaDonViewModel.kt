@@ -66,7 +66,7 @@ class HoaDonViewModel : BaseViewModel() {
     }
 
 
-    fun updatehoaDon(id: String, hoaDon: HoaDonModel) {
+    fun huyHoaDon(id: String, hoaDon: HoaDonModel) {
         viewModelScope.launch {
             try {
                 val apiService : HoaDonService = CreateService.createService()
@@ -91,6 +91,8 @@ class HoaDonViewModel : BaseViewModel() {
             }
         }
     }
+
+
 
     fun clearErrorMessage() {
         _errorMessage.value = null

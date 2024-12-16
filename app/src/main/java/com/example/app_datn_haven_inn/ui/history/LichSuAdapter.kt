@@ -33,12 +33,14 @@ import java.util.Locale
 import java.util.TimeZone
 import java.util.UUID
 
+
 class LichSuAdapter(
     private var historyList: List<HoaDonModel1>,
     private val onActionClick: (HoaDonModel1) -> Unit,
-    private val context: Context,
+    private val onCancelClick: (HoaDonModel1) -> Unit,
     private val onDanhGiaClick: (String, String, String) -> Unit
-) : RecyclerView.Adapter<LichSuAdapter.LichSuViewHolder>() {
+) :
+    RecyclerView.Adapter<LichSuAdapter.LichSuViewHolder>() {
 
     class LichSuViewHolder(val binding: ItemLichsuBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -53,7 +55,7 @@ class LichSuAdapter(
 
         val chitiet = hoaDon.chiTiet.takeIf { it.isNotEmpty() } ?: ArrayList<ChiTietHoaDonModel1>()
         val tenloaiList = chitiet.joinToString { it.tenLoaiPhong ?: "Không có tên phòng" }
-        binding.txtTenPhong.text = "Tên loại phòng: $tenloaiList"
+        binding.txtTenPhong.text = "$tenloaiList"
 
         val soPhongList = chitiet.joinToString { it.soPhong ?: "Không có số phòng" }
         binding.txtSoPhong.text = "Phòng: $soPhongList"
@@ -72,17 +74,13 @@ class LichSuAdapter(
             binding.imgPhong.setImageResource(R.drawable.img_13) // Thay thế bằng ảnh mặc định
         }
 
+
+        // Hiển thị/ẩn các nút theo trạng thái
         when (hoaDon.trangThai) {
             0 -> { // Da nhan phong
-                if (hoaDon.checkDanhGia) {
-                    binding.btnDanhGia.visibility = View.GONE
-                    binding.btnHuy.visibility = View.GONE
-                    binding.btnAction.visibility = View.VISIBLE
-                } else {
-                    binding.btnHuy.visibility = View.GONE
-                    binding.btnAction.visibility = View.VISIBLE
-                    binding.btnDanhGia.visibility = View.VISIBLE
-                }
+                binding.btnAction.visibility = View.GONE
+                binding.btnDanhGia.visibility = View.GONE
+                binding.btnHuy.visibility = View.GONE
             }
 
             1 -> { // Đã thanh toán
@@ -97,15 +95,32 @@ class LichSuAdapter(
                 binding.btnHuy.visibility = View.GONE
             }
 
+            3 -> { // Đã trả phòng
+                if (hoaDon.checkDanhGia) {
+                    binding.btnDanhGia.visibility = View.GONE
+                    binding.btnHuy.visibility = View.GONE
+                    binding.btnAction.visibility = View.VISIBLE
+                } else {
+                    binding.btnHuy.visibility = View.GONE
+                    binding.btnAction.visibility = View.VISIBLE
+                    binding.btnDanhGia.visibility = View.VISIBLE
+                }
+            }
+
             else -> {
                 binding.btnAction.visibility = View.GONE
                 binding.btnDanhGia.visibility = View.GONE
                 binding.btnHuy.visibility = View.GONE
             }
         }
+        // Sự kiện khi nhấn nút Hủy
+        binding.btnHuy.setOnClickListener {
+            onCancelClick(hoaDon) // Gọi callback để hủy hóa đơn
+        }
 
+        // Các sự kiện khác...
         binding.btnAction.setOnClickListener {
-            onActionClick(hoaDon) // Gọi hàm callback
+            onActionClick(hoaDon) // Gọi callback khi nhấn nút Action
         }
 
         Log.d("LichSuAdapter", "id_LoaiPhong All: " + hoaDon.id_LoaiPhong)
@@ -128,6 +143,7 @@ class LichSuAdapter(
 
         }
     }
+
 
     fun updateData(newHistoryList: List<HoaDonModel1>) {
         historyList = newHistoryList
@@ -157,3 +173,4 @@ class LichSuAdapter(
 
     override fun getItemCount(): Int = historyList.size
 }
+

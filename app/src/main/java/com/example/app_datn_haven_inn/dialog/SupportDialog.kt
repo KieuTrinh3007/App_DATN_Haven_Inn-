@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.Observer
+import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.HoTroModel
 import com.example.app_datn_haven_inn.databinding.DialogSupportBinding
 import com.example.app_datn_haven_inn.viewModel.HoTroViewModel
@@ -12,7 +13,7 @@ class SupportDialog(
     context: Context,
     private val viewModel: HoTroViewModel,
     private val userId: String
-) : Dialog(context) {
+) : Dialog(context, R.style.CustomDialogTheme) {
     private val binding: DialogSupportBinding = DialogSupportBinding.inflate(layoutInflater)
     private val observer = Observer<Boolean> { success ->
         if (success) {
@@ -25,6 +26,7 @@ class SupportDialog(
     }
     init {
         setContentView(binding.root) // Đặt giao diện dialog
+        window!!.attributes.width = (context.resources.displayMetrics.widthPixels * 0.9).toInt()
         setupListeners() // Thiết lập lắng nghe sự kiện
         observeViewModel() // Quan sát trạng thái từ ViewModel
         show() // Hiển thị dialog ngay khi được khởi tạo

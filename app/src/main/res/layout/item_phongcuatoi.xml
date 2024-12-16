@@ -86,7 +86,7 @@
                 android:id="@+id/room_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="3dp"
                 android:layout_marginTop="10dp"
                 android:text="Giá phòng"
                 android:textColor="#D32F2F"

@@ -60,104 +60,123 @@ class MyRoomActivity : AppCompatActivity() {
         fetchRooms()
     }
 
-//    private fun fetchRooms() {
-//        val retrofit = Retrofit.Builder()
-//            .baseUrl(Constans.DOMAIN)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
+
+//private fun fetchRooms() {
+//    val retrofit = Retrofit.Builder()
+//        .baseUrl(Constans.DOMAIN)
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .build()
 //
-//        val service = retrofit.create(NguoiDungService::class.java)
-//        val userId = SharedPrefsHelper.getIdNguoiDung(this)
+//    val service = retrofit.create(NguoiDungService::class.java)
+//    val userId = SharedPrefsHelper.getIdNguoiDung(this)
 //
-//        if (userId.isNullOrEmpty()) {
-//            showMessage("Không tìm thấy ID người dùng!")
-//            return
-//        }
+//    if (userId.isNullOrEmpty()) {
+//        showMessage("Không tìm thấy ID người dùng!")
+//        return
+//    }
 //
-//        lifecycleScope.launch(Dispatchers.IO) {
-//            try {
-//                val response = service.myRoom(userId)
-//                if (response.isSuccessful) {
-//                    val phongList = response.body()
+//    lifecycleScope.launch(Dispatchers.IO) {
+//        try {
+//            val response = service.myRoom(userId)
+//            if (response.isSuccessful) {
+//                val phongList = response.body()
 //
-//                    if (phongList.isNullOrEmpty()) {
-//                        withContext(Dispatchers.Main) {
-//                            showMessage("Không có phòng nào trong khoảng thời gian hiện tại")
-//                        }
-//                    } else {
-//                        withContext(Dispatchers.Main) {
-//                            // Set the adapter with the room list
-//                            adapter = MyRoomAdapter(phongList)
-//                            binding.recyclerViewMyrRoom.adapter = adapter
-//                        }
+//                if (phongList.isNullOrEmpty()) {
+//                    withContext(Dispatchers.Main) {
+//                        showMessage("Không có phòng nào trong khoảng thời gian hiện tại")
 //                    }
 //                } else {
-//                    val errorResponse = response.errorBody()?.string()
-//                    Log.e("MyRoomActivity", "API Error: $errorResponse")
 //                    withContext(Dispatchers.Main) {
-//                        showMessage("Lỗi khi tải danh sách phòng: $errorResponse")
+//                        // Thiết lập adapter với danh sách phòng và callback khi nhấn vào phòng
+//                        adapter = MyRoomAdapter(phongList) { selectedRoom ->
+//                            // Chuyển sang màn chi tiết
+//                            val intent = Intent(this@MyRoomActivity, MyRoomDetailActivity::class.java)
+//                            intent.putExtra("room_data", selectedRoom)
+//                            startActivity(intent)
+//                        }
+//                        binding.recyclerViewMyrRoom.adapter = adapter
 //                    }
 //                }
-//            } catch (e: Exception) {
-//                Log.e("MyRoomActivity", "Exception: ${e.message}", e)
+//            } else {
+//                val errorResponse = response.errorBody()?.string()
+//                Log.e("MyRoomActivity", "API Error: $errorResponse")
 //                withContext(Dispatchers.Main) {
-//                    showMessage("Có lỗi xảy ra khi tải danh sách phòng. Vui lòng thử lại!")
+//                    showMessage("Lỗi khi tải danh sách phòng: $errorResponse")
 //                }
+//            }
+//        } catch (e: Exception) {
+//            Log.e("MyRoomActivity", "Exception: ${e.message}", e)
+//            withContext(Dispatchers.Main) {
+//                showMessage("Có lỗi xảy ra khi tải danh sách phòng. Vui lòng thử lại!")
 //            }
 //        }
 //    }
-private fun fetchRooms() {
-    val retrofit = Retrofit.Builder()
-        .baseUrl(Constans.DOMAIN)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+//}
 
-    val service = retrofit.create(NguoiDungService::class.java)
-    val userId = SharedPrefsHelper.getIdNguoiDung(this)
+    private fun fetchRooms() {
+        // Hiển thị ProgressBar và ẩn RecyclerView và tvEmpty khi bắt đầu tải dữ liệu
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerViewMyrRoom.visibility = View.GONE
+        binding.tvEmpty.visibility = View.GONE
 
-    if (userId.isNullOrEmpty()) {
-        showMessage("Không tìm thấy ID người dùng!")
-        return
-    }
+        val retrofit = Retrofit.Builder()
+            .baseUrl(Constans.DOMAIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-    lifecycleScope.launch(Dispatchers.IO) {
-        try {
-            val response = service.myRoom(userId)
-            if (response.isSuccessful) {
-                val phongList = response.body()
+        val service = retrofit.create(NguoiDungService::class.java)
+        val userId = SharedPrefsHelper.getIdNguoiDung(this)
 
-                if (phongList.isNullOrEmpty()) {
+        if (userId.isNullOrEmpty()) {
+            showMessage("Không tìm thấy ID người dùng!")
+            binding.progressBar.visibility = View.GONE
+            return
+        }
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val response = service.myRoom(userId)
+                if (response.isSuccessful) {
+                    val phongList = response.body()
+
                     withContext(Dispatchers.Main) {
-                        showMessage("Không có phòng nào trong khoảng thời gian hiện tại")
+                        binding.progressBar.visibility = View.GONE
+                        if (phongList.isNullOrEmpty()) {
+                            // Hiển thị thông báo nếu không có dữ liệu
+                            binding.tvEmpty.visibility = View.VISIBLE
+                        } else {
+                            // Thiết lập adapter với danh sách phòng và hiển thị RecyclerView
+                            adapter = MyRoomAdapter(phongList) { selectedRoom ->
+                                val intent = Intent(this@MyRoomActivity, MyRoomDetailActivity::class.java)
+                                intent.putExtra("room_data", selectedRoom)
+                                startActivity(intent)
+                            }
+                            binding.recyclerViewMyrRoom.adapter = adapter
+                            binding.recyclerViewMyrRoom.visibility = View.VISIBLE
+                        }
                     }
                 } else {
+                    val errorResponse = response.errorBody()?.string()
+                    Log.e("MyRoomActivity", "API Error: $errorResponse")
                     withContext(Dispatchers.Main) {
-                        // Thiết lập adapter với danh sách phòng và callback khi nhấn vào phòng
-                        adapter = MyRoomAdapter(phongList) { selectedRoom ->
-                            // Chuyển sang màn chi tiết
-                            val intent = Intent(this@MyRoomActivity, MyRoomDetailActivity::class.java)
-                            intent.putExtra("room_data", selectedRoom)
-                            startActivity(intent)
-                        }
-                        binding.recyclerViewMyrRoom.adapter = adapter
+                        showMessage("Bạn đang không có phòng nào.")
+                        binding.progressBar.visibility = View.GONE
+                        binding.tvEmpty.visibility = View.VISIBLE
+                        binding.fabSupport.visibility = View.GONE
                     }
                 }
-            } else {
-                val errorResponse = response.errorBody()?.string()
-                Log.e("MyRoomActivity", "API Error: $errorResponse")
+            } catch (e: Exception) {
+                Log.e("MyRoomActivity", "Exception: ${e.message}", e)
                 withContext(Dispatchers.Main) {
-                    showMessage("Lỗi khi tải danh sách phòng: $errorResponse")
+                    showMessage("Bạn đang không có phòng nào.")
+                    binding.progressBar.visibility = View.GONE
+                    binding.tvEmpty.visibility = View.VISIBLE
+                    binding.fabSupport.visibility = View.GONE
+
                 }
-            }
-        } catch (e: Exception) {
-            Log.e("MyRoomActivity", "Exception: ${e.message}", e)
-            withContext(Dispatchers.Main) {
-                showMessage("Có lỗi xảy ra khi tải danh sách phòng. Vui lòng thử lại!")
             }
         }
     }
-}
-
 
     private fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

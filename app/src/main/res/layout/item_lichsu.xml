@@ -17,8 +17,8 @@
             android:layout_width="120dp"
             android:layout_height="135dp"
             android:layout_marginEnd="15dp"
-            android:src="@drawable/avat2"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/avat2" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -63,43 +63,53 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="15dp"
-                android:gravity="center">
+                android:layout_marginTop="13dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
                 <!-- Nút hành động: Đặt lại -->
                 <TextView
                     android:id="@+id/btnAction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đặt lại"
-                    android:padding="5dp"
-                    android:background="@drawable/khung_tb"
-                    android:layout_marginEnd="10dp"
+                    android:layout_width="64dp"
+                    android:layout_height="27dp"
                     android:layout_marginLeft="10dp"
-                    />
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/button_border"
+                    android:gravity="center"
+
+                    android:padding="5dp"
+                    android:text="Đặt lại"
+                    android:textSize="12dp" />
 
                 <!-- Nút hành động: Đánh giá -->
                 <TextView
                     android:id="@+id/btnDanhGia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Đánh giá"
-                    android:padding="5dp"
+                    android:layout_width="64dp"
+
                     android:layout_marginLeft="10dp"
-                    android:background="@drawable/khung_tb"
-                    />
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/button_border"
+                    android:gravity="center"
+                    android:layout_height="27dp"
+
+                    android:textSize="12dp"
+                    android:padding="5dp"
+                    android:text="Đánh giá" />
 
                 <!-- Nút hành động: Hủy -->
                 <TextView
                     android:id="@+id/btnHuy"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hủy"
-                    android:padding="5dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_width="64dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_height="27dp"
 
-                    android:background="@drawable/khung_tb" />
+                    android:background="@drawable/button_border"
+                    android:gravity="center"
+                    android:textSize="12dp"
+                    android:padding="5dp"
+
+                    android:text="Hủy" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
