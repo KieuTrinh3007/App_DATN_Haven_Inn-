@@ -28,19 +28,27 @@ class ThongBaoViewModel : BaseViewModel() {
     private val _isthongBaoDeleted = MutableLiveData<Boolean>()
     val isthongBaoDeleted: LiveData<Boolean> get() = _isthongBaoDeleted
 
+    private val _unreadCount = MutableLiveData<Int>()
+    val unreadCount: LiveData<Int> get() = _unreadCount
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
+
+    // Thêm trạng thái isLoading
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> get() = _isLoading
 
     fun getListthongBao() {
         viewModelScope.launch {
             try {
-
-                val apiService : ThongBaoService = CreateService.createService()
-                val ThongBaoRepository = ThongBaoRepository(apiService)
-                _thongBaoList.value = ThongBaoRepository.getListThongBao()
+                _isLoading.value = true // Bắt đầu tải
+                val apiService: ThongBaoService = CreateService.createService()
+                val thongBaoRepository = ThongBaoRepository(apiService)
+                _thongBaoList.value = thongBaoRepository.getListThongBao()
             } catch (e: Exception) {
                 Log.e("thongBaoViewModel", "Error fetching thongBao list", e)
                 _errorMessage.value = "Error fetching thongBao list: ${e.message}"
+            } finally {
+                _isLoading.value = false // Kết thúc tải
             }
         }
     }
@@ -48,42 +56,57 @@ class ThongBaoViewModel : BaseViewModel() {
     fun addthongBao(thongBao: ThongBaoModel) {
         viewModelScope.launch {
             try {
-                val apiService : ThongBaoService = CreateService.createService()
-                val ThongBaoRepository = ThongBaoRepository(apiService)
-                _isthongBaoAdded.value = ThongBaoRepository.addThongBao(thongBao) != null
+                _isLoading.value = true // Bắt đầu tải
+                val apiService: ThongBaoService = CreateService.createService()
+                val thongBaoRepository = ThongBaoRepository(apiService)
+                _isthongBaoAdded.value = thongBaoRepository.addThongBao(thongBao) != null
             } catch (e: Exception) {
                 Log.e("thongBaoViewModel", "Error adding thongBao", e)
                 _errorMessage.value = "Error adding thongBao: ${e.message}"
+            } finally {
+                _isLoading.value = false // Kết thúc tải
             }
         }
     }
 
-
-    fun updatethongBao(id: String, thongBao: ThongBaoModel) {
+    fun updatethongBao(id: String) {
         viewModelScope.launch {
             try {
-                val apiService : ThongBaoService = CreateService.createService()
-                val ThongBaoRepository = ThongBaoRepository(apiService)
-                _isthongBaoUpdated.value = ThongBaoRepository.updateThongBao(id, thongBao) != null
+                _isLoading.value = true // Bắt đầu tải
+                val apiService: ThongBaoService = CreateService.createService()
+                val thongBaoRepository = ThongBaoRepository(apiService)
+                _isthongBaoUpdated.value = thongBaoRepository.updateThongBao(id) != null
             } catch (e: Exception) {
                 Log.e("thongBaoViewModel", "Error updating thongBao", e)
                 _errorMessage.value = "Error updating thongBao: ${e.message}"
+            } finally {
+                _isLoading.value = false // Kết thúc tải
             }
         }
+    }
+    fun getUnreadCount(): Int {
+        return _thongBaoList.value?.count { !it.trangThai } ?: 0
+    }
+    fun updateUnreadCount() {
+        _unreadCount.value = _thongBaoList.value?.count { !it.trangThai } ?: 0
     }
 
     fun deletethongBao(id: String) {
         viewModelScope.launch {
             try {
-                val apiService : ThongBaoService = CreateService.createService()
-                val ThongBaoRepository = ThongBaoRepository(apiService)
-                _isthongBaoDeleted.value = ThongBaoRepository.deleteThongBao(id)
+                _isLoading.value = true // Bắt đầu tải
+                val apiService: ThongBaoService = CreateService.createService()
+                val thongBaoRepository = ThongBaoRepository(apiService)
+                _isthongBaoDeleted.value = thongBaoRepository.deleteThongBao(id)
             } catch (e: Exception) {
                 Log.e("thongBaoViewModel", "Error deleting thongBao", e)
                 _errorMessage.value = "Error deleting thongBao: ${e.message}"
+            } finally {
+                _isLoading.value = false // Kết thúc tải
             }
         }
     }
+
     fun toggleTrangThai(position: Int) {
         _thongBaoList.value?.let { thongBaoList ->
             val updatedList = thongBaoList.toMutableList()
@@ -92,8 +115,6 @@ class ThongBaoViewModel : BaseViewModel() {
             _thongBaoList.value = updatedList
         }
     }
-
-
 
     fun clearErrorMessage() {
         _errorMessage.value = null
