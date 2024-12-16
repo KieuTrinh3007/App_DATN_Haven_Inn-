@@ -39,6 +39,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
+import java.util.Locale
 
 class OverviewFragment : Fragment(), OnMapReadyCallback {
 
@@ -197,7 +198,7 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
                     // Tính điểm trung bình
                     val diemTrungBinh = if (soLuongDanhGia > 0) {
                         // Dùng String.format để làm tròn về 1 chữ số sau dấu thập phân
-                        String.format("%.1f", soDiem / soLuongDanhGia).toDouble()
+                        String.format(Locale.US, "%.1f", soDiem / soLuongDanhGia).toDouble()
                     } else {
                         0.0
                     }

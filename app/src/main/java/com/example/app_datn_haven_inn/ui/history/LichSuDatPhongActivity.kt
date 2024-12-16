@@ -196,9 +196,11 @@ class LichSuDatPhongActivity : AppCompatActivity() {
         ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             // Cập nhật biểu tượng cảm xúc dựa trên số sao đã chọn
             val feedbackIcon = when {
-                rating >= 4 -> R.drawable.happiness // 4 sao hoặc hơn -> Cảm xúc vui
-                rating >= 2 -> R.drawable.face // Từ 2 đến 4 sao -> Cảm xúc trung bình
-                else -> R.drawable.vanh1 // Dưới 2 sao -> Cảm xúc buồn
+                rating > 4 -> R.drawable.i5s2
+                rating > 3 -> R.drawable.i4s
+                rating > 2 -> R.drawable.happiness
+                rating > 1 -> R.drawable.i2s
+                else -> R.drawable.i1s
             }
             ivFeedbackIcon.setImageResource(feedbackIcon)
 
