@@ -1,21 +1,22 @@
 package com.example.app_datn_haven_inn.ui.notification
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_datn_haven_inn.R
 import com.example.app_datn_haven_inn.database.model.ThongBaoModel
 import com.example.app_datn_haven_inn.databinding.ItemThongbaoBinding
+import com.example.app_datn_haven_inn.viewModel.ThongBaoViewModel
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.TimeZone
 
 class ThongBaoAdapter(
     var thongBaoList: MutableList<ThongBaoModel>,
-    val onItemClick: (Int) -> Unit
+    private val onItemClick: (Int) -> Unit,
+    private val thongBaoViewModel: ThongBaoViewModel
 ) : RecyclerView.Adapter<ThongBaoAdapter.ThongBaoViewHolder>() {
-
-    class ThongBaoViewHolder(val binding: ItemThongbaoBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ThongBaoViewHolder {
         val binding = ItemThongbaoBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -25,42 +26,40 @@ class ThongBaoAdapter(
     override fun onBindViewHolder(holder: ThongBaoViewHolder, position: Int) {
         val thongBao = thongBaoList[position]
 
-        with(holder.binding) {
-            tvTieuDe.text = thongBao.tieuDe
-            tvNoiDung.text = thongBao.noiDung
+        // Kiểm tra trạng thái của thông báo (trangThai)
+        if (thongBao.trangThai) {
+            // Nếu trạng thái là true (thông báo chưa được xử lý/đọc)
+            holder.binding.tvNoiDung.setTextColor(Color.BLACK) // Thông báo chưa đọc thì hiển thị màu đen
+            holder.binding.root.setBackgroundResource(R.drawable.item_border_active) // Áp dụng background cho item chưa đọc
+        } else {
+            // Nếu trạng thái là false (thông báo đã được xử lý/đọc)
+            holder.binding.tvNoiDung.setTextColor(Color.GRAY)  // Thông báo đã đọc thì hiển thị màu xám
+            holder.binding.root.setBackgroundResource(R.drawable.item_border_inactive) // Áp dụng background cho item đã đọc
+        }
 
-            // Định dạng ngày giờ và gán vào TextView
-            tvNgayGui.text = formatDateTime(thongBao.ngayGui)
+        holder.binding.tvNoiDung.text = thongBao.noiDung
+        holder.binding.tvTieuDe.text = thongBao.tieuDe
+        holder.binding.tvNgayGui.text = formatDateTime(thongBao.ngayGui)
 
-            // Đổi màu nền dựa trên trạng thái của thông báo
-            root.setBackgroundResource(
-                if (!thongBao.trangThai) R.drawable.item_border_active
-                else R.drawable.item_border_inactive
-            )
-
-            root.setOnClickListener {
-                thongBao.trangThai = true // Đánh dấu thông báo là đã đọc
-                notifyItemChanged(position) // Cập nhật chỉ mục trong RecyclerView
+        // Sự kiện click vào item
+        holder.itemView.setOnClickListener {
+            if (thongBao.trangThai) {
+                // Nếu trạng thái là true, thì mới thay đổi thành false
+                thongBaoList[position].trangThai = false // Đổi trạng thái thành false
+                thongBaoViewModel.updatethongBao(thongBaoList[position].id) // Cập nhật lên server
+                notifyItemChanged(position) // Cập nhật giao diện
                 onItemClick(position)
             }
         }
     }
 
-
     override fun getItemCount(): Int = thongBaoList.size
 
-    /**
-     * Cập nhật danh sách thông báo mới
-     */
-    fun updateList(newList: List<ThongBaoModel>) {
-        thongBaoList.clear()
-        thongBaoList.addAll(newList)
+    fun updateList(newList: MutableList<ThongBaoModel>) {
+        thongBaoList = newList
         notifyDataSetChanged()
     }
 
-    fun getCurrentList(): List<ThongBaoModel> {
-        return thongBaoList
-    }
     private fun formatDateTime(dateString: String): String {
         return try {
             // Định dạng dữ liệu đầu vào từ server
@@ -82,6 +81,5 @@ class ThongBaoAdapter(
         }
     }
 
-
-
+    class ThongBaoViewHolder(val binding: ItemThongbaoBinding) : RecyclerView.ViewHolder(binding.root)
 }

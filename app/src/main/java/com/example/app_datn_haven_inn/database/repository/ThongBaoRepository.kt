@@ -31,9 +31,9 @@ class ThongBaoRepository (private val api: ThongBaoService)  {
     }
 
 
-    suspend fun updateThongBao(id: String, carrier: ThongBaoModel): ThongBaoModel? = withContext(
+    suspend fun updateThongBao(id: String): ThongBaoModel? = withContext(
         Dispatchers.IO) {
-        val response = api.updateThongBao(id, carrier)
+        val response = api.updateThongBao(id)
         if (response.isSuccessful) {
             Log.d("ThongBaoRepository", "updateThongBao Success: ${response.body()}")
             response.body()

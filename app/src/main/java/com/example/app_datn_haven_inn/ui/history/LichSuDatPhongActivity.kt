@@ -27,6 +27,7 @@ import com.example.app_datn_haven_inn.database.service.DanhGiaService
 import com.example.app_datn_haven_inn.database.service.HoaDonService
 import com.example.app_datn_haven_inn.databinding.ActivityLichSuDatPhongBinding
 import com.example.app_datn_haven_inn.ui.dieuKhoan.dieuKhoan2
+import com.example.app_datn_haven_inn.ui.main.MainActivity
 import com.example.app_datn_haven_inn.utils.Constans
 import com.example.app_datn_haven_inn.utils.SharedPrefsHelper
 import com.google.android.material.tabs.TabLayout
@@ -60,7 +61,10 @@ class LichSuDatPhongActivity : AppCompatActivity() {
 
         adapter = LichSuAdapter(mutableListOf(),
             onActionClick = { hoaDon ->
-                // Xử lý khi nhấn vào hành động
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("navigateToFragment", 2)
+                startActivity(intent)
+                finish()
             },
             onCancelClick = { hoaDon ->
                 cancelOrder(hoaDon) // Xử lý khi nhấn nút Hủy
