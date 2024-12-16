@@ -341,6 +341,7 @@ class BookingActivity : AppCompatActivity() {
             if (event.action == MotionEvent.ACTION_UP) {
                 val intent1 = Intent(this, CouponActivity::class.java)
                 intent1.putExtra("giaGoc", gia)
+                intent1.putExtra("trangthai", 1)
                 startActivityForResult(intent1, 100)
                 return@setOnTouchListener true
             }

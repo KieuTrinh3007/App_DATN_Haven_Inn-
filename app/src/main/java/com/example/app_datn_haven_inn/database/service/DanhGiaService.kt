@@ -18,6 +18,12 @@ interface DanhGiaService {
     @GET("danhgias/")
     suspend fun getListDanhGiaByIdLoaiPhong(@Query("id_LoaiPhong") idLoaiPhong: String): Response<List<DanhGiaNguoiDungModel>>
 
+    @GET("danhgias/")
+    suspend fun getListDanhGiaByIdUser(@Query("id_NguoiDung") idNguoiDung: String): Response<List<DanhGiaNguoiDungModel>>
+
+//    @GET("danhgias/{id}")
+//    suspend fun getDanhGiaByUser(@Query("id_NguoiDung") idNguoiDung: String): Response<List<DanhGiaNguoiDungModel>>
+
     @POST("danhgias/post")
     suspend fun addDanhGia(@Body DanhGia: DanhGiaModel): Response<DanhGiaModel>
 

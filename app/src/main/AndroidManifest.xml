@@ -10,7 +10,6 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="true" />
@@ -33,6 +32,9 @@
         android:theme="@style/Theme.App_DATN_Haven_Inn"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.profile.DanhGiaVaPhanHoi"
+            android:exported="false" />
         <activity
             android:name=".ui.dieuKhoan.GioiThieuActivity"
             android:exported="false" />
@@ -111,9 +113,7 @@
         </activity>
         <activity
             android:name=".ui.onbording.WelcomeActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".ui.home.fragment.ServiceFragment"
             android:exported="false" />
