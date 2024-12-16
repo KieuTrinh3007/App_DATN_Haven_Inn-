@@ -28,9 +28,10 @@ class CouponActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         var bookingPrice = intent.getDoubleExtra("giaGoc", 0.0)
+        val trangthai = intent.getIntExtra("trangthai", 0)
 
         // Thiết lập RecyclerView
-        couponAdapter = CouponAdapter(emptyList()) { coupon ->
+        couponAdapter = CouponAdapter(emptyList(), { coupon ->
             // Tạo Intent để trả lại mã giảm giá cho màn hình trước
             if (bookingPrice >= coupon.dieuKienToiThieu) {
                 // Nếu giá tiền thỏa mãn, thực hiện áp dụng mã giảm giá
@@ -48,7 +49,8 @@ class CouponActivity : AppCompatActivity() {
                 // Nếu không thỏa mãn, hiển thị thông báo
                 Toast.makeText(this, "Coupon không áp dụng cho hóa đơn này", Toast.LENGTH_SHORT).show()
             }
-        }
+        }, trangthai) // Truyền trạng thái vào adapter
+
 
         binding.recyclerView.apply {
             adapter = couponAdapter

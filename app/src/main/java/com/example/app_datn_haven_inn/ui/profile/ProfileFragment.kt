@@ -145,7 +145,8 @@ class ProfileFragment : Fragment() {
         }
 
         feedback.setOnClickListener {
-
+            val intent10 = Intent(requireContext(), DanhGiaVaPhanHoi::class.java)
+            startActivity(intent10)
         }
 
         return view

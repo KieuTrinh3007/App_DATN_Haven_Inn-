@@ -89,28 +89,36 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
 
         // Khởi tạo RecyclerView cho món ăn
         recyclerViewFood = view.findViewById(R.id.recyclerViewFood)
-        recyclerViewFood.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        recyclerViewFood.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         // Khởi tạo RecyclerView cho danh sách phòng
         recyclerViewRoomTop = view.findViewById(R.id.recyclerViewRoomTop)
-        recyclerViewRoomTop.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        recyclerViewRoomTop.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         // Load dữ liệu món ăn và phòng
         loadAmThucData()
         loadRoomTopData()
 
         // Khởi tạo và hiển thị Google Map
-        val mapFragment = childFragmentManager.findFragmentById(R.id.mapFragment) as? SupportMapFragment
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.mapFragment) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
 
         // Xử lý sự kiện khi nhấn vào địa chỉ
-        val xemtrongbando = view.findViewById<LinearLayout>(R.id.xemtrongbando) // ID của TextView "Xem trong bản đồ"
+        val xemtrongbando =
+            view.findViewById<LinearLayout>(R.id.xemtrongbando) // ID của TextView "Xem trong bản đồ"
         xemtrongbando.setOnClickListener {
             // Kiểm tra xem thiết bị có ứng dụng Google Maps không
             if (isGoogleMapsAvailable()) {
                 openGoogleMaps()
             } else {
-                Toast.makeText(requireContext(), "Google Maps không có sẵn trên thiết bị này", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Google Maps không có sẵn trên thiết bị này",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         return view
@@ -152,7 +160,8 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
     // Tải dữ liệu món ăn
     private fun loadAmThucData() {
         CoroutineScope(Dispatchers.IO).launch {
-            val response: Response<List<AmThucModel>> = CreateService.createService<AmThucService>().getListAmThuc()
+            val response: Response<List<AmThucModel>> =
+                CreateService.createService<AmThucService>().getListAmThuc()
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     val amThucList = response.body() ?: emptyList()
@@ -177,38 +186,47 @@ class OverviewFragment : Fragment(), OnMapReadyCallback {
             val danhGiaMap = mutableMapOf<String, Pair<Double, Int>>()
 
             roomList?.forEach { room ->
-                val response: Response<List<DanhGiaNguoiDungModel>> = CreateService.createService<DanhGiaService>()
-                    .getListDanhGiaByIdLoaiPhong(room.id)
+                val response: Response<List<DanhGiaNguoiDungModel>> =
+                    CreateService.createService<DanhGiaService>()
+                        .getListDanhGiaByIdLoaiPhong(room.id)
 
                 if (response.isSuccessful) {
                     val danhGiaList = response.body() ?: emptyList()
                     val soDiem = danhGiaList.sumOf { it.soDiem }
                     val soLuongDanhGia = danhGiaList.size
                     // Tính điểm trung bình
-                    val diemTrungBinh = if (soLuongDanhGia > 0) soDiem / soLuongDanhGia else 0.0
+                    val diemTrungBinh = if (soLuongDanhGia > 0) {
+                        // Dùng String.format để làm tròn về 1 chữ số sau dấu thập phân
+                        String.format("%.1f", soDiem / soLuongDanhGia).toDouble()
+                    } else {
+                        0.0
+                    }
                     danhGiaMap[room.id] = Pair(diemTrungBinh, soLuongDanhGia)
                 }
             }
 
             withContext(Dispatchers.Main) {
                 if (!roomList.isNullOrEmpty()) {
-                    roomTopAdapter = RoomTopAdapter(requireContext(), roomList, danhGiaMap) { room ->
-                        // Khởi động Activity mới với idLoaiPhong
-                        val intent = Intent(requireContext(), RoomDetailActivity::class.java)
-                        intent.putExtra("id_LoaiPhong", room.id)
-                        intent.putExtra("tenLoaiPhong", room.tenLoaiPhong)
-                        intent.putExtra("giuong", room.giuong)
-                        intent.putExtra("soLuongKhach", room.soLuongKhach.toString())
-                        intent.putExtra("dienTich", room.dienTich.toString())
-                        intent.putExtra("hinhAnh", room.hinhAnh.toTypedArray())
-                        intent.putExtra("moTa", room.moTa)
-                        intent.putExtra("giaTien", room.giaTien.toInt())
+                    roomTopAdapter =
+                        RoomTopAdapter(requireContext(), roomList, danhGiaMap) { room ->
+                            // Khởi động Activity mới với idLoaiPhong
+                            val intent = Intent(requireContext(), RoomDetailActivity::class.java)
+                            intent.putExtra("id_LoaiPhong", room.id)
+                            intent.putExtra("tenLoaiPhong", room.tenLoaiPhong)
+                            intent.putExtra("giuong", room.giuong)
+                            intent.putExtra("soLuongKhach", room.soLuongKhach.toString())
+                            intent.putExtra("dienTich", room.dienTich.toString())
+                            intent.putExtra("hinhAnh", room.hinhAnh.toTypedArray())
+                            intent.putExtra("moTa", room.moTa)
+                            intent.putExtra("giaTien", room.giaTien.toInt())
 
-                        Log.d("modelRoomTop", "loadRoomTopData: " + room.id + room.tenLoaiPhong +
-                                room.giuong + room.dienTich + room.hinhAnh + room.moTa)
+                            Log.d(
+                                "modelRoomTop", "loadRoomTopData: " + room.id + room.tenLoaiPhong +
+                                        room.giuong + room.dienTich + room.hinhAnh + room.moTa
+                            )
 
-                        startActivity(intent)
-                    }
+                            startActivity(intent)
+                        }
                     recyclerViewRoomTop.adapter = roomTopAdapter
                     roomTopAdapter.notifyDataSetChanged()
                 }
